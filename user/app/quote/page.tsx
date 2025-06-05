@@ -74,7 +74,13 @@ export default function QuotePage() {
       email: formData.email,
       phone: formData.phone,
       company: formData.company,
-      message: `${formData.message}\n\nAdditional Details:\nBudget: ${formData.budget}\nTimeline: ${formData.timeline}\nEvent Type: ${formData.eventType}\nCustomization: ${formData.customization ? "Yes" : "No"}\nBranding: ${formData.branding ? "Yes" : "No"}\nPackaging: ${formData.packaging ? "Yes" : "No"}`,
+      message: formData.message,
+      budget: formData.budget,
+      timeline: formData.timeline,
+      event_type: formData.eventType,
+      customization: formData.customization,
+      branding: formData.branding,
+      packaging: formData.packaging,
       items: shortlistedProducts,
     }
 

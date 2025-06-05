@@ -1,15 +1,18 @@
 "use client"
 
-export type ShortlistItem = {
+import { submitQuoteRequestToSupabase } from "./supabase"
+
+export interface ShortlistItem {
   id: string
   name: string
-  price_range: {
-    min: number
-    max: number
-  } | null
+  price: string
+  originalPrice: string
   image: string
+  rating: number
+  reviews: number
+  discount: string
   quantity: number
-  minimum_order_quantity: number
+  moq: number
   category?: string
 }
 
@@ -19,6 +22,12 @@ export interface QuoteRequest {
   phone: string
   company: string
   message: string
+  budget?: string
+  timeline?: string
+  event_type?: string
+  customization?: boolean
+  branding?: boolean
+  packaging?: boolean
   items: ShortlistItem[]
 }
 
@@ -92,17 +101,36 @@ export const getShortlistCount = (): number => {
 // Quote request function
 export const submitQuoteRequest = async (quoteData: QuoteRequest): Promise<{ success: boolean; message: string }> => {
   try {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    // Format the data for Supabase
+    const supabaseQuoteData = {
+      name: quoteData.name,
+      email: quoteData.email,
+      phone: quoteData.phone,
+      company: quoteData.company,
+      message: quoteData.message,
+      budget: quoteData.budget || "",
+      timeline: quoteData.timeline || "",
+      event_type: quoteData.event_type || "",
+      customization: quoteData.customization || false,
+      branding: quoteData.branding || false,
+      packaging: quoteData.packaging || false,
+      shortlisted_products: quoteData.items
+    }
 
-    // In a real app, you would send this to your backend
-    console.log("Quote request submitted:", quoteData)
+    // Submit to Supabase
+    const result = await submitQuoteRequestToSupabase(supabaseQuoteData)
+
+    if (result.success) {
+      // Clear shortlist on successful submission
+      clearShortlist()
+    }
 
     return {
-      success: true,
-      message: "Quote request submitted successfully! We'll get back to you within 24 hours.",
+      success: result.success,
+      message: result.message,
     }
   } catch (error) {
+    console.error("Error submitting quote request:", error)
     return {
       success: false,
       message: "Failed to submit quote request. Please try again.",

@@ -1,7 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
+import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
@@ -14,9 +16,25 @@ import {
 } from "@/components/ui/navigation-menu"
 import { Menu, Gift, Search, Heart, Phone } from "lucide-react"
 import { Input } from "@/components/ui/input"
+import { getShortlistCount } from "@/lib/shortlist-client"
 
-export function Navigation() {
+export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
+  const [shortlistCount, setShortlistCount] = useState(0)
+  const pathname = usePathname()
+
+  useEffect(() => {
+    // Initial count
+    setShortlistCount(getShortlistCount())
+
+    // Listen for shortlist updates
+    const handleShortlistUpdate = () => {
+      setShortlistCount(getShortlistCount())
+    }
+
+    window.addEventListener("shortlistUpdated", handleShortlistUpdate)
+    return () => window.removeEventListener("shortlistUpdated", handleShortlistUpdate)
+  }, [])
 
   const categories = [
     { name: "Executive Onboarding", href: "/categories/onboarding" },
@@ -38,16 +56,15 @@ export function Navigation() {
       <div className="container mx-auto px-4">
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="relative">
-              <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                <Gift className="h-6 w-6 text-primary-foreground" />
-              </div>
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-secondary rounded-full opacity-80"></div>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-2xl font-bold text-primary leading-tight tracking-tight">Tisorah</span>
-              <span className="text-sm font-medium text-secondary leading-tight">Exquisite Corporate Gifts</span>
+          <Link href="/" className="flex items-center space-x-2 group">
+            <div className="relative w-40 h-16">
+              <Image
+                src="/logo.png"
+                alt="Tisorah Logo"
+                fill
+                className="object-contain"
+                priority
+              />
             </div>
           </Link>
 
@@ -119,6 +136,14 @@ export function Navigation() {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
+                <Link href="/products" legacyBehavior passHref>
+                  <NavigationMenuLink className="group inline-flex h-12 w-max items-center justify-center rounded-lg bg-background px-6 py-2 text-sm font-medium transition-all duration-200 hover:bg-neutral hover:text-primary focus:bg-neutral focus:text-primary focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-neutral data-[state=open]:bg-neutral">
+                    Products
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
                 <Link href="/about" legacyBehavior passHref>
                   <NavigationMenuLink className="group inline-flex h-12 w-max items-center justify-center rounded-lg bg-background px-6 py-2 text-sm font-medium transition-all duration-200 hover:bg-neutral hover:text-primary focus:bg-neutral focus:text-primary focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-neutral data-[state=open]:bg-neutral">
                     About
@@ -153,10 +178,10 @@ export function Navigation() {
             >
               <Heart className="h-5 w-5" />
             </Button>
-            <Button className="bg-gradient-to-r from-secondary to-secondary/90 hover:from-secondary/90 hover:to-secondary text-white px-6 py-3 h-12 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 font-medium">
+            {/* <Button className="bg-gradient-to-r from-secondary to-secondary/90 hover:from-secondary/90 hover:to-secondary text-white px-6 py-3 h-12 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 font-medium">
               <Phone className="h-4 w-4 mr-2" />
               Consultation
-            </Button>
+            </Button> */}
           </div>
 
           {/* Mobile Menu */}
@@ -199,6 +224,9 @@ export function Navigation() {
                 </div>
                 <Link href="/portfolio" className="text-lg font-medium" onClick={() => setIsOpen(false)}>
                   Portfolio
+                </Link>
+                <Link href="/products" className="text-lg font-medium" onClick={() => setIsOpen(false)}>
+                  Products
                 </Link>
                 <Link href="/about" className="text-lg font-medium" onClick={() => setIsOpen(false)}>
                   About

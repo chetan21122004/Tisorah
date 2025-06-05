@@ -25,61 +25,16 @@ import {
   Check,
   Mail,
   MessageCircle,
+  ChevronRight,
 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { getFeaturedProducts } from "./actions"
+import type { Product, Testimonial } from "@/types/database"
+import { createClient } from "@/utils/supabase/client"
 
-export default function HomePage() {
-  const featuredProducts = [
-    {
-      id: 1,
-      name: "Executive Welcome Collection",
-      price: "₹4,999",
-      originalPrice: "₹6,499",
-      image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=300&fit=crop&crop=center",
-      rating: 4.9,
-      reviews: 124,
-      badge: "Signature",
-      discount: "23% OFF",
-      inStock: true,
-    },
-    {
-      id: 2,
-      name: "Luxury Executive Hamper",
-      price: "₹7,999",
-      originalPrice: "₹10,499",
-      image: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop&crop=center",
-      rating: 4.9,
-      reviews: 89,
-      badge: "Exclusive",
-      discount: "24% OFF",
-      inStock: true,
-    },
-    {
-      id: 3,
-      name: "Bespoke Branding Set",
-      price: "₹3,499",
-      originalPrice: "₹4,499",
-      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300&h=300&fit=crop&crop=center",
-      rating: 4.8,
-      reviews: 156,
-      badge: "Popular",
-      discount: "22% OFF",
-      inStock: true,
-    },
-    {
-      id: 4,
-      name: "Recognition Trophy Collection",
-      price: "₹5,499",
-      originalPrice: "₹7,199",
-      image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=300&h=300&fit=crop&crop=center",
-      rating: 4.7,
-      reviews: 203,
-      badge: "Premium",
-      discount: "24% OFF",
-      inStock: true,
-    },
-  ]
+export default async function HomePage() {
+  const featuredProducts = await getFeaturedProducts()
 
   const collections = [
     {
@@ -155,38 +110,22 @@ export default function HomePage() {
     },
   ]
 
-  const testimonials = [
-    {
-      name: "Rajesh Sharma",
-      position: "Chief Executive Officer",
-      company: "TechVision Industries",
-      content:
-        "Tisorah's exceptional attention to detail and sophisticated curation elevated our client appreciation program beyond expectations. Their commitment to excellence mirrors our own organizational values.",
-      rating: 5,
-      productBought: "Executive Welcome Collection",
-      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop&crop=face",
-    },
-    {
-      name: "Priya Mehta",
-      position: "Head of Human Resources",
-      company: "Innovation Dynamics",
-      content:
-        "The bespoke solutions provided by Tisorah transformed our employee recognition initiatives. Each gift reflects the premium quality and thoughtfulness that defines our corporate culture.",
-      rating: 5,
-      productBought: "Luxury Executive Hamper",
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=50&h=50&fit=crop&crop=face",
-    },
-    {
-      name: "Arjun Patel",
-      position: "Managing Director",
-      company: "Heritage Enterprises",
-      content:
-        "Tisorah's festival collections beautifully honor our cultural traditions while maintaining the sophistication our organization demands. Truly exceptional craftsmanship and service.",
-      rating: 5,
-      productBought: "Festival Celebration Collection",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop&crop=face",
-    },
-  ]
+  const getTestimonials = async (): Promise<Testimonial[]> => {
+    const supabase = createClient()
+    const { data, error } = await supabase
+      .from('testimonials')
+      .select('*')
+      .order('created_at', { ascending: false })
+    
+    if (error) {
+      console.error('Error fetching testimonials:', error)
+      return []
+    }
+    
+    return data || []
+  }
+
+  const testimonials = await getTestimonials()
 
   const quickCategories = [
     { name: "Executive Onboarding", icon: "👔", link: "/categories/onboarding", count: "150+" },
@@ -198,112 +137,109 @@ export default function HomePage() {
   ]
 
   return (
-    <div className="min-h-screen">
-      {/* Floating Action Buttons */}
+    <div className="min-h-screen bg-[#FAFAFA]">
+      {/* Floating Action Buttons - More subtle and modern */}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
         <Button
-          className="bg-green-500 hover:bg-green-600 text-white rounded-full w-14 h-14 shadow-lg"
+          className="bg-[#1E2A47] hover:bg-[#1E2A47]/90 text-white rounded-full w-12 h-12 shadow-lg transition-transform hover:scale-105"
           title="WhatsApp Consultation"
         >
-          <MessageCircle className="w-6 h-6" />
+          <MessageCircle className="w-5 h-5" />
         </Button>
         <Button
-          className="bg-secondary hover:bg-secondary/90 text-white rounded-full w-14 h-14 shadow-lg"
+          className="bg-[#AD9660] hover:bg-[#AD9660]/90 text-white rounded-full w-12 h-12 shadow-lg transition-transform hover:scale-105"
           title="View Curated Selection"
         >
           <Link href="/shortlist">
-            <Heart className="w-6 h-6" />
+            <Heart className="w-5 h-5" />
           </Link>
         </Button>
       </div>
 
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-neutral via-white to-neutral-200 py-8 lg:py-16">
-        <div className="container mx-auto px-4">
-          {/* Promotional Banner */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-secondary to-accent text-white px-6 py-3 rounded-full text-sm font-medium animate-pulse">
-              <Zap className="w-4 h-4" />
-              <span>✨ Exclusive Collection: Up to 25% OFF Premium Selections | Limited Period</span>
+      {/* Hero Section - More dynamic and engaging */}
+      <section className="relative min-h-screen bg-gradient-to-br from-[#FAFAFA] via-[#F4F4F4] to-[#E6E2DD] flex items-center">
+        <div className="absolute inset-0 bg-[url('/geometric-pattern.svg')] opacity-5"></div>
+        <div className="absolute inset-0">
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-[#AD9660] rounded-full blur-[128px] opacity-20 animate-pulse"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#1E2A47] rounded-full blur-[128px] opacity-20 animate-pulse delay-1000"></div>
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10 py-24">
+          {/* Promotional Banner - More elegant */}
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-3 bg-[#1E2A47] text-white px-8 py-3 rounded-full text-sm font-medium shadow-lg">
+              <span className="w-2 h-2 bg-[#AD9660] rounded-full animate-pulse"></span>
+              <span>Limited Time: Up to 25% OFF Premium Corporate Gifts</span>
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-center mb-12">
-            {/* Left Content */}
-            <div className="space-y-8">
-              <div className="space-y-6">
-                <div className="flex items-center gap-2 mb-4">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Left Content - More impactful typography and spacing */}
+            <div className="space-y-12">
+              <div className="space-y-8">
+                <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 text-secondary fill-current" />
+                      <Star key={i} className="w-4 h-4 text-[#AD9660] fill-current" />
                     ))}
                   </div>
-                  <span className="text-sm text-neutral-600 font-medium">4.9/5 from 2,500+ distinguished clients</span>
+                  <span className="text-sm text-[#1E2A47]/80">4.9/5 from 2,500+ distinguished clients</span>
                 </div>
 
-                <h1 className="text-4xl lg:text-6xl font-bold text-primary leading-tight">
-                  Exquisite Corporate Gifts
-                  <span className="block text-secondary">Starting at ₹2,999</span>
+                <h1 className="font-frank-ruhl text-6xl lg:text-7xl font-bold text-[#1E2A47] leading-tight">
+                  Elevate Your
+                  <span className="block text-[#AD9660] mt-2">Corporate Gifting</span>
                 </h1>
 
-                <p className="text-xl text-neutral-600 leading-relaxed">
-                  Discover our curated collection of sophisticated corporate gifts that elevate business relationships
-                  and embody excellence.
-                  <span className="block font-semibold text-secondary mt-2">
-                    Complimentary delivery on orders above ₹5,000
+                <p className="text-xl text-[#1E2A47]/80 leading-relaxed max-w-xl">
+                  Discover our curated collection of sophisticated corporate gifts that embody excellence and strengthen business relationships.
+                  <span className="block font-medium text-[#AD9660] mt-4">
+                    Free delivery on orders above ₹5,000
                   </span>
                 </p>
               </div>
 
-              {/* Enhanced Search Bar */}
-              <div className="relative">
+              {/* Enhanced Search Bar - More sophisticated */}
+              <div className="relative max-w-xl">
                 <div className="flex gap-3">
                   <div className="relative flex-1">
-                    <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
+                    <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#1E2A47]/40 w-5 h-5" />
                     <Input
-                      placeholder="Discover exceptional gifts by occasion or preference..."
-                      className="pl-12 pr-4 py-4 text-lg border-2 border-neutral-300 focus:border-secondary rounded-xl bg-white shadow-sm"
+                      placeholder="Search for premium corporate gifts..."
+                      className="pl-12 pr-4 py-6 text-lg border-2 border-[#E6E2DD] rounded-2xl bg-white/80 backdrop-blur-sm shadow-lg"
                     />
                   </div>
                   <Button
                     size="lg"
-                    className="bg-secondary hover:bg-secondary/90 text-white px-8 py-4 rounded-xl shadow-lg"
+                    className="bg-[#1E2A47] hover:bg-[#1E2A47]/90 text-white px-8 py-6 rounded-2xl shadow-lg transition-transform hover:scale-105"
                   >
                     <Search className="w-5 h-5" />
                   </Button>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="border-2 border-neutral-300 hover:border-secondary px-4 py-4 rounded-xl"
-                  >
-                    <Filter className="w-5 h-5" />
-                  </Button>
                 </div>
               </div>
 
-              {/* Quick Categories */}
-              <div className="space-y-3">
-                <p className="text-sm font-semibold text-neutral-700">Explore Collections:</p>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                  {quickCategories.map((category, index) => (
-                    <Link key={index} href={category.link}>
-                      <div className="flex items-center gap-2 p-3 bg-white rounded-lg border border-neutral-200 hover:border-secondary hover:bg-neutral-50 cursor-pointer transition-all duration-200 shadow-sm">
-                        <span className="text-lg">{category.icon}</span>
-                        <div className="flex-1">
-                          <div className="font-medium text-sm text-primary">{category.name}</div>
-                          <div className="text-xs text-neutral-500">{category.count} items</div>
+              {/* Quick Categories - More elegant grid */}
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {quickCategories.map((category, index) => (
+                  <Link key={index} href={category.link}>
+                    <div className="group flex items-center gap-3 p-4 bg-white/80 backdrop-blur-sm rounded-2xl hover:bg-[#1E2A47]/5 transition-all duration-300 border border-[#E6E2DD] shadow-sm hover:shadow-md">
+                      <span className="text-2xl group-hover:scale-110 transition-transform">{category.icon}</span>
+                      <div>
+                        <div className="font-medium text-[#1E2A47] group-hover:text-[#AD9660] transition-colors">
+                          {category.name}
                         </div>
+                        <div className="text-sm text-[#1E2A47]/60">{category.count} items</div>
                       </div>
-                    </Link>
-                  ))}
-                </div>
+                    </div>
+                  </Link>
+                ))}
               </div>
 
-              {/* CTA Buttons */}
+              {/* CTA Buttons - More sophisticated */}
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
                   size="lg"
-                  className="bg-secondary hover:bg-secondary/90 text-white px-8 py-4 rounded-xl shadow-lg"
+                  className="bg-[#1E2A47] hover:bg-[#1E2A47]/90 text-white px-8 py-6 rounded-2xl shadow-lg transition-transform hover:scale-105 flex-1"
                 >
                   <Link href="/categories" className="flex items-center gap-2">
                     <ShoppingCart className="w-5 h-5" />
@@ -313,252 +249,206 @@ export default function HomePage() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="border-2 border-secondary text-secondary hover:bg-secondary/10 px-8 py-4 rounded-xl"
+                  className="border-2 border-[#1E2A47] text-[#1E2A47] hover:bg-[#1E2A47]/5 px-8 py-6 rounded-2xl flex-1 transition-transform hover:scale-105"
                 >
                   <Link href="/shortlist" className="flex items-center gap-2">
-                    ❤️ Curated Selection
+                    <Heart className="w-5 h-5" />
+                    View Shortlist
                   </Link>
                 </Button>
               </div>
 
-              {/* Action Buttons Row */}
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Button
-                  size="lg"
-                  className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl shadow-lg flex-1"
-                >
-                  <Link href="https://wa.me/919860002313" className="flex items-center gap-2">
-                    💬 WhatsApp Consultation
-                  </Link>
-                </Button>
-                <Button
-                  size="lg"
-                  className="bg-accent hover:bg-accent/90 text-white px-6 py-3 rounded-xl shadow-lg flex-1"
-                >
-                  <Link href="/quote" className="flex items-center gap-2">
-                    📨 Request Consultation
-                  </Link>
-                </Button>
-              </div>
-
-              {/* Trust Indicators */}
-              <div className="grid grid-cols-3 gap-4 pt-4">
-                <div className="flex items-center gap-2">
-                  <Shield className="w-5 h-5 text-green-600" />
-                  <span className="text-sm text-neutral-600 font-medium">Secure Transactions</span>
+              {/* Trust Indicators - More elegant */}
+              <div className="grid grid-cols-3 gap-6 pt-8 border-t border-[#E6E2DD]">
+                <div className="flex items-center gap-3">
+                  <Shield className="w-6 h-6 text-[#AD9660]" />
+                  <span className="text-sm text-[#1E2A47]/80">Premium Quality</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Truck className="w-5 h-5 text-accent" />
-                  <span className="text-sm text-neutral-600 font-medium">Complimentary Delivery</span>
+                <div className="flex items-center gap-3">
+                  <Truck className="w-6 h-6 text-[#1E2A47]" />
+                  <span className="text-sm text-[#1E2A47]/80">Fast Delivery</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="w-5 h-5 text-secondary" />
-                  <span className="text-sm text-neutral-600 font-medium">24/7 Support</span>
+                <div className="flex items-center gap-3">
+                  <Clock className="w-6 h-6 text-[#AD9660]" />
+                  <span className="text-sm text-[#1E2A47]/80">24/7 Support</span>
                 </div>
               </div>
             </div>
 
-            {/* Right Content - Featured Products Grid */}
-            <div className="space-y-6">
-              <div className="text-center lg:text-left">
-                <div className="flex items-center gap-2 mb-2">
-                  <TrendingUp className="w-5 h-5 text-secondary" />
-                  <h3 className="text-2xl font-bold text-primary">Featured Collections</h3>
-                </div>
-                <p className="text-neutral-600">Most coveted selections this season</p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                {featuredProducts.map((product, index) => (
-                  <Card
-                    key={index}
-                    className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg bg-white relative overflow-hidden"
-                  >
-                    <CardContent className="p-0">
-                      <div className="relative">
-                        <Link href={`/products/${product.id}`}>
-                          <Image
-                            src={product.image || "/placeholder.svg"}
-                            alt={product.name}
-                            width={200}
-                            height={160}
-                            className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                        </Link>
-                        <Badge className="absolute top-2 left-2 bg-secondary text-white text-xs px-2 py-1">
-                          {product.discount}
-                        </Badge>
-                        <div className="absolute top-2 right-2 flex gap-1">
-                          <Button size="sm" variant="ghost" className="w-8 h-8 p-0 bg-white/80 hover:bg-white">
-                            <Heart className="w-4 h-4" />
-                          </Button>
-                          <Button size="sm" variant="ghost" className="w-8 h-8 p-0 bg-white/80 hover:bg-white">
-                            <Link href={`/products/${product.id}`}>
-                              <Eye className="w-4 h-4" />
-                            </Link>
-                          </Button>
-                        </div>
-                      </div>
-                      <div className="p-4">
-                        <Link href={`/products/${product.id}`}>
-                          <h4 className="font-semibold text-primary mb-2 text-sm leading-tight hover:text-secondary">
-                            {product.name}
-                          </h4>
-                        </Link>
-                        <div className="flex items-center gap-1 mb-2">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="w-3 h-3 text-secondary fill-current" />
-                          ))}
-                          <span className="text-xs text-neutral-600">({product.reviews})</span>
-                        </div>
-                        <div className="flex items-center justify-between mb-3">
-                          <div>
-                            <span className="text-lg font-bold text-secondary">{product.price}</span>
-                            <span className="text-sm text-neutral-500 line-through ml-2">{product.originalPrice}</span>
+            {/* Right Content - Featured Products Grid with enhanced design */}
+            <div className="relative">
+              <div className="absolute -inset-4 bg-gradient-to-br from-[#AD9660]/20 to-transparent blur-3xl"></div>
+              <div className="relative">
+                <div className="grid grid-cols-2 gap-6">
+                  {featuredProducts.map((product) => (
+                    <Card
+                      key={product.id}
+                      className="group hover:shadow-2xl transition-all duration-500 border-0 bg-white/80 backdrop-blur-sm relative overflow-hidden rounded-2xl"
+                    >
+                      <CardContent className="p-0">
+                        <div className="relative">
+                          <Link href={`/products/${product.id}`}>
+                            <div className="relative h-48 overflow-hidden">
+                              <Image
+                                src={product.images?.[0] || "/placeholder.jpg"}
+                                alt={product.name}
+                                fill
+                                className="object-cover group-hover:scale-110 transition-transform duration-700"
+                              />
+                            </div>
+                          </Link>
+                          {product.discount && (
+                            <Badge className="absolute top-3 left-3 bg-[#AD9660] text-white px-3 py-1 rounded-full shadow-lg">
+                              {product.discount}
+                            </Badge>
+                          )}
+                          <div className="absolute top-3 right-3 flex gap-2">
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="w-8 h-8 p-0 bg-white/90 hover:bg-white rounded-full shadow-lg transition-transform hover:scale-110"
+                            >
+                              <Heart className="w-4 h-4 text-[#1E2A47]" />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="w-8 h-8 p-0 bg-white/90 hover:bg-white rounded-full shadow-lg transition-transform hover:scale-110"
+                            >
+                              <Link href={`/products/${product.id}`}>
+                                <Eye className="w-4 h-4 text-[#1E2A47]" />
+                              </Link>
+                            </Button>
                           </div>
                         </div>
-                        <div className="grid grid-cols-2 gap-2 mb-2">
-                          <Button size="sm" className="w-full bg-secondary hover:bg-secondary/90 text-white">
-                            <Link href={`/products/${product.id}`} className="flex items-center gap-1">
-                              View Details
+                        <div className="p-6">
+                          <Link href={`/products/${product.id}`}>
+                            <h4 className="font-medium text-[#1E2A47] mb-3 text-lg leading-tight hover:text-[#AD9660] transition-colors">
+                              {product.name}
+                            </h4>
+                          </Link>
+                          <div className="flex items-center gap-1 mb-3">
+                            {[...Array(Math.round(product.rating || 5))].map((_, i) => (
+                              <Star key={i} className="w-4 h-4 text-[#AD9660] fill-current" />
+                            ))}
+                            <span className="text-sm text-[#1E2A47]/60">({product.reviews || 0})</span>
+                          </div>
+                          <div className="flex items-center justify-between mb-4">
+                            <div>
+                              <span className="text-xl font-bold text-[#AD9660]">₹{product.price}</span>
+                              {product.original_price > product.price && (
+                                <span className="text-sm text-[#1E2A47]/40 line-through ml-2">
+                                  ₹{product.original_price}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                          <Button
+                            className="w-full bg-[#1E2A47] hover:bg-[#1E2A47]/90 text-white rounded-xl py-5 transition-transform hover:scale-105"
+                          >
+                            <Link href={`/products/${product.id}`} className="flex items-center gap-2">
+                              View Details <ChevronRight className="w-4 h-4" />
                             </Link>
                           </Button>
-                          <Button size="sm" className="w-full bg-accent hover:bg-accent/90 text-white">
-                            <Check className="w-3 h-3 mr-1" />
-                            Add to Selection
-                          </Button>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
               </div>
-
-              <div className="text-center">
-                <Button variant="outline" className="w-full border-secondary text-secondary hover:bg-secondary/10">
-                  <Link href="/products" className="flex items-center justify-center gap-2">
-                    Explore All Collections <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          {/* Stats Section */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-8 border-t border-neutral-300">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-secondary mb-1">1000+</div>
-              <div className="text-sm text-neutral-600">Curated Products</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-accent mb-1">10K+</div>
-              <div className="text-sm text-neutral-600">Satisfied Clients</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-neutral-500 mb-1">50+</div>
-              <div className="text-sm text-neutral-600">Cities Served</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-secondary mb-1">4.9★</div>
-              <div className="text-sm text-neutral-600">Excellence Rating</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Value Proposition Section */}
-      <section className="py-16 bg-gradient-to-r from-primary to-accent text-white">
+      <section className="py-6 bg-[#323433]">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center p-6 border-r border-white/20">
-              <div className="w-16 h-16 bg-secondary/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-8 h-8 text-secondary" />
+          <div className="grid md:grid-cols-3 gap-12">
+            <div className="relative p-8 border-r border-white/10">
+              <div className="absolute -inset-2 bg-gradient-to-br from-[#AD9660]/20 to-transparent blur-xl"></div>
+              <div className="relative">
+                <div className="w-20 h-20 bg-[#AD9660]/10 rounded-2xl flex items-center justify-center mb-6">
+                  <Shield className="w-10 h-10 text-[#AD9660]" />
+                </div>
+                <h3 className="font-frank-ruhl text-2xl font-bold text-white mb-4">Uncompromising Quality</h3>
+                <p className="font-poppins text-white/80 leading-relaxed">
+                  Meticulously curated products that embody sophistication and reflect your organization's commitment to excellence
+                </p>
               </div>
-              <h3 className="text-xl font-bold mb-2">Uncompromising Quality</h3>
-              <p className="text-neutral-300">
-                Meticulously curated products that embody sophistication and reflect your organization's commitment to
-                excellence
-              </p>
             </div>
 
-            <div className="text-center p-6 border-r border-white/20">
-              <div className="w-16 h-16 bg-secondary/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Briefcase className="w-8 h-8 text-secondary" />
+            <div className="relative p-8 border-r border-white/10">
+              <div className="absolute -inset-2 bg-gradient-to-br from-[#AD9660]/20 to-transparent blur-xl"></div>
+              <div className="relative">
+                <div className="w-20 h-20 bg-[#AD9660]/10 rounded-2xl flex items-center justify-center mb-6">
+                  <Briefcase className="w-10 h-10 text-[#AD9660]" />
+                </div>
+                <h3 className="font-frank-ruhl text-2xl font-bold text-white mb-4">Corporate Expertise</h3>
+                <p className="font-poppins text-white/80 leading-relaxed">
+                  Over a decade of distinguished service in corporate gifting with 500+ satisfied clients across diverse industries
+                </p>
               </div>
-              <h3 className="text-xl font-bold mb-2">Corporate Expertise</h3>
-              <p className="text-neutral-300">
-                Over a decade of distinguished service in corporate gifting with 500+ satisfied clients across diverse
-                industries
-              </p>
             </div>
 
-            <div className="text-center p-6">
-              <div className="w-16 h-16 bg-secondary/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MessageSquare className="w-8 h-8 text-secondary" />
+            <div className="relative p-8">
+              <div className="absolute -inset-2 bg-gradient-to-br from-[#AD9660]/20 to-transparent blur-xl"></div>
+              <div className="relative">
+                <div className="w-20 h-20 bg-[#AD9660]/10 rounded-2xl flex items-center justify-center mb-6">
+                  <MessageSquare className="w-10 h-10 text-[#AD9660]" />
+                </div>
+                <h3 className="font-frank-ruhl text-2xl font-bold text-white mb-4">Dedicated Partnership</h3>
+                <p className="font-poppins text-white/80 leading-relaxed">
+                  Personal account management and round-the-clock support ensuring your gifting initiatives exceed expectations
+                </p>
               </div>
-              <h3 className="text-xl font-bold mb-2">Dedicated Partnership</h3>
-              <p className="text-neutral-300">
-                Personal account management and round-the-clock support ensuring your gifting initiatives exceed
-                expectations
-              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Collections Section */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-[#F4F4F4]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-4">Curated Collections</h2>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
-              Discover our meticulously crafted collections, each designed to elevate your corporate relationships and
-              celebrate meaningful moments with distinction.
+            <Badge className="bg-[#AD9660]/10 text-[#AD9660] mb-4">Curated Excellence</Badge>
+            <h2 className="font-frank-ruhl text-4xl lg:text-5xl font-bold text-[#323433] mb-6">Signature Collections</h2>
+            <p className="font-poppins text-xl text-[#323433]/80 max-w-3xl mx-auto">
+              Discover our meticulously crafted collections, each designed to elevate your corporate relationships and celebrate meaningful moments with distinction.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {collections.map((collection, index) => (
-              <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-md">
+              <Card key={index} className="group hover:shadow-2xl transition-all duration-500 border-0 bg-white relative overflow-hidden rounded-2xl">
                 <CardContent className="p-0">
-                  <div className="relative overflow-hidden rounded-t-lg">
+                  <div className="relative overflow-hidden">
                     <Image
-                      src={collection.image || "/placeholder.svg"}
+                      src={collection.image}
                       alt={collection.title}
                       width={400}
                       height={300}
-                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <div className="text-sm font-semibold">{collection.productCount}</div>
-                      <div className="text-xs opacity-90">Starting {collection.startingPrice}</div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#323433]/80 to-transparent"></div>
+                    <div className="absolute bottom-6 left-6 text-white">
+                      <div className="font-poppins font-medium">{collection.productCount}</div>
+                      <div className="text-sm text-white/80">Starting {collection.startingPrice}</div>
                     </div>
                   </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold text-primary mb-2">{collection.title}</h3>
-                    <p className="text-neutral-600 mb-4">{collection.description}</p>
-                    <div className="flex items-center justify-between">
-                      <Link
-                        href={collection.link}
-                        className="text-secondary hover:text-secondary/80 font-medium flex items-center gap-2"
-                      >
-                        Explore Collection <ArrowRight className="w-4 h-4" />
-                      </Link>
-                      <span className="text-sm font-semibold text-primary">{collection.startingPrice}+</span>
-                    </div>
+                  <div className="p-8">
+                    <h3 className="font-frank-ruhl text-2xl font-bold text-[#323433] mb-3">{collection.title}</h3>
+                    <p className="font-poppins text-[#323433]/70 mb-6 leading-relaxed">{collection.description}</p>
+                    <Link
+                      href={collection.link}
+                      className="inline-flex items-center gap-2 text-[#AD9660] hover:text-[#AD9660]/80 font-medium transition-colors"
+                    >
+                      Explore Collection <ArrowRight className="w-4 h-4" />
+                    </Link>
                   </div>
                 </CardContent>
               </Card>
             ))}
-          </div>
-
-          <div className="text-center mt-10">
-            <Button className="bg-secondary hover:bg-secondary/90 text-white px-8 py-3 rounded-xl">
-              <Link href="/categories" className="flex items-center gap-2">
-                View All Collections <ArrowRight className="w-4 h-4" />
-              </Link>
-            </Button>
           </div>
         </div>
       </section>
@@ -693,30 +583,37 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="border-0 shadow-lg">
+            {testimonials.map((testimonial) => (
+              <Card key={testimonial.id} className="bg-white shadow-xl border-0">
                 <CardContent className="p-8">
-                  <div className="flex items-center gap-4 mb-4">
+                  <div className="flex items-center gap-4 mb-6">
                     <Image
-                      src={testimonial.avatar || "/placeholder.svg"}
+                      src={testimonial.avatar_url || "/placeholder-avatar.png"}
                       alt={testimonial.name}
-                      width={50}
-                      height={50}
+                      width={60}
+                      height={60}
                       className="rounded-full"
                     />
                     <div>
-                      <div className="font-semibold text-primary">{testimonial.name}</div>
-                      <div className="text-sm text-neutral-600">{testimonial.position}</div>
-                      <div className="text-sm text-secondary font-medium">{testimonial.company}</div>
+                      <div className="font-semibold text-gray-900">{testimonial.name}</div>
+                      <div className="text-gray-600">{testimonial.position}</div>
+                      <div className="text-gray-500">{testimonial.company}</div>
                     </div>
                   </div>
-                  <div className="flex mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-secondary fill-current" />
+                  <div className="flex items-center gap-1 mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className={`w-5 h-5 ${
+                          i < testimonial.rating ? "text-yellow-400 fill-current" : "text-gray-300"
+                        }`}
+                      />
                     ))}
                   </div>
-                  <p className="text-neutral-600 mb-4 italic leading-relaxed">"{testimonial.content}"</p>
-                  <div className="text-sm text-secondary font-medium">Collection: {testimonial.productBought}</div>
+                  <blockquote className="text-gray-700 mb-4">{testimonial.content}</blockquote>
+                  <div className="text-teal-600 font-medium">
+                    Purchased: {testimonial.product_bought}
+                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -736,93 +633,89 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-secondary via-accent to-primary relative overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full blur-xl"></div>
-          <div className="absolute bottom-10 right-10 w-48 h-48 bg-white rounded-full blur-2xl"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white rounded-full blur-3xl"></div>
+      <section className="py-24 bg-gradient-to-br from-[#323433] via-[#1E2A47] to-[#AB8E76] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/geometric-pattern.svg')] opacity-5"></div>
+        <div className="absolute inset-0">
+          <div className="absolute top-20 left-20 w-40 h-40 bg-[#AD9660] rounded-full blur-3xl opacity-20"></div>
+          <div className="absolute bottom-20 right-20 w-60 h-60 bg-[#E6E2DD] rounded-full blur-3xl opacity-20"></div>
         </div>
 
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <div className="max-w-4xl mx-auto">
-            {/* Main CTA Content */}
-            <div className="mb-12">
-              <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
-                Elevate Your Corporate Relationships
-              </h2>
-              <p className="text-xl text-white/90 mb-8 leading-relaxed">
-                Subscribe to our exclusive newsletter and be the first to discover new collections, receive special
-                offers, and access sophisticated corporate gifting insights.
-              </p>
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <Badge className="bg-white/10 text-white mb-8">Exclusive Membership</Badge>
+            <h2 className="font-frank-ruhl text-5xl lg:text-6xl font-bold text-white mb-8 leading-tight">
+              Elevate Your Corporate Relationships
+            </h2>
+            <p className="font-poppins text-xl text-white/90 mb-12 leading-relaxed">
+              Subscribe to our exclusive newsletter and be the first to discover new collections, receive special offers, and access sophisticated corporate gifting insights.
+            </p>
 
-              {/* Newsletter Signup */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-lg mx-auto mb-6">
-                <Input
-                  type="email"
-                  placeholder="Enter your email address"
-                  className="flex-1 px-6 py-4 text-lg rounded-xl border-0 text-primary bg-white/95 backdrop-blur-sm shadow-lg"
-                />
-                <Button
-                  size="lg"
-                  className="bg-white text-secondary hover:bg-neutral-100 px-8 py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300"
-                >
-                  Subscribe
-                </Button>
-              </div>
-
-              <p className="text-lg text-white/80 mb-8 font-medium">
-                🎁 Receive exclusive access to our premium collections and special pricing
-              </p>
+            {/* Newsletter Signup */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-lg mx-auto mb-8">
+              <Input
+                type="email"
+                placeholder="Enter your email address"
+                className="flex-1 px-6 py-6 text-lg rounded-2xl border-0 bg-white/95 backdrop-blur-sm shadow-xl font-poppins"
+              />
+              <Button
+                size="lg"
+                className="bg-[#AD9660] hover:bg-[#AD9660]/90 text-white px-8 py-6 rounded-2xl font-bold shadow-xl"
+              >
+                Subscribe
+              </Button>
             </div>
+
+            <p className="font-poppins text-lg text-white/80 mb-12">
+              🎁 Receive exclusive access to our premium collections and special pricing
+            </p>
 
             {/* Action Buttons */}
             <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
               <Button
                 size="lg"
-                className="bg-green-500 hover:bg-green-600 text-white px-8 py-6 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+                className="bg-[#AD9660] hover:bg-[#AD9660]/90 text-white px-8 py-8 rounded-2xl shadow-xl group"
               >
-                <Link href="https://wa.me/919860002313" className="flex items-center justify-center gap-3">
+                <Link href="https://wa.me/919860002313" className="flex items-center justify-center gap-4">
                   <MessageCircle className="w-6 h-6" />
                   <div className="text-left">
-                    <div className="font-bold text-lg">💬 WhatsApp Consultation</div>
-                    <div className="text-sm opacity-90">Immediate expert assistance</div>
+                    <div className="font-frank-ruhl font-bold text-lg">WhatsApp Consultation</div>
+                    <div className="font-poppins text-sm opacity-90">Immediate expert assistance</div>
                   </div>
                 </Link>
               </Button>
 
               <Button
                 size="lg"
-                className="bg-white text-secondary hover:bg-neutral-100 px-8 py-6 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+                className="bg-white text-[#323433] hover:bg-white/90 px-8 py-8 rounded-2xl shadow-xl group"
               >
-                <Link href="/quote" className="flex items-center justify-center gap-3">
+                <Link href="/quote" className="flex items-center justify-center gap-4">
                   <Mail className="w-6 h-6" />
                   <div className="text-left">
-                    <div className="font-bold text-lg">📨 Request Consultation</div>
-                    <div className="text-sm opacity-90">Bespoke solutions for your organization</div>
+                    <div className="font-frank-ruhl font-bold text-lg">Request Consultation</div>
+                    <div className="font-poppins text-sm opacity-90">Bespoke solutions for your organization</div>
                   </div>
                 </Link>
               </Button>
             </div>
 
-            {/* Additional Info */}
-            <div className="mt-12 pt-8 border-t border-white/20">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                <div>
-                  <div className="text-2xl font-bold text-white mb-1">24/7</div>
-                  <div className="text-white/80 text-sm">Expert Support</div>
+            {/* Stats Section */}
+            <div className="mt-16 pt-16 border-t border-white/10">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div className="text-center">
+                  <div className="font-frank-ruhl text-3xl font-bold text-[#AD9660] mb-2">1000+</div>
+                  <div className="font-poppins text-white/80">Curated Products</div>
                 </div>
-                <div>
-                  <div className="text-2xl font-bold text-white mb-1">Free</div>
-                  <div className="text-white/80 text-sm">Delivery Above ₹5K</div>
+                <div className="text-center">
+                  <div className="font-frank-ruhl text-3xl font-bold text-[#AD9660] mb-2">10K+</div>
+                  <div className="font-poppins text-white/80">Satisfied Clients</div>
                 </div>
-                <div>
-                  <div className="text-2xl font-bold text-white mb-1">1000+</div>
-                  <div className="text-white/80 text-sm">Curated Products</div>
+                <div className="text-center">
+                  <div className="font-frank-ruhl text-3xl font-bold text-[#AD9660] mb-2">50+</div>
+                  <div className="font-poppins text-white/80">Cities Served</div>
                 </div>
-                <div>
-                  <div className="text-2xl font-bold text-white mb-1">4.9★</div>
-                  <div className="text-white/80 text-sm">Excellence Rating</div>
+                <div className="text-center">
+                  <div className="font-frank-ruhl text-3xl font-bold text-[#AD9660] mb-2">4.9★</div>
+                  <div className="font-poppins text-white/80">Excellence Rating</div>
                 </div>
               </div>
             </div>
