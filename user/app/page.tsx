@@ -30,12 +30,62 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { getFeaturedProducts } from "./actions"
+import { getFeaturedProducts, createServerSupabaseClient } from "./actions"
 import type { Product, Testimonial } from "@/types/database"
-import { createClient } from "@/utils/supabase/client"
+import { cookies } from 'next/headers'
+import HeroSection from "./components/HeroSection"
+import HeroSlider from "@/components/HeroSlider"
+
+// Add banner data
+const bannerData = [
+  {
+    id: 1,
+    image: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0",
+    title: "Premium Corporate Gifts",
+    subtitle: "Up to 40% off on exclusive collections",
+    buttonText: "Shop Now",
+    buttonLink: "/sale",
+  },
+  {
+    id: 2,
+    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62",
+    title: "Executive Collection",
+    subtitle: "Discover our premium range starting ₹2,999",
+    buttonText: "Explore Now",
+    buttonLink: "/categories/executive",
+  },
+  {
+    id: 3,
+    image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44",
+    title: "Festival Special",
+    subtitle: "Early bird offers on festive gifts",
+    buttonText: "View Offers",
+    buttonLink: "/categories/festival",
+  },
+]
+
+// Add type for testimonial data
+interface TestimonialData {
+  id: string
+  name: string
+  position: string
+  company: string
+  avatar_url: string | null
+  rating: number
+  content: string
+  product_bought: string
+  created_at: string
+}
 
 export default async function HomePage() {
   const featuredProducts = await getFeaturedProducts()
+  const supabase = await createServerSupabaseClient()
+
+  // Get testimonials with proper typing
+  const { data: testimonials = [] } = await supabase
+    .from('testimonials')
+    .select('*')
+    .order('created_at', { ascending: false })
 
   const collections = [
     {
@@ -111,23 +161,6 @@ export default async function HomePage() {
     },
   ]
 
-  const getTestimonials = async (): Promise<Testimonial[]> => {
-    const supabase = createClient()
-    const { data, error } = await supabase
-      .from('testimonials')
-      .select('*')
-      .order('created_at', { ascending: false })
-    
-    if (error) {
-      console.error('Error fetching testimonials:', error)
-      return []
-    }
-    
-    return data || []
-  }
-
-  const testimonials = await getTestimonials()
-
   const quickCategories = [
     { name: "Executive Onboarding", icon: "👔", link: "/categories/onboarding", count: "150+" },
     { name: "Festival Celebrations", icon: "🎊", link: "/categories/festivals", count: "200+" },
@@ -157,64 +190,12 @@ export default async function HomePage() {
         </Button>
       </div>
 
+      {/* Hero Section */}
+      <HeroSlider/>
+
       {/* Hero Section - E-commerce Style */}
       <section className="bg-white">
         {/* Main Banner Slider */}
-        <div className="relative">
-          {/* Banner Image */}
-          <div className="relative h-[300px] md:h-[400px] overflow-hidden">
-            <Image
-              src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0"
-              alt="Corporate Gifts Collection"
-              fill
-              className="object-cover"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent"></div>
-            
-            {/* Banner Content */}
-            <div className="absolute inset-0 flex items-center">
-              <div className="container mx-auto px-4">
-                <div className="max-w-lg">
-                  <h1 className="text-white text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                    Premium Corporate Gifts
-                  </h1>
-                  <p className="text-white/90 text-lg mb-6">
-                    Up to 40% off on exclusive collections
-                  </p>
-                  <Button 
-                    size="lg"
-                    className="bg-white text-[#1E2A47] hover:bg-white/90"
-                  >
-                    <Link href="/sale">Shop Now</Link>
-                  </Button>
-                </div>
-              </div>
-            </div>
-
-            {/* Slider Controls */}
-            <div className="absolute inset-y-0 left-0 flex items-center">
-              <Button
-                size="icon"
-                variant="ghost"
-                className="h-8 w-8 rounded-full bg-white/80 hover:bg-white ml-2"
-              >
-                <ChevronLeft className="h-4 w-4 text-[#1E2A47]" />
-              </Button>
-            </div>
-            <div className="absolute inset-y-0 right-0 flex items-center">
-              <Button
-                size="icon"
-                variant="ghost"
-                className="h-8 w-8 rounded-full bg-white/80 hover:bg-white mr-2"
-              >
-                <ChevronRight className="h-4 w-4 text-[#1E2A47]" />
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* Categories Grid */}
         <div className="container mx-auto px-4 -mt-8 relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <Card className="bg-white shadow-md hover:shadow-lg transition-shadow">
@@ -304,33 +285,7 @@ export default async function HomePage() {
         </div>
 
         {/* Quick Links */}
-        <div className="container mx-auto px-4 mt-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-[#F8F9FA] rounded-lg p-4 text-center hover:bg-[#F8F9FA]/80 transition-colors">
-              <Truck className="w-6 h-6 text-[#AD9660] mx-auto mb-2" />
-              <h3 className="font-medium text-sm text-[#1E2A47]">Free Delivery</h3>
-              <p className="text-xs text-[#1E2A47]/60">On orders above ₹5,000</p>
-            </div>
-
-            <div className="bg-[#F8F9FA] rounded-lg p-4 text-center hover:bg-[#F8F9FA]/80 transition-colors">
-              <Shield className="w-6 h-6 text-[#AD9660] mx-auto mb-2" />
-              <h3 className="font-medium text-sm text-[#1E2A47]">Secure Payment</h3>
-              <p className="text-xs text-[#1E2A47]/60">100% secure checkout</p>
-            </div>
-
-            <div className="bg-[#F8F9FA] rounded-lg p-4 text-center hover:bg-[#F8F9FA]/80 transition-colors">
-              <Clock className="w-6 h-6 text-[#AD9660] mx-auto mb-2" />
-              <h3 className="font-medium text-sm text-[#1E2A47]">Quick Delivery</h3>
-              <p className="text-xs text-[#1E2A47]/60">Within 24-48 hours</p>
-            </div>
-
-            <div className="bg-[#F8F9FA] rounded-lg p-4 text-center hover:bg-[#F8F9FA]/80 transition-colors">
-              <MessageSquare className="w-6 h-6 text-[#AD9660] mx-auto mb-2" />
-              <h3 className="font-medium text-sm text-[#1E2A47]">24/7 Support</h3>
-              <p className="text-xs text-[#1E2A47]/60">Always here to help</p>
-            </div>
-          </div>
-        </div>
+      
 
         {/* Search Bar */}
         <div className="container mx-auto px-4 mt-8">
@@ -680,7 +635,7 @@ export default async function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial) => (
+            {testimonials?.map((testimonial: TestimonialData) => (
               <Card key={testimonial.id} className="bg-white shadow-xl border-0">
                 <CardContent className="p-8">
                   <div className="flex items-center gap-4 mb-6">
