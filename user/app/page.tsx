@@ -26,6 +26,7 @@ import {
   Mail,
   MessageCircle,
   ChevronRight,
+  ChevronLeft,
 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -156,207 +157,303 @@ export default async function HomePage() {
         </Button>
       </div>
 
-      {/* Hero Section - More dynamic and engaging */}
-      <section className="relative min-h-screen bg-gradient-to-br from-[#FAFAFA] via-[#F4F4F4] to-[#E6E2DD] flex items-center">
-        <div className="absolute inset-0 bg-[url('/geometric-pattern.svg')] opacity-5"></div>
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-[#AD9660] rounded-full blur-[128px] opacity-20 animate-pulse"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#1E2A47] rounded-full blur-[128px] opacity-20 animate-pulse delay-1000"></div>
-        </div>
-
-        <div className="container mx-auto px-4 relative z-10 py-24">
-          {/* Promotional Banner - More elegant */}
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-3 bg-[#1E2A47] text-white px-8 py-3 rounded-full text-sm font-medium shadow-lg">
-              <span className="w-2 h-2 bg-[#AD9660] rounded-full animate-pulse"></span>
-              <span>Limited Time: Up to 25% OFF Premium Corporate Gifts</span>
-            </div>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left Content - More impactful typography and spacing */}
-            <div className="space-y-12">
-              <div className="space-y-8">
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 text-[#AD9660] fill-current" />
-                    ))}
-                  </div>
-                  <span className="text-sm text-[#1E2A47]/80">4.9/5 from 2,500+ distinguished clients</span>
-                </div>
-
-                <h1 className="font-frank-ruhl text-6xl lg:text-7xl font-bold text-[#1E2A47] leading-tight">
-                  Elevate Your
-                  <span className="block text-[#AD9660] mt-2">Corporate Gifting</span>
-                </h1>
-
-                <p className="text-xl text-[#1E2A47]/80 leading-relaxed max-w-xl">
-                  Discover our curated collection of sophisticated corporate gifts that embody excellence and strengthen business relationships.
-                  <span className="block font-medium text-[#AD9660] mt-4">
-                    Free delivery on orders above ₹5,000
-                  </span>
-                </p>
-              </div>
-
-              {/* Enhanced Search Bar - More sophisticated */}
-              <div className="relative max-w-xl">
-                <div className="flex gap-3">
-                  <div className="relative flex-1">
-                    <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#1E2A47]/40 w-5 h-5" />
-                    <Input
-                      placeholder="Search for premium corporate gifts..."
-                      className="pl-12 pr-4 py-6 text-lg border-2 border-[#E6E2DD] rounded-2xl bg-white/80 backdrop-blur-sm shadow-lg"
-                    />
-                  </div>
-                  <Button
+      {/* Hero Section - E-commerce Style */}
+      <section className="bg-white">
+        {/* Main Banner Slider */}
+        <div className="relative">
+          {/* Banner Image */}
+          <div className="relative h-[300px] md:h-[400px] overflow-hidden">
+            <Image
+              src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0"
+              alt="Corporate Gifts Collection"
+              fill
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent"></div>
+            
+            {/* Banner Content */}
+            <div className="absolute inset-0 flex items-center">
+              <div className="container mx-auto px-4">
+                <div className="max-w-lg">
+                  <h1 className="text-white text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+                    Premium Corporate Gifts
+                  </h1>
+                  <p className="text-white/90 text-lg mb-6">
+                    Up to 40% off on exclusive collections
+                  </p>
+                  <Button 
                     size="lg"
-                    className="bg-[#1E2A47] hover:bg-[#1E2A47]/90 text-white px-8 py-6 rounded-2xl shadow-lg transition-transform hover:scale-105"
+                    className="bg-white text-[#1E2A47] hover:bg-white/90"
                   >
-                    <Search className="w-5 h-5" />
+                    <Link href="/sale">Shop Now</Link>
                   </Button>
                 </div>
               </div>
+            </div>
 
-              {/* Quick Categories - More elegant grid */}
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {quickCategories.map((category, index) => (
-                  <Link key={index} href={category.link}>
-                    <div className="group flex items-center gap-3 p-4 bg-white/80 backdrop-blur-sm rounded-2xl hover:bg-[#1E2A47]/5 transition-all duration-300 border border-[#E6E2DD] shadow-sm hover:shadow-md">
-                      <span className="text-2xl group-hover:scale-110 transition-transform">{category.icon}</span>
-                      <div>
-                        <div className="font-medium text-[#1E2A47] group-hover:text-[#AD9660] transition-colors">
-                          {category.name}
-                        </div>
-                        <div className="text-sm text-[#1E2A47]/60">{category.count} items</div>
+            {/* Slider Controls */}
+            <div className="absolute inset-y-0 left-0 flex items-center">
+              <Button
+                size="icon"
+                variant="ghost"
+                className="h-8 w-8 rounded-full bg-white/80 hover:bg-white ml-2"
+              >
+                <ChevronLeft className="h-4 w-4 text-[#1E2A47]" />
+              </Button>
+            </div>
+            <div className="absolute inset-y-0 right-0 flex items-center">
+              <Button
+                size="icon"
+                variant="ghost"
+                className="h-8 w-8 rounded-full bg-white/80 hover:bg-white mr-2"
+              >
+                <ChevronRight className="h-4 w-4 text-[#1E2A47]" />
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Categories Grid */}
+        <div className="container mx-auto px-4 -mt-8 relative z-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow">
+              <CardContent className="p-4">
+                <div className="relative h-32 mb-3 rounded-lg overflow-hidden">
+                  <Image
+                    src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62"
+                    alt="Executive Gifts"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <h3 className="font-medium text-[#1E2A47]">Executive Gifts</h3>
+                <p className="text-sm text-[#1E2A47]/60 mb-2">Starting ₹2,999</p>
+                <Link 
+                  href="/categories/executive"
+                  className="text-[#AD9660] text-sm font-medium hover:underline"
+                >
+                  Shop Now
+                </Link>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow">
+              <CardContent className="p-4">
+                <div className="relative h-32 mb-3 rounded-lg overflow-hidden">
+                  <Image
+                    src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0"
+                    alt="Festival Gifts"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <h3 className="font-medium text-[#1E2A47]">Festival Gifts</h3>
+                <p className="text-sm text-[#1E2A47]/60 mb-2">Starting ₹1,999</p>
+                <Link 
+                  href="/categories/festival"
+                  className="text-[#AD9660] text-sm font-medium hover:underline"
+                >
+                  Shop Now
+                </Link>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow">
+              <CardContent className="p-4">
+                <div className="relative h-32 mb-3 rounded-lg overflow-hidden">
+                  <Image
+                    src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44"
+                    alt="Awards & Recognition"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <h3 className="font-medium text-[#1E2A47]">Awards</h3>
+                <p className="text-sm text-[#1E2A47]/60 mb-2">Starting ₹4,999</p>
+                <Link 
+                  href="/categories/awards"
+                  className="text-[#AD9660] text-sm font-medium hover:underline"
+                >
+                  Shop Now
+                </Link>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow">
+              <CardContent className="p-4">
+                <div className="relative h-32 mb-3 rounded-lg overflow-hidden">
+                  <Image
+                    src="https://images.unsplash.com/photo-1511578314322-379afb476865"
+                    alt="Corporate Events"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <h3 className="font-medium text-[#1E2A47]">Event Gifts</h3>
+                <p className="text-sm text-[#1E2A47]/60 mb-2">Starting ₹2,499</p>
+                <Link 
+                  href="/categories/events"
+                  className="text-[#AD9660] text-sm font-medium hover:underline"
+                >
+                  Shop Now
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Quick Links */}
+        <div className="container mx-auto px-4 mt-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="bg-[#F8F9FA] rounded-lg p-4 text-center hover:bg-[#F8F9FA]/80 transition-colors">
+              <Truck className="w-6 h-6 text-[#AD9660] mx-auto mb-2" />
+              <h3 className="font-medium text-sm text-[#1E2A47]">Free Delivery</h3>
+              <p className="text-xs text-[#1E2A47]/60">On orders above ₹5,000</p>
+            </div>
+
+            <div className="bg-[#F8F9FA] rounded-lg p-4 text-center hover:bg-[#F8F9FA]/80 transition-colors">
+              <Shield className="w-6 h-6 text-[#AD9660] mx-auto mb-2" />
+              <h3 className="font-medium text-sm text-[#1E2A47]">Secure Payment</h3>
+              <p className="text-xs text-[#1E2A47]/60">100% secure checkout</p>
+            </div>
+
+            <div className="bg-[#F8F9FA] rounded-lg p-4 text-center hover:bg-[#F8F9FA]/80 transition-colors">
+              <Clock className="w-6 h-6 text-[#AD9660] mx-auto mb-2" />
+              <h3 className="font-medium text-sm text-[#1E2A47]">Quick Delivery</h3>
+              <p className="text-xs text-[#1E2A47]/60">Within 24-48 hours</p>
+            </div>
+
+            <div className="bg-[#F8F9FA] rounded-lg p-4 text-center hover:bg-[#F8F9FA]/80 transition-colors">
+              <MessageSquare className="w-6 h-6 text-[#AD9660] mx-auto mb-2" />
+              <h3 className="font-medium text-sm text-[#1E2A47]">24/7 Support</h3>
+              <p className="text-xs text-[#1E2A47]/60">Always here to help</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Search Bar */}
+        <div className="container mx-auto px-4 mt-8">
+          <div className="bg-[#F8F9FA] p-4 rounded-lg">
+            <div className="flex gap-2">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#1E2A47]/40 w-4 h-4" />
+                <Input
+                  placeholder="Search for corporate gifts..."
+                  className="pl-10 border-[#E6E2DD] bg-white"
+                />
+              </div>
+              <Button className="bg-[#1E2A47] hover:bg-[#1E2A47]/90 text-white">
+                Search
+              </Button>
+            </div>
+            <div className="flex gap-2 mt-2 text-sm text-[#1E2A47]/60">
+              <span>Popular:</span>
+              <Link href="/search?q=executive" className="hover:text-[#AD9660]">Executive Sets</Link>
+              <Link href="/search?q=awards" className="hover:text-[#AD9660]">Awards</Link>
+              <Link href="/search?q=diwali" className="hover:text-[#AD9660]">Diwali Gifts</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Products Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-2xl font-bold text-[#1E2A47]">Featured Products</h2>
+              <p className="text-[#1E2A47]/60 mt-1">Handpicked premium corporate gifts</p>
+            </div>
+            <Button
+              variant="outline"
+              size="default"
+              className="border-[#1E2A47] text-[#1E2A47] hover:bg-[#1E2A47]/5 rounded-lg hidden sm:flex"
+            >
+              <Link href="/products" className="flex items-center gap-2">
+                View All <ArrowRight className="w-4 h-4" />
+              </Link>
+            </Button>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {featuredProducts.map((product) => (
+              <Card
+                key={product.id}
+                className="group hover:shadow-lg transition-all duration-300 border-[#E6E2DD] bg-white relative overflow-hidden rounded-lg"
+              >
+                <CardContent className="p-0">
+                  <div className="relative">
+                    <Link href={`/products/${product.id}`}>
+                      <div className="relative h-48 overflow-hidden">
+                        <Image
+                          src={product.images?.[0] || "/placeholder.jpg"}
+                          alt={product.name}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
                       </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-
-              {/* CTA Buttons - More sophisticated */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button
-                  size="lg"
-                  className="bg-[#1E2A47] hover:bg-[#1E2A47]/90 text-white px-8 py-6 rounded-2xl shadow-lg transition-transform hover:scale-105 flex-1"
-                >
-                  <Link href="/categories" className="flex items-center gap-2">
-                    <ShoppingCart className="w-5 h-5" />
-                    Explore Collections
-                  </Link>
-                </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="border-2 border-[#1E2A47] text-[#1E2A47] hover:bg-[#1E2A47]/5 px-8 py-6 rounded-2xl flex-1 transition-transform hover:scale-105"
-                >
-                  <Link href="/shortlist" className="flex items-center gap-2">
-                    <Heart className="w-5 h-5" />
-                    View Shortlist
-                  </Link>
-                </Button>
-              </div>
-
-              {/* Trust Indicators - More elegant */}
-              <div className="grid grid-cols-3 gap-6 pt-8 border-t border-[#E6E2DD]">
-                <div className="flex items-center gap-3">
-                  <Shield className="w-6 h-6 text-[#AD9660]" />
-                  <span className="text-sm text-[#1E2A47]/80">Premium Quality</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Truck className="w-6 h-6 text-[#1E2A47]" />
-                  <span className="text-sm text-[#1E2A47]/80">Fast Delivery</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Clock className="w-6 h-6 text-[#AD9660]" />
-                  <span className="text-sm text-[#1E2A47]/80">24/7 Support</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Content - Featured Products Grid with enhanced design */}
-            <div className="relative">
-              <div className="absolute -inset-4 bg-gradient-to-br from-[#AD9660]/20 to-transparent blur-3xl"></div>
-              <div className="relative">
-                <div className="grid grid-cols-2 gap-6">
-                  {featuredProducts.map((product) => (
-                    <Card
-                      key={product.id}
-                      className="group hover:shadow-2xl transition-all duration-500 border-0 bg-white/80 backdrop-blur-sm relative overflow-hidden rounded-2xl"
+                    </Link>
+                    {product.discount && (
+                      <Badge className="absolute top-3 left-3 bg-[#AD9660] text-white px-2 py-1 rounded-md text-xs">
+                        {product.discount}
+                      </Badge>
+                    )}
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="absolute top-3 right-3 w-8 h-8 p-0 bg-white/90 hover:bg-white rounded-full shadow-sm"
                     >
-                      <CardContent className="p-0">
-                        <div className="relative">
-                          <Link href={`/products/${product.id}`}>
-                            <div className="relative h-48 overflow-hidden">
-                              <Image
-                                src={product.images?.[0] || "/placeholder.jpg"}
-                                alt={product.name}
-                                fill
-                                className="object-cover group-hover:scale-110 transition-transform duration-700"
-                              />
-                            </div>
-                          </Link>
-                          {product.discount && (
-                            <Badge className="absolute top-3 left-3 bg-[#AD9660] text-white px-3 py-1 rounded-full shadow-lg">
-                              {product.discount}
-                            </Badge>
-                          )}
-                          <div className="absolute top-3 right-3 flex gap-2">
-                            <Button
-                              size="sm"
-                              variant="ghost"
-                              className="w-8 h-8 p-0 bg-white/90 hover:bg-white rounded-full shadow-lg transition-transform hover:scale-110"
-                            >
-                              <Heart className="w-4 h-4 text-[#1E2A47]" />
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="ghost"
-                              className="w-8 h-8 p-0 bg-white/90 hover:bg-white rounded-full shadow-lg transition-transform hover:scale-110"
-                            >
-                              <Link href={`/products/${product.id}`}>
-                                <Eye className="w-4 h-4 text-[#1E2A47]" />
-                              </Link>
-                            </Button>
-                          </div>
-                        </div>
-                        <div className="p-6">
-                          <Link href={`/products/${product.id}`}>
-                            <h4 className="font-medium text-[#1E2A47] mb-3 text-lg leading-tight hover:text-[#AD9660] transition-colors">
-                              {product.name}
-                            </h4>
-                          </Link>
-                          <div className="flex items-center gap-1 mb-3">
-                            {[...Array(Math.round(product.rating || 5))].map((_, i) => (
-                              <Star key={i} className="w-4 h-4 text-[#AD9660] fill-current" />
-                            ))}
-                            <span className="text-sm text-[#1E2A47]/60">({product.reviews || 0})</span>
-                          </div>
-                          <div className="flex items-center justify-between mb-4">
-                            <div>
-                              <span className="text-xl font-bold text-[#AD9660]">₹{product.price}</span>
-                              {product.original_price > product.price && (
-                                <span className="text-sm text-[#1E2A47]/40 line-through ml-2">
-                                  ₹{product.original_price}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                          <Button
-                            className="w-full bg-[#1E2A47] hover:bg-[#1E2A47]/90 text-white rounded-xl py-5 transition-transform hover:scale-105"
-                          >
-                            <Link href={`/products/${product.id}`} className="flex items-center gap-2">
-                              View Details <ChevronRight className="w-4 h-4" />
-                            </Link>
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            </div>
+                      <Heart className="w-4 h-4 text-[#1E2A47]" />
+                    </Button>
+                  </div>
+                  <div className="p-4">
+                    <Link href={`/products/${product.id}`}>
+                      <h4 className="font-medium text-[#1E2A47] text-base leading-tight hover:text-[#AD9660] line-clamp-2">
+                        {product.name}
+                      </h4>
+                    </Link>
+                    <div className="flex items-center gap-1 mt-2">
+                      {[...Array(Math.round(product.rating || 5))].map((_, i) => (
+                        <Star key={i} className="w-3 h-3 text-[#AD9660] fill-current" />
+                      ))}
+                      <span className="text-xs text-[#1E2A47]/60">({product.reviews || 0})</span>
+                    </div>
+                    <div className="flex items-center justify-between mt-3">
+                      <div className="space-x-2">
+                        <span className="text-lg font-bold text-[#AD9660]">₹{product.price}</span>
+                        {product.original_price > product.price && (
+                          <span className="text-sm text-[#1E2A47]/40 line-through">
+                            ₹{product.original_price}
+                          </span>
+                        )}
+                      </div>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="w-8 h-8 p-0 hover:bg-[#1E2A47]/5 rounded-full"
+                      >
+                        <Link href={`/products/${product.id}`}>
+                          <ChevronRight className="w-4 h-4 text-[#1E2A47]" />
+                        </Link>
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center mt-8 sm:hidden">
+            <Button
+              variant="outline"
+              size="default"
+              className="border-[#1E2A47] text-[#1E2A47] hover:bg-[#1E2A47]/5 rounded-lg w-full"
+            >
+              <Link href="/products" className="flex items-center justify-center gap-2">
+                View All Products <ArrowRight className="w-4 h-4" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
