@@ -140,16 +140,16 @@ export default function QuotePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 py-20">
+      <div className="bg-[#1E2A47] py-20">
         <div className="container mx-auto px-4">
           <div className="text-center">
             <div className="flex items-center justify-center gap-4 mb-6">
-              <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center">
-                <Mail className="w-10 h-10 text-white" />
+              <div className="w-20 h-20 bg-[#AD9660]/20 rounded-none flex items-center justify-center border border-[#AD9660]/30">
+                <Mail className="w-10 h-10 text-[#AD9660]" />
               </div>
               <div>
-                <h1 className="text-5xl lg:text-6xl font-bold text-white">Request Consultation</h1>
-                <p className="text-blue-100 font-medium text-xl">Discover Bespoke Corporate Gifting Solutions</p>
+                <h1 className="text-5xl lg:text-6xl font-light text-white font-['Frank_Ruhl_Libre']">Request Consultation</h1>
+                <p className="text-[#E6E2DD] font-light text-xl font-['Poppins']">Discover Bespoke Corporate Gifting Solutions</p>
               </div>
             </div>
           </div>
@@ -169,43 +169,43 @@ export default function QuotePage() {
 
         {/* Benefits Section */}
         <div className="grid md:grid-cols-4 gap-8 mb-16">
-          <Card className="shadow-xl border-0 text-center">
+          <Card className="shadow-none border border-[#AD9660]/20 text-center hover:border-[#AD9660] transition-all">
             <CardContent className="p-8">
-              <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Clock className="w-8 h-8 text-blue-600" />
+              <div className="w-16 h-16 bg-[#1E2A47]/5 rounded-none flex items-center justify-center mx-auto mb-4 border border-[#1E2A47]/10">
+                <Clock className="w-8 h-8 text-[#1E2A47]" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Prompt Excellence</h3>
-              <p className="text-gray-600">Get your quote within 24 hours</p>
+              <h3 className="text-xl font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">Prompt Excellence</h3>
+              <p className="text-gray-600 font-['Poppins'] text-sm">Get your quote within 24 hours</p>
             </CardContent>
           </Card>
 
-          <Card className="shadow-xl border-0 text-center">
+          <Card className="shadow-none border border-[#AD9660]/20 text-center hover:border-[#AD9660] transition-all">
             <CardContent className="p-8">
-              <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Users className="w-8 h-8 text-green-600" />
+              <div className="w-16 h-16 bg-[#1E2A47]/5 rounded-none flex items-center justify-center mx-auto mb-4 border border-[#1E2A47]/10">
+                <Users className="w-8 h-8 text-[#1E2A47]" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Bespoke Consultation</h3>
-              <p className="text-gray-600">Personalized recommendations</p>
+              <h3 className="text-xl font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">Bespoke Consultation</h3>
+              <p className="text-gray-600 font-['Poppins'] text-sm">Personalized recommendations</p>
             </CardContent>
           </Card>
 
-          <Card className="shadow-xl border-0 text-center">
+          <Card className="shadow-none border border-[#AD9660]/20 text-center hover:border-[#AD9660] transition-all">
             <CardContent className="p-8">
-              <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Award className="w-8 h-8 text-purple-600" />
+              <div className="w-16 h-16 bg-[#1E2A47]/5 rounded-none flex items-center justify-center mx-auto mb-4 border border-[#1E2A47]/10">
+                <Award className="w-8 h-8 text-[#1E2A47]" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Exclusive Pricing</h3>
-              <p className="text-gray-600">Competitive bulk discounts</p>
+              <h3 className="text-xl font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">Exclusive Pricing</h3>
+              <p className="text-gray-600 font-['Poppins'] text-sm">Competitive bulk discounts</p>
             </CardContent>
           </Card>
 
-          <Card className="shadow-xl border-0 text-center">
+          <Card className="shadow-none border border-[#AD9660]/20 text-center hover:border-[#AD9660] transition-all">
             <CardContent className="p-8">
-              <div className="w-16 h-16 bg-teal-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Gift className="w-8 h-8 text-teal-600" />
+              <div className="w-16 h-16 bg-[#1E2A47]/5 rounded-none flex items-center justify-center mx-auto mb-4 border border-[#1E2A47]/10">
+                <Gift className="w-8 h-8 text-[#1E2A47]" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Tailored Excellence</h3>
-              <p className="text-gray-600">Tailored to your needs</p>
+              <h3 className="text-xl font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">Tailored Excellence</h3>
+              <p className="text-gray-600 font-['Poppins'] text-sm">Tailored to your needs</p>
             </CardContent>
           </Card>
         </div>
@@ -213,13 +213,13 @@ export default function QuotePage() {
         <div className="grid lg:grid-cols-3 gap-12">
           {/* Quote Form */}
           <div className="lg:col-span-2">
-            <Card className="shadow-xl border-0">
+            <Card className="shadow-none border border-[#AD9660]/20">
               <CardHeader className="pb-6">
-                <CardTitle className="text-3xl flex items-center gap-3">
-                  <Mail className="w-8 h-8 text-blue-600" />
+                <CardTitle className="text-3xl flex items-center gap-3 font-['Frank_Ruhl_Libre'] font-light">
+                  <Mail className="w-8 h-8 text-[#AD9660]" />
                   Consultation Request Form
                 </CardTitle>
-                <p className="text-gray-600 text-lg">
+                <p className="text-gray-600 text-lg font-['Poppins'] font-light">
                   Fill out the form below and we'll get back to you with a personalized quote
                 </p>
               </CardHeader>
@@ -227,8 +227,8 @@ export default function QuotePage() {
                 <form onSubmit={handleSubmitQuote} className="space-y-8">
                   {/* Contact Information */}
                   <div>
-                    <h3 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center gap-3">
-                      <Phone className="w-6 h-6 text-blue-600" />
+                    <h3 className="text-2xl font-light text-[#323433] mb-6 flex items-center gap-3 font-['Frank_Ruhl_Libre']">
+                      <Phone className="w-6 h-6 text-[#AD9660]" />
                       Contact Information
                     </h3>
                     <div className="grid md:grid-cols-2 gap-6">
@@ -239,7 +239,7 @@ export default function QuotePage() {
                           value={formData.name}
                           onChange={(e) => handleInputChange("name", e.target.value)}
                           placeholder="Enter your full name"
-                          className="h-12"
+                          className="h-12 border-[#AD9660]/20 focus:border-[#AD9660] focus:ring-[#AD9660]/20 font-['Poppins']"
                           required
                         />
                       </div>
@@ -283,18 +283,18 @@ export default function QuotePage() {
 
                   {/* Project Details */}
                   <div>
-                    <h3 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center gap-3">
-                      <MapPin className="w-6 h-6 text-green-600" />
+                    <h3 className="text-2xl font-light text-[#323433] mb-6 flex items-center gap-3 font-['Frank_Ruhl_Libre']">
+                      <MapPin className="w-6 h-6 text-[#AD9660]" />
                       Project Details
                     </h3>
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">Budget Range</label>
                         <Select value={formData.budget} onValueChange={(value) => handleInputChange("budget", value)}>
-                          <SelectTrigger className="h-12">
+                          <SelectTrigger className="h-12 border-[#AD9660]/20 focus:border-[#AD9660] focus:ring-[#AD9660]/20 font-['Poppins']">
                             <SelectValue placeholder="Select budget range" />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent className="font-['Poppins']">
                             <SelectItem value="under-50k">Under ₹50,000</SelectItem>
                             <SelectItem value="50k-1l">₹50,000 - ₹1,00,000</SelectItem>
                             <SelectItem value="1l-2l">₹1,00,000 - ₹2,00,000</SelectItem>
@@ -347,8 +347,8 @@ export default function QuotePage() {
 
                   {/* Additional Services */}
                   <div>
-                    <h3 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center gap-3">
-                      <Calendar className="w-6 h-6 text-purple-600" />
+                    <h3 className="text-2xl font-light text-[#323433] mb-6 flex items-center gap-3 font-['Frank_Ruhl_Libre']">
+                      <Calendar className="w-6 h-6 text-[#AD9660]" />
                       Additional Services
                     </h3>
                     <div className="space-y-4">
@@ -357,6 +357,7 @@ export default function QuotePage() {
                           id="customization"
                           checked={formData.customization}
                           onCheckedChange={(checked) => handleInputChange("customization", checked as boolean)}
+                          className="border-[#AD9660]/20 text-[#AD9660] focus:ring-[#AD9660]/20"
                         />
                         <label htmlFor="customization" className="text-lg text-gray-700">
                           Custom Logo/Branding Required
@@ -401,14 +402,15 @@ export default function QuotePage() {
                   <div className="flex flex-col sm:flex-row gap-6">
                     <Button
                       type="submit"
-                      className="flex-1 bg-blue-600 hover:bg-blue-700 h-16 text-xl"
+                      className="flex-1 bg-[#1E2A47] hover:bg-[#323433] h-16 text-xl font-['Poppins'] font-light transition-all"
                       disabled={isSubmitting}
                     >
                       {isSubmitting ? (
                         "Submitting..."
                       ) : (
                         <>
-                          <Mail className="w-6 h-6 mr-3" />📨 Submit Consultation Request
+                          <Mail className="w-6 h-6 mr-3" />
+                          Submit Consultation Request
                         </>
                       )}
                     </Button>
@@ -416,9 +418,10 @@ export default function QuotePage() {
                     <Button
                       type="button"
                       variant="outline"
-                      className="flex-1 border-green-500 text-green-600 hover:bg-green-50 h-16 text-xl"
+                      className="flex-1 border-[#AD9660] text-[#AD9660] hover:bg-[#AD9660]/5 h-16 text-xl font-['Poppins'] font-light transition-all"
                     >
-                      <MessageCircle className="w-6 h-6 mr-3" />💬 Chat on WhatsApp
+                      <MessageCircle className="w-6 h-6 mr-3" />
+                      Chat on WhatsApp
                     </Button>
                   </div>
                 </form>
@@ -430,10 +433,10 @@ export default function QuotePage() {
           <div>
             <div className="space-y-8">
               {/* Summary Card */}
-              <Card className="shadow-xl border-0 sticky top-8">
+              <Card className="shadow-none border border-[#AD9660]/20 sticky top-8">
                 <CardHeader className="pb-6">
-                  <CardTitle className="text-2xl flex items-center gap-3">
-                    <Calculator className="w-7 h-7 text-teal-600" />
+                  <CardTitle className="text-2xl flex items-center gap-3 font-['Frank_Ruhl_Libre'] font-light">
+                    <Calculator className="w-7 h-7 text-[#AD9660]" />
                     Quote Summary
                   </CardTitle>
                 </CardHeader>
@@ -442,13 +445,13 @@ export default function QuotePage() {
                     <div className="space-y-6">
                       {/* Stats */}
                       <div className="grid grid-cols-2 gap-4">
-                        <div className="text-center p-4 bg-blue-50 rounded-xl">
-                          <div className="text-2xl font-bold text-blue-600">{totalItems}</div>
-                          <div className="text-blue-700 text-sm">Items</div>
+                        <div className="text-center p-4 bg-[#1E2A47]/5 rounded-none border border-[#1E2A47]/10">
+                          <div className="text-2xl font-light text-[#1E2A47] font-['Frank_Ruhl_Libre']">{totalItems}</div>
+                          <div className="text-[#323433] text-sm font-['Poppins']">Items</div>
                         </div>
-                        <div className="text-center p-4 bg-teal-50 rounded-xl">
-                          <div className="text-2xl font-bold text-teal-600">₹{totalValue.toLocaleString()}</div>
-                          <div className="text-teal-700 text-sm">Total Value</div>
+                        <div className="text-center p-4 bg-[#AD9660]/5 rounded-none border border-[#AD9660]/10">
+                          <div className="text-2xl font-light text-[#AD9660] font-['Frank_Ruhl_Libre']">₹{totalValue.toLocaleString()}</div>
+                          <div className="text-[#323433] text-sm font-['Poppins']">Total Value</div>
                         </div>
                       </div>
 
@@ -456,7 +459,7 @@ export default function QuotePage() {
                       <div className="space-y-4">
                         <h4 className="font-semibold text-gray-900">Selected Items:</h4>
                         {shortlistedProducts.slice(0, 3).map((product) => (
-                          <div key={product.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                          <div key={product.id} className="flex items-center gap-3 p-3 bg-[#F4F4F4] rounded-none border border-[#E6E2DD]">
                             <Image
                               src={product.image || "/placeholder.svg"}
                               alt={product.name}
@@ -515,7 +518,7 @@ export default function QuotePage() {
               </Card>
 
               {/* Contact Info */}
-              <Card className="shadow-xl border-0">
+              <Card className="shadow-none border border-[#AD9660]/20">
                 <CardContent className="p-8 text-center">
                   <h3 className="text-xl font-semibold text-gray-900 mb-4">Need Help?</h3>
                   <p className="text-gray-600 mb-6">Our experts are here to assist you</p>
@@ -538,41 +541,41 @@ export default function QuotePage() {
         {/* Process Section */}
         <section className="mt-24">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">How It Works</h2>
-            <p className="text-xl text-gray-600">Simple steps to get your perfect corporate gifts</p>
+            <h2 className="text-4xl font-light text-[#323433] mb-6 font-['Frank_Ruhl_Libre']">How It Works</h2>
+            <p className="text-xl text-gray-600 font-['Poppins'] font-light">Simple steps to get your perfect corporate gifts</p>
           </div>
 
           <div className="grid md:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-2xl font-bold text-blue-600">1</span>
+              <div className="w-20 h-20 bg-[#1E2A47]/5 rounded-none flex items-center justify-center mx-auto mb-6 border border-[#1E2A47]/10">
+                <span className="text-2xl font-light text-[#1E2A47] font-['Frank_Ruhl_Libre']">1</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Submit Request</h3>
-              <p className="text-gray-600">Fill out the quote form with your requirements</p>
+              <h3 className="text-xl font-light text-[#323433] mb-4 font-['Frank_Ruhl_Libre']">Submit Request</h3>
+              <p className="text-gray-600 font-['Poppins'] text-sm">Fill out the quote form with your requirements</p>
             </div>
 
             <div className="text-center">
-              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-2xl font-bold text-green-600">2</span>
+              <div className="w-20 h-20 bg-[#1E2A47]/5 rounded-none flex items-center justify-center mx-auto mb-6 border border-[#1E2A47]/10">
+                <span className="text-2xl font-light text-[#1E2A47] font-['Frank_Ruhl_Libre']">2</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Expert Review</h3>
-              <p className="text-gray-600">Our team reviews and prepares personalized recommendations</p>
+              <h3 className="text-xl font-light text-[#323433] mb-4 font-['Frank_Ruhl_Libre']">Expert Review</h3>
+              <p className="text-gray-600 font-['Poppins'] text-sm">Our team reviews and prepares personalized recommendations</p>
             </div>
 
             <div className="text-center">
-              <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-2xl font-bold text-purple-600">3</span>
+              <div className="w-20 h-20 bg-[#1E2A47]/5 rounded-none flex items-center justify-center mx-auto mb-6 border border-[#1E2A47]/10">
+                <span className="text-2xl font-light text-[#1E2A47] font-['Frank_Ruhl_Libre']">3</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Receive Quote</h3>
-              <p className="text-gray-600">Get detailed pricing and product suggestions within 24 hours</p>
+              <h3 className="text-xl font-light text-[#323433] mb-4 font-['Frank_Ruhl_Libre']">Receive Quote</h3>
+              <p className="text-gray-600 font-['Poppins'] text-sm">Get detailed pricing and product suggestions within 24 hours</p>
             </div>
 
             <div className="text-center">
-              <div className="w-20 h-20 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-2xl font-bold text-teal-600">4</span>
+              <div className="w-20 h-20 bg-[#1E2A47]/5 rounded-none flex items-center justify-center mx-auto mb-6 border border-[#1E2A47]/10">
+                <span className="text-2xl font-light text-[#1E2A47] font-['Frank_Ruhl_Libre']">4</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Place Order</h3>
-              <p className="text-gray-600">Approve the quote and we'll handle the rest</p>
+              <h3 className="text-xl font-light text-[#323433] mb-4 font-['Frank_Ruhl_Libre']">Place Order</h3>
+              <p className="text-gray-600 font-['Poppins'] text-sm">Approve the quote and we'll handle the rest</p>
             </div>
           </div>
         </section>

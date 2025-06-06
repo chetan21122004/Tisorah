@@ -11,66 +11,48 @@ export type Database = {
     Tables: {
       products: {
         Row: {
-          benefits: string[] | null
           category: string
           created_at: string | null
           customizable: boolean | null
+          delivery: string | null
           description: string | null
-          discount: string | null
-          features: Json | null
+          featured: boolean | null
           id: string
           images: string[] | null
-          in_stock: boolean | null
-          long_description: string | null
-          moq: number
+          moq: string | null
           name: string
-          original_price: number
           price: number
           rating: number | null
-          reviews: number | null
-          specifications: Json | null
           updated_at: string | null
         }
         Insert: {
-          benefits?: string[] | null
           category: string
           created_at?: string | null
           customizable?: boolean | null
+          delivery?: string | null
           description?: string | null
-          discount?: string | null
-          features?: Json | null
+          featured?: boolean | null
           id?: string
           images?: string[] | null
-          in_stock?: boolean | null
-          long_description?: string | null
-          moq?: number
+          moq?: string | null
           name: string
-          original_price: number
           price: number
           rating?: number | null
-          reviews?: number | null
-          specifications?: Json | null
           updated_at?: string | null
         }
         Update: {
-          benefits?: string[] | null
           category?: string
           created_at?: string | null
           customizable?: boolean | null
+          delivery?: string | null
           description?: string | null
-          discount?: string | null
-          features?: Json | null
+          featured?: boolean | null
           id?: string
           images?: string[] | null
-          in_stock?: boolean | null
-          long_description?: string | null
-          moq?: number
+          moq?: string | null
           name?: string
-          original_price?: number
           price?: number
           rating?: number | null
-          reviews?: number | null
-          specifications?: Json | null
           updated_at?: string | null
         }
         Relationships: []
@@ -128,6 +110,45 @@ export type Database = {
           shortlisted_products?: Json
           status?: string | null
           timeline?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      testimonials: {
+        Row: {
+          avatar_url: string | null
+          company: string
+          content: string
+          created_at: string | null
+          id: string
+          name: string
+          position: string
+          product_bought: string
+          rating: number
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          company: string
+          content: string
+          created_at?: string | null
+          id?: string
+          name: string
+          position: string
+          product_bought: string
+          rating: number
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          company?: string
+          content?: string
+          created_at?: string | null
+          id?: string
+          name?: string
+          position?: string
+          product_bought?: string
+          rating?: number
           updated_at?: string | null
         }
         Relationships: []

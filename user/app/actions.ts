@@ -1,24 +1,26 @@
 'use server'
 
-import { createServerClient } from '@supabase/ssr'
+import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import type { Database } from '@/types/supabase'
 
 export async function createServerSupabaseClient() {
-  return createServerClient(
+  return createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        get(name: string) {
-          return cookies().get(name)?.value ?? ''
+        async get(name: string) {
+          const cookieStore = cookies()
+          return cookieStore.get(name)?.value
         },
-        set(name: string, value: string, options: any) {
-          // In server actions, we don't need to set cookies directly
-          // They are handled by the middleware
+        async set(name: string, value: string, options: CookieOptions) {
+          const cookieStore = cookies()
+          cookieStore.set(name, value, options)
         },
-        remove(name: string, options: any) {
-          // In server actions, we don't need to remove cookies directly
-          // They are handled by the middleware
+        async remove(name: string, options: CookieOptions) {
+          const cookieStore = cookies()
+          cookieStore.delete(name)
         },
       },
     }
@@ -26,18 +28,45 @@ export async function createServerSupabaseClient() {
 }
 
 export async function getFeaturedProducts() {
-  const supabase = await createServerSupabaseClient()
-  const { data: products, error } = await supabase
-    .from("products")
-    .select("*")
-    .eq("is_featured", true)
-    .limit(4)
-    .order("created_at", { ascending: false })
+  try {
+    const supabase = await createServerSupabaseClient()
+    
+    const { data: products, error } = await supabase
+      .from('products')
+      .select()
+      .eq('featured', true)
+      .order('created_at', { ascending: false })
+      .limit(8)
 
-  if (error) {
-    console.error("Error fetching featured products:", error)
+    if (error) {
+      console.error('Error fetching featured products:', error)
+      return []
+    }
+
+    return products || []
+  } catch (error) {
+    console.error('Error in getFeaturedProducts:', error)
     return []
   }
+}
 
-  return products
+export async function getProducts() {
+  try {
+    const supabase = await createServerSupabaseClient()
+    
+    const { data: products, error } = await supabase
+      .from('products')
+      .select()
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      console.error('Error fetching products:', error)
+      return []
+    }
+
+    return products || []
+  } catch (error) {
+    console.error('Error in getProducts:', error)
+    return []
+  }
 } 

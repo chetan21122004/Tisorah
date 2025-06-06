@@ -2,8 +2,9 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Star, Quote, Award } from "lucide-react"
+import { Star, Quote, Award, ArrowRight, Users, Building, Grid, Eye } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function PortfolioPage() {
   const portfolioItems = [
@@ -15,7 +16,7 @@ export default function PortfolioPage() {
       industry: "Technology",
       quantity: "500 pieces",
       year: "2024",
-      image: "/placeholder.svg?height=300&width=400",
+      image: "/placeholder.svg?height=600&width=800",
       description:
         "A curated collection of premium items designed to provide new executives with a memorable and sophisticated welcome experience.",
       results: "95% employee satisfaction, improved first-day experience",
@@ -104,7 +105,7 @@ export default function PortfolioPage() {
       name: "Sarah Johnson",
       position: "HR Director",
       company: "TechCorp Solutions",
-      image: "/placeholder.svg?height=80&width=80",
+      image: "/placeholder.svg?height=120&width=120",
       content:
         "Tisorah has truly elevated our employee onboarding experience. The impeccable quality and meticulous attention to detail evident in each package have left a lasting impression. Our new hires consistently express their delight with the exquisite welcome kits.",
       rating: 5,
@@ -150,222 +151,272 @@ export default function PortfolioPage() {
   ]
 
   const categories = [
-    { id: "all", name: "All Projects", count: portfolioItems.length },
+    { id: "all", name: "All Projects", count: portfolioItems.length, icon: <Grid className="w-4 h-4" /> },
     {
       id: "onboarding",
       name: "Onboarding",
       count: portfolioItems.filter((item) => item.category === "onboarding").length,
+      icon: <Users className="w-4 h-4" />,
     },
     {
       id: "festivals",
       name: "Festivals",
       count: portfolioItems.filter((item) => item.category === "festivals").length,
+      icon: <Star className="w-4 h-4" />,
     },
     {
       id: "recognition",
       name: "Recognition",
       count: portfolioItems.filter((item) => item.category === "recognition").length,
+      icon: <Award className="w-4 h-4" />,
     },
-    { id: "events", name: "Events", count: portfolioItems.filter((item) => item.category === "events").length },
+    {
+      id: "events",
+      name: "Events",
+      count: portfolioItems.filter((item) => item.category === "events").length,
+      icon: <Building className="w-4 h-4" />,
+    },
     {
       id: "appreciation",
       name: "Appreciation",
       count: portfolioItems.filter((item) => item.category === "appreciation").length,
+      icon: <Quote className="w-4 h-4" />,
     },
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 py-20">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-16 h-16 bg-teal-100 rounded-xl flex items-center justify-center">
-              <Award className="w-8 h-8 text-teal-600" />
+    <div className="min-h-screen bg-[#F4F4F4]">
+      {/* Hero Section */}
+      <section className="relative bg-[#1E2A47] py-24">
+        <div className="absolute inset-0 bg-[url('/placeholder.svg')] opacity-10 bg-cover bg-center"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1E2A47] via-[#1E2A47]/95 to-[#1E2A47]"></div>
+        <div className="relative container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="inline-block mb-6">
+              <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-none border border-[#AD9660]/20">
+                <Eye className="w-5 h-5 text-[#AD9660]" />
+                <span className="text-[#E6E2DD] font-light font-['Poppins']">Our Distinguished Work</span>
+              </div>
             </div>
-            <div>
-              <h1 className="text-4xl lg:text-5xl font-bold text-gray-900">Our Distinguished Portfolio</h1>
-              <p className="text-teal-600 font-medium text-lg">Exquisite Corporate Gifting Excellence</p>
-            </div>
+            <h1 className="text-5xl lg:text-6xl font-light text-white font-['Frank_Ruhl_Libre'] mb-6">
+              Crafting <span className="text-[#AD9660]">Memorable</span> Experiences
+            </h1>
+            <p className="text-xl text-[#E6E2DD]/90 leading-relaxed font-['Poppins'] font-light max-w-2xl mx-auto">
+              Explore our curated collection of corporate gifting excellence. Each project represents our commitment to
+              sophistication, quality, and meaningful connections.
+            </p>
           </div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Delve into our curated collection of successful corporate gifting endeavors. From burgeoning startups to
-            esteemed Fortune 500 enterprises, we have empowered organizations to cultivate enduring relationships
-            through meticulously selected, premium gifts.
-          </p>
         </div>
+      </section>
 
-        {/* Stats */}
-        <div className="grid md:grid-cols-4 gap-8 mb-16">
-          {stats.map((stat, index) => (
-            <Card key={index} className="text-center border-0 shadow-lg">
-              <CardContent className="p-8">
-                <div className="text-3xl font-bold text-teal-600 mb-2">{stat.number}</div>
-                <div className="text-gray-600">{stat.label}</div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* Portfolio Filter */}
-        <Tabs defaultValue="all" className="mb-16">
-          <TabsList className="grid w-full grid-cols-6 mb-8">
-            {categories.map((category) => (
-              <TabsTrigger key={category.id} value={category.id} className="text-sm">
-                {category.name} ({category.count})
-              </TabsTrigger>
+      {/* Stats Section */}
+      <section className="py-16 -mt-12 relative z-10">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="group">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-[#1E2A47]/5 -rotate-3 transform transition-transform group-hover:rotate-0"></div>
+                  <div className="relative bg-white border border-[#AD9660]/20 p-8 text-center transition-all group-hover:border-[#AD9660]">
+                    <div className="text-3xl font-light text-[#1E2A47] font-['Frank_Ruhl_Libre'] mb-2">{stat.number}</div>
+                    <div className="text-gray-600 font-['Poppins'] font-light">{stat.label}</div>
+                  </div>
+                </div>
+              </div>
             ))}
-          </TabsList>
+          </div>
+        </div>
+      </section>
 
-          <TabsContent value="all">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {portfolioItems.map((item) => (
-                <Card key={item.id} className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg">
-                  <CardContent className="p-0">
-                    <div className="relative">
-                      <Image
-                        src={item.image || "/placeholder.svg"}
-                        alt={item.title}
-                        width={400}
-                        height={300}
-                        className="w-full h-48 object-cover rounded-t-lg group-hover:scale-105 transition-transform duration-300"
-                      />
-                      <div className="absolute top-4 left-4">
-                        <Badge className="bg-white/90 text-gray-900">{item.industry}</Badge>
-                      </div>
-                      <div className="absolute top-4 right-4">
-                        <Badge className="bg-teal-600 text-white">{item.year}</Badge>
-                      </div>
-                    </div>
-                    <div className="p-6">
-                      <div className="flex items-center gap-1 mb-2">
-                        {[...Array(item.rating)].map((_, i) => (
-                          <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
-                        ))}
-                      </div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
-                      <p className="text-teal-600 font-medium mb-3">{item.client}</p>
-                      <p className="text-gray-600 text-sm mb-4">{item.description}</p>
-
-                      <div className="space-y-2 mb-4">
-                        <div className="flex justify-between text-sm">
-                          <span className="text-gray-600">Quantity:</span>
-                          <span className="font-medium">{item.quantity}</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                          <span className="text-gray-600">Results:</span>
-                          <span className="font-medium text-green-600">Success</span>
-                        </div>
-                      </div>
-
-                      <div className="bg-gray-50 rounded-lg p-3 mb-4">
-                        <p className="text-sm text-gray-700 italic">"{item.testimonial}"</p>
-                      </div>
-
-                      <Button className="w-full bg-teal-600 hover:bg-teal-700">Explore Excellence</Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+      {/* Portfolio Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <div className="inline-block mb-6">
+              <div className="flex items-center gap-2 bg-[#1E2A47]/5 px-4 py-2 border border-[#1E2A47]/10">
+                <Grid className="w-5 h-5 text-[#1E2A47]" />
+                <span className="text-[#1E2A47] font-light font-['Poppins']">Our Portfolio</span>
+              </div>
             </div>
-          </TabsContent>
+            <h2 className="text-4xl font-light text-[#323433] mb-4 font-['Frank_Ruhl_Libre']">
+              Explore Our Distinguished Projects
+            </h2>
+            <p className="text-gray-600 font-['Poppins'] font-light">
+              From burgeoning startups to Fortune 500 enterprises, we help organizations forge lasting connections.
+            </p>
+          </div>
 
-          {categories.slice(1).map((category) => (
-            <TabsContent key={category.id} value={category.id}>
+          <Tabs defaultValue="all" className="mb-16">
+            <TabsList className="flex flex-wrap justify-center gap-4 mb-12 bg-transparent">
+              {categories.map((category) => (
+                <TabsTrigger
+                  key={category.id}
+                  value={category.id}
+                  className="border border-[#AD9660]/20 hover:border-[#AD9660] bg-white data-[state=active]:bg-[#1E2A47] data-[state=active]:text-white px-6 h-12"
+                >
+                  <div className="flex items-center gap-2">
+                    {category.icon}
+                    <span className="font-['Poppins'] font-light">
+                      {category.name} <span className="text-sm">({category.count})</span>
+                    </span>
+                  </div>
+                </TabsTrigger>
+              ))}
+            </TabsList>
+
+            <TabsContent value="all">
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {portfolioItems
-                  .filter((item) => item.category === category.id)
-                  .map((item) => (
-                    <Card
-                      key={item.id}
-                      className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg"
-                    >
-                      <CardContent className="p-0">
+                {portfolioItems.map((item) => (
+                  <div key={item.id} className="group">
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-[#1E2A47]/5 rotate-2 transform transition-transform group-hover:rotate-0"></div>
+                      <div className="relative bg-white border border-[#AD9660]/20 transition-all group-hover:border-[#AD9660] overflow-hidden">
                         <div className="relative">
                           <Image
-                            src={item.image || "/placeholder.svg"}
+                            src={item.image}
                             alt={item.title}
-                            width={400}
-                            height={300}
-                            className="w-full h-48 object-cover rounded-t-lg group-hover:scale-105 transition-transform duration-300"
+                            width={800}
+                            height={600}
+                            className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
                           />
-                          <div className="absolute top-4 left-4">
-                            <Badge className="bg-white/90 text-gray-900">{item.industry}</Badge>
+                          <div className="absolute top-4 left-4 space-y-2">
+                            <Badge className="bg-white/95 text-[#323433] font-['Poppins'] font-light border-none">
+                              {item.industry}
+                            </Badge>
                           </div>
                           <div className="absolute top-4 right-4">
-                            <Badge className="bg-teal-600 text-white">{item.year}</Badge>
+                            <Badge className="bg-[#1E2A47] text-white font-['Poppins'] font-light border-none">
+                              {item.year}
+                            </Badge>
                           </div>
                         </div>
-                        <div className="p-6">
-                          <div className="flex items-center gap-1 mb-2">
+                        <div className="p-8">
+                          <div className="flex items-center gap-1 mb-3">
                             {[...Array(item.rating)].map((_, i) => (
-                              <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+                              <Star key={i} className="w-4 h-4 text-[#AD9660] fill-[#AD9660]" />
                             ))}
                           </div>
-                          <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
-                          <p className="text-teal-600 font-medium mb-3">{item.client}</p>
-                          <p className="text-gray-600 text-sm mb-4">{item.description}</p>
-
-                          <div className="space-y-2 mb-4">
-                            <div className="flex justify-between text-sm">
-                              <span className="text-gray-600">Quantity:</span>
-                              <span className="font-medium">{item.quantity}</span>
+                          <h3 className="text-xl font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">
+                            {item.title}
+                          </h3>
+                          <p className="text-[#AD9660] font-['Poppins'] font-light mb-4">{item.client}</p>
+                          <p className="text-gray-600 font-['Poppins'] font-light text-sm mb-6">{item.description}</p>
+                          <div className="space-y-3 border-t border-[#AD9660]/10 pt-6">
+                            <div className="flex items-start gap-2">
+                              <Badge variant="outline" className="border-[#AD9660]/20 text-[#323433] font-['Poppins'] font-light">
+                                {item.quantity}
+                              </Badge>
+                              <Badge variant="outline" className="border-[#AD9660]/20 text-[#323433] font-['Poppins'] font-light">
+                                {item.category}
+                              </Badge>
                             </div>
-                            <div className="flex justify-between text-sm">
-                              <span className="text-gray-600">Results:</span>
-                              <span className="font-medium text-green-600">Success</span>
+                            <div className="flex items-center justify-between">
+                              <div className="text-sm text-[#AD9660] font-['Poppins'] font-light">{item.results}</div>
+                              <Button variant="ghost" className="p-0 hover:bg-transparent">
+                                <ArrowRight className="w-5 h-5 text-[#AD9660] transform transition-transform group-hover:translate-x-1" />
+                              </Button>
                             </div>
                           </div>
-
-                          <div className="bg-gray-50 rounded-lg p-3 mb-4">
-                            <p className="text-sm text-gray-700 italic">"{item.testimonial}"</p>
-                          </div>
-
-                          <Button className="w-full bg-teal-600 hover:bg-teal-700">Explore Excellence</Button>
                         </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-              </div>
-            </TabsContent>
-          ))}
-        </Tabs>
-
-        {/* Client Testimonials */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">What Our Clients Say</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="border-0 shadow-lg">
-                <CardContent className="p-8">
-                  <div className="flex items-center gap-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                    ))}
-                  </div>
-                  <Quote className="w-8 h-8 text-teal-600 mb-4" />
-                  <p className="text-gray-700 mb-6 italic">"{testimonial.content}"</p>
-                  <div className="flex items-center gap-4">
-                    <Image
-                      src={testimonial.image || "/placeholder.svg"}
-                      alt={testimonial.name}
-                      width={60}
-                      height={60}
-                      className="w-15 h-15 rounded-full object-cover"
-                    />
-                    <div>
-                      <div className="font-semibold text-gray-900">{testimonial.name}</div>
-                      <div className="text-sm text-gray-600">{testimonial.position}</div>
-                      <div className="text-sm text-teal-600">{testimonial.company}</div>
-                      <div className="text-xs text-gray-500 mt-1">{testimonial.project}</div>
+                      </div>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                ))}
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-24 bg-[#F4F4F4]">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <div className="inline-block mb-6">
+              <div className="flex items-center gap-2 bg-[#1E2A47]/5 px-4 py-2 border border-[#1E2A47]/10">
+                <Quote className="w-5 h-5 text-[#1E2A47]" />
+                <span className="text-[#1E2A47] font-light font-['Poppins']">Client Testimonials</span>
+              </div>
+            </div>
+            <h2 className="text-4xl font-light text-[#323433] mb-4 font-['Frank_Ruhl_Libre']">
+              What Our Clients Say
+            </h2>
+            <p className="text-gray-600 font-['Poppins'] font-light">
+              Discover why leading organizations trust us with their corporate gifting needs.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <div key={index} className="group">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-[#1E2A47]/5 -rotate-1 transform transition-transform group-hover:rotate-0"></div>
+                  <div className="relative bg-white border border-[#AD9660]/20 p-8 transition-all group-hover:border-[#AD9660]">
+                    <div className="flex items-start gap-6 mb-6">
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-[#1E2A47]/5 rotate-6 transform"></div>
+                        <Image
+                          src={testimonial.image}
+                          alt={testimonial.name}
+                          width={120}
+                          height={120}
+                          className="relative w-20 h-20 object-cover border border-[#AD9660]/20"
+                        />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-light text-[#323433] mb-1 font-['Frank_Ruhl_Libre']">
+                          {testimonial.name}
+                        </h3>
+                        <p className="text-[#AD9660] font-['Poppins'] font-light text-sm mb-2">
+                          {testimonial.position}, {testimonial.company}
+                        </p>
+                        <div className="flex items-center gap-1">
+                          {[...Array(testimonial.rating)].map((_, i) => (
+                            <Star key={i} className="w-4 h-4 text-[#AD9660] fill-[#AD9660]" />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <Quote className="w-8 h-8 text-[#AD9660]/20 mb-4" />
+                    <p className="text-gray-600 font-['Poppins'] font-light leading-relaxed mb-6">
+                      {testimonial.content}
+                    </p>
+                    <div className="border-t border-[#AD9660]/10 pt-4">
+                      <Badge variant="outline" className="border-[#AD9660]/20 text-[#323433] font-['Poppins'] font-light">
+                        {testimonial.project}
+                      </Badge>
+                    </div>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 bg-[#1E2A47]">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-4xl font-light text-white font-['Frank_Ruhl_Libre'] mb-6">
+              Ready to Create Your Success Story?
+            </h2>
+            <p className="text-xl text-[#E6E2DD]/90 font-['Poppins'] font-light mb-12">
+              Let's collaborate to design a gifting experience that reflects your brand's excellence.
+            </p>
+            <div className="flex flex-wrap justify-center gap-6">
+              <Button className="bg-[#AD9660] hover:bg-[#AD9660]/90 h-14 px-8 font-['Poppins'] font-light text-lg">
+                <Link href="/contact" className="flex items-center gap-2">
+                  Start Your Project <ArrowRight className="w-5 h-5" />
+                </Link>
+              </Button>
+              <Button className="bg-transparent border border-[#AD9660] text-[#AD9660] hover:bg-[#AD9660]/10 h-14 px-8 font-['Poppins'] font-light text-lg">
+                <Link href="/quote">Request a Quote</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

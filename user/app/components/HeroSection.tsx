@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic"
 
 // Dynamically import the HeroSlider component with no SSR
-const HeroSlider = dynamic(() => import("./HeroSlider"), {
+const HeroSlider = dynamic(() => import("../../components/HeroSlider"), {
   ssr: false,
 })
 

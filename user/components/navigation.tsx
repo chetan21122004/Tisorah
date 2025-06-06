@@ -171,13 +171,20 @@ export default function Navigation() {
                 className="pl-12 w-72 h-12 rounded-xl border-neutral-300 focus:border-secondary focus:ring-secondary/20 bg-neutral-50 focus:bg-white transition-all duration-200"
               />
             </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-12 w-12 rounded-xl hover:bg-neutral hover:text-primary transition-all duration-200"
-            >
-              <Heart className="h-5 w-5" />
-            </Button>
+            <Link href="/shortlist">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-12 w-12 rounded-xl hover:bg-neutral hover:text-primary transition-all duration-200 relative"
+              >
+                <Heart className="h-5 w-5" />
+                {shortlistCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-secondary text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                    {shortlistCount}
+                  </span>
+                )}
+              </Button>
+            </Link>
             {/* <Button className="bg-gradient-to-r from-secondary to-secondary/90 hover:from-secondary/90 hover:to-secondary text-white px-6 py-3 h-12 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 font-medium">
               <Phone className="h-4 w-4 mr-2" />
               Consultation

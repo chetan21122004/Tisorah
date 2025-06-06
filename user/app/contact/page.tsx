@@ -1,20 +1,34 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Phone, Mail, MapPin, Clock, MessageCircle, Send, Facebook, Instagram, Linkedin } from "lucide-react"
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
+  MessageCircle,
+  Send,
+  Facebook,
+  Instagram,
+  Linkedin,
+  ArrowRight,
+  Building,
+  Users,
+} from "lucide-react"
+import Link from "next/link"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    subject: "",
+    company: "",
+    phone: "",
     message: "",
   })
 
@@ -30,28 +44,22 @@ export default function ContactPage() {
 
   const contactMethods = [
     {
-      icon: <Phone className="w-6 h-6 text-teal-600" />,
+      icon: <Phone className="w-6 h-6 text-[#AD9660]" />,
       title: "Phone",
       details: ["+91 98600 02313"],
       description: "Mon-Fri, 9AM-6PM IST",
     },
     {
-      icon: <Mail className="w-6 h-6 text-teal-600" />,
+      icon: <Mail className="w-6 h-6 text-[#AD9660]" />,
       title: "Email",
-      details: ["info@tisorah.com", "support@tisorah.com"],
+      details: ["info@tisorah.com"],
       description: "We aim to respond within 24 hours",
     },
     {
-      icon: <MapPin className="w-6 h-6 text-teal-600" />,
+      icon: <MapPin className="w-6 h-6 text-[#AD9660]" />,
       title: "Office",
-      details: ["12/14, Laxmi Narayan Nagar, Erandwane", "Pune - 411004, Maharashtra, India"],
-      description: "Visits by appointment are welcome",
-    },
-    {
-      icon: <MessageCircle className="w-6 h-6 text-teal-600" />,
-      title: "WhatsApp",
-      details: ["+91 98600 02313", "Available 24/7"],
-      description: "Instant support via WhatsApp",
+      details: ["12/14, Laxmi Narayan Nagar, Erandwane", "Pune - 411004, Maharashtra"],
+      description: "Visits by appointment only",
     },
   ]
 
@@ -61,204 +69,263 @@ export default function ContactPage() {
     { day: "Sunday", hours: "Closed" },
   ]
 
+  const quickLinks = [
+    { title: "Request a Quote", href: "/quote", icon: <MessageCircle className="w-4 h-4" /> },
+    { title: "View Portfolio", href: "/portfolio", icon: <Users className="w-4 h-4" /> },
+    { title: "Corporate Packages", href: "/packages", icon: <Building className="w-4 h-4" /> },
+  ]
+
   return (
-    <div className="min-h-screen bg-gray-50 py-20">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-16 h-16 bg-teal-100 rounded-xl flex items-center justify-center">
-              <Phone className="w-8 h-8 text-teal-600" />
+    <div className="min-h-screen bg-[#F4F4F4]">
+      {/* Hero Section */}
+      <section className="relative bg-[#1E2A47] py-24">
+        <div className="absolute inset-0 bg-[url('/placeholder.svg')] opacity-10 bg-cover bg-center"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1E2A47] via-[#1E2A47]/95 to-[#1E2A47]"></div>
+        <div className="relative container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="inline-block mb-6">
+              <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-none border border-[#AD9660]/20">
+                <Mail className="w-5 h-5 text-[#AD9660]" />
+                <span className="text-[#E6E2DD] font-light font-['Poppins']">Let's Start a Conversation</span>
+              </div>
             </div>
-            <div>
-              <h1 className="text-4xl lg:text-5xl font-bold text-gray-900">Connect With Tisorah</h1>
-              <p className="text-teal-600 font-medium text-lg">Experience Exceptional Service</p>
-            </div>
+            <h1 className="text-5xl lg:text-6xl font-light text-white font-['Frank_Ruhl_Libre'] mb-6">
+              Connect with <span className="text-[#AD9660]">Tisorah</span>
+            </h1>
+            <p className="text-xl text-[#E6E2DD]/90 leading-relaxed font-['Poppins'] font-light max-w-2xl mx-auto">
+              Experience our commitment to excellence in corporate gifting. We're here to help you create meaningful
+              connections through thoughtfully curated gifts.
+            </p>
           </div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            We invite you to connect with us to explore bespoke corporate gifting solutions tailored to elevate your
-            brand and foster lasting relationships.
-          </p>
         </div>
+      </section>
 
-        <div className="grid lg:grid-cols-3 gap-8 mb-16">
-          {/* Contact Methods */}
-          {contactMethods.map((method, index) => (
-            <Card key={index} className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow">
-              <CardContent className="p-8">
-                <div className="w-16 h-16 bg-teal-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                  {method.icon}
+      {/* Contact Methods */}
+      <section className="py-16 -mt-12 relative z-10">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-3 gap-8">
+            {contactMethods.map((method, index) => (
+              <div key={index} className="group">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-[#1E2A47]/5 -rotate-3 transform transition-transform group-hover:rotate-0"></div>
+                  <div className="relative bg-white border border-[#AD9660]/20 p-8 transition-all group-hover:border-[#AD9660]">
+                    <div className="w-16 h-16 bg-[#1E2A47] rounded-none flex items-center justify-center mb-6">
+                      {method.icon}
+                    </div>
+                    <h3 className="text-xl font-light text-[#323433] mb-4 font-['Frank_Ruhl_Libre']">{method.title}</h3>
+                    <div className="space-y-2 mb-4">
+                      {method.details.map((detail, idx) => (
+                        <p key={idx} className="text-gray-900 font-['Poppins'] font-light">{detail}</p>
+                      ))}
+                    </div>
+                    <p className="text-gray-600 text-sm font-['Poppins'] font-light">{method.description}</p>
+                  </div>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">{method.title}</h3>
-                <div className="space-y-2 mb-4">
-                  {method.details.map((detail, idx) => (
-                    <p key={idx} className="text-gray-900 font-medium">
-                      {detail}
-                    </p>
-                  ))}
-                </div>
-                <p className="text-gray-600 text-sm">{method.description}</p>
-              </CardContent>
-            </Card>
-          ))}
+              </div>
+            ))}
+          </div>
         </div>
+      </section>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Form */}
-          <Card className="shadow-lg border-0">
-            <CardHeader>
-              <CardTitle className="text-2xl text-gray-900">Send us a Message</CardTitle>
-              <p className="text-gray-600">Fill out the form below and we'll get back to you as soon as possible.</p>
-            </CardHeader>
-            <CardContent>
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-16">
+            {/* Contact Form */}
+            <div>
+              <div className="mb-12">
+                <div className="inline-block mb-6">
+                  <div className="flex items-center gap-2 bg-[#1E2A47]/5 px-4 py-2 border border-[#1E2A47]/10">
+                    <MessageCircle className="w-5 h-5 text-[#1E2A47]" />
+                    <span className="text-[#1E2A47] font-light font-['Poppins']">Get in Touch</span>
+                  </div>
+                </div>
+                <h2 className="text-4xl font-light text-[#323433] mb-4 font-['Frank_Ruhl_Libre']">Send us a Message</h2>
+                <p className="text-gray-600 font-['Poppins'] font-light">
+                  Fill out the form below and we'll get back to you within 24 hours.
+                </p>
+              </div>
+
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="name">Full Name *</Label>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="name" className="text-[#323433] font-['Poppins'] font-light">Full Name *</Label>
                     <Input
                       id="name"
                       value={formData.name}
                       onChange={(e) => handleInputChange("name", e.target.value)}
                       required
-                      className="mt-1"
+                      className="border-[#AD9660]/20 focus:border-[#AD9660] h-12 font-['Poppins'] font-light"
                     />
                   </div>
-                  <div>
-                    <Label htmlFor="email">Email Address *</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="email" className="text-[#323433] font-['Poppins'] font-light">Email Address *</Label>
                     <Input
                       id="email"
                       type="email"
                       value={formData.email}
                       onChange={(e) => handleInputChange("email", e.target.value)}
                       required
-                      className="mt-1"
+                      className="border-[#AD9660]/20 focus:border-[#AD9660] h-12 font-['Poppins'] font-light"
                     />
                   </div>
                 </div>
-                <div>
-                  <Label htmlFor="subject">Subject *</Label>
-                  <Input
-                    id="subject"
-                    value={formData.subject}
-                    onChange={(e) => handleInputChange("subject", e.target.value)}
-                    required
-                    className="mt-1"
-                  />
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="company" className="text-[#323433] font-['Poppins'] font-light">Company Name</Label>
+                    <Input
+                      id="company"
+                      value={formData.company}
+                      onChange={(e) => handleInputChange("company", e.target.value)}
+                      className="border-[#AD9660]/20 focus:border-[#AD9660] h-12 font-['Poppins'] font-light"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="phone" className="text-[#323433] font-['Poppins'] font-light">Phone Number</Label>
+                    <Input
+                      id="phone"
+                      value={formData.phone}
+                      onChange={(e) => handleInputChange("phone", e.target.value)}
+                      className="border-[#AD9660]/20 focus:border-[#AD9660] h-12 font-['Poppins'] font-light"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <Label htmlFor="message">Message *</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="message" className="text-[#323433] font-['Poppins'] font-light">Message *</Label>
                   <Textarea
                     id="message"
                     value={formData.message}
                     onChange={(e) => handleInputChange("message", e.target.value)}
                     required
-                    placeholder="Tell us how we can help you..."
-                    className="mt-1 min-h-[120px]"
+                    placeholder="Tell us about your corporate gifting needs..."
+                    className="border-[#AD9660]/20 focus:border-[#AD9660] min-h-[160px] font-['Poppins'] font-light"
                   />
                 </div>
-                <Button type="submit" className="w-full bg-teal-600 hover:bg-teal-700 py-3">
-                  <Send className="w-4 h-4 mr-2" />
+                <Button type="submit" className="bg-[#1E2A47] hover:bg-[#323433] h-12 px-8 font-['Poppins'] font-light transition-all">
+                  <Send className="w-5 h-5 mr-2" />
                   Send Message
                 </Button>
               </form>
-            </CardContent>
-          </Card>
+            </div>
 
-          {/* Additional Info */}
-          <div className="space-y-8">
-            {/* Office Hours */}
-            <Card className="shadow-lg border-0">
-              <CardHeader>
-                <CardTitle className="text-xl text-gray-900 flex items-center">
-                  <Clock className="w-5 h-5 mr-2 text-teal-600" />
-                  Office Hours
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {officeHours.map((schedule, index) => (
-                    <div
-                      key={index}
-                      className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0"
-                    >
-                      <span className="font-medium text-gray-900">{schedule.day}</span>
-                      <span className="text-gray-600">{schedule.hours}</span>
+            {/* Additional Info */}
+            <div className="space-y-8">
+              {/* Office Hours */}
+              <div className="group">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-[#1E2A47]/5 rotate-2 transform transition-transform group-hover:rotate-0"></div>
+                  <div className="relative bg-white border border-[#AD9660]/20 p-8 transition-all group-hover:border-[#AD9660]">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-12 h-12 bg-[#1E2A47] rounded-none flex items-center justify-center">
+                        <Clock className="w-6 h-6 text-[#AD9660]" />
+                      </div>
+                      <h3 className="text-xl font-light text-[#323433] font-['Frank_Ruhl_Libre']">Office Hours</h3>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Social Media */}
-            <Card className="shadow-lg border-0">
-              <CardHeader>
-                <CardTitle className="text-xl text-gray-900">Follow Us</CardTitle>
-                <p className="text-gray-600">Stay connected for updates and inspiration</p>
-              </CardHeader>
-              <CardContent>
-                <div className="flex space-x-4">
-                  <Button variant="outline" size="sm" className="flex-1">
-                    <Facebook className="w-4 h-4 mr-2" />
-                    Facebook
-                  </Button>
-                  <Button variant="outline" size="sm" className="flex-1">
-                    <Instagram className="w-4 h-4 mr-2" />
-                    Instagram
-                  </Button>
-                  <Button variant="outline" size="sm" className="flex-1">
-                    <Linkedin className="w-4 h-4 mr-2" />
-                    LinkedIn
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Quick Links */}
-            <Card className="shadow-lg border-0">
-              <CardHeader>
-                <CardTitle className="text-xl text-gray-900">Quick Actions</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <Button variant="outline" className="w-full justify-start">
-                  Request a Quote
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  View Portfolio
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  Browse Categories
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  Read FAQ
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* Map Section */}
-        <div className="mt-16">
-          <Card className="shadow-lg border-0">
-            <CardHeader>
-              <CardTitle className="text-2xl text-gray-900">Visit Our Office</CardTitle>
-              <p className="text-gray-600">
-                Schedule an appointment to discuss your corporate gifting needs in person.
-              </p>
-            </CardHeader>
-            <CardContent>
-              <div className="bg-gray-200 h-64 rounded-lg flex items-center justify-center">
-                <div className="text-center">
-                  <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-600">Interactive map would be embedded here</p>
-                  <p className="text-sm text-gray-500 mt-2">
-                    12/14, Laxmi Narayan Nagar, Erandwane, Pune - 411004, Maharashtra, India
-                  </p>
+                    <div className="space-y-4">
+                      {officeHours.map((schedule, index) => (
+                        <div
+                          key={index}
+                          className="flex justify-between items-center py-3 border-b border-[#AD9660]/10 last:border-b-0"
+                        >
+                          <span className="font-['Poppins'] font-light text-[#323433]">{schedule.day}</span>
+                          <span className="text-gray-600 font-['Poppins'] font-light">{schedule.hours}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+
+              {/* Quick Links */}
+              <div className="group">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-[#1E2A47]/5 -rotate-2 transform transition-transform group-hover:rotate-0"></div>
+                  <div className="relative bg-white border border-[#AD9660]/20 p-8 transition-all group-hover:border-[#AD9660]">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-12 h-12 bg-[#1E2A47] rounded-none flex items-center justify-center">
+                        <ArrowRight className="w-6 h-6 text-[#AD9660]" />
+                      </div>
+                      <h3 className="text-xl font-light text-[#323433] font-['Frank_Ruhl_Libre']">Quick Links</h3>
+                    </div>
+                    <div className="space-y-4">
+                      {quickLinks.map((link, index) => (
+                        <Link
+                          key={index}
+                          href={link.href}
+                          className="flex items-center justify-between p-4 border border-[#AD9660]/20 hover:border-[#AD9660] transition-all group/link"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="text-[#AD9660]">{link.icon}</div>
+                            <span className="font-['Poppins'] font-light text-[#323433]">{link.title}</span>
+                          </div>
+                          <ArrowRight className="w-4 h-4 text-[#AD9660] transform transition-transform group-hover/link:translate-x-1" />
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Social Media */}
+              <div className="group">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-[#1E2A47]/5 rotate-1 transform transition-transform group-hover:rotate-0"></div>
+                  <div className="relative bg-white border border-[#AD9660]/20 p-8 transition-all group-hover:border-[#AD9660]">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-12 h-12 bg-[#1E2A47] rounded-none flex items-center justify-center">
+                        <Users className="w-6 h-6 text-[#AD9660]" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-light text-[#323433] font-['Frank_Ruhl_Libre']">Connect With Us</h3>
+                        <p className="text-gray-600 font-['Poppins'] font-light text-sm">Follow us for updates and inspiration</p>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-3 gap-4">
+                      <Button variant="outline" className="border-[#AD9660]/20 hover:border-[#AD9660] hover:bg-[#1E2A47]/5">
+                        <Facebook className="w-5 h-5 text-[#323433]" />
+                      </Button>
+                      <Button variant="outline" className="border-[#AD9660]/20 hover:border-[#AD9660] hover:bg-[#1E2A47]/5">
+                        <Instagram className="w-5 h-5 text-[#323433]" />
+                      </Button>
+                      <Button variant="outline" className="border-[#AD9660]/20 hover:border-[#AD9660] hover:bg-[#1E2A47]/5">
+                        <Linkedin className="w-5 h-5 text-[#323433]" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
+
+      {/* Map Section */}
+      <section className="py-16 bg-[#F4F4F4]">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center mb-12">
+            <div className="inline-block mb-6">
+              <div className="flex items-center gap-2 bg-[#1E2A47]/5 px-4 py-2 border border-[#1E2A47]/10">
+                <MapPin className="w-5 h-5 text-[#1E2A47]" />
+                <span className="text-[#1E2A47] font-light font-['Poppins']">Our Location</span>
+              </div>
+            </div>
+            <h2 className="text-4xl font-light text-[#323433] mb-4 font-['Frank_Ruhl_Libre']">Visit Our Office</h2>
+            <p className="text-gray-600 font-['Poppins'] font-light">
+              Schedule an appointment to discuss your corporate gifting needs in person.
+            </p>
+          </div>
+          <div className="relative">
+            <div className="absolute inset-0 bg-[#1E2A47]/5 rotate-1 transform"></div>
+            <div className="relative bg-white border border-[#AD9660]/20 p-1">
+              <div className="bg-gray-200 h-[400px] flex items-center justify-center">
+                <div className="text-center">
+                  <MapPin className="w-8 h-8 text-[#AD9660] mx-auto mb-4" />
+                  <p className="text-gray-600 font-['Poppins'] font-light">Map integration coming soon</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
