@@ -20,6 +20,7 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import PatternBackground, { PatternDivider } from "@/components/PatternBackground"
 
 export default function AboutPage() {
   const stats = [
@@ -281,12 +282,12 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Values Section with Alternating Layout */}
-      <section className="py-24 bg-[#F4F4F4]">
+      {/* Values Section with Alternating Layout and Pattern Background */}
+      <PatternBackground overlay="neutral" opacity={0.08} className="py-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <div className="inline-block mb-6">
-              <div className="flex items-center gap-2 bg-[#1E2A47]/5 px-4 py-2 border border-[#1E2A47]/10">
+              <div className="flex items-center gap-2 bg-[#1E2A47]/10 backdrop-blur-sm px-4 py-2 border border-[#1E2A47]/10">
                 <Heart className="w-5 h-5 text-[#1E2A47]" />
                 <span className="text-[#1E2A47] font-light font-['Poppins']">Our Values</span>
               </div>
@@ -304,7 +305,7 @@ export default function AboutPage() {
               <div key={index} className="group">
                 <div className="relative">
                   <div className="absolute inset-0 bg-[#1E2A47]/5 rotate-3 transform transition-transform group-hover:rotate-0"></div>
-                  <div className="relative bg-white border border-[#AD9660]/20 p-8 transition-all group-hover:border-[#AD9660]">
+                  <div className="relative bg-white/90 backdrop-blur-sm border border-[#AD9660]/20 p-8 transition-all group-hover:border-[#AD9660]">
                     <div className="flex items-start gap-6">
                       <div className="w-16 h-16 bg-[#1E2A47] rounded-none flex items-center justify-center flex-shrink-0">
                         {value.icon}
@@ -320,7 +321,10 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-      </section>
+      </PatternBackground>
+      
+      {/* Pattern Divider */}
+      <PatternDivider className="bg-white" />
 
       {/* Team Section with Hover Effects */}
       <section className="py-24 bg-white">
@@ -416,8 +420,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Contact CTA Section */}
-      <section className="py-24 bg-[#1E2A47]">
+      {/* Contact CTA Section with Pattern Background */}
+      <PatternBackground overlay="accent" opacity={0.1} className="py-24 bg-[#1E2A47] text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl lg:text-5xl font-light text-white font-['Frank_Ruhl_Libre'] mb-6">
@@ -465,7 +469,7 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-      </section>
+      </PatternBackground>
     </div>
   )
 }

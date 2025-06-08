@@ -35,6 +35,7 @@ import type { Product, Testimonial } from "@/types/database"
 import { cookies } from 'next/headers'
 import HeroSection from "./components/HeroSection"
 import HeroSlider from "@/components/HeroSlider"
+import PatternBackground, { PatternDivider } from "@/components/PatternBackground"
 
 // Add banner data
 const bannerData = [
@@ -192,6 +193,23 @@ export default async function HomePage() {
 
       {/* Hero Section */}
       <HeroSlider/>
+
+      {/* Premium Brand Pattern Section */}
+      <section className="py-16 px-4">
+        <PatternBackground overlay="accent" opacity={0.07} className="py-16 px-4 flex flex-col items-center justify-center">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-serif font-medium mb-6 text-primary">Elevate Your Corporate Presence</h2>
+            <p className="text-lg md:text-xl text-gray-700 mb-8">Discover sophisticated gifting solutions that reflect your organization's unique identity and values.</p>
+            <Button className="bg-secondary hover:bg-secondary/90 text-white">
+              Explore Our Collection
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+        </PatternBackground>
+      </section>
+
+      {/* Pattern Divider */}
+      <PatternDivider className="mb-16" />
 
       {/* Hero Section - E-commerce Style */}
       <section className="bg-white">

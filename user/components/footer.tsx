@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Gift, Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -11,11 +12,13 @@ export function Footer() {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <Gift className="h-8 w-8 text-secondary" />
-              <div>
-                <span className="text-xl font-bold leading-tight">Tisorah</span>
-                <div className="text-sm text-secondary leading-tight">Exquisite Corporate Gifts</div>
-              </div>
+              <Image 
+                src="/white_logo.png" 
+                alt="Tisorah Logo" 
+                width={120} 
+                height={40} 
+                className="h-auto"
+              />
             </div>
             <p className="text-neutral-300 leading-relaxed">
               Crafting extraordinary corporate relationships through sophisticated, premium gifting solutions that

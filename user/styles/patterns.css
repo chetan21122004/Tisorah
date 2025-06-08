@@ -1,0 +1,70 @@
+/* Patterns styling for Tisorah website */
+
+.geometry-pattern {
+  background-image: url('/geometry_pattern.jpg');
+  background-repeat: repeat;
+  /* Rotate the background pattern by 90 degrees */
+  transform: rotate(90deg);
+}
+
+.geometry-pattern-container {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Different pattern applications */
+.pattern-section {
+  position: relative;
+}
+
+.pattern-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('/geometry_pattern.jpg');
+  background-repeat: repeat;
+  transform: rotate(90deg);
+  opacity: var(--pattern-opacity, 0.1);
+  z-index: -1;
+}
+
+/* Pattern with brand colors as overlay */
+.pattern-primary-overlay::before {
+  background-color: rgba(50, 52, 51, 0.85); /* #323433 with opacity */
+}
+
+.pattern-secondary-overlay::before {
+  background-color: rgba(173, 150, 96, 0.85); /* #AD9660 with opacity */
+}
+
+.pattern-accent-overlay::before {
+  background-color: rgba(30, 42, 71, 0.85); /* #1E2A47 with opacity */
+}
+
+.pattern-neutral-overlay::before {
+  background-color: rgba(230, 226, 221, 0.85); /* #E6E2DD with opacity */
+}
+
+/* Pattern application as divider */
+.pattern-divider {
+  height: 60px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.pattern-divider::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('/geometry_pattern.jpg');
+  background-repeat: repeat;
+  transform: rotate(90deg);
+  opacity: 0.2;
+} 

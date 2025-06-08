@@ -154,39 +154,41 @@ export default function PackagesPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 py-20">
+    <div className="min-h-screen bg-[#F4F4F4] py-20">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-16 h-16 bg-teal-100 rounded-xl flex items-center justify-center">
-              <Package className="w-8 h-8 text-teal-600" />
+          <div className="inline-block mb-6 relative">
+            <div className="w-20 h-20 bg-[#E6E2DD] rounded-sm flex items-center justify-center">
+              <Package className="w-10 h-10 text-[#323433]" />
             </div>
-            <div>
-              <h1 className="text-4xl lg:text-5xl font-bold text-gray-900">Corporate Packages</h1>
-              <p className="text-teal-600 font-medium text-lg">Pre-Designed Gift Solutions</p>
-            </div>
+            <div className="absolute -bottom-2 -right-2 w-20 h-20 border border-[#AD9660] rounded-sm"></div>
           </div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Choose from our carefully curated corporate gift packages, designed to make every occasion special while
-            staying within your budget.
-          </p>
+          <h1 className="text-4xl lg:text-5xl font-bold text-[#323433] mb-2 font-serif">Corporate Packages</h1>
+          <p className="text-[#1E2A47] font-medium text-lg mb-6 font-sans">Pre-Designed Gift Solutions</p>
+          <div className="max-w-3xl mx-auto relative">
+            <div className="h-px w-24 bg-[#AD9660] absolute left-1/2 -translate-x-1/2 -top-4"></div>
+            <p className="text-xl text-[#323433] font-light leading-relaxed">
+              Choose from our carefully curated corporate gift packages, designed to make every occasion special while
+              staying within your budget.
+            </p>
+          </div>
         </div>
 
         {/* Seasonal Offers */}
         <div className="grid md:grid-cols-2 gap-6 mb-16">
           {seasonalOffers.map((offer, index) => (
-            <Card key={index} className="bg-gradient-to-r from-teal-600 to-teal-700 text-white border-0">
+            <Card key={index} className="bg-[#1E2A47] text-white border-0">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-xl font-bold mb-2">{offer.title}</h3>
-                    <p className="text-teal-100 mb-2">{offer.description}</p>
-                    <p className="text-sm text-teal-200">Valid until {offer.validUntil}</p>
+                    <h3 className="text-xl font-bold mb-2 font-serif">{offer.title}</h3>
+                    <p className="text-[#F4F4F4] mb-2 font-light">{offer.description}</p>
+                    <p className="text-sm text-[#E6E2DD]">Valid until {offer.validUntil}</p>
                   </div>
                   <div className="text-center">
-                    <div className="bg-white/20 rounded-lg p-3">
-                      <div className="text-sm text-teal-100">Use Code</div>
+                    <div className="bg-white/10 border border-[#AD9660] p-3">
+                      <div className="text-sm text-[#E6E2DD]">Use Code</div>
                       <div className="font-bold text-lg">{offer.code}</div>
                     </div>
                   </div>
@@ -201,12 +203,12 @@ export default function PackagesPage() {
           {packages.map((pkg) => (
             <Card
               key={pkg.id}
-              className={`group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg relative ${
-                pkg.popular ? "ring-2 ring-teal-600" : ""
+              className={`group hover:shadow-md transition-all duration-300 border-0 shadow-sm bg-white relative ${
+                pkg.popular ? "ring-1 ring-[#AD9660]" : ""
               }`}
             >
               {pkg.popular && (
-                <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-teal-600 text-white px-4 py-1">
+                <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-[#AD9660] text-white px-4 py-1 font-light">
                   Most Popular
                 </Badge>
               )}
@@ -217,11 +219,11 @@ export default function PackagesPage() {
                     alt={pkg.name}
                     width={400}
                     height={300}
-                    className="w-full h-48 object-cover rounded-t-lg group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute top-4 right-4">
-                    <div className="bg-white/90 rounded-lg px-2 py-1 flex items-center gap-1">
-                      <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                    <div className="bg-white/90 px-2 py-1 flex items-center gap-1">
+                      <Star className="w-4 h-4 text-[#AD9660] fill-current" />
                       <span className="text-sm font-medium">{pkg.rating}</span>
                     </div>
                   </div>
@@ -229,11 +231,11 @@ export default function PackagesPage() {
 
                 <div className="p-6">
                   <div className="mb-4">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">{pkg.name}</h3>
-                    <p className="text-gray-600 text-sm mb-3">{pkg.description}</p>
+                    <h3 className="text-xl font-bold text-[#323433] mb-2 font-serif">{pkg.name}</h3>
+                    <p className="text-[#323433] text-sm mb-3 font-light">{pkg.description}</p>
                     <div className="flex items-center gap-2 mb-2">
                       {pkg.occasions.map((occasion, index) => (
-                        <Badge key={index} variant="outline" className="text-xs">
+                        <Badge key={index} variant="outline" className="text-xs border-[#C8C2B6] text-[#323433]">
                           {occasion}
                         </Badge>
                       ))}
@@ -242,45 +244,45 @@ export default function PackagesPage() {
 
                   <div className="space-y-3 mb-6">
                     <div className="flex items-center justify-between">
-                      <span className="text-2xl font-bold text-teal-600">{pkg.price}</span>
-                      <span className="text-sm text-gray-500 line-through">{pkg.originalPrice}</span>
+                      <span className="text-2xl font-bold text-[#1E2A47] font-serif">{pkg.price}</span>
+                      <span className="text-sm text-[#AB8E76] line-through">{pkg.originalPrice}</span>
                     </div>
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-600">Min Order:</span>
+                      <span className="text-[#323433] font-light">Min Order:</span>
                       <span className="font-medium">{pkg.minOrder}</span>
                     </div>
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-600">Delivery:</span>
+                      <span className="text-[#323433] font-light">Delivery:</span>
                       <span className="font-medium">{pkg.deliveryTime}</span>
                     </div>
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-600">Reviews:</span>
+                      <span className="text-[#323433] font-light">Reviews:</span>
                       <span className="font-medium">{pkg.reviews} reviews</span>
                     </div>
                   </div>
 
                   <div className="space-y-2 mb-6">
-                    <h4 className="font-medium text-gray-900">What's Included:</h4>
+                    <h4 className="font-medium text-[#323433]">What's Included:</h4>
                     <ul className="space-y-1">
                       {pkg.features.slice(0, 4).map((feature, index) => (
-                        <li key={index} className="flex items-center gap-2 text-sm text-gray-600">
-                          <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                        <li key={index} className="flex items-center gap-2 text-sm text-[#323433] font-light">
+                          <CheckCircle className="w-4 h-4 text-[#AD9660] flex-shrink-0" />
                           {feature}
                         </li>
                       ))}
                       {pkg.features.length > 4 && (
-                        <li className="text-sm text-teal-600 font-medium">+{pkg.features.length - 4} more items</li>
+                        <li className="text-sm text-[#1E2A47] font-medium">+{pkg.features.length - 4} more items</li>
                       )}
                     </ul>
                   </div>
 
                   <div className="space-y-3">
-                    <Button className="w-full bg-teal-600 hover:bg-teal-700">
+                    <Button className="w-full bg-[#1E2A47] hover:bg-[#323433] text-white">
                       <Link href={`/packages/${pkg.id}`} className="flex items-center gap-2">
                         View Details <ArrowRight className="w-4 h-4" />
                       </Link>
                     </Button>
-                    <Button variant="outline" className="w-full">
+                    <Button variant="outline" className="w-full border-[#AD9660] text-[#323433] hover:bg-[#E6E2DD]">
                       <Link href="/quote">Request Custom Quote</Link>
                     </Button>
                   </div>
@@ -291,39 +293,45 @@ export default function PackagesPage() {
         </div>
 
         {/* Features Section */}
-        <div className="bg-white rounded-2xl p-8 mb-16">
+        <div className="bg-white p-8 mb-16 border border-[#E6E2DD]">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Our Corporate Packages?</h2>
-            <p className="text-lg text-gray-600">Designed with your business needs in mind</p>
+            <h2 className="text-3xl font-bold text-[#323433] mb-4 font-serif relative inline-block">
+              Why Choose Our Corporate Packages?
+              <div className="absolute -bottom-3 left-0 right-0 h-px bg-[#AD9660]"></div>
+            </h2>
+            <p className="text-lg text-[#323433] font-light mt-6">Designed with your business needs in mind</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Package className="w-8 h-8 text-teal-600" />
+              <div className="w-16 h-16 bg-[#E6E2DD] rounded-sm flex items-center justify-center mx-auto mb-4 relative">
+                <Package className="w-8 h-8 text-[#1E2A47]" />
+                <div className="absolute -bottom-1 -right-1 w-16 h-16 border border-[#AD9660] rounded-sm"></div>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Curated Selection</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-[#323433] mb-3 font-serif">Curated Selection</h3>
+              <p className="text-[#323433] font-light">
                 Each package is carefully curated by our experts to ensure maximum impact and value for your investment.
               </p>
             </div>
 
             <div className="text-center">
-              <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="w-8 h-8 text-amber-600" />
+              <div className="w-16 h-16 bg-[#E6E2DD] rounded-sm flex items-center justify-center mx-auto mb-4 relative">
+                <Users className="w-8 h-8 text-[#1E2A47]" />
+                <div className="absolute -bottom-1 -right-1 w-16 h-16 border border-[#AD9660] rounded-sm"></div>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Scalable Solutions</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-[#323433] mb-3 font-serif">Scalable Solutions</h3>
+              <p className="text-[#323433] font-light">
                 From small teams to large corporations, our packages can be scaled to meet your specific requirements.
               </p>
             </div>
 
             <div className="text-center">
-              <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Gift className="w-8 h-8 text-rose-600" />
+              <div className="w-16 h-16 bg-[#E6E2DD] rounded-sm flex items-center justify-center mx-auto mb-4 relative">
+                <Gift className="w-8 h-8 text-[#1E2A47]" />
+                <div className="absolute -bottom-1 -right-1 w-16 h-16 border border-[#AD9660] rounded-sm"></div>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Custom Branding</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-[#323433] mb-3 font-serif">Custom Branding</h3>
+              <p className="text-[#323433] font-light">
                 All packages include custom branding options to ensure your company's identity shines through.
               </p>
             </div>
