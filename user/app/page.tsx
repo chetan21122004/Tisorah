@@ -194,25 +194,12 @@ export default async function HomePage() {
       {/* Hero Section */}
       <HeroSlider/>
 
-      {/* Premium Brand Pattern Section */}
-      <section className="py-16 px-4">
-        <PatternBackground overlay="accent" opacity={0.07} className="py-16 px-4 flex flex-col items-center justify-center">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-serif font-medium mb-6 text-primary">Elevate Your Corporate Presence</h2>
-            <p className="text-lg md:text-xl text-gray-700 mb-8">Discover sophisticated gifting solutions that reflect your organization's unique identity and values.</p>
-            <Button className="bg-secondary hover:bg-secondary/90 text-white">
-              Explore Our Collection
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
-        </PatternBackground>
-      </section>
+    
 
       {/* Pattern Divider */}
-      <PatternDivider className="mb-16" />
 
       {/* Hero Section - E-commerce Style */}
-      <section className="bg-white">
+      <section className="bg-white mt-4">
         {/* Main Banner Slider */}
         <div className="container mx-auto px-4 -mt-8 relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -302,29 +289,107 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* Quick Links */}
-      
-
-        {/* Search Bar */}
-        <div className="container mx-auto px-4 mt-8">
-          <div className="bg-[#F8F9FA] p-4 rounded-lg">
-            <div className="flex gap-2">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#1E2A47]/40 w-4 h-4" />
-                <Input
-                  placeholder="Search for corporate gifts..."
-                  className="pl-10 border-[#E6E2DD] bg-white"
-                />
+        {/* Search Bar - Enhanced E-commerce Style */}
+        <div className="container mx-auto px-4 mt-12 mb-16">
+          <div className="max-w-7xl mx-auto">
+            <div className="bg-white p-6 rounded-2xl shadow-lg border border-neutral-100">
+              <div className="mb-6">
+                <h2 className="text-2xl font-bold text-[#1E2A47]">Find Your Perfect Corporate Gift</h2>
+                <p className="text-neutral-500">Discover our curated collection of premium gifts for every corporate occasion</p>
               </div>
-              <Button className="bg-[#1E2A47] hover:bg-[#1E2A47]/90 text-white">
-                Search
-              </Button>
-            </div>
-            <div className="flex gap-2 mt-2 text-sm text-[#1E2A47]/60">
-              <span>Popular:</span>
-              <Link href="/search?q=executive" className="hover:text-[#AD9660]">Executive Sets</Link>
-              <Link href="/search?q=awards" className="hover:text-[#AD9660]">Awards</Link>
-              <Link href="/search?q=diwali" className="hover:text-[#AD9660]">Diwali Gifts</Link>
+              
+              <form action="/search" className="mb-8">
+                <div className="flex flex-col md:flex-row gap-4">
+                  <div className="relative flex-1">
+                    <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#1E2A47]/40 w-5 h-5" />
+                    <Input
+                      name="q"
+                      placeholder="Search for executive gifts, awards, festival hampers..."
+                      className="pl-12 pr-4 py-6 border-[#E6E2DD] bg-white rounded-xl text-[#1E2A47] text-lg placeholder:text-[#1E2A47]/40 focus-visible:ring-[#AD9660]"
+                    />
+                  </div>
+                  <div className="flex gap-3">
+                    <select 
+                      name="category"
+                      className="px-4 py-3 border border-[#E6E2DD] rounded-xl bg-white text-[#1E2A47] focus:ring-[#AD9660] focus:border-[#AD9660] outline-none"
+                    >
+                      <option value="">All Categories</option>
+                      <option value="executive">Executive Gifts</option>
+                      <option value="festivals">Festival Gifts</option>
+                      <option value="awards">Recognition & Awards</option>
+                      <option value="events">Corporate Events</option>
+                    </select>
+                    <select 
+                      name="price"
+                      className="px-4 py-3 border border-[#E6E2DD] rounded-xl bg-white text-[#1E2A47] focus:ring-[#AD9660] focus:border-[#AD9660] outline-none"
+                    >
+                      <option value="">All Prices</option>
+                      <option value="0-2000">Under ₹2,000</option>
+                      <option value="2000-5000">₹2,000 - ₹5,000</option>
+                      <option value="5000-10000">₹5,000 - ₹10,000</option>
+                      <option value="10000+">Above ₹10,000</option>
+                    </select>
+                    <Button type="submit" className="bg-[#AD9660] hover:bg-[#AD9660]/90 text-white px-6 py-3 rounded-xl min-w-[120px]">
+                      Search
+                    </Button>
+                  </div>
+                </div>
+              </form>
+              
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div className="p-4 bg-[#F8F9FA] hover:bg-[#F0F1F3] rounded-xl transition-colors group cursor-pointer">
+                  <Link href="/search?category=executive" className="flex flex-col items-center text-center">
+                    <div className="w-12 h-12 bg-[#1E2A47]/5 rounded-full flex items-center justify-center mb-3 group-hover:bg-[#AD9660]/10 transition-colors">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#1E2A47] group-hover:text-[#AD9660] transition-colors"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
+                    </div>
+                    <h3 className="font-medium text-[#1E2A47] group-hover:text-[#AD9660] transition-colors">Premium Gifts</h3>
+                    <p className="text-sm text-[#1E2A47]/60 mt-1">Starting at ₹2,999</p>
+                  </Link>
+                </div>
+                
+                <div className="p-4 bg-[#F8F9FA] hover:bg-[#F0F1F3] rounded-xl transition-colors group cursor-pointer">
+                  <Link href="/search?category=festivals" className="flex flex-col items-center text-center">
+                    <div className="w-12 h-12 bg-[#1E2A47]/5 rounded-full flex items-center justify-center mb-3 group-hover:bg-[#AD9660]/10 transition-colors">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#1E2A47] group-hover:text-[#AD9660] transition-colors"><path d="M12 2v8"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/><path d="M16 6 8 14"/><path d="m8 6 8 8"/></svg>
+                    </div>
+                    <h3 className="font-medium text-[#1E2A47] group-hover:text-[#AD9660] transition-colors">Festival Gifts</h3>
+                    <p className="text-sm text-[#1E2A47]/60 mt-1">Starting at ₹1,999</p>
+                  </Link>
+                </div>
+                
+                <div className="p-4 bg-[#F8F9FA] hover:bg-[#F0F1F3] rounded-xl transition-colors group cursor-pointer">
+                  <Link href="/search?category=awards" className="flex flex-col items-center text-center">
+                    <div className="w-12 h-12 bg-[#1E2A47]/5 rounded-full flex items-center justify-center mb-3 group-hover:bg-[#AD9660]/10 transition-colors">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#1E2A47] group-hover:text-[#AD9660] transition-colors"><path d="M8.21 13.89 7 23l5-3 5 3-1.21-9.12"/><path d="M15 7a5 5 0 1 0-2.33 4.23"/></svg>
+                    </div>
+                    <h3 className="font-medium text-[#1E2A47] group-hover:text-[#AD9660] transition-colors">Awards</h3>
+                    <p className="text-sm text-[#1E2A47]/60 mt-1">Starting at ₹4,999</p>
+                  </Link>
+                </div>
+                
+                <div className="p-4 bg-[#F8F9FA] hover:bg-[#F0F1F3] rounded-xl transition-colors group cursor-pointer">
+                  <Link href="/search?category=events" className="flex flex-col items-center text-center">
+                    <div className="w-12 h-12 bg-[#1E2A47]/5 rounded-full flex items-center justify-center mb-3 group-hover:bg-[#AD9660]/10 transition-colors">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#1E2A47] group-hover:text-[#AD9660] transition-colors"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg>
+                    </div>
+                    <h3 className="font-medium text-[#1E2A47] group-hover:text-[#AD9660] transition-colors">Event Gifts</h3>
+                    <p className="text-sm text-[#1E2A47]/60 mt-1">Starting at ₹2,499</p>
+                  </Link>
+                </div>
+              </div>
+              
+              <div className="mt-6 flex flex-wrap gap-2">
+                <span className="text-sm text-[#1E2A47]/60">Popular:</span>
+                <Link href="/search?q=executive+sets" className="text-sm text-[#1E2A47] hover:text-[#AD9660] transition-colors">Executive Sets</Link>
+                <span className="text-sm text-[#1E2A47]/30">•</span>
+                <Link href="/search?q=awards" className="text-sm text-[#1E2A47] hover:text-[#AD9660] transition-colors">Awards</Link>
+                <span className="text-sm text-[#1E2A47]/30">•</span>
+                <Link href="/search?q=diwali+gifts" className="text-sm text-[#1E2A47] hover:text-[#AD9660] transition-colors">Diwali Gifts</Link>
+                <span className="text-sm text-[#1E2A47]/30">•</span>
+                <Link href="/search?q=corporate+hampers" className="text-sm text-[#1E2A47] hover:text-[#AD9660] transition-colors">Corporate Hampers</Link>
+                <span className="text-sm text-[#1E2A47]/30">•</span>
+                <Link href="/search?q=personalized+gifts" className="text-sm text-[#1E2A47] hover:text-[#AD9660] transition-colors">Personalized Gifts</Link>
+              </div>
             </div>
           </div>
         </div>

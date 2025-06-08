@@ -6,165 +6,203 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export type Database = {
+export interface Database {
   public: {
     Tables: {
-      products: {
+      blog_categories: {
         Row: {
-          category: string
-          created_at: string | null
-          customizable: boolean | null
-          delivery: string | null
-          description: string | null
-          featured: boolean | null
-          id: string
-          images: string[] | null
-          moq: string | null
+          id: number
           name: string
-          price: number
-          rating: number | null
+          slug: string
+          description: string | null
+          created_at: string | null
           updated_at: string | null
         }
         Insert: {
-          category: string
-          created_at?: string | null
-          customizable?: boolean | null
-          delivery?: string | null
-          description?: string | null
-          featured?: boolean | null
-          id?: string
-          images?: string[] | null
-          moq?: string | null
+          id?: number
           name: string
-          price: number
-          rating?: number | null
+          slug: string
+          description?: string | null
+          created_at?: string | null
           updated_at?: string | null
         }
         Update: {
-          category?: string
+          id?: number
+          name?: string
+          slug?: string
+          description?: string | null
           created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      blog_posts: {
+        Row: {
+          id: number
+          title: string
+          slug: string
+          excerpt: string
+          content: string
+          cover_image: string
+          author: string
+          author_image: string
+          published_at: string
+          category_id: number | null
+          reading_time: string
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: number
+          title: string
+          slug: string
+          excerpt: string
+          content: string
+          cover_image: string
+          author: string
+          author_image: string
+          published_at?: string
+          category_id?: number | null
+          reading_time: string
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: number
+          title?: string
+          slug?: string
+          excerpt?: string
+          content?: string
+          cover_image?: string
+          author?: string
+          author_image?: string
+          published_at?: string
+          category_id?: number | null
+          reading_time?: string
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_posts_category_id_fkey"
+            columns: ["category_id"]
+            referencedRelation: "blog_categories"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      products: {
+        Row: {
+          id: string
+          title: string
+          description: string | null
+          price: number
+          images: string[] | null
+          category: string
+          featured: boolean | null
+          customizable: boolean | null
+          delivery: string | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          title: string
+          description?: string | null
+          price: number
+          images?: string[] | null
+          category: string
+          featured?: boolean | null
           customizable?: boolean | null
           delivery?: string | null
-          description?: string | null
-          featured?: boolean | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
           id?: string
-          images?: string[] | null
-          moq?: string | null
-          name?: string
+          title?: string
+          description?: string | null
           price?: number
-          rating?: number | null
+          images?: string[] | null
+          category?: string
+          featured?: boolean | null
+          customizable?: boolean | null
+          delivery?: string | null
+          created_at?: string | null
           updated_at?: string | null
         }
         Relationships: []
       }
       quote_requests: {
         Row: {
-          branding: boolean | null
-          budget: string | null
-          company: string
-          created_at: string | null
-          customization: boolean | null
-          email: string
-          event_type: string | null
           id: string
-          message: string | null
           name: string
-          packaging: boolean | null
+          email: string
           phone: string | null
-          shortlisted_products: Json
-          status: string | null
-          timeline: string | null
-          updated_at: string | null
+          company: string | null
+          message: string
+          quantity: number | null
+          created_at: string | null
         }
         Insert: {
-          branding?: boolean | null
-          budget?: string | null
-          company: string
-          created_at?: string | null
-          customization?: boolean | null
-          email: string
-          event_type?: string | null
           id?: string
-          message?: string | null
           name: string
-          packaging?: boolean | null
+          email: string
           phone?: string | null
-          shortlisted_products: Json
-          status?: string | null
-          timeline?: string | null
-          updated_at?: string | null
+          company?: string | null
+          message: string
+          quantity?: number | null
+          created_at?: string | null
         }
         Update: {
-          branding?: boolean | null
-          budget?: string | null
-          company?: string
-          created_at?: string | null
-          customization?: boolean | null
-          email?: string
-          event_type?: string | null
           id?: string
-          message?: string | null
           name?: string
-          packaging?: boolean | null
+          email?: string
           phone?: string | null
-          shortlisted_products?: Json
-          status?: string | null
-          timeline?: string | null
-          updated_at?: string | null
+          company?: string | null
+          message?: string
+          quantity?: number | null
+          created_at?: string | null
         }
         Relationships: []
       }
       testimonials: {
         Row: {
-          avatar_url: string | null
-          company: string
-          content: string
-          created_at: string | null
           id: string
           name: string
           position: string
-          product_bought: string
-          rating: number
-          updated_at: string | null
-        }
-        Insert: {
-          avatar_url?: string | null
           company: string
           content: string
-          created_at?: string | null
+          image: string | null
+          featured: boolean
+          created_at: string | null
+        }
+        Insert: {
           id?: string
           name: string
           position: string
-          product_bought: string
-          rating: number
-          updated_at?: string | null
+          company: string
+          content: string
+          image?: string | null
+          featured?: boolean
+          created_at?: string | null
         }
         Update: {
-          avatar_url?: string | null
-          company?: string
-          content?: string
-          created_at?: string | null
           id?: string
           name?: string
           position?: string
-          product_bought?: string
-          rating?: number
-          updated_at?: string | null
+          company?: string
+          content?: string
+          image?: string | null
+          featured?: boolean
+          created_at?: string | null
         }
         Relationships: []
       }
     }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      [_ in never]: never
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
+    Views: {}
+    Functions: {}
+    Enums: {}
+    CompositeTypes: {}
   }
 } 

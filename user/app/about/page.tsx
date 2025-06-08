@@ -20,7 +20,7 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import PatternBackground, { PatternDivider } from "@/components/PatternBackground"
+import PatternBackground, { PatternDivider, PatternAccentCorner } from "@/components/PatternBackground"
 
 export default function AboutPage() {
   const stats = [
@@ -282,8 +282,14 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Values Section with Alternating Layout and Pattern Background */}
-      <PatternBackground overlay="neutral" opacity={0.08} className="py-24">
+      {/* Values Section with Modern Layout and Pattern Background */}
+      <PatternBackground 
+        overlay="neutral" 
+        opacity={0.06} 
+        intensity="medium" 
+        size="small" 
+        className="py-24"
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <div className="inline-block mb-6">
@@ -300,12 +306,12 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {values.map((value, index) => (
-              <div key={index} className="group">
+              <PatternAccentCorner key={index} className="group">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-[#1E2A47]/5 rotate-3 transform transition-transform group-hover:rotate-0"></div>
-                  <div className="relative bg-white/90 backdrop-blur-sm border border-[#AD9660]/20 p-8 transition-all group-hover:border-[#AD9660]">
+                  <div className="absolute inset-0 bg-[#1E2A47]/5 rotate-2 transform transition-transform group-hover:rotate-0"></div>
+                  <div className="relative bg-white/90 backdrop-blur-sm border border-[#AD9660]/20 p-8 transition-all group-hover:border-[#AD9660] shadow-sm">
                     <div className="flex items-start gap-6">
                       <div className="w-16 h-16 bg-[#1E2A47] rounded-none flex items-center justify-center flex-shrink-0">
                         {value.icon}
@@ -317,7 +323,7 @@ export default function AboutPage() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </PatternAccentCorner>
             ))}
           </div>
         </div>
@@ -420,23 +426,36 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Contact CTA Section with Pattern Background */}
-      <PatternBackground overlay="accent" opacity={0.1} className="py-24 bg-[#1E2A47] text-white">
+      {/* Contact CTA Section with Modern Pattern Background */}
+      <PatternBackground 
+        overlay="accent" 
+        opacity={0.08} 
+        intensity="medium"
+        size="large"
+        className="py-24 bg-[#1E2A47] text-white"
+      >
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
+            <div className="inline-block mb-6">
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 border border-[#AD9660]/20">
+                <Mail className="w-5 h-5 text-[#AD9660]" />
+                <span className="text-white font-light font-['Poppins']">Begin Your Journey</span>
+              </div>
+            </div>
             <h2 className="text-4xl lg:text-5xl font-light text-white font-['Frank_Ruhl_Libre'] mb-6">
               Ready to Elevate Your Corporate Gifting?
             </h2>
             <p className="text-xl text-[#E6E2DD]/90 font-['Poppins'] font-light mb-12">
-              Let's create meaningful connections through thoughtfully curated gifts
+              Let's create meaningful connections through thoughtfully curated gifts that resonate with 
+              your brand values and delight your recipients
             </p>
             <div className="flex flex-wrap justify-center gap-8">
-              <Button className="bg-[#AD9660] hover:bg-[#AD9660]/90 h-14 px-8 font-['Poppins'] font-light text-lg">
+              <Button className="bg-[#AD9660] hover:bg-[#AD9660]/90 h-14 px-8 font-['Poppins'] font-light text-lg transition-all">
                 <Link href="/contact" className="flex items-center gap-2">
                   <Mail className="w-5 h-5" /> Contact Us
                 </Link>
               </Button>
-              <Button className="bg-transparent border border-[#AD9660] text-[#AD9660] hover:bg-[#AD9660]/10 h-14 px-8 font-['Poppins'] font-light text-lg">
+              <Button className="bg-transparent border border-[#AD9660] text-[#AD9660] hover:bg-[#AD9660]/10 h-14 px-8 font-['Poppins'] font-light text-lg transition-all">
                 <Link href="/portfolio" className="flex items-center gap-2">
                   <Eye className="w-5 h-5" /> View Our Work
                 </Link>
