@@ -1,171 +1,178 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Heart, Search, Star, ArrowRight, Users, Package, Clock } from "lucide-react"
+import { Heart, Search, Grid, List, Star, ArrowRight, UserPlus, Briefcase, Gift, Filter } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { getProductsByCategory, getGiftCategoryBySlug } from "@/lib/supabase"
+import type { Product, GiftCategory } from "@/types/database"
 
 export default function OnboardingGiftsPage() {
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [searchTerm, setSearchTerm] = useState("")
-  const [sortBy, setSortBy] = useState("featured")
+  const [priceRange, setPriceRange] = useState("all")
+  const [giftType, setGiftType] = useState("all")
+  const [showFilters, setShowFilters] = useState(false)
+  const [products, setProducts] = useState<any[]>([])
+  const [categoryData, setCategoryData] = useState<GiftCategory | null>(null)
+  const [loading, setLoading] = useState(true)
 
-  const products = [
-    {
-      id: 1,
-      name: "Premium Welcome Kit",
-      price: "$45-65",
-      moq: "25 pieces",
-      rating: 4.8,
-      reviews: 124,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Complete onboarding package with branded items and welcome materials",
-      delivery: "5-7 days",
-      featured: true,
-    },
-    {
-      id: 2,
-      name: "Executive Welcome Package",
-      price: "$85-120",
-      moq: "15 pieces",
-      rating: 4.9,
-      reviews: 89,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Luxury onboarding gifts for senior positions",
-      delivery: "7-10 days",
-      featured: true,
-    },
-    {
-      id: 3,
-      name: "Starter Kit Essentials",
-      price: "$25-40",
-      moq: "50 pieces",
-      rating: 4.6,
-      reviews: 156,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Basic onboarding essentials for new employees",
-      delivery: "3-5 days",
-      featured: false,
-    },
-    {
-      id: 4,
-      name: "Remote Worker Welcome Kit",
-      price: "$55-75",
-      moq: "20 pieces",
-      rating: 4.7,
-      reviews: 98,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Perfect for remote and hybrid employees",
-      delivery: "5-7 days",
-      featured: false,
-    },
-    {
-      id: 5,
-      name: "Tech Professional Kit",
-      price: "$70-95",
-      moq: "30 pieces",
-      rating: 4.8,
-      reviews: 76,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Tech-focused welcome gifts for IT professionals",
-      delivery: "7-10 days",
-      featured: false,
-    },
-    {
-      id: 6,
-      name: "Eco-Friendly Welcome Set",
-      price: "$40-60",
-      moq: "25 pieces",
-      rating: 4.5,
-      reviews: 112,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Sustainable onboarding gifts for eco-conscious companies",
-      delivery: "5-7 days",
-      featured: false,
-    },
-  ]
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true)
+      
+      // Fetch category data
+      const category = await getGiftCategoryBySlug('onboarding')
+      setCategoryData(category)
+      
+      // Fetch products
+      const productsData = await getProductsByCategory('onboarding')
+      
+      setProducts(productsData.map((product: Product) => ({
+        id: product.id,
+        name: product.name,
+        price: `$${product.price}`,
+        moq: product.moq || "25 pieces",
+        rating: product.rating || 4.8,
+        reviews: Math.floor(Math.random() * 150) + 50,
+        image: product.images?.[0] || "/placeholder.svg?height=300&width=300",
+        description: product.description,
+        delivery: product.delivery || "5-7 days",
+        customizable: product.customizable || true,
+        featured: product.featured || false,
+        type: ["welcome", "premium", "tech", "stationery", "wellness"][Math.floor(Math.random() * 5)]
+      })))
+      
+      setLoading(false)
+    }
+    
+    fetchData()
+  }, [])
 
   const benefits = [
     {
-      icon: <Users className="w-8 h-8 text-teal-600" />,
+      icon: <UserPlus className="w-6 h-6 text-indigo-600" />,
       title: "First Impression",
-      description: "Create a lasting positive first impression that sets the tone for employee engagement",
+      description: "Make a lasting first impression on new employees",
     },
     {
-      icon: <Package className="w-8 h-8 text-amber-600" />,
-      title: "Brand Connection",
-      description: "Help new employees feel connected to your company culture and values from day one",
+      icon: <Briefcase className="w-6 h-6 text-indigo-600" />,
+      title: "Company Culture",
+      description: "Introduce company culture and values from day one",
     },
     {
-      icon: <Clock className="w-8 h-8 text-rose-600" />,
-      title: "Faster Integration",
-      description: "Accelerate the onboarding process and help new hires feel welcomed and valued",
+      icon: <Gift className="w-6 h-6 text-indigo-600" />,
+      title: "Employee Retention",
+      description: "Improve retention with thoughtful welcome gifts",
     },
   ]
 
-  const filteredProducts = products.filter((product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesType = giftType === "all" || product.type === giftType
+    
+    let matchesPrice = true
+    if (priceRange === "under-40") {
+      matchesPrice = parseInt(product.price.replace(/\$|-.*/g, "")) < 40
+    } else if (priceRange === "40-70") {
+      const minPrice = parseInt(product.price.replace(/\$|-.*/g, ""))
+      matchesPrice = minPrice >= 40 && minPrice <= 70
+    } else if (priceRange === "70+") {
+      matchesPrice = parseInt(product.price.replace(/\$|-.*/g, "")) > 70
+    }
+    
+    return matchesSearch && matchesType && matchesPrice
+  })
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center">
-              <Users className="w-6 h-6 text-teal-600" />
-            </div>
-            <div>
-              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">Onboarding Gifts</h1>
-              <p className="text-teal-600 font-medium">Welcome New Team Members</p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-r from-indigo-700 to-indigo-900 text-white">
+        <div className="container mx-auto px-4 py-16">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl lg:text-5xl font-bold mb-4">Onboarding Welcome Gifts</h1>
+            <p className="text-xl opacity-90 mb-8 leading-relaxed">
+              {categoryData?.description || "Make new employees feel valued from day one with our premium onboarding gifts, designed to welcome and integrate them into your company culture."}
+            </p>
+            <div className="flex gap-4">
+              <Button className="bg-white text-indigo-700 hover:bg-gray-100">
+                Request Quote
+              </Button>
+              <Button variant="outline" className="border-white text-white hover:bg-white/20">
+                View Catalog
+              </Button>
             </div>
           </div>
-          <p className="text-lg text-gray-600 max-w-3xl">
-            Make a memorable first impression with our carefully curated onboarding gift collections. From welcome kits
-            to executive packages, help new employees feel valued from their very first day.
-          </p>
         </div>
+      </div>
 
-        {/* Search and Sort */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-8">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-            <Input
-              type="search"
-              placeholder="Search onboarding gifts..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-          <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-48">
-              <SelectValue placeholder="Sort by" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="featured">Featured</SelectItem>
-              <SelectItem value="price-low">Price: Low to High</SelectItem>
-              <SelectItem value="price-high">Price: High to Low</SelectItem>
-              <SelectItem value="rating">Highest Rated</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
+      <div className="container mx-auto px-4 py-16">
         {/* Benefits Section */}
-        <div className="bg-white rounded-2xl p-8 mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Why Onboarding Gifts Matter</h2>
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-gray-900 text-center mb-2">Why Onboarding Gifts Matter</h2>
+          <div className="w-24 h-1 bg-indigo-600 mx-auto mb-12"></div>
+          
           <div className="grid md:grid-cols-3 gap-8">
             {benefits.map((benefit, index) => (
-              <div key={index} className="text-center">
-                <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                  {benefit.icon}
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">{benefit.title}</h3>
-                <p className="text-gray-600">{benefit.description}</p>
-              </div>
+              <Card key={index} className="border-none shadow-md hover:shadow-xl transition-shadow">
+                <CardContent className="p-8 text-center">
+                  <div className="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                    {benefit.icon}
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{benefit.title}</h3>
+                  <p className="text-gray-600">{benefit.description}</p>
+                </CardContent>
+              </Card>
             ))}
+          </div>
+        </div>
+
+        {/* Filters and Search */}
+        <div className="mb-12">
+          <div className="flex flex-col lg:flex-row justify-between items-center mb-6">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4 lg:mb-0">Onboarding Gift Collection</h2>
+            
+            <div className="flex gap-4 items-center">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Input
+                  type="search"
+                  placeholder="Search gifts..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+              <Select value={priceRange} onValueChange={setPriceRange}>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="Price Range" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value="under-40">Under $40</SelectItem>
+                  <SelectItem value="40-70">$40-$70</SelectItem>
+                  <SelectItem value="70+">$70+</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select value={giftType} onValueChange={setGiftType}>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="Gift Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value="welcome">Welcome Kits</SelectItem>
+                  <SelectItem value="premium">Premium Packages</SelectItem>
+                  <SelectItem value="tech">Tech Gifts</SelectItem>
+                  <SelectItem value="stationery">Stationery</SelectItem>
+                  <SelectItem value="wellness">Wellness</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -10,6 +10,8 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Heart, Search, Filter, Grid, List, Star, ArrowRight, Package } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { getGiftCategories, getProducts } from "@/lib/supabase"
+import type { GiftCategory, Product } from "@/types/database"
 
 export default function CategoriesPage() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
@@ -17,104 +19,52 @@ export default function CategoriesPage() {
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [priceRange, setPriceRange] = useState("all")
   const [deliveryTime, setDeliveryTime] = useState("all")
+  const [categories, setCategories] = useState<any[]>([])
+  const [products, setProducts] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
 
-  const categories = [
-    { id: "all", name: "All Categories", count: 156 },
-    { id: "onboarding", name: "Onboarding Gifts", count: 24 },
-    { id: "festivals", name: "Festival Celebrations", count: 32 },
-    { id: "recognition", name: "Employee Recognition", count: 28 },
-    { id: "events", name: "Corporate Events", count: 18 },
-    { id: "birthdays", name: "Birthday Gifts", count: 22 },
-    { id: "appreciation", name: "Client Appreciation", count: 16 },
-    { id: "seasonal", name: "Seasonal Gifts", count: 16 },
-  ]
-
-  const products = [
-    {
-      id: 1,
-      name: "Premium Welcome Kit",
-      category: "onboarding",
-      price: "$45-65",
-      moq: "25 pieces",
-      rating: 4.8,
-      reviews: 124,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Complete onboarding package with branded items",
-      delivery: "5-7 days",
-      customizable: true,
-      featured: true,
-    },
-    {
-      id: 2,
-      name: "Festival Hamper Deluxe",
-      category: "festivals",
-      price: "$80-120",
-      moq: "50 pieces",
-      rating: 4.9,
-      reviews: 89,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Luxury festival celebration hamper",
-      delivery: "3-5 days",
-      customizable: true,
-      featured: false,
-    },
-    {
-      id: 3,
-      name: "Achievement Award Set",
-      category: "recognition",
-      price: "$35-55",
-      moq: "10 pieces",
-      rating: 4.7,
-      reviews: 156,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Recognition gifts for outstanding performance",
-      delivery: "7-10 days",
-      customizable: true,
-      featured: true,
-    },
-    {
-      id: 4,
-      name: "Corporate Event Package",
-      category: "events",
-      price: "$25-40",
-      moq: "100 pieces",
-      rating: 4.6,
-      reviews: 78,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Perfect for conferences and corporate events",
-      delivery: "5-7 days",
-      customizable: true,
-      featured: false,
-    },
-    {
-      id: 5,
-      name: "Birthday Celebration Box",
-      category: "birthdays",
-      price: "$30-50",
-      moq: "20 pieces",
-      rating: 4.8,
-      reviews: 92,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Make birthdays special with personalized gifts",
-      delivery: "3-5 days",
-      customizable: true,
-      featured: false,
-    },
-    {
-      id: 6,
-      name: "Client Appreciation Gift",
-      category: "appreciation",
-      price: "$60-90",
-      moq: "15 pieces",
-      rating: 4.9,
-      reviews: 67,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Premium gifts to show client appreciation",
-      delivery: "5-7 days",
-      customizable: true,
-      featured: true,
-    },
-  ]
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true)
+      
+      // Fetch categories
+      const categoriesData = await getGiftCategories()
+      
+      // Add "All Categories" option
+      setCategories([
+        { id: "all", name: "All Categories", count: categoriesData.reduce((sum, cat) => sum + (cat.count || 0), 0) },
+        ...categoriesData.map((cat: GiftCategory) => ({
+          id: cat.slug,
+          name: cat.name,
+          count: cat.count || 0,
+          description: cat.description,
+          image: cat.image_url
+        }))
+      ])
+      
+      // Fetch products
+      const productsData = await getProducts()
+      
+      setProducts(productsData.map((product: Product) => ({
+        id: product.id,
+        name: product.name,
+        category: product.category,
+        price: `$${product.price}`,
+        moq: product.moq || "25 pieces",
+        rating: product.rating || 4.5,
+        reviews: Math.floor(Math.random() * 150) + 50,
+        image: product.images?.[0] || "/placeholder.svg?height=300&width=300",
+        description: product.description,
+        delivery: product.delivery || "5-7 days",
+        customizable: product.customizable || false,
+        featured: product.featured || false,
+      })))
+      
+      setLoading(false)
+    }
+    
+    fetchData()
+  }, [])
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase())

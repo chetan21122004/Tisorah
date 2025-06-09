@@ -298,7 +298,7 @@ export default async function HomePage() {
                 <p className="text-neutral-500">Discover our curated collection of premium gifts for every corporate occasion</p>
               </div>
               
-              <form action="/search" className="mb-8">
+              <form action="/search" method="get" className="mb-8">
                 <div className="flex flex-col md:flex-row gap-4">
                   <div className="relative flex-1">
                     <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#1E2A47]/40 w-5 h-5" />
@@ -426,17 +426,12 @@ export default async function HomePage() {
                       <div className="relative h-48 overflow-hidden">
                         <Image
                           src={product.images?.[0] || "/placeholder.jpg"}
-                          alt={product.name}
+                          alt={product.title}
                           fill
                           className="object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       </div>
                     </Link>
-                    {product.discount && (
-                      <Badge className="absolute top-3 left-3 bg-[#AD9660] text-white px-2 py-1 rounded-md text-xs">
-                        {product.discount}
-                      </Badge>
-                    )}
                     <Button
                       size="sm"
                       variant="ghost"
@@ -448,23 +443,18 @@ export default async function HomePage() {
                   <div className="p-4">
                     <Link href={`/products/${product.id}`}>
                       <h4 className="font-medium text-[#1E2A47] text-base leading-tight hover:text-[#AD9660] line-clamp-2">
-                        {product.name}
+                        {product.title}
                       </h4>
                     </Link>
                     <div className="flex items-center gap-1 mt-2">
-                      {[...Array(Math.round(product.rating || 5))].map((_, i) => (
+                      {[...Array(5)].map((_, i) => (
                         <Star key={i} className="w-3 h-3 text-[#AD9660] fill-current" />
                       ))}
-                      <span className="text-xs text-[#1E2A47]/60">({product.reviews || 0})</span>
+                      <span className="text-xs text-[#1E2A47]/60">(0)</span>
                     </div>
                     <div className="flex items-center justify-between mt-3">
                       <div className="space-x-2">
                         <span className="text-lg font-bold text-[#AD9660]">₹{product.price}</span>
-                        {product.original_price > product.price && (
-                          <span className="text-sm text-[#1E2A47]/40 line-through">
-                            ₹{product.original_price}
-                          </span>
-                        )}
                       </div>
                       <Button
                         size="sm"
@@ -718,7 +708,7 @@ export default async function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {testimonials?.map((testimonial: TestimonialData) => (
+            {testimonials?.map((testimonial) => (
               <Card key={testimonial.id} className="bg-white shadow-xl border-0">
                 <CardContent className="p-8">
                   <div className="flex items-center gap-4 mb-6">

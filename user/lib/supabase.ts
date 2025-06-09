@@ -1,7 +1,7 @@
 import { createClient as createClientBrowser } from '@supabase/supabase-js'
 import { createClient as createServerClient } from '@/utils/supabase/server'
 import type { Database } from '@/types/supabase'
-import type { Product } from '@/types/database'
+import type { Product, GiftCategory } from '@/types/database'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -14,6 +14,38 @@ export const createBrowserClient = () => {
 // Server-side Supabase instance
 export const createServerSupabaseClient = () => {
   return createServerClient()
+}
+
+// Gift category related functions
+export async function getGiftCategories(): Promise<GiftCategory[]> {
+  const supabase = createBrowserClient()
+  const { data, error } = await supabase
+    .from('gift_categories')
+    .select('*')
+    .order('name')
+
+  if (error) {
+    console.error('Error fetching gift categories:', error)
+    return []
+  }
+
+  return data
+}
+
+export async function getGiftCategoryBySlug(slug: string): Promise<GiftCategory | null> {
+  const supabase = createBrowserClient()
+  const { data, error } = await supabase
+    .from('gift_categories')
+    .select('*')
+    .eq('slug', slug)
+    .single()
+
+  if (error) {
+    console.error('Error fetching gift category:', error)
+    return null
+  }
+
+  return data
 }
 
 // Product related functions
@@ -29,18 +61,11 @@ export async function getProducts(): Promise<Product[]> {
     return []
   }
 
-  // Transform each product to match the Product type
-  return data.map(item => ({
-    ...item,
-    features: Array.isArray(item.features) ? item.features : null,
-    specifications: typeof item.specifications === 'object' ? item.specifications : null,
-    benefits: Array.isArray(item.benefits) ? item.benefits : null,
-    is_featured: item.is_featured ?? false,
-    delivery: item.delivery || "5-7 business days"
-  }))
+  return data
 }
 
-export async function getProductsByCategory(category: string) {
+export async function getProductsByCategory(category: string): Promise<Product[]> {
+  const supabase = createBrowserClient()
   const { data, error } = await supabase
     .from('products')
     .select('*')
@@ -67,17 +92,7 @@ export async function getProductById(id: string): Promise<Product | null> {
     return null
   }
 
-  // Transform the data to match the Product type
-  const product: Product = {
-    ...data,
-    features: Array.isArray(data.features) ? data.features : null,
-    specifications: typeof data.specifications === 'object' ? data.specifications : null,
-    benefits: Array.isArray(data.benefits) ? data.benefits : null,
-    is_featured: data.is_featured ?? false,
-    delivery: data.delivery || "5-7 business days"
-  }
-
-  return product
+  return data
 }
 
 // Quote request functions
@@ -95,6 +110,7 @@ export async function submitQuoteRequestToSupabase(quoteData: {
   packaging: boolean
   shortlisted_products: any[]
 }) {
+  const supabase = createBrowserClient()
   const { data, error } = await supabase
     .from('quote_requests')
     .insert([quoteData])

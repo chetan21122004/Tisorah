@@ -5,22 +5,21 @@ import { cookies } from 'next/headers'
 import type { Database } from '@/types/supabase'
 
 export async function createServerSupabaseClient() {
+  const cookieStore = cookies()
+  
   return createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        async get(name: string) {
-          const cookieStore = cookies()
+        get(name: string) {
           return cookieStore.get(name)?.value
         },
-        async set(name: string, value: string, options: CookieOptions) {
-          const cookieStore = cookies()
+        set(name: string, value: string, options: CookieOptions) {
           cookieStore.set(name, value, options)
         },
-        async remove(name: string, options: CookieOptions) {
-          const cookieStore = cookies()
-          cookieStore.delete(name)
+        remove(name: string, options: CookieOptions) {
+          cookieStore.delete(name, options)
         },
       },
     }
@@ -68,5 +67,94 @@ export async function getProducts() {
   } catch (error) {
     console.error('Error in getProducts:', error)
     return []
+  }
+}
+
+export interface SearchParams {
+  q?: string;
+  category?: string;
+  price?: string;
+  sort?: string;
+  page?: string;
+}
+
+export async function searchProducts(params: SearchParams) {
+  try {
+    const supabase = await createServerSupabaseClient()
+    
+    // Start building the query
+    let query = supabase
+      .from('products')
+      .select('*', { count: 'exact' })
+    
+    // Add search term filter if provided
+    if (params.q) {
+      query = query.or(`title.ilike.%${params.q}%,description.ilike.%${params.q}%`)
+    }
+    
+    // Add category filter if provided
+    if (params.category && params.category !== '') {
+      query = query.eq('category', params.category)
+    }
+    
+    // Add price range filter if provided
+    if (params.price && params.price !== '') {
+      const priceRange = params.price.split('-')
+      if (priceRange.length === 2) {
+        const minPrice = parseInt(priceRange[0])
+        const maxPrice = parseInt(priceRange[1])
+        query = query.gte('price', minPrice).lte('price', maxPrice)
+      } else if (params.price === '10000+') {
+        query = query.gte('price', 10000)
+      } else if (params.price === '0-2000') {
+        query = query.lte('price', 2000)
+      }
+    }
+    
+    // Add sorting
+    if (params.sort) {
+      switch (params.sort) {
+        case 'price_low':
+          query = query.order('price', { ascending: true })
+          break
+        case 'price_high':
+          query = query.order('price', { ascending: false })
+          break
+        case 'newest':
+          query = query.order('created_at', { ascending: false })
+          break
+        case 'popular':
+          // Since there's no reviews field, default to created_at
+          query = query.order('created_at', { ascending: false })
+          break
+        default:
+          query = query.order('created_at', { ascending: false })
+      }
+    } else {
+      query = query.order('created_at', { ascending: false })
+    }
+    
+    // Handle pagination
+    const page = parseInt(params.page || '1')
+    const pageSize = 12
+    const from = (page - 1) * pageSize
+    const to = from + pageSize - 1
+    
+    query = query.range(from, to)
+    
+    const { data: products, error, count } = await query
+    
+    if (error) {
+      console.error('Error searching products:', error)
+      return { products: [], count: 0 }
+    }
+    
+    return { 
+      products: products || [],
+      count: count || 0
+    }
+  } catch (error) {
+    console.error('Error in searchProducts:', error)
+    return { products: [], count: 0 }
   }
 } 

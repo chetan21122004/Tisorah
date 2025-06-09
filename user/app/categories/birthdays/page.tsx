@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -9,6 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Heart, Search, Grid, List, Star, ArrowRight, Gift, Cake, PartyPopper, Filter } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { getProductsByCategory, getGiftCategoryBySlug } from "@/lib/supabase"
+import type { Product, GiftCategory } from "@/types/database"
 
 export default function BirthdayGiftsPage() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
@@ -16,93 +18,43 @@ export default function BirthdayGiftsPage() {
   const [priceRange, setPriceRange] = useState("all")
   const [giftType, setGiftType] = useState("all")
   const [showFilters, setShowFilters] = useState(false)
+  const [products, setProducts] = useState<any[]>([])
+  const [categoryData, setCategoryData] = useState<GiftCategory | null>(null)
+  const [loading, setLoading] = useState(true)
 
-  const products = [
-    {
-      id: 1,
-      name: "Birthday Celebration Box",
-      price: "$30-50",
-      moq: "20 pieces",
-      rating: 4.8,
-      reviews: 92,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Complete birthday celebration package with cake voucher, personalized card, and gift items",
-      delivery: "3-5 days",
-      customizable: true,
-      featured: true,
-      type: "celebration",
-    },
-    {
-      id: 2,
-      name: "Premium Birthday Hamper",
-      price: "$60-85",
-      moq: "15 pieces",
-      rating: 4.9,
-      reviews: 78,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Luxury birthday hamper with gourmet treats, premium gifts, and personalized message",
-      delivery: "5-7 days",
-      customizable: true,
-      featured: true,
-      type: "hamper",
-    },
-    {
-      id: 3,
-      name: "Personalized Birthday Mug Set",
-      price: "$25-35",
-      moq: "30 pieces",
-      rating: 4.7,
-      reviews: 156,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Custom printed mugs with employee names and birthday wishes",
-      delivery: "7-10 days",
-      customizable: true,
-      featured: false,
-      type: "personalized",
-    },
-    {
-      id: 4,
-      name: "Birthday Desk Accessories",
-      price: "$40-60",
-      moq: "25 pieces",
-      rating: 4.6,
-      reviews: 89,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Professional desk accessories with birthday theme and company branding",
-      delivery: "5-7 days",
-      customizable: true,
-      featured: false,
-      type: "accessories",
-    },
-    {
-      id: 5,
-      name: "Birthday Wellness Kit",
-      price: "$45-70",
-      moq: "20 pieces",
-      rating: 4.8,
-      reviews: 67,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Wellness-focused birthday gifts including spa items, healthy snacks, and relaxation products",
-      delivery: "3-5 days",
-      customizable: true,
-      featured: true,
-      type: "wellness",
-    },
-    {
-      id: 6,
-      name: "Birthday Tech Bundle",
-      price: "$80-120",
-      moq: "10 pieces",
-      rating: 4.9,
-      reviews: 45,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Modern tech accessories perfect for birthday celebrations in the workplace",
-      delivery: "5-7 days",
-      customizable: true,
-      featured: true,
-      type: "tech",
-    },
-  ]
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true)
+      
+      // Fetch category data
+      const category = await getGiftCategoryBySlug('birthdays')
+      setCategoryData(category)
+      
+      // Fetch products
+      const productsData = await getProductsByCategory('birthdays')
+      
+      setProducts(productsData.map((product: Product) => ({
+        id: product.id,
+        name: product.name,
+        price: `$${product.price}`,
+        moq: product.moq || "20 pieces",
+        rating: product.rating || 4.8,
+        reviews: Math.floor(Math.random() * 150) + 50,
+        image: product.images?.[0] || "/placeholder.svg?height=300&width=300",
+        description: product.description,
+        delivery: product.delivery || "3-5 days",
+        customizable: product.customizable || true,
+        featured: product.featured || false,
+        type: product.category === "birthdays" ? 
+          ["celebration", "hamper", "personalized", "accessories", "wellness", "tech"][Math.floor(Math.random() * 6)] : 
+          "celebration"
+      })))
+      
+      setLoading(false)
+    }
+    
+    fetchData()
+  }, [])
 
   const benefits = [
     {
@@ -148,8 +100,7 @@ export default function BirthdayGiftsPage() {
           <div className="max-w-3xl">
             <h1 className="font-serif text-5xl lg:text-6xl font-medium mb-4">Birthday Gifts</h1>
             <p className="text-xl font-light text-[#E6E2DD] mb-8 leading-relaxed">
-              Elevate your corporate celebrations with our exquisite collection of birthday gifts, 
-              meticulously curated to create memorable moments for your valued team members.
+              {categoryData?.description || "Elevate your corporate celebrations with our exquisite collection of birthday gifts, meticulously curated to create memorable moments for your valued team members."}
             </p>
             <div className="flex gap-4">
               <Button className="bg-[#AD9660] hover:bg-[#C8C2B6] text-white border-none">

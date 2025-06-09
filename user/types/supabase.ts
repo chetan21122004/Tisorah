@@ -91,43 +91,82 @@ export interface Database {
           }
         ]
       }
-      products: {
+      gift_categories: {
         Row: {
           id: string
-          title: string
+          name: string
+          slug: string
           description: string | null
-          price: number
-          images: string[] | null
-          category: string
-          featured: boolean | null
-          customizable: boolean | null
-          delivery: string | null
+          count: number | null
+          image_url: string | null
           created_at: string | null
           updated_at: string | null
         }
         Insert: {
           id?: string
-          title: string
+          name: string
+          slug: string
           description?: string | null
-          price: number
-          images?: string[] | null
-          category: string
-          featured?: boolean | null
-          customizable?: boolean | null
-          delivery?: string | null
+          count?: number | null
+          image_url?: string | null
           created_at?: string | null
           updated_at?: string | null
         }
         Update: {
           id?: string
-          title?: string
+          name?: string
+          slug?: string
           description?: string | null
-          price?: number
-          images?: string[] | null
-          category?: string
+          count?: number | null
+          image_url?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          id: string
+          name: string
+          description: string | null
+          price: number
+          category: string
+          moq: string | null
+          delivery: string | null
+          rating: number | null
+          featured: boolean | null
+          customizable: boolean | null
+          images: string[] | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          name: string
+          description?: string | null
+          price: number
+          category: string
+          moq?: string | null
+          delivery?: string | null
+          rating?: number | null
           featured?: boolean | null
           customizable?: boolean | null
+          images?: string[] | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          name?: string
+          description?: string | null
+          price?: number
+          category?: string
+          moq?: string | null
           delivery?: string | null
+          rating?: number | null
+          featured?: boolean | null
+          customizable?: boolean | null
+          images?: string[] | null
           created_at?: string | null
           updated_at?: string | null
         }

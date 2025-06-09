@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { Menu, Heart, Phone, ArrowRight } from "lucide-react"
 import { getShortlistCount } from "@/lib/shortlist-client"
+import SearchBar from "@/app/components/SearchBar"
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
@@ -209,6 +210,11 @@ export default function Navigation() {
             </NavigationMenuList>
           </NavigationMenu>
 
+          {/* Search Bar */}
+          <div className="hidden lg:block mx-4">
+            <SearchBar />
+          </div>
+
           {/* Actions */}
           <div className="hidden lg:flex items-center space-x-3">
             <Link href="/shortlist">
@@ -258,6 +264,10 @@ export default function Navigation() {
                     </div>
                   </div>
                   <div className="p-6 flex-1 overflow-auto">
+                    {/* Mobile Search */}
+                    <div className="mb-6">
+                      <SearchBar />
+                    </div>
                     <nav className="flex flex-col space-y-6">
                       <Link 
                         href="/" 

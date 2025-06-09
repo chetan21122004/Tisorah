@@ -1,177 +1,178 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Heart, Search, Star, ArrowRight, Calendar, Users, Briefcase } from "lucide-react"
+import { Heart, Search, Grid, List, Star, ArrowRight, CalendarDays, Users, Package, Filter } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { getProductsByCategory, getGiftCategoryBySlug } from "@/lib/supabase"
+import type { Product, GiftCategory } from "@/types/database"
 
-export default function EventGiftsPage() {
+export default function CorporateEventsPage() {
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [searchTerm, setSearchTerm] = useState("")
-  const [sortBy, setSortBy] = useState("featured")
+  const [priceRange, setPriceRange] = useState("all")
+  const [eventType, setEventType] = useState("all")
+  const [showFilters, setShowFilters] = useState(false)
+  const [products, setProducts] = useState<any[]>([])
+  const [categoryData, setCategoryData] = useState<GiftCategory | null>(null)
+  const [loading, setLoading] = useState(true)
 
-  const products = [
-    {
-      id: 1,
-      name: "Conference Welcome Bag",
-      price: "$25-45",
-      moq: "100 pieces",
-      rating: 4.7,
-      reviews: 189,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Professional welcome bags with branded materials for conferences",
-      delivery: "5-7 days",
-      eventType: "Conference",
-      featured: true,
-    },
-    {
-      id: 2,
-      name: "Corporate Retreat Kit",
-      price: "$55-85",
-      moq: "50 pieces",
-      rating: 4.8,
-      reviews: 124,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Complete kit for corporate retreats and team building events",
-      delivery: "7-10 days",
-      eventType: "Retreat",
-      featured: true,
-    },
-    {
-      id: 3,
-      name: "Seminar Essentials Pack",
-      price: "$20-35",
-      moq: "150 pieces",
-      rating: 4.6,
-      reviews: 156,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Essential items for seminars and training sessions",
-      delivery: "3-5 days",
-      eventType: "Seminar",
-      featured: false,
-    },
-    {
-      id: 4,
-      name: "Trade Show Giveaway Set",
-      price: "$15-30",
-      moq: "200 pieces",
-      rating: 4.5,
-      reviews: 234,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Attractive giveaways perfect for trade shows and exhibitions",
-      delivery: "5-7 days",
-      eventType: "Trade Show",
-      featured: false,
-    },
-    {
-      id: 5,
-      name: "Workshop Participant Kit",
-      price: "$30-50",
-      moq: "75 pieces",
-      rating: 4.7,
-      reviews: 98,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Comprehensive kit for workshop participants with tools and materials",
-      delivery: "7-10 days",
-      eventType: "Workshop",
-      featured: false,
-    },
-    {
-      id: 6,
-      name: "VIP Event Package",
-      price: "$85-150",
-      moq: "25 pieces",
-      rating: 4.9,
-      reviews: 67,
-      image: "/placeholder.svg?height=300&width=300",
-      description: "Luxury package for VIP guests and special events",
-      delivery: "10-14 days",
-      eventType: "VIP",
-      featured: true,
-    },
-  ]
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true)
+      
+      // Fetch category data
+      const category = await getGiftCategoryBySlug('events')
+      setCategoryData(category)
+      
+      // Fetch products
+      const productsData = await getProductsByCategory('events')
+      
+      setProducts(productsData.map((product: Product) => ({
+        id: product.id,
+        name: product.name,
+        price: `$${product.price}`,
+        moq: product.moq || "100 pieces",
+        rating: product.rating || 4.7,
+        reviews: Math.floor(Math.random() * 150) + 50,
+        image: product.images?.[0] || "/placeholder.svg?height=300&width=300",
+        description: product.description,
+        delivery: product.delivery || "5-7 days",
+        customizable: product.customizable || true,
+        featured: product.featured || false,
+        type: ["conference", "seminar", "teambuilding", "launch", "retreat"][Math.floor(Math.random() * 5)]
+      })))
+      
+      setLoading(false)
+    }
+    
+    fetchData()
+  }, [])
 
   const benefits = [
     {
-      icon: <Calendar className="w-8 h-8 text-teal-600" />,
-      title: "Memorable Events",
-      description: "Create lasting impressions with thoughtful gifts that attendees will remember",
+      icon: <CalendarDays className="w-6 h-6 text-blue-600" />,
+      title: "Event Branding",
+      description: "Create a cohesive brand experience at your corporate events",
     },
     {
-      icon: <Users className="w-8 h-8 text-amber-600" />,
-      title: "Brand Visibility",
-      description: "Increase brand awareness and visibility through strategic event gifting",
+      icon: <Users className="w-6 h-6 text-blue-600" />,
+      title: "Attendee Engagement",
+      description: "Boost participation and create memorable experiences",
     },
     {
-      icon: <Briefcase className="w-8 h-8 text-rose-600" />,
-      title: "Professional Image",
-      description: "Enhance your company's professional image with quality event materials",
+      icon: <Package className="w-6 h-6 text-blue-600" />,
+      title: "Bulk Ordering",
+      description: "Special pricing and logistics for large event orders",
     },
   ]
 
-  const filteredProducts = products.filter((product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesType = eventType === "all" || product.type === eventType
+    
+    let matchesPrice = true
+    if (priceRange === "under-30") {
+      matchesPrice = parseInt(product.price.replace(/\$|-.*/g, "")) < 30
+    } else if (priceRange === "30-60") {
+      const minPrice = parseInt(product.price.replace(/\$|-.*/g, ""))
+      matchesPrice = minPrice >= 30 && minPrice <= 60
+    } else if (priceRange === "60+") {
+      matchesPrice = parseInt(product.price.replace(/\$|-.*/g, "")) > 60
+    }
+    
+    return matchesSearch && matchesType && matchesPrice
+  })
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center">
-              <Calendar className="w-6 h-6 text-teal-600" />
-            </div>
-            <div>
-              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">Corporate Events</h1>
-              <p className="text-teal-600 font-medium">Make Every Event Memorable</p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-r from-blue-700 to-blue-900 text-white">
+        <div className="container mx-auto px-4 py-16">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl lg:text-5xl font-bold mb-4">Corporate Event Gifts</h1>
+            <p className="text-xl opacity-90 mb-8 leading-relaxed">
+              {categoryData?.description || "Elevate your corporate events with our premium gifting solutions, designed to create memorable experiences for attendees and participants."}
+            </p>
+            <div className="flex gap-4">
+              <Button className="bg-white text-blue-700 hover:bg-gray-100">
+                Request Quote
+              </Button>
+              <Button variant="outline" className="border-white text-white hover:bg-white/20">
+                View Catalog
+              </Button>
             </div>
           </div>
-          <p className="text-lg text-gray-600 max-w-3xl">
-            Enhance your corporate events with our professional gift collections. From conferences to trade shows,
-            create memorable experiences that leave lasting impressions on attendees and participants.
-          </p>
         </div>
+      </div>
 
-        {/* Search and Sort */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-8">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-            <Input
-              type="search"
-              placeholder="Search event gifts..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-          <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-48">
-              <SelectValue placeholder="Sort by" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="featured">Featured</SelectItem>
-              <SelectItem value="price-low">Price: Low to High</SelectItem>
-              <SelectItem value="price-high">Price: High to Low</SelectItem>
-              <SelectItem value="rating">Highest Rated</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
+      <div className="container mx-auto px-4 py-16">
         {/* Benefits Section */}
-        <div className="bg-white rounded-2xl p-8 mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Why Event Gifts Matter</h2>
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-gray-900 text-center mb-2">Why Choose Our Event Gifts</h2>
+          <div className="w-24 h-1 bg-blue-600 mx-auto mb-12"></div>
+          
           <div className="grid md:grid-cols-3 gap-8">
             {benefits.map((benefit, index) => (
-              <div key={index} className="text-center">
-                <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                  {benefit.icon}
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">{benefit.title}</h3>
-                <p className="text-gray-600">{benefit.description}</p>
-              </div>
+              <Card key={index} className="border-none shadow-md hover:shadow-xl transition-shadow">
+                <CardContent className="p-8 text-center">
+                  <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                    {benefit.icon}
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{benefit.title}</h3>
+                  <p className="text-gray-600">{benefit.description}</p>
+                </CardContent>
+              </Card>
             ))}
+          </div>
+        </div>
+
+        {/* Filters and Search */}
+        <div className="mb-12">
+          <div className="flex flex-col lg:flex-row justify-between items-center mb-6">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4 lg:mb-0">Event Gift Collection</h2>
+            
+            <div className="flex gap-4 items-center">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Input
+                  type="search"
+                  placeholder="Search gifts..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+              <Select value={priceRange} onValueChange={setPriceRange}>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="Price Range" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value="under-30">Under $30</SelectItem>
+                  <SelectItem value="30-60">$30-$60</SelectItem>
+                  <SelectItem value="60+">$60+</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select value={eventType} onValueChange={setEventType}>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="Event Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value="conference">Conference</SelectItem>
+                  <SelectItem value="seminar">Seminar</SelectItem>
+                  <SelectItem value="teambuilding">Team Building</SelectItem>
+                  <SelectItem value="launch">Launch</SelectItem>
+                  <SelectItem value="retreat">Retreat</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
 
@@ -194,7 +195,7 @@ export default function EventGiftsPage() {
                     </div>
                   )}
                   <div className="absolute top-3 right-12 bg-teal-600 text-white px-2 py-1 rounded-md text-xs font-medium">
-                    {product.eventType}
+                    {product.type}
                   </div>
                   <Button
                     variant="ghost"
