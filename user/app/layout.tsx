@@ -3,10 +3,9 @@ import type { Metadata } from "next"
 import { Poppins } from "next/font/google"
 import "./globals.css"
 import "@/styles/patterns.css"
-import Navigation from "@/components/navigation"
-import { Footer } from "@/components/footer"
 import { Toaster } from "@/components/ui/toaster"
-
+import Navbar from "@/components/LandingPage/Navbar"
+import Footer from '@/components/LandingPage/Footer'
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -29,9 +28,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} font-sans antialiased`}>
-        <Navigation />
+      <link href="https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&display=swap" rel="stylesheet" />
+        <Navbar></Navbar>
         <main>{children}</main>
-        <Footer />
+<Footer />
+        
         <Toaster />
       </body>
     </html>
