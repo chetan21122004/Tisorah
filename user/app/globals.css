@@ -1,9 +1,17 @@
+@font-face {
+  font-family: 'GalleryModern'; /* Font name you will use */
+  src: url('/fonts/gallerymodern-webfont.woff2') format('woff2'),
+       url('/fonts/gallerymodern-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
 }
 
 @layer utilities {
@@ -104,4 +112,19 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.font-edu-cursive {
+  font-family: 'Edu NSW ACT Cursive', cursive;
+}
+
+.group:hover img {
+  filter: none !important;
+}
+.custom-hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+.custom-hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Webkit */
 }

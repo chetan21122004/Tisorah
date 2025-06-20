@@ -1,4 +1,4 @@
-import PatternDemo from '../components/PatternDemo';
+import PatternDemo from '../../components/PatternDemo';
 import PatternBackground, { PatternDivider } from '@/components/PatternBackground';
 import { ArrowDown } from 'lucide-react';
 

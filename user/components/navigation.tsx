@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { Menu, Heart, Phone, ArrowRight } from "lucide-react"
 import { getShortlistCount } from "@/lib/shortlist-client"
-import SearchBar from "@/app/components/SearchBar"
+import SearchBar from "@/components/SearchBar"
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)

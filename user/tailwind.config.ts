@@ -119,6 +119,7 @@ const config: Config = {
       fontFamily: {
         sans: ["Poppins", "system-ui", "sans-serif"],
         serif: ["Frank Ruhl Libre", "serif"],
+        gallery: ['GalleryModern', 'sans-serif'], 
       },
     },
   },
