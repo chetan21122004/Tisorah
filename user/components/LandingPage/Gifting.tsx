@@ -2,38 +2,54 @@ import React from 'react'
 
 const giftingCards = [
   {
-    title: 'ENRICHING CONNECTIONS',
-    image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80',
-    alt: 'Enriching Connections',
-    text: `Every occasion, great or small, deserves to be treasured. BoxUp's core value is to strengthen connections and cherish memorable occasions by adding a simple display of affection that enriches the bond.`,
+    title: 'Ready to ship',
+    image: 'https://www.boxupgifting.com/cdn/shop/files/Ready_to_ship.jpg?v=1685185091',
+    alt: 'Ready to ship gifts',
+    text: 'We have a wide range of ready-to-ship, corporate gifts for employees, clients, and companies, beautifully handcrafted and assembled for every occasion.',
+    buttonText: 'INQUIRE NOW',
   },
   {
-    title: 'DEFINING LUXURY',
-    image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
-    alt: 'Defining Luxury',
-    text: `Our luxury hampers are not defined by the monetary value of a product. Rather, luxury for BoxUp is associated with excellence, exclusivity, and effortlessness – something that's elevated above the norm. These hampers are not only well-crafted but also convey a sense of prestige and refinement`,
+    title: 'Semi - Customized',
+    image: 'https://www.boxupgifting.com/cdn/shop/files/Semi-Customized.jpg?v=1685185187&width=1240',
+    alt: 'Semi customized gifts',
+    text: 'Do you see a hamper that you like on our website? We can have your branding on theproducts you see in a hamper and make it feel like your very own.',
+    buttonText: 'INQUIRE NOW',
   },
   {
-    title: 'GROW AND LET GROW',
-    image: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80',
-    alt: 'Grow and Let Grow',
-    text: `We strive to create the perfect blend of sourcing materials from the local community while maintaining premium hamper norms. Building a community is an important part of any business. Therefore, we go all out to acquire premium materials from local businesses that share our enthusiasm for providing the finest gifting experience.`,
+    title: 'Custom curated',
+    image: 'https://www.boxupgifting.com/cdn/shop/files/Custom_curated.jpg?v=1685185266&width=1240',
+    alt: 'Custom curated gifts',
+    text: 'Our Products stylist will help you curate truly one-of-a-kind hampers for the mostimportant people in your life – be it, family, friends, clients, or your employees',
+    buttonText: 'INQUIRE NOW',
   },
 ];
 
 const Gifting = () => {
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <h2 className="text-4xl md:text-5xl font-edu-cursive text-center mb-12">What is Boxup Luxury Gifting ?</h2>
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="text-center mb-8">
+        <h2 className="text-4xl  font-light mb-4 font-edu-cursive">What Make's Us Unique?</h2>
+        <p className="text-md text-gray-600 font-light max-w-2xl mx-auto">
+          We help companies send thoughtful, well branded gifts with a streamlined and stress-free process!
+        </p>
+      </div>
+      
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {giftingCards.map((card, idx) => (
-          <div key={idx} className="bg-white border p-1 overflow-hidden flex flex-col h-full">
-            <div className="h-72 w-full bg-gray-100 flex items-center justify-center">
-              <img src={card.image} alt={card.alt} className="object-cover w-full h-full" />
+          <div key={idx} className="bg-white rounded-2xl   p-4 overflow-hidden shadow-lg flex flex-col">
+            <h3 className="text-md font-medium text-center font-edu-cursive mb-4">{card.title}</h3>
+            <div className="relative h-72">
+              <img 
+                src={card.image} 
+                alt={card.alt} 
+                className="w-full h-full object-cover"
+              />
             </div>
-            <div className="p-6 flex-1 flex flex-col">
-              <h3 className="text-xl font-edu-cursive mb-2">{card.title}</h3>
-              <p className="text-gray-700 text-sm">{card.text}</p>
+            <div className="p-6 flex flex-col flex-1">
+              <p className="text-gray-600 mb-6 flex-1">{card.text}</p>
+              <button className="border-2 border-black  w-1/2 mx-auto py-2 rounded-[100px] hover:bg-black hover:text-white transition-colors duration-300">
+                {card.buttonText}
+              </button>
             </div>
           </div>
         ))}

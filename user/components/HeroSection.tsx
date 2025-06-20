@@ -37,39 +37,21 @@ const categories = [
 export default function HeroSection() {
   return (
     <section className="bg-white my-12">
-      {/* Main Banner Slider */}
+
       <div className="flex flex-col w-full">
-      <Image alt="hero" height={100} src="https://www.boxupgifting.com/cdn/shop/files/Corporate_banner_Compressed_copy.jpg" width={100} className="w-full h-1/2" />
-      <Image alt="hero" height={100} src="https://www.boxupgifting.com/cdn/shop/files/Corporate_Compressed_copy_120d4d8f-0b6b-42d7-a84e-a10eaae409be.jpg?v=1733485155" width={100} className="w-full h-1/2" />
-      <Image alt="hero" height={100} src="https://cdn.shopify.com/s/files/1/0581/9754/0921/files/frame-5-1646052171479_1200x_1.png?v=1703229823" width={100} className="w-44 left-1/2 relative -translate-x-1/2 -mt-24" />
+      <Image alt="hero" height={100} src="https://www.boxupgifting.com/cdn/shop/files/Corporate_banner_Compressed_copy.jpg" width={100} className="w-full h-1/2 hidden sm:block " />
+      <Image alt="hero" height={100} src="https://www.boxupgifting.com/cdn/shop/files/New_Corporate_Mob_Banner_Compressed_copy_67cc100f-7bc4-4f99-895f-599a189a14b8.jpg" width={100} className="w-full h-full lg:h-1/2  sm:hidden" />
+
+
+      <Image alt="hero" height={100} src="https://www.boxupgifting.com/cdn/shop/files/Corporate_Compressed_copy_120d4d8f-0b6b-42d7-a84e-a10eaae409be.jpg?v=1733485155" width={100} className="w-full h-1/2 hidden sm:block" />
+      <Image alt="hero" height={100} src="https://www.boxupgifting.com/cdn/shop/files/Corporate_compressed_copy.jpg" width={100} className="w-full h-1/2  sm:hidden" />
+
+      <Image alt="hero" height={100} src="https://cdn.shopify.com/s/files/1/0581/9754/0921/files/frame-5-1646052171479_1200x_1.png?v=1703229823" width={100} className="w-44 hidden sm:block left-1/2 relative -translate-x-1/2 -mt-24" />
 
       </div>
 
 
-      {/* Categories Grid
-      <div className="container mx-auto px-4 -mt-20 relative z-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {categories.map((cat, idx) => (
-            <div key={idx} className="bg-white shadow-md hover:shadow-lg transition-shadow rounded-lg p-4">
-              <div className="relative h-48 mb-4 rounded-lg  overflow-hidden">
-                <img
-                  src={cat.img}
-                  alt={cat.alt}
-                  className="object-cover w-full h-full"
-                />
-              </div>
-              <h3 className="font-medium text-[#1E2A47]">{cat.title}</h3>
-              <p className="text-sm text-[#1E2A47]/60 mb-2">{cat.price}</p>
-              <a 
-                href={cat.link}
-                className="text-[#AD9660] text-sm font-medium hover:underline"
-              >
-                Shop Now
-              </a>
-            </div>
-          ))}
-        </div>
-      </div> */}
+     
     </section>
   )
 } 

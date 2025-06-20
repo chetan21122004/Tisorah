@@ -183,121 +183,246 @@ export default async function HomePage() {
   // Card component for offerings
   function OfferingCard({ image, title, desc }: { image: string; title: string; desc: string }) {
     return (
-      <div className="flex flex-col items-center justify-center bg-white  shadow-sm p-0 md:p-2 hover:scale-[1.05] transition-all duration-300 w-96 mx-auto">
-        <img src={image} alt={title} className="w-full rounded-2xl h-48 object-cover rounded-t-2xl" />
-        <div className="flex flex-col items-center px-4 py-3">
-          <h3 className="text-lg font-bold text-black opacity-80 mb-2 ">{title}</h3>
-          <p className="text-sm font-light text-gray-500  mb-5">{desc}</p>
-          <button className="bg-black text-white rounded-full px-7 py-2 text-sm font-semibold transition hover:bg-gray-900">KNOW MORE</button>
+      <div className="flex flex-col items-center justify-center bg-white shadow-sm p-4 md:p-6 md:hover:scale-[1.05] transition-all duration-300 w-full md:w-96 mx-auto rounded-2xl">
+        <img src={image} alt={title} className="w-full h-40 md:h-48 object-cover rounded-xl" />
+        <div className="flex flex-col items-center px-2 md:px-4 py-4">
+          <h3 className="text-base md:text-lg font-bold text-black opacity-80 mb-2 text-center">{title}</h3>
+          <p className="text-xs md:text-sm font-light text-gray-500 mb-5 text-center">{desc}</p>
+          <button className="bg-black text-white rounded-full px-5 md:px-7 py-2 text-xs md:text-sm font-semibold transition hover:bg-white hover:text-black duration-300 w-full md:w-auto">KNOW MORE</button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen ">
-      
-       <div className="flex flex-wrap justify-center gap-10 my-12">
+    <div className="min-h-screen">
+      <div className="flex overflow-x-auto md:overflow-x-visible justify-start md:justify-center gap-4 md:gap-10 my-4 md:my-8 px-4 md:px-0 md:flex-wrap no-scrollbar">
         {giftCategories.map((cat, idx) => (
-          <div key={idx} className="flex flex-col items-center">
-            <div className="w-24 h-24 rounded-full overflow-hidden shadow-md transition-transform duration-200 hover:scale-105 bg-gray-100 flex items-center justify-center">
-              <img src={cat.image} alt={cat.label} className="object-cover w-full h-full" />
+          <div
+            key={idx}
+            className="flex flex-col items-center flex-shrink-0 w-20 md:w-24"
+          >
+            <div className="w-16 h-16 md:w-24 md:h-24 rounded-full overflow-hidden shadow-md transition-transform duration-200 hover:scale-105 bg-gray-100 flex items-center justify-center">
+              <img
+                src={cat.image}
+                alt={cat.label}
+                className="object-cover w-full h-full"
+              />
             </div>
-            <span className="mt-3 text-xs font-medium text-gray-800 text-center">{cat.label}</span>
+            <span className="mt-2 md:mt-3 text-[10px] md:text-xs font-medium text-gray-800 text-center whitespace-nowrap">{cat.label}</span>
           </div>
         ))}
       </div>
-      
-      <p className="text-center text-gray-500 font-light max-w-2xl mx-auto mb-6 opacity-80 text-sm md:text-base">
-        Looking for unique and premium corporate gift hampers? Explore our top gifting options for employees and clients at affordable prices across India. Choose from a wide range of over 5,000 high-quality corporate gift products.
-      </p>
-      
+
       <HeroSection/>
-      <ProductGrid title="Trending Today" products={trendingProducts} />
+      <div className="px-4 md:px-0">
+        <ProductGrid title="Trending Today" products={trendingProducts} />
+      </div>
 
       {/* Occasion-Wise Gifts Section */}
-      <div className="my-8">
-        <h2 className="text-4xl font-edu-cursive text-center mb-10">Occasion-Wise Gifts</h2>
-        <div className="flex flex-wrap justify-center gap-2 ">
+      <div className="my-8 px-4 md:px-0">
+        <h2 className="text-3xl md:text-4xl font-edu-cursive text-center mb-6 md:mb-10">Occasion-Wise Gifts</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
           {occasionGifts.map((item, idx) => (
-            <div key={idx} className="flex flex-col items-center w-36 md:w-44">
+            <div key={idx} className="flex flex-col items-center">
               <img
                 src={item.image}
                 alt={item.label}
-                className="w-full h-28  object-contain rounded-xl    transition-transform duration-200 hover:scale-105"
+                className="w-full h-24 md:h-28 object-contain rounded-xl transition-transform duration-200 hover:scale-105"
                 loading="lazy"
               />
-              <span className="mt-1 text-base md:text-sm font-medium text-gray-800 text-center">{item.label}</span>
+              <span className="mt-2 text-sm md:text-base font-medium text-gray-800 text-center">{item.label}</span>
             </div>
           ))}
         </div>
       </div>
 
       {/* Our Offerings Section */}
-      <div className="my-16">
-        <h2 className="text-4xl font-edu-cursive text-center mb-2">Our Offerings</h2>
-        <p className="text-center text-gray-500 font-light max-w-2xl mx-auto mb-10 text-sm md:text-base">
+      <div className="my-8 md:my-16 px-4 md:px-0">
+        <h2 className="text-3xl md:text-4xl font-edu-cursive text-center mb-3 md:mb-4">Our Offerings</h2>
+        <p className="text-center text-gray-500 font-light max-w-2xl mx-auto mb-6 md:mb-10 text-sm md:text-base px-4">
           Bespoke Gifts and Eco-friendly gifts, meticulously crafted to boost your brand's sophistication.
         </p>
-        <div className="flex flex-col md:flex-row gap-2 mx-auto max-w-6xl justify-center items-center">
-          {offerings.map((card, idx) => (
-            <OfferingCard key={idx} {...card} />
-          ))}
-        </div>
-        <div className="flex flex-col md:flex-row mt-10 gap-2 mx-auto max-w-6xl justify-center items-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mx-auto max-w-6xl">
           {offerings.map((card, idx) => (
             <OfferingCard key={idx} {...card} />
           ))}
         </div>
       </div>
 
+      <div className="layout">
+        <div className="hero-section text-center pt-8 flex  gap-4 max-w-6xl items-center justify-center mx-auto flex-col md:flex-row px-2
+        ">
+
+          <div className="flex flex-col gap-4 md:w-1/2 w-full ">
+          <div className="relative group overflow-hidden  rounded-2xl">
+            <img 
+              src="https://www.boxupgifting.com/cdn/shop/files/quokkabottles-LGPLafOVhqY-unsplash_copy_222d70ad-99f7-4de2-b07c-56c34b9fc8e4.jpg?v=1744178433" 
+              alt="Journal" 
+              className="w-full h-[214px] object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+            <div className="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm px-6 py-2 rounded-full">
+              <h3 className="text-gray-800 font-medium">Journal</h3>
+            </div>
+          </div>
+
+          {/* Drinkware Category */}
+          <div className="relative group overflow-hidden rounded-lg">
+            <img 
+              src="https://www.boxupgifting.com/cdn/shop/files/quokkabottles-LGPLafOVhqY-unsplash_copy_222d70ad-99f7-4de2-b07c-56c34b9fc8e4.jpg?v=1744178433" 
+              alt="Drinkware" 
+              className="w-full h-[400px] object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+            <div className="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm px-6 py-2 rounded-full">
+              <h3 className="text-gray-800 font-medium">Drinkware</h3>
+            </div>
+          </div>
+          </div>
+
+        <div className="flex flex-col gap-8 md:w-1/2 w-full  ">
+        <div>
+        <h1 className="text-xl font-light mb-4 font-edu-cursive">Custom-branded gifts that connect with your audience.</h1>
+          <button className="bg-[#B5995D] text-white px-8 py-3 rounded-3xl hover:bg-[#9e865a] transition">
+            Explore
+          </button>
+        </div>
+        {/* Electronic Gadgets Category */}
+          <div className="relative group overflow-hidden rounded-lg">
+            <img 
+              src="https://www.boxupgifting.com/cdn/shop/files/Magnetic_charger_cable_holder_-_1_2_99287279-cc16-4f06-8d3d-8506f6347a50.jpg?v=1744178647" 
+              alt="Electronic Gadgets" 
+              className="w-full h-[450px] object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+            <div className="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm px-6 py-2 rounded-full">
+              <h3 className="text-gray-800 font-medium">Electronic Gadgets</h3>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4 md:w-1/2 w-full ">
+           {/* Coffee & Tea Delights Category */}
+           <div className="relative group overflow-hidden rounded-lg">
+              <img 
+                src="https://www.boxupgifting.com/cdn/shop/files/Tea_ceramic_cups_-_set_of_two_-_2_copy_2f7a4acc-f87d-4526-bd0d-13856992d8d9.jpg?v=1744178455" 
+                alt="Coffee & Tea Delights" 
+                className="w-full h-[214px] object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div className="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm px-6 py-2 rounded-full">
+                <h3 className="text-gray-800 font-medium">Coffee & Tea Delights</h3>
+              </div>
+            </div>
+              {/* Lights & Lamps Category */}
+              <div className="relative group overflow-hidden rounded-lg">
+              <img 
+                src="https://www.boxupgifting.com/cdn/shop/files/joyce-g-3y9ymqvRR_s-unsplash_copy_2accb539-f2c2-4e4b-8997-f7751abc1209.jpg?v=1744178278" 
+                alt="Lights & Lamps" 
+                className="w-full h-[400px] object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div className="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm px-6 py-2 rounded-full">
+                <h3 className="text-gray-800 font-medium">Lights & Lamps</h3>
+              </div>
+            </div>
+        </div>
+        
+      </div>
+      
+
+    </div>
+
+
+
       <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <Gifting  />
        </div>
-       <section className="py-6 bg-[#323433]">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-12">
-            <div className="relative p-8 border-r border-white/10">
-              <div className="absolute -inset-2 bg-gradient-to-br from-[#AD9660]/20 to-transparent blur-xl"></div>
-              <div className="relative">
-                <div className="w-20 h-20 bg-[#AD9660]/10 rounded-2xl flex items-center justify-center mb-6">
-                  <Shield className="w-10 h-10 text-[#AD9660]" />
-                </div>
-                <h3 className="font-frank-ruhl text-2xl font-medium text-white mb-4 font-edu-cursive">Uncompromising Quality</h3>
-                <p className="font-poppins text-white/80 leading-relaxed">
-                  Meticulously curated products that embody sophistication and reflect your organization's commitment to excellence
-                </p>
-              </div>
-            </div>
 
-            <div className="relative p-8 border-r border-white/10">
-              <div className="absolute -inset-2 bg-gradient-to-br from-[#AD9660]/20 to-transparent blur-xl"></div>
-              <div className="relative">
-                <div className="w-20 h-20 bg-[#AD9660]/10 rounded-2xl flex items-center justify-center mb-6">
-                  <Briefcase className="w-10 h-10 text-[#AD9660]" />
-                </div>
-                <h3 className="font-frank-ruhl text-2xl font-medium text-white mb-4 font-edu-cursive">Corporate Expertise</h3>
-                <p className="font-poppins text-white/80 leading-relaxed">
-                  Over a decade of distinguished service in corporate gifting with 500+ satisfied clients across diverse industries
-                </p>
+    <div className="py-8 md:py-12 space-y-12 md:space-y-24">
+      <div className="max-w-md sm:max-w-2xl md:max-w-4xl lg:max-w-6xl mx-auto px-4 sm:px-6">
+        {/* Bulk Gifting Section */}
+        <div className="flex flex-col items-center max-w-5xl mx-auto mb-12 md:mb-24">
+          <div className="w-full">
+            <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12">
+              <div className="w-full md:w-1/2">
+                <img 
+                  src="https://www.boxupgifting.com/cdn/shop/files/Bulk_Corporate_Gifting.jpg?v=1725348252"
+                  alt="Bulk Gifting"
+                  className="w-full h-[250px] sm:h-[300px] md:h-[350px] object-cover rounded-xl shadow-sm"
+                />
               </div>
-            </div>
-
-            <div className="relative p-8">
-              <div className="absolute -inset-2 bg-gradient-to-br from-[#AD9660]/20 to-transparent blur-xl"></div>
-              <div className="relative">
-                <div className="w-20 h-20 bg-[#AD9660]/10 rounded-2xl flex items-center justify-center mb-6">
-                  <MessageSquare className="w-10 h-10 text-[#AD9660]" />
-                </div>
-                <h3 className="font-frank-ruhl text-2xl font-medium text-white mb-4 font-edu-cursive">Dedicated Partnership</h3>
-                <p className="font-poppins text-white/80 leading-relaxed">
-                  Personal account management and round-the-clock support ensuring your gifting initiatives exceed expectations
+              <div className="w-full md:w-1/2 text-center md:text-left">
+                <h2 className="text-3xl md:text-4xl font-edu-cursive mb-4">Bulk Gifting</h2>
+                <p className="text-gray-500 font-light text-sm md:text-base max-w-xl mx-auto md:mx-0 opacity-80">
+                  We bring to the table a range of <span className="font-medium">bulk corporate gifts</span> for employees that will redefine your relationship with them. A brand-new way to cherish, honour and acknowledge your employees that is hassle free and premium!
                 </p>
               </div>
             </div>
           </div>
         </div>
-      </section>
+
+        {/* WFH Employee Gifting Section */}
+        <div className="flex flex-col items-center max-w-5xl mx-auto mb-12 md:mb-24">
+          <div className="w-full">
+            <div className="flex flex-col md:flex-row-reverse items-center gap-6 md:gap-12">
+              <div className="w-full md:w-1/2">
+                <img 
+                  src="https://www.boxupgifting.com/cdn/shop/files/WFH_Employee_Gifting.jpg?v=1725348290"
+                  alt="WFH Employee Gifting"
+                  className="w-full h-[250px] sm:h-[300px] md:h-[350px] object-cover rounded-xl shadow-sm"
+                />
+              </div>
+              <div className="w-full md:w-1/2 text-center md:text-left">
+                <h2 className="text-3xl md:text-4xl font-edu-cursive mb-4">WFH Employee Gifting</h2>
+                <p className="text-gray-500 font-light text-sm md:text-base max-w-xl mx-auto md:mx-0 opacity-80">
+                  Connect with your remote family through WFH employee gifts that are unique and utilitarian! Share the company values and foster a sense of belonging with company gifts that show you value and revere your employees.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Positive Company Culture Section */}
+        <div className="flex flex-col items-center max-w-5xl mx-auto mb-12 md:mb-24">
+          <div className="w-full">
+            <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12">
+              <div className="w-full md:w-1/2">
+                <img 
+                  src="https://www.boxupgifting.com/cdn/shop/files/Positive_Company_Culture.jpg"
+                  alt="Positive Company Culture"
+                  className="w-full h-[250px] sm:h-[300px] md:h-[350px] object-cover rounded-xl shadow-sm"
+                />
+              </div>
+              <div className="w-full md:w-1/2 text-center md:text-left">
+                <h2 className="text-3xl md:text-4xl font-edu-cursive mb-4">Positive Company Culture</h2>
+                <p className="text-gray-500 font-light text-sm md:text-base max-w-xl mx-auto md:mx-0 opacity-80">
+                  We bring to the table a range of <span className="font-medium">bulk corporate gifts</span> for employees that will redefine your relationship with them. A brand-new way to cherish, honour and acknowledge your employees that is hassle free and premium!
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Brand Recognition Section */}
+        <div className="flex flex-col items-center max-w-5xl mx-auto">
+          <div className="w-full">
+            <div className="flex flex-col md:flex-row-reverse items-center gap-6 md:gap-12">
+              <div className="w-full md:w-1/2">
+                <img 
+                  src="https://www.boxupgifting.com/cdn/shop/files/Brand_Recognition.jpg"
+                  alt="Brand Recognition"
+                  className="w-full h-[250px] sm:h-[300px] md:h-[350px] object-cover rounded-xl shadow-sm"
+                />
+              </div>
+              <div className="w-full md:w-1/2 text-center md:text-left">
+                <h2 className="text-3xl md:text-4xl font-edu-cursive mb-4">Brand Recognition</h2>
+                <p className="text-gray-500 font-light text-sm md:text-base max-w-xl mx-auto md:mx-0 opacity-80">
+                  Connect with your remote family through WFH employee gifts that are unique and utilitarian! Share the company values and foster a sense of belonging with company gifts that show you value and revere your employees.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      
       {testimonials && testimonials.length > 0 && (
         <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <Testimonials testimonials={testimonials} />
@@ -307,164 +432,7 @@ export default async function HomePage() {
 
    
 
-      {/* Services Section */}
-      <section className="py-20 bg-neutral">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <Badge className="bg-secondary/10 text-secondary mb-4">Exclusive Services</Badge>
-            <h2 className="text-3xl lg:text-4xl font-medium text-primary mb-4 font-edu-cursive">Corporate Gifting Excellence</h2>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
-              Beyond exceptional products, we offer comprehensive services designed to elevate your corporate gifting
-              experience and strengthen your business relationships.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {services.map((service, index) => (
-              <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-md">
-                <CardContent className="p-0">
-                  <div className="relative overflow-hidden rounded-t-lg">
-                    <Image
-                      src={service.image || "/placeholder.svg"}
-                      alt={service.title}
-                      width={400}
-                      height={300}
-                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                    <div className="absolute top-4 right-4">
-                      <div className="flex items-center gap-1 bg-white/80 backdrop-blur-sm px-2 py-1 rounded-full">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="w-3 h-3 text-secondary fill-current" />
-                        ))}
-                        <span className="text-xs font-medium text-primary">{service.rating}</span>
-                      </div>
-                    </div>
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <div className="text-sm font-semibold">{service.clients}</div>
-                      <div className="text-xs opacity-90">Trusted Excellence</div>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center">
-                        {service.icon}
-                      </div>
-                      <h3 className="text-xl font-semibold text-primary">{service.title}</h3>
-                    </div>
-                    <p className="text-neutral-600 mb-4">{service.description}</p>
-                    <Button className="w-full bg-accent hover:bg-accent/90 text-white">
-                      <Link href={service.link} className="flex items-center gap-2">
-                        <Mail className="w-4 h-4" />📨 Request Consultation
-                      </Link>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="text-center mt-10">
-            <Button className="bg-secondary hover:bg-secondary/90 text-white px-8 py-3 rounded-xl">
-              <Link href="/services" className="flex items-center gap-2">
-                Explore All Services <ArrowRight className="w-4 h-4" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
    
-      {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-br from-[#323433] via-[#1E2A47] to-[#AB8E76] relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/geometric-pattern.svg')] opacity-5"></div>
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-20 w-40 h-40 bg-[#AD9660] rounded-full blur-3xl opacity-20"></div>
-          <div className="absolute bottom-20 right-20 w-60 h-60 bg-[#E6E2DD] rounded-full blur-3xl opacity-20"></div>
-        </div>
-
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <Badge className="bg-white/10 text-white mb-8">Exclusive Membership</Badge>
-            <h2 className="font-frank-ruhl text-5xl lg:text-6xl font-bold text-white mb-8 leading-tight">
-              Elevate Your Corporate Relationships
-            </h2>
-            <p className="font-poppins text-xl text-white/90 mb-12 leading-relaxed">
-              Subscribe to our exclusive newsletter and be the first to discover new collections, receive special offers, and access sophisticated corporate gifting insights.
-            </p>
-
-            {/* Newsletter Signup */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-lg mx-auto mb-8">
-              <Input
-                type="email"
-                placeholder="Enter your email address"
-                className="flex-1 px-6 py-6 text-lg rounded-2xl border-0 bg-white/95 backdrop-blur-sm shadow-xl font-poppins"
-              />
-              <Button
-                size="lg"
-                className="bg-[#AD9660] hover:bg-[#AD9660]/90 text-white px-8 py-6 rounded-2xl font-bold shadow-xl"
-              >
-                Subscribe
-              </Button>
-            </div>
-
-            <p className="font-poppins text-lg text-white/80 mb-12">
-              🎁 Receive exclusive access to our premium collections and special pricing
-            </p>
-
-            {/* Action Buttons */}
-            <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-              <Button
-                size="lg"
-                className="bg-[#AD9660] hover:bg-[#AD9660]/90 text-white px-8 py-8 rounded-2xl shadow-xl group"
-              >
-                <Link href="https://wa.me/919860002313" className="flex items-center justify-center gap-4">
-                  <MessageCircle className="w-6 h-6" />
-                  <div className="text-left">
-                    <div className="font-frank-ruhl font-bold text-lg">WhatsApp Consultation</div>
-                    <div className="font-poppins text-sm opacity-90">Immediate expert assistance</div>
-                  </div>
-                </Link>
-              </Button>
-
-              <Button
-                size="lg"
-                className="bg-white text-[#323433] hover:bg-white/90 px-8 py-8 rounded-2xl shadow-xl group"
-              >
-                <Link href="/quote" className="flex items-center justify-center gap-4">
-                  <Mail className="w-6 h-6" />
-                  <div className="text-left">
-                    <div className="font-frank-ruhl font-bold text-lg">Request Consultation</div>
-                    <div className="font-poppins text-sm opacity-90">Bespoke solutions for your organization</div>
-                  </div>
-                </Link>
-              </Button>
-            </div>
-
-            {/* Stats Section */}
-            <div className="mt-16 pt-16 border-t border-white/10">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <div className="text-center">
-                  <div className="font-frank-ruhl text-3xl font-bold text-[#AD9660] mb-2">1000+</div>
-                  <div className="font-poppins text-white/80">Curated Products</div>
-                </div>
-                <div className="text-center">
-                  <div className="font-frank-ruhl text-3xl font-bold text-[#AD9660] mb-2">10K+</div>
-                  <div className="font-poppins text-white/80">Satisfied Clients</div>
-                </div>
-                <div className="text-center">
-                  <div className="font-frank-ruhl text-3xl font-bold text-[#AD9660] mb-2">50+</div>
-                  <div className="font-poppins text-white/80">Cities Served</div>
-                </div>
-                <div className="text-center">
-                  <div className="font-frank-ruhl text-3xl font-bold text-[#AD9660] mb-2">4.9★</div>
-                  <div className="font-poppins text-white/80">Excellence Rating</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
     </div>
   )

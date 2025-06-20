@@ -21,11 +21,11 @@ const ProductGrid: React.FC<ProductGridProps> = ({  products }) => {
   return (
     <section className="py-8 bg-white">
       <div className="max-w-md sm:max-w-2xl md:max-w-4xl lg:max-w-6xl mx-auto sm:px-4">
-        <h2 className="text-4xl font-normal text-center w-1/2 text-gray-900  mb-12 font-edu-cursive">Corporate Gifts – India’s Most Trusted Gifting Brand</h2>
-        <p className="text-center text-gray-500 font-light  mx-auto mb-6 opacity-80 text-sm md:text-base">
-        Looking for unique and premium corporate gift hampers? Explore our top gifting options for employees and clients at affordable prices across India. Choose from a wide range of over 5,000 high-quality corporate gift products.
+        <h2 className="text-2xl md:text-4xl font-normal text-center w-full md:w-1/2  text-gray-900  mb-6  font-edu-cursive">Corporate Gifts – India’s Most Trusted Gifting Brand</h2>
+        <p className="text-center text-gray-500 font-light  mx-auto mb-4 opacity-80 text-sm md:text-base">
+        Looking for unique and premium corporate gift hampers? Explore our top gifting options for employees and clients at affordable prices across India.
       </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-6 gap-x-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4  gap-x-4">
           {products.map((product, index) => (
             <ProductCard key={index} product={product} index={index} products={products} />
           ))}
@@ -46,12 +46,12 @@ const ProductCard: React.FC<{ product: Product; index: number; products: Product
   const hoverImage = products[nextIndex].image;
   return (
     <div
-      className="rounded-xl overflow-hidden flex flex-col pb-4 transition-transform duration-300 hover:scale-105 group"
+      className="rounded-xl overflow-hidden flex ml-6 md:ml-0 flex-col pb-4 transition-transform duration-300 hover:scale-105 group"
       style={{ minHeight: 420, maxWidth: 340 }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className="relative h-64 mb-3">
+      <div className="relative h-64 mb-3  ">
         <img
           src={product.image}
           alt={product.name}
@@ -74,19 +74,6 @@ const ProductCard: React.FC<{ product: Product; index: number; products: Product
         <h3 className="font-normal text-lg text-gray-900 font-sans leading-snug break-words line-clamp-2 text-left">{product.name}</h3>
         <span className="text-sm font-normal text-gray-600  italic">coporate gift</span>
         <span className="text-lg font-light text-gray-900 mb-2 text-left">₹{product.price.toLocaleString()}</span>
-        {/* <div className="flex items-center text-left">
-          <div className="flex items-center mr-2">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                className={`w-4 h-4 ${i < product.rating ? 'text-[#B8860B] fill-[#B8860B]' : 'text-gray-300'}`}
-                strokeWidth={i < product.rating ? 0 : 1.5}
-              />
-            ))}
-          </div>
-          <span className="text-base text-gray-700 font-sans mr-1">{product.rating}</span>
-          <span className="text-sm text-gray-400 font-sans">({product.reviews})</span>
-        </div> */}
       </div>
     </div>
   );
