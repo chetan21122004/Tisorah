@@ -6,11 +6,16 @@ import "@/styles/patterns.css"
 import { Toaster } from "@/components/ui/toaster"
 import Navbar from "@/components/LandingPage/Navbar"
 import Footer from '@/components/LandingPage/Footer'
+import { Inter } from "next/font/google"
+import { Toaster as SonnerToaster } from "sonner"
+
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-poppins",
 })
+
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Tisorah - Exquisite Corporate Gifting Solutions",
@@ -34,6 +39,7 @@ export default function RootLayout({
 <Footer />
         
         <Toaster />
+        <SonnerToaster />
       </body>
     </html>
   )

@@ -24,9 +24,11 @@ import { getFeaturedProducts, getLatestProducts, getTestimonials } from "./actio
 
 import Gifting from '@/components/LandingPage/Gifting'
 import Testimonials from '@/components/LandingPage/Testimonials'
+import ContactForm from '@/components/LandingPage/ContactForm'
 import React from 'react'
 import ProductGrid from '@/components/LandingPage/ProductGrid'
 import NewArrival from '@/components/LandingPage/NewArrival'
+import OurClient from "@/components/LandingPage/OurClient"
 
 
 export default async function HomePage() {
@@ -329,11 +331,9 @@ export default async function HomePage() {
 
     </div>
 
-
-
-      <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <Gifting  />
-       </div>
+    <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <Gifting  />
+    </div>
 
     <div className="py-8 md:py-12 space-y-12 md:space-y-24">
       <div className="max-w-md sm:max-w-2xl md:max-w-4xl lg:max-w-6xl mx-auto px-4 sm:px-6">
@@ -422,17 +422,20 @@ export default async function HomePage() {
         </div>
       </div>
     </div>
-      
-      {testimonials && testimonials.length > 0 && (
-        <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <Testimonials testimonials={testimonials} />
-        </div>
-      )}
-      
 
-   
+    {/* Our Clients Section */}
+    <div className="bg-white">
+      <OurClient />
+    </div>
 
-   
+    {/* Contact Form Section */}
+    <ContactForm />
+
+    {testimonials && testimonials.length > 0 && (
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <Testimonials testimonials={testimonials} />
+      </div>
+    )}
 
     </div>
   )

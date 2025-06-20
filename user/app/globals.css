@@ -118,3 +118,13 @@ body {
   font-family: 'Edu NSW ACT Cursive', cursive;
 }
 
+.group:hover img {
+  filter: none !important;
+}
+.custom-hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+.custom-hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Webkit */
+}
