@@ -335,6 +335,14 @@ export default async function HomePage() {
       <Gifting  />
     </div>
 
+
+
+    {/* Our Clients Section */}
+    <div className="bg-white">
+      <OurClient />
+    </div>
+
+    
     <div className="py-8 md:py-12 space-y-12 md:space-y-24">
       <div className="max-w-md sm:max-w-2xl md:max-w-4xl lg:max-w-6xl mx-auto px-4 sm:px-6">
         {/* Bulk Gifting Section */}
@@ -423,10 +431,6 @@ export default async function HomePage() {
       </div>
     </div>
 
-    {/* Our Clients Section */}
-    <div className="bg-white">
-      <OurClient />
-    </div>
 
     {/* Contact Form Section */}
     <ContactForm />
