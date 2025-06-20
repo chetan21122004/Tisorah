@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'GalleryModern'; /* Font name you will use */
+  src: url('/fonts/gallerymodern-webfont.woff2') format('woff2'),
+       url('/fonts/gallerymodern-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -109,3 +117,4 @@ body {
 .font-edu-cursive {
   font-family: 'Edu NSW ACT Cursive', cursive;
 }
+

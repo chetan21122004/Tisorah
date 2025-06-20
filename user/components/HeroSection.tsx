@@ -1,6 +1,7 @@
 "use client"
 
 import HeroSlider from "@/components/HeroSlider"
+import Image from "next/image"
 
 const categories = [
   {
@@ -37,9 +38,15 @@ export default function HeroSection() {
   return (
     <section className="bg-white my-12">
       {/* Main Banner Slider */}
-      <HeroSlider />
+      <div className="flex flex-col w-full">
+      <Image alt="hero" height={100} src="https://www.boxupgifting.com/cdn/shop/files/Corporate_banner_Compressed_copy.jpg" width={100} className="w-full h-1/2" />
+      <Image alt="hero" height={100} src="https://www.boxupgifting.com/cdn/shop/files/Corporate_Compressed_copy_120d4d8f-0b6b-42d7-a84e-a10eaae409be.jpg?v=1733485155" width={100} className="w-full h-1/2" />
+      <Image alt="hero" height={100} src="https://cdn.shopify.com/s/files/1/0581/9754/0921/files/frame-5-1646052171479_1200x_1.png?v=1703229823" width={100} className="w-44 left-1/2 relative -translate-x-1/2 -mt-24" />
 
-      {/* Categories Grid */}
+      </div>
+
+
+      {/* Categories Grid
       <div className="container mx-auto px-4 -mt-20 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {categories.map((cat, idx) => (
@@ -62,7 +69,7 @@ export default function HeroSection() {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </section>
   )
 } 

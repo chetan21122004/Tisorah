@@ -106,11 +106,151 @@ export default async function HomePage() {
     },
   ]
 
+  const giftCategories = [
+    {
+      label: 'Employee Welcome kits',
+      image: 'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=400&q=80',
+    },
+    {
+      label: 'Eco Friendly Gifts',
+      image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
+    },
+    {
+      label: 'Client Gifts',
+      image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
+    },
+    {
+      label: 'Employee Gifts',
+      image: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80',
+    },
+    {
+      label: 'Drinkware',
+      image: 'https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=400&q=80',
+    },
+    {
+      label: 'Promotional Gifts',
+      image: 'https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=400&q=80',
+    },
+  ]
+
+  // Occasion-wise gifts data
+  const occasionGifts = [
+    {
+      label: 'Birthday',
+      image: 'https://www.boxupgifting.com/cdn/shop/files/Happy_birthday-rafiki.png?v=1736240900',
+    },
+    {
+      label: 'Work Anniversary',
+      image: 'https://www.boxupgifting.com/cdn/shop/files/Work_Anniversary.png?v=1736240917',
+    },
+    {
+      label: 'Rewards and Recognition',
+      image: 'https://www.boxupgifting.com/cdn/shop/files/Rewards_and_Recognition.png?v=1736240932',
+    },
+    {
+      label: 'Employee Onboarding',
+      image: 'https://www.boxupgifting.com/cdn/shop/files/Employee_Onboarding_aeb3ed63-0ceb-4d55-9058-136583b8e7c1.png?v=1736240876',
+    },
+    {
+      label: 'Client Appreciation',
+      image: 'https://www.boxupgifting.com/cdn/shop/files/Client_Appreciation_7f2b79cc-0947-4a67-b7cf-cab0a5c14e68.png?v=1736240974',
+    },
+    {
+      label: 'Events',
+      image: 'https://www.boxupgifting.com/cdn/shop/files/Corporate_Events_7bf08475-18f0-4df1-9d0f-74630cacf7bd.png?v=1736241000',
+    },
+  ];
+
+  // Our Offerings data
+  const offerings = [
+    {
+      image: 'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=600&q=80',
+      title: 'Make Your Gift Hamper',
+      desc: 'Tailor your corporate gifting with premium products and customisation.',
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80',
+      title: 'Promotional Gifts',
+      desc: 'Make a difference with promotional gifts that feature elegance, luxury and functionality.',
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
+      title: 'Sustainable Gifts',
+      desc: 'Choose gifts with our Eco-Friendly gifts that leave a positive impact.',
+    },
+  ];
+
+  // Card component for offerings
+  function OfferingCard({ image, title, desc }: { image: string; title: string; desc: string }) {
+    return (
+      <div className="flex flex-col items-center justify-center bg-white  shadow-sm p-0 md:p-2 hover:scale-[1.05] transition-all duration-300 w-96 mx-auto">
+        <img src={image} alt={title} className="w-full rounded-2xl h-48 object-cover rounded-t-2xl" />
+        <div className="flex flex-col items-center px-4 py-3">
+          <h3 className="text-lg font-bold text-black opacity-80 mb-2 ">{title}</h3>
+          <p className="text-sm font-light text-gray-500  mb-5">{desc}</p>
+          <button className="bg-black text-white rounded-full px-7 py-2 text-sm font-semibold transition hover:bg-gray-900">KNOW MORE</button>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-[#FAFAFA]">
+    <div className="min-h-screen ">
+      
+       <div className="flex flex-wrap justify-center gap-10 my-12">
+        {giftCategories.map((cat, idx) => (
+          <div key={idx} className="flex flex-col items-center">
+            <div className="w-24 h-24 rounded-full overflow-hidden shadow-md transition-transform duration-200 hover:scale-105 bg-gray-100 flex items-center justify-center">
+              <img src={cat.image} alt={cat.label} className="object-cover w-full h-full" />
+            </div>
+            <span className="mt-3 text-xs font-medium text-gray-800 text-center">{cat.label}</span>
+          </div>
+        ))}
+      </div>
+      
+      <p className="text-center text-gray-500 font-light max-w-2xl mx-auto mb-6 opacity-80 text-sm md:text-base">
+        Looking for unique and premium corporate gift hampers? Explore our top gifting options for employees and clients at affordable prices across India. Choose from a wide range of over 5,000 high-quality corporate gift products.
+      </p>
+      
       <HeroSection/>
       <ProductGrid title="Trending Today" products={trendingProducts} />
-      <NewArrival products={latestProducts} />
+
+      {/* Occasion-Wise Gifts Section */}
+      <div className="my-8">
+        <h2 className="text-4xl font-edu-cursive text-center mb-10">Occasion-Wise Gifts</h2>
+        <div className="flex flex-wrap justify-center gap-2 ">
+          {occasionGifts.map((item, idx) => (
+            <div key={idx} className="flex flex-col items-center w-36 md:w-44">
+              <img
+                src={item.image}
+                alt={item.label}
+                className="w-full h-28  object-contain rounded-xl    transition-transform duration-200 hover:scale-105"
+                loading="lazy"
+              />
+              <span className="mt-1 text-base md:text-sm font-medium text-gray-800 text-center">{item.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Our Offerings Section */}
+      <div className="my-16">
+        <h2 className="text-4xl font-edu-cursive text-center mb-2">Our Offerings</h2>
+        <p className="text-center text-gray-500 font-light max-w-2xl mx-auto mb-10 text-sm md:text-base">
+          Bespoke Gifts and Eco-friendly gifts, meticulously crafted to boost your brand's sophistication.
+        </p>
+        <div className="flex flex-col md:flex-row gap-2 mx-auto max-w-6xl justify-center items-center">
+          {offerings.map((card, idx) => (
+            <OfferingCard key={idx} {...card} />
+          ))}
+        </div>
+        <div className="flex flex-col md:flex-row mt-10 gap-2 mx-auto max-w-6xl justify-center items-center">
+          {offerings.map((card, idx) => (
+            <OfferingCard key={idx} {...card} />
+          ))}
+        </div>
+      </div>
+
       <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <Gifting  />
        </div>

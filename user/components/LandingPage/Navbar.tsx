@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { Search, User, ShoppingBag, ChevronDown, Menu } from "lucide-react"
+import { Search, User, ShoppingBag, ChevronDown, Menu, PhoneCall } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import {
   NavigationMenu,
@@ -17,52 +17,83 @@ import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 
 
-// Mega menu data for 'Shop Gifts'
+// Mega menu data for 'Promotional Gifts'
 const shopGiftsMenu = [
-    {
-      title: 'SHOP BY RECIPIENT',
-      items: [
-        'Gifts for Women', 'Gifts for Men', 'Gifts for Husband', 'Gifts for Wife',
-        'Gifts for Boyfriend', 'Gifts for Girlfriend', 'Gifts for Parents',
-        'Gifts for Couple', 'Gifts for Moms to be', 'Gifts for Kids', 'Baby Gifts',
-      ],
-    },
-    {
-      title: 'SHOP BY OCCASION',
-      items: [
-        'Thank You', 'Birthday', 'Anniversary / Wedding', 'Housewarming Gifts',
-        'Get Well Soon Gifts', 'Celebrations Gift Box', 'Gifts for New Born Baby', 'Self Care Hampers',
-      ],
-    },
-    {
-      title: 'SHOP BY INTEREST',
-      items: [
-        'Love', 'Dry Fruits', 'Gourmet', 'Gifts for Coffee Lovers', 'Chocolate Gift Boxes',
-        'Gifts for Fitness Freaks', 'Eco-friendly Gifts', 'Gifts for Colleagues',
-      ],
-    },
-    {
-      title: 'BY PRICE',
-      items: [
-        'Gifts Under Rs 999', 'Rs 1000 to Rs 2000', 'Rs 2000 to Rs 3000', 'Above Rs 3000+',
-      ],
-    },
-    {
-      title: '',
-      items: [
-        'PERSONALISED GIFTS', 'HOME DECOR GIFTS', 'NEW ARRIVALS', 'LUXE COLLECTIVE',
-        'BEST SELLERS', 'GIFT CARDS', 'SAME DAY DELIVERY IN BANGALORE',
-      ],
-    },
-  ];
+  {
+    title: 'Work & Desk Essentials',
+    items: [
+      'Desk Essentials', 'Journal', 'Pens', 'Stationery & Accessories',
+    ],
+  },
+  {
+    title: 'Home & Living',
+    items: [
+      'Planters & Pots', 'Photo Frames', 'Lights & Lamps', 'Home & Decor', 'Fragrance',
+    ],
+  },
+  {
+    title: 'Lifestyle & Accessories',
+    items: [
+      'Travel', 'Keychains', 'Lifestyle',
+    ],
+  },
+  {
+    title: 'Gourmet & Edible Treats',
+    items: [
+      'Chocolates', 'Coffee & Tea Delights', 'Gourmet Snacks', 'Healthy Munchies', 'Nuts & Seeds',
+    ],
+  },
+  {
+    title: 'Drinkware',
+    items: [
+      'Drinkware',
+    ],
+  },
+  {
+    title: 'Electronic Gadgets',
+    items: [
+      'Electronic Gadgets',
+    ],
+  },
+  {
+    title: 'Eco-Friendly Gifts',
+    items: [
+      'Eco-Friendly Gifts',
+    ],
+  },
+];
   
-  // Navigation links for the main menu (excluding Shop Gifts)
-  const navLinks = [
-    { label: 'Make Your Own Hamper', href: '#' },
-    { label: 'All Gifts', href: '#' },
-    { label: 'New Arrivals', href: '#' },
-    { label: 'Corporate Gifting', href: '#' },
-  ];
+// Navigation links for the main menu (excluding Shop Gifts)
+const navLinks = [
+  { label: 'Bulk Gifting', href: '#' },
+  { label: 'Client Gifting', href: '#' },
+  { label: 'Employee Gifting', href: '#' },
+  { label: 'Case Studies', href: '#' },
+  { label: 'Bulk Enquiry', href: '#' },
+  { label: 'About Us', href: '#' },
+];
+
+// Mega menu data for 'Corporate Gifts'
+const corporateGiftsMenu = [
+  {
+    title: 'By Celebration',
+    items: [
+      'Work Anniversary Gifts', 'Rewards and Recognition', 'Executive Gifts',
+    ],
+  },
+  {
+    title: 'By Price',
+    items: [
+      'Under 1000', 'Under 2500', 'Under 3000', 'Above 3000',
+    ],
+  },
+  {
+    title: 'Welcome Kit',
+    items: [
+      'Welcome Kit' ,'Real Estate Gifts','Branded Gifts','Eco Friendly Gifts','Thank You Gifts','Thank You Gifts','Architecture Gifts'
+    ],
+  },
+];
 
 
 const Navbar = () => {
@@ -74,7 +105,7 @@ const Navbar = () => {
     if (menuRef.current) {
       gsap.fromTo(
         menuRef.current,
-        { opacity: 0, y: 20 },
+        { opacity: 0, y: 10 },
         { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }
       );
     }
@@ -120,6 +151,13 @@ const Navbar = () => {
                   className="pl-12 focus:ring-0 py-6 rounded-3xl outline-none border bg-gray-50 hover:border-gray-200 transition-colors"
                 />
               </div>
+              <div className="flex items-center gap-2">
+                <PhoneCall className="h-5 w-5 text-gray-700" />
+                <div className="flex flex-col">
+                  <span className="text-md font-semibold text-gray-700">+9194016464</span>
+                  <span className="text-xs tracking-tight font-light text-gray-500">Call us for bulk orders</span>
+                </div>
+              </div>
               <User className="h-7 w-7 hover:opacity-60 transition-all duration-300 text-gray-700" />
               <ShoppingBag className="h-7 w-7 hover:opacity-60 transition-all duration-300 text-gray-700" />
             </div>
@@ -136,25 +174,24 @@ const Navbar = () => {
       {/* Navigation Menu - Desktop only */}
       <nav className="border-b border-gray-100 hidden md:block">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-6 lg:px-8">
-          <div className="flex items-center justify-end space-x-8 ">
+          <div className="flex items-center justify-end space-x-4 ">
             <NavigationMenu>
-              <NavigationMenuList className="space-x-8">
+              <NavigationMenuList className="space-x-4">
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-sm font-medium text-gray-700 hover:text-gray-900 bg-transparent hover:bg-transparent focus:bg-transparent data-[active]:bg-transparent data-[state=open]:bg-transparent">
-                    Shop Gifts
-                    <ChevronDown className="ml-1 h-3 w-3" />
+                  <NavigationMenuTrigger className="text-xs font-medium text-gray-700 hover:text-gray-900 bg-transparent hover:bg-transparent focus:bg-transparent data-[active]:bg-transparent data-[state=open]:bg-transparent">
+                  Promotional Gifts
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <div className="fixed left-1/2 top-52 z-50 flex justify-center items-center -translate-x-1/2 w-auto">
+                    <div className="fixed left-1/2 top-44 z-50 flex justify-center items-center -translate-x-1/2 w-auto">
                       <div
                         ref={menuRef}
                         key={Math.random()} // this retriggers on each open
-                        className="flex gap-20 px-6 py-6 bg-white shadow-xl rounded-xl z-50"
+                        className="flex gap-10 font-gallery px-6 py-6 bg-white shadow-xl rounded-xl z-50"
                       >
                         {shopGiftsMenu.map((col, idx) => (
                           <div key={idx} className="min-w-[150px]">
                             {col.title && (
-                              <div className="font-serif text-[15px] mb-1 tracking-tight leading-tight">{col.title}</div>
+                              <div className=" text-[15px] mb-1 tracking-tight font-gallery  leading-tight">{col.title}</div>
                             )}
                             <ul className="space-y-0.5">
                               {col.items.map((item, i) => (
@@ -171,16 +208,56 @@ const Navbar = () => {
                     </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
+
+
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="text-xs font-medium text-gray-700 hover:text-gray-900 bg-transparent hover:bg-transparent focus:bg-transparent data-[active]:bg-transparent data-[state=open]:bg-transparent">
+                 Corporate Gifts
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <div className="fixed left-1/2 top-44 z-50 flex justify-center items-center -translate-x-1/2 w-auto">
+                      <div
+                        ref={menuRef}
+                        key={Math.random()} // this retriggers on each open
+                        className="flex gap-10 font-gallery px-6 py-6 bg-white shadow-xl rounded-xl z-50"
+                      >
+                        {corporateGiftsMenu.map((col, idx) => (
+                          <div key={idx} className="min-w-[150px]">
+                            {col.title && (
+                              <div className=" text-[15px] mb-1 tracking-tight font-gallery  leading-tight">{col.title}</div>
+                            )}
+                            <ul className="space-y-0.5">
+                              {col.items.map((item, i) => (
+                                <li key={i}>
+                                  <NavigationMenuLink className="block px-1 py-0.5 text-[14px] leading-tight text-gray-800 hover:underline transition-all duration-300 cursor-pointer">
+                                    {item}
+                                  </NavigationMenuLink>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+
+
+
+
+              
                 {navLinks.map((link, idx) => (
                   <NavigationMenuItem key={idx}>
                     <NavigationMenuLink
                       href={link.href}
-                      className="text-md font-medium text-gray-700 hover:text-gray-900 py-2 flex flex-col items-center "
+                      className="text-xs font-medium text-gray-700 hover:text-gray-900 py-24flex flex-col items-center "
                     >
-                      <p className="group">{link.label}</p>
+                      <p className={`${idx % 2 ===0 ? 'underline' :'none'}`}>{link.label}</p>
                     </NavigationMenuLink>
                   </NavigationMenuItem>
                 ))}
+
+                <button className='text-xs font-medium text-white bg-black/80 px-5 py-2 rounded-[100px] hover:text-gray-900 py-24flex flex-col items-center '>download catlog</button>
               </NavigationMenuList>
             </NavigationMenu>
           </div>
