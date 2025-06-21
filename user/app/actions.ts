@@ -1,29 +1,11 @@
 'use server'
 
-import { createServerClient, type CookieOptions } from '@supabase/ssr'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import type { Database } from '@/types/supabase'
 
 export async function createServerSupabaseClient() {
-  const cookieStore = cookies()
-  
-  return createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value
-        },
-        set(name: string, value: string, options: CookieOptions) {
-          cookieStore.set(name, value, options)
-        },
-        remove(name: string, options: CookieOptions) {
-          cookieStore.delete(name, options)
-        },
-      },
-    }
-  )
+  return createServerComponentClient<Database>({ cookies })
 }
 
 export async function getFeaturedProducts() {
@@ -157,4 +139,34 @@ export async function searchProducts(params: SearchParams) {
     console.error('Error in searchProducts:', error)
     return { products: [], count: 0 }
   }
+}
+
+export async function getLatestProducts() {
+  const supabase = await createServerSupabaseClient();
+  const { data: products, error } = await supabase
+    .from('products')
+    .select('*')
+    .order('updated_at', { ascending: false })
+    .limit(8);
+
+  if (error) {
+    console.error('Error fetching latest products:', error);
+    return [];
+  }
+  return products || [];
+}
+
+export async function getTestimonials() {
+  const supabase = await createServerSupabaseClient();
+  const { data: testimonials, error } = await supabase
+    .from('testimonials')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(8);
+
+  if (error) {
+    console.error('Error fetching testimonials:', error);
+    return [];
+  }
+  return testimonials || [];
 } 

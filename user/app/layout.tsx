@@ -3,15 +3,22 @@ import type { Metadata } from "next"
 import { Poppins } from "next/font/google"
 import "./globals.css"
 import "@/styles/patterns.css"
-import Navigation from "@/components/navigation"
-import { Footer } from "@/components/footer"
 import { Toaster } from "@/components/ui/toaster"
+import Navbar from "@/components/LandingPage/Navbar"
+import Footer from '@/components/LandingPage/Footer'
+import { Inter } from "next/font/google"
+import { Toaster as SonnerToaster } from "sonner"
+import { ShortlistProvider } from "@/lib/ShortlistContext"
+import { WhatsAppButton } from "@/components/ui/whatsapp-button"
+import StarFollower from "@/components/LandingPage/StarFollower"
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-poppins",
 })
+
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Tisorah - Exquisite Corporate Gifting Solutions",
@@ -29,10 +36,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} font-sans antialiased`}>
-        <Navigation />
-        <main>{children}</main>
-        <Footer />
-        <Toaster />
+      <link href="https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&display=swap" rel="stylesheet" />
+        <ShortlistProvider>
+          <Navbar></Navbar>
+          <main>{children}</main>
+          <Footer />
+          <WhatsAppButton />
+          <StarFollower />
+          <Toaster />
+          <SonnerToaster />
+        </ShortlistProvider>
       </body>
     </html>
   )

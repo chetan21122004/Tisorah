@@ -4,7 +4,7 @@ import { Gift, Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from "lucide
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
-export function Footer() {
+export default function Footer() {
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="container mx-auto px-4 py-16">

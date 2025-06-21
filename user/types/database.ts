@@ -1,17 +1,34 @@
 export interface Product {
   id: string
   name: string
-  description: string | null
+  description?: string | null
   price: number
-  images: string[] | null
-  category: string
-  moq: string | null
-  delivery: string | null
-  rating: number | null
-  featured: boolean | null
-  customizable: boolean | null
-  created_at: string | null
-  updated_at: string | null
+  original_price?: number
+  images?: string[] | null
+  category?: string
+  main_category?: string
+  sub_category?: string
+  main_category_info?: CategoryInfo
+  sub_category_info?: CategoryInfo
+  rating?: number | null
+  reviews?: number | null
+  discount?: string
+  moq?: string | number | null
+  features?: string[] | null
+  specifications?: Record<string, string> | null
+  benefits?: string[] | null
+  is_featured?: boolean | null
+  delivery?: string | null
+  customizable?: boolean | null
+  featured?: boolean | null
+  created_at?: string | null
+  updated_at?: string | null
+}
+
+export interface CategoryInfo {
+  id: string
+  name: string
+  slug: string
 }
 
 export interface Testimonial {

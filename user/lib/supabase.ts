@@ -53,7 +53,11 @@ export async function getProducts(): Promise<Product[]> {
   const supabase = createBrowserClient()
   const { data, error } = await supabase
     .from('products')
-    .select('*')
+    .select(`
+      *,
+      main_category_info:new_categories!main_category(id, name, slug),
+      sub_category_info:new_categories!sub_category(id, name, slug)
+    `)
     .order('created_at', { ascending: false })
 
   if (error) {
@@ -83,7 +87,11 @@ export async function getProductById(id: string): Promise<Product | null> {
   const supabase = createBrowserClient()
   const { data, error } = await supabase
     .from('products')
-    .select('*')
+    .select(`
+      *,
+      main_category_info:new_categories!main_category(id, name, slug),
+      sub_category_info:new_categories!sub_category(id, name, slug)
+    `)
     .eq('id', id)
     .single()
 
