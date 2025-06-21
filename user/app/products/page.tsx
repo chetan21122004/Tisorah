@@ -44,6 +44,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import ProductGrid from '@/components/LandingPage/ProductGrid'
+import { useShortlist } from "@/lib/ShortlistContext"
 
 interface ProductCardProps {
   product: {
@@ -54,6 +55,7 @@ interface ProductCardProps {
     discount?: number;
     rating: number;
     reviews: number;
+    category?: string;
   };
   index: number;
   products: any[];
@@ -63,48 +65,97 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products }) =
   const [hovered, setHovered] = useState(false);
   const nextIndex = (index + 1) % products.length;
   const hoverImage = products[nextIndex].image;
+  const { addToShortlist, removeFromShortlist, isInShortlist } = useShortlist();
+  const [isInShortlistState, setIsInShortlistState] = useState(false);
+  const [isAddingToShortlist, setIsAddingToShortlist] = useState(false);
+
+  useEffect(() => {
+    setIsInShortlistState(isInShortlist(product.id));
+  }, [product.id, isInShortlist]);
+
+  const handleShortlistClick = async (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent navigation when clicking the shortlist button
+    setIsAddingToShortlist(true);
+    try {
+      const shortlistItem = {
+        id: product.id,
+        name: product.name,
+        price: `₹${product.price.toLocaleString()}`,
+        originalPrice: `₹${product.price.toLocaleString()}`,
+        image: product.image,
+        rating: product.rating,
+        reviews: product.reviews,
+        quantity: 1,
+        moq: 1,
+        category: product.category,
+      };
+
+      if (isInShortlistState) {
+        removeFromShortlist(product.id);
+        setIsInShortlistState(false);
+      } else {
+        addToShortlist(shortlistItem);
+        setIsInShortlistState(true);
+      }
+    } finally {
+      setIsAddingToShortlist(false);
+    }
+  };
+
   return (
     <div
-      className="rounded-xl overflow-hidden flex flex-col pb-4 transition-transform duration-300 hover:scale-105 group"
+      className="rounded-xl overflow-hidden flex flex-col pb-4 transition-transform duration-300 hover:scale-105 group relative"
       style={{ minHeight: 420, maxWidth: 340 }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <Link href={`/products/${product.id}`} className="mt-4">
-      <div className="relative h-64 mb-3">
-        <img
-          src={product.image}
-          alt={product.name}
-          className={`w-full h-64 object-cover object-center rounded-xl absolute left-0 top-0 transition-all duration-300 ${hovered ? 'opacity-0' : 'opacity-100'}`}
-          style={{ background: '#f7f7f7' }}
-        />
-        <img
-          src={hoverImage}
-          alt={product.name + ' alt'}
-          className={`w-full h-64 object-cover object-center rounded-xl absolute left-0 top-0 transition-all duration-300 ${hovered ? 'opacity-100' : 'opacity-0'}`}
-          style={{ background: '#f7f7f7' }}
-        />
-      </div>
+        <div className="relative h-64 mb-3">
+          <img
+            src={product.image}
+            alt={product.name}
+            className={`w-full h-64 object-cover object-center rounded-xl absolute left-0 top-0 transition-all duration-300 ${hovered ? 'opacity-0' : 'opacity-100'}`}
+            style={{ background: '#f7f7f7' }}
+          />
+          <img
+            src={hoverImage}
+            alt={product.name + ' alt'}
+            className={`w-full h-64 object-cover object-center rounded-xl absolute left-0 top-0 transition-all duration-300 ${hovered ? 'opacity-100' : 'opacity-0'}`}
+            style={{ background: '#f7f7f7' }}
+          />
+        </div>
       </Link>
       <div className="px-4 flex flex-col flex-1 transform scale-[0.952] will-change-transform">
-        <h3 className="font-normal text-lg text-gray-900 mb-2 font-sans leading-snug break-words line-clamp-2 text-left">{product.name}</h3>
+        <h3 className="font-normal text-md text-gray-900 mb-2 font-sans leading-snug break-words line-clamp-2 text-left">{product.name}</h3>
         <span className="text-lg font-normal text-gray-900 mb-2 text-left">₹{product.price.toLocaleString()}</span>
-        <div className="flex items-center text-left">
-          <div className="flex items-center mr-2">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                className={`w-4 h-4 ${i < product.rating ? 'text-[#B8860B] fill-[#B8860B]' : 'text-gray-300'}`}
-                strokeWidth={i < product.rating ? 0 : 1.5}
-              />
-            ))}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center text-left">
+            <div className="flex items-center mr-2">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className={`w-4 h-4 ${i < product.rating ? 'text-[#B8860B] fill-[#B8860B]' : 'text-gray-300'}`}
+                  strokeWidth={i < product.rating ? 0 : 1.5}
+                />
+              ))}
+            </div>
+            <span className="text-base text-gray-700 font-sans mr-1">{product.rating}</span>
+            <span className="text-sm text-gray-400 font-sans">({product.reviews})</span>
           </div>
-          <span className="text-base text-gray-700 font-sans mr-1">{product.rating}</span>
-          <span className="text-sm text-gray-400 font-sans">({product.reviews})</span>
+          <Button
+            variant="ghost"
+            size="icon"
+            className={`h-9 w-9 rounded-full transition-colors ${
+              isInShortlistState 
+                ? 'bg-[#AD9660] text-white hover:bg-[#8B7A4F]' 
+                : 'hover:bg-[#E6E2DD]'
+            }`}
+            onClick={handleShortlistClick}
+            disabled={isAddingToShortlist}
+          >
+            <Heart className={`w-5 h-5 ${isInShortlistState ? 'fill-current' : ''}`} />
+          </Button>
         </div>
-        <Link href={`/${product.id}`} className="mt-4">
-          
-        </Link>
       </div>
     </div>
   );
