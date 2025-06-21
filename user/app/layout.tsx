@@ -8,6 +8,7 @@ import Navbar from "@/components/LandingPage/Navbar"
 import Footer from '@/components/LandingPage/Footer'
 import { Inter } from "next/font/google"
 import { Toaster as SonnerToaster } from "sonner"
+import { ShortlistProvider } from "@/lib/ShortlistContext"
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -34,12 +35,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${poppins.variable} font-sans antialiased`}>
       <link href="https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&display=swap" rel="stylesheet" />
-        <Navbar></Navbar>
-        <main>{children}</main>
-<Footer />
-        
-        <Toaster />
-        <SonnerToaster />
+        <ShortlistProvider>
+          <Navbar></Navbar>
+          <main>{children}</main>
+          <Footer />
+          <Toaster />
+          <SonnerToaster />
+        </ShortlistProvider>
       </body>
     </html>
   )

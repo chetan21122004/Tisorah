@@ -1,16 +1,23 @@
 export interface Product {
   id: string
   name: string
-  description: string | null
+  description?: string
   price: number
-  images: string[] | null
-  category: string
-  moq: string | null
-  delivery: string | null
-  rating: number | null
-  featured: boolean | null
-  customizable: boolean | null
-  created_at: string | null
+  original_price: number
+  images?: string[]
+  category?: string
+  rating?: number
+  reviews?: number
+  discount?: string
+  moq?: number
+  features?: string[]
+  specifications?: Record<string, string>
+  benefits?: string[]
+  is_featured?: boolean
+  delivery?: string
+  customizable?: boolean
+  featured?: boolean
+  created_at?: string
   updated_at: string | null
 }
 

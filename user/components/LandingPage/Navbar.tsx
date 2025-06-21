@@ -15,6 +15,9 @@ import Image from "next/image"
 import { useRef, useState } from "react"
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
+import { useShortlist } from "@/lib/ShortlistContext"
+import Link from "next/link"
+import { Badge } from "@/components/ui/badge"
 
 
 // Mega menu data for 'Promotional Gifts'
@@ -99,6 +102,7 @@ const corporateGiftsMenu = [
 const Navbar = () => {
     const menuRef = useRef(null)
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    const { shortlist } = useShortlist()
 
   // Animate the mega menu popup when it appears
   useGSAP(() => {
@@ -159,13 +163,33 @@ const Navbar = () => {
                 </div>
               </div>
               <User className="h-7 w-7 hover:opacity-60 transition-all duration-300 text-gray-700" />
-              <ShoppingBag className="h-7 w-7 hover:opacity-60 transition-all duration-300 text-gray-700" />
+              <Link href="/shortlist" className="relative">
+                <ShoppingBag className="h-7 w-7 hover:opacity-60 transition-all duration-300 text-gray-700" />
+                {shortlist.length > 0 && (
+                  <Badge 
+                    className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-[#AD9660] hover:bg-[#AD9660]"
+                    variant="secondary"
+                  >
+                    {shortlist.length}
+                  </Badge>
+                )}
+              </Link>
             </div>
 
             {/* Mobile right icons only */}
             <div className="flex md:hidden items-center space-x-4">
               <User className="h-7 w-7 hover:opacity-60 transition-all duration-300 text-gray-700" />
-              <ShoppingBag className="h-7 w-7 hover:opacity-60 transition-all duration-300 text-gray-700" />
+              <Link href="/shortlist" className="relative">
+                <ShoppingBag className="h-7 w-7 hover:opacity-60 transition-all duration-300 text-gray-700" />
+                {shortlist.length > 0 && (
+                  <Badge 
+                    className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-[#AD9660] hover:bg-[#AD9660]"
+                    variant="secondary"
+                  >
+                    {shortlist.length}
+                  </Badge>
+                )}
+              </Link>
             </div>
           </div>
         </div>

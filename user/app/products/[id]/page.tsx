@@ -27,7 +27,7 @@ import {
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { addToShortlist, isInShortlist, type ShortlistItem } from "@/lib/shortlist-client"
+import { useShortlist, type ShortlistItem } from "@/lib/ShortlistContext"
 import { useToast } from "@/hooks/use-toast"
 import { createClient } from "@/utils/supabase/client"
 
@@ -44,13 +44,14 @@ export default function ProductPage({ params }: ProductPageProps) {
   const [quantity, setQuantity] = useState(25)
   const [isZoomed, setIsZoomed] = useState(false)
   const [zoomPosition, setZoomPosition] = useState({ x: 50, y: 50 })
-  const [isInShortlistState, setIsInShortlistState] = useState(false)
-  const [isAddingToShortlist, setIsAddingToShortlist] = useState(false)
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
   const imageRef = useRef<HTMLDivElement>(null)
   const animationRef = useRef<number | null>(null)
   const { toast } = useToast()
+  const { addToShortlist, isInShortlist, removeFromShortlist } = useShortlist()
+  const [isInShortlistState, setIsInShortlistState] = useState(false)
+  const [isAddingToShortlist, setIsAddingToShortlist] = useState(false)
 
   // Fetch product data from Supabase
   useEffect(() => {
@@ -91,13 +92,8 @@ export default function ProductPage({ params }: ProductPageProps) {
   }, [productId, toast])
 
   // Helper function to format price values
-  const formatPrice = (price: number | string): string => {
-    if (typeof price === 'string') {
-      return price.startsWith('₹') ? price : `₹${price}`
-    } else if (typeof price === 'number') {
-      return `₹${price.toLocaleString()}`
-    }
-    return `₹${price}`
+  const formatPrice = (price: number): string => {
+    return `₹${price.toLocaleString()}`
   }
 
   const handleMouseMove = useCallback(
@@ -121,46 +117,42 @@ export default function ProductPage({ params }: ProductPageProps) {
     if (animationRef.current) cancelAnimationFrame(animationRef.current)
   }, [])
 
-  // Check if item is in shortlist on component mount
+  // Update shortlist state when product changes
   useEffect(() => {
-    if (product) setIsInShortlistState(isInShortlist(product.id))
-  }, [product])
-
-  // Listen for shortlist updates
-  useEffect(() => {
-    const handleShortlistUpdate = () => {
-      if (product) setIsInShortlistState(isInShortlist(product.id))
+    if (product) {
+      setIsInShortlistState(isInShortlist(product.id))
     }
-    window.addEventListener("shortlistUpdated", handleShortlistUpdate)
-    return () => window.removeEventListener("shortlistUpdated", handleShortlistUpdate)
-  }, [product])
+  }, [product, isInShortlist])
 
   const handleAddToShortlist = async () => {
     if (!product) return
     setIsAddingToShortlist(true)
-    const shortlistItem: ShortlistItem = {
-      id: product.id,
-      name: product.name,
-      price: formatPrice(product.price),
-      originalPrice: formatPrice(product.original_price),
-      image: product.images && product.images.length > 0 ? product.images[0] : "",
-      rating: product.rating || 4.5,
-      reviews: product.reviews || 0,
-      discount: product.discount || `${Math.round(((product.original_price - product.price) / product.original_price) * 100)}% OFF`,
-      quantity: quantity,
-      moq: product.moq || 1,
-      category: product.category,
-    }
     try {
-      addToShortlist(shortlistItem)
-      toast({
-        title: "Added to Shortlist!",
-        description: `${product.name} has been added to your shortlist.`,
-      })
+      const shortlistItem: ShortlistItem = {
+        id: product.id,
+        name: product.name,
+        price: formatPrice(product.price),
+        originalPrice: formatPrice(product.original_price || product.price),
+        image: product.images && product.images.length > 0 ? product.images[0] : "",
+        rating: product.rating || 4.5,
+        reviews: product.reviews || 0,
+        discount: product.discount || (product.original_price ? `${Math.round(((product.original_price - product.price) / product.original_price) * 100)}% OFF` : undefined),
+        quantity: quantity,
+        moq: typeof product.moq === 'number' ? product.moq : 1,
+        category: product.category,
+      }
+      
+      if (isInShortlistState) {
+        removeFromShortlist(product.id)
+        setIsInShortlistState(false)
+      } else {
+        addToShortlist(shortlistItem)
+        setIsInShortlistState(true)
+      }
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to add item to shortlist. Please try again.",
+        description: "Failed to update shortlist. Please try again.",
         variant: "destructive",
       })
     } finally {
@@ -512,8 +504,8 @@ export default function ProductPage({ params }: ProductPageProps) {
                       "Adding..."
                     ) : (
                       <>
-                        <Heart className="w-4 h-4 mr-2" />
-                        {isInShortlistState ? "Added to Shortlist" : "Add to Shortlist"}
+                        <Heart className={`w-4 h-4 mr-2 ${isInShortlistState ? "fill-current" : ""}`} />
+                        {isInShortlistState ? "Remove from Shortlist" : "Add to Shortlist"}
                       </>
                     )}
                   </Button>
