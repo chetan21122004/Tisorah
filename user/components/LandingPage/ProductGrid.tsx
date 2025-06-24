@@ -17,14 +17,14 @@ interface ProductGridProps {
   products: Product[];
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({  products }) => {
+const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
   return (
     <section className="py-8 bg-white">
-      <div className="max-w-md sm:max-w-2xl md:max-w-4xl lg:max-w-6xl mx-auto sm:px-4">
-        <h2 className="text-2xl md:text-4xl font-normal text-center w-full md:w-1/2  text-gray-900  mb-6  font-edu-cursive">Corporate Gifts – India’s Most Trusted Gifting Brand</h2>
+      <div className="max-w-md sm:max-w-2xl md:max-w-4xl lg:max-w-full mx-auto sm:px-24 ">
+        <h2 className="text-2xl md:text-4xl text-start  font-normal text-center w-full md:w-1/2  text-gray-900  mb-6  font-edu-cursive">Corporate Gifts – India’s Most Trusted Gifting Brand</h2>
         <p className="text-center text-gray-500 font-light  mx-auto mb-4 opacity-80 text-sm md:text-base">
-        Looking for unique and premium corporate gift hampers? Explore our top gifting options for employees and clients at affordable prices across India.
-      </p>
+          Looking for unique and premium corporate gift hampers? Explore our top gifting options for employees and clients at affordable prices across India.
+        </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4  gap-x-4">
           {products.map((product, index) => (
             <ProductCard key={index} product={product} index={index} products={products} />
@@ -46,7 +46,7 @@ const ProductCard: React.FC<{ product: Product; index: number; products: Product
   const hoverImage = products[nextIndex].image;
   return (
     <div
-      className="rounded-xl overflow-hidden flex ml-6 md:ml-0 flex-col pb-4 transition-transform duration-300 hover:scale-105 group"
+      className="rounded-xl overflow-hidden flex  md:ml-0 flex-col pb-2 transition-transform duration-300 hover:scale-105 group"
       style={{ minHeight: 420, maxWidth: 340 }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -65,15 +65,17 @@ const ProductCard: React.FC<{ product: Product; index: number; products: Product
           style={{ background: '#f7f7f7' }}
         />
         <div className="absolute top-3 left-3 z-10">
-          <div className="backdrop-blur-sm bg-white/40 border border-white/30 text-gray-900 font-light text-base px-4 py-2 rounded-tr-xl rounded-bl-xl font-sans shadow-sm" style={{letterSpacing: 0.2}}>
+          <div className="backdrop-blur-sm bg-white/40 border border-white/30 text-gray-900 font-light text-base px-4 py-2 rounded-tr-xl rounded-bl-xl font-sans shadow-sm" style={{ letterSpacing: 0.2 }}>
             Best Seller
           </div>
         </div>
       </div>
       <div className="px-4 flex flex-col flex-1 transform scale-[0.952] will-change-transform">
         <h3 className="font-normal text-lg text-gray-900 font-sans leading-snug break-words line-clamp-2 text-left">{product.name}</h3>
-        <span className="text-sm font-normal text-gray-600  italic">coporate gift</span>
-        <span className="text-lg font-light text-gray-900 mb-2 text-left">₹{product.price.toLocaleString()}</span>
+        <div className='flex justify-between mt-2'>
+          <span className="text-sm font-normal text-gray-600  italic">coporate gift</span>
+          <span className="text-lg font-light text-gray-900 mb-2 text-left">₹{product.price.toLocaleString()}</span>
+        </div>
       </div>
     </div>
   );
