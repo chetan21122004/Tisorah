@@ -20,9 +20,9 @@ interface ProductGridProps {
 const ProductGrid: React.FC<ProductGridProps> = ({  products }) => {
   return (
     <section className="py-8 bg-white">
-      <div className="max-w-md sm:max-w-2xl md:max-w-4xl lg:max-w-6xl mx-auto sm:px-4">
+      <div className="max-w-md sm:max-w-2xl md:max-w-4xl lg:max-w-full  mx-auto sm:px-24">
         <h2 className="text-2xl md:text-4xl font-normal text-center mx-auto w-full md:w-1/2  text-gray-900  mb-6  font-edu-cursive">Corporate Gifts – India’s Most Trusted Gifting Brand</h2>
-        <p className="text-center text-gray-500 font-light  mx-auto mb-4 opacity-80 text-sm md:text-base">
+        <p className="text-center text-gray-500 font-light  mx-auto mb-6 opacity-80 text-sm md:text-base">
         Looking for unique and premium corporate gift hampers? Explore our top gifting options for employees and clients at affordable prices across India.
       </p>
         <div className="grid grid-cols-1 sm:grid-cols-5 lg:grid-cols-5  gap-x-4">
