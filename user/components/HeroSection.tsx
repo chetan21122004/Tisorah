@@ -44,7 +44,6 @@ export default function HeroSection() {
       <Image alt="hero" height={100} src="https://www.boxupgifting.com/cdn/shop/files/Corporate_Compressed_copy_120d4d8f-0b6b-42d7-a84e-a10eaae409be.jpg?v=1733485155" width={100} className="w-full h-1/2 hidden sm:block" />
       <Image alt="hero" height={100} src="https://www.boxupgifting.com/cdn/shop/files/Corporate_compressed_copy.jpg" width={100} className="w-full h-1/2  sm:hidden" />
 
-      <Image alt="hero" height={100} src="https://cdn.shopify.com/s/files/1/0581/9754/0921/files/frame-5-1646052171479_1200x_1.png?v=1703229823" width={100} className="w-44 hidden sm:block left-1/2 relative -translate-x-1/2 -mt-24" />
 
       </div>
 

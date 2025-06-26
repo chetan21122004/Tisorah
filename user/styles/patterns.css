@@ -1,11 +1,9 @@
-/* Patterns styling for Tisorah website - Modern & Professional */
+/* Art Deco inspired patterns styling for Tisorah website - Elegant & Luxurious */
 
 /* Base pattern styling */
 .geometry-pattern {
   background-image: url('/geometry_pattern.jpg');
   background-repeat: repeat;
-  /* Rotate the background pattern by 90 degrees */
-  transform: rotate(90deg);
   background-size: 300px 300px; /* Adjust pattern size for sophistication */
   transition: background-position 0.5s ease;
 }
@@ -15,7 +13,7 @@
   overflow: hidden;
 }
 
-/* Modern pattern implementations */
+/* Art Deco pattern implementations with clean thin strokes */
 .pattern-section {
   position: relative;
   transition: all 0.3s ease-in-out;
@@ -31,17 +29,16 @@
   background-image: url('/geometry_pattern.jpg');
   background-repeat: repeat;
   background-size: var(--pattern-size, 300px) var(--pattern-size, 300px);
-  transform: rotate(90deg);
   opacity: var(--pattern-opacity, 0.08);
   z-index: -1;
   transition: opacity 0.3s ease, transform 0.5s ease;
   mix-blend-mode: multiply; /* Create sophisticated blending */
 }
 
-/* Subtle hover effects for interactive sections */
+/* Subtle hover effects for interactive sections - minimal and elegant */
 .pattern-section.interactive:hover::before {
   opacity: calc(var(--pattern-opacity, 0.08) * 1.2);
-  transform: rotate(90deg) scale(1.05);
+  transform: scale(1.05);
 }
 
 /* Pattern with brand colors as overlay - refined with blend modes */
@@ -65,32 +62,19 @@
   mix-blend-mode: overlay;
 }
 
-/* Pattern application as divider - more refined */
+/* Linear pattern dividers - clean thin strokes */
 .pattern-divider {
-  height: 4px; /* Thinner, more refined divider */
+  height: 2px; /* Thinner, more refined divider */
   width: 100%;
   position: relative;
   overflow: hidden;
   margin: 3rem 0;
+  background: linear-gradient(90deg, transparent, #AD9660 15%, #AD9660 85%, transparent);
 }
 
-.pattern-divider::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url('/geometry_pattern.jpg');
-  background-repeat: repeat;
-  background-size: 200px 200px; /* Smaller pattern for divider */
-  transform: rotate(90deg);
-  opacity: 0.15;
-}
-
-/* Elegant divider variations */
+/* Art Deco divider variations */
 .pattern-divider.thick {
-  height: 8px;
+  height: 4px;
 }
 
 .pattern-divider.with-fade::before {
@@ -98,7 +82,7 @@
   -webkit-mask-image: linear-gradient(90deg, transparent, rgba(0,0,0,0.8) 20%, rgba(0,0,0,0.8) 80%, transparent);
 }
 
-/* Sophisticated pattern accent for boxes and cards */
+/* Geometric Accent Corner - Art Deco inspired */
 .pattern-accent-corner {
   position: relative;
   overflow: hidden;
@@ -107,15 +91,80 @@
 .pattern-accent-corner::after {
   content: "";
   position: absolute;
-  width: 150px;
-  height: 150px;
-  top: -75px;
-  right: -75px;
-  background-image: url('/geometry_pattern.jpg');
-  background-repeat: no-repeat;
-  background-size: 150px 150px;
-  transform: rotate(90deg);
-  opacity: 0.1;
+  width: 100px;
+  height: 100px;
+  top: -50px;
+  right: -50px;
+  background: linear-gradient(45deg, transparent 45%, #AD9660 45%, #AD9660 55%, transparent 55%);
+  opacity: 0.2;
   z-index: 0;
   pointer-events: none;
+}
+
+/* Art Deco geometric borders */
+.art-deco-border {
+  position: relative;
+  border: none;
+  padding: 1.5rem;
+}
+
+.art-deco-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid #AD9660;
+  pointer-events: none;
+}
+
+.art-deco-border::after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  border: 1px solid #AD9660;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Geometric corner accents */
+.geo-corner-accent {
+  position: relative;
+}
+
+.geo-corner-accent::before,
+.geo-corner-accent::after {
+  content: "";
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-color: #AD9660;
+  border-style: solid;
+}
+
+.geo-corner-accent::before {
+  top: 0;
+  left: 0;
+  border-width: 2px 0 0 2px;
+}
+
+.geo-corner-accent::after {
+  bottom: 0;
+  right: 0;
+  border-width: 0 2px 2px 0;
+}
+
+/* Linear pattern background */
+.linear-pattern {
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(173, 150, 96, 0.05),
+    rgba(173, 150, 96, 0.05) 1px,
+    transparent 1px,
+    transparent 20px
+  );
 } 

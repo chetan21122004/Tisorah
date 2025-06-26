@@ -11,7 +11,13 @@
 @tailwind utilities;
 
 body {
-  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+  font-family: var(--font-poppins), 'Poppins', sans-serif;
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-frank-ruhl), 'Frank Ruhl Libre', serif;
+  }
 }
 
 @layer utilities {
@@ -114,8 +120,8 @@ body {
   }
 }
 
-.font-edu-cursive {
-  font-family:  'Open Sans', sans-serif;
+.font-serif {
+  font-family: var(--font-frank-ruhl), 'Frank Ruhl Libre', serif;
 }
 
 .group:hover img {

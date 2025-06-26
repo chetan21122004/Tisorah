@@ -1,12 +1,11 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Poppins } from "next/font/google"
+import { Poppins, Frank_Ruhl_Libre } from "next/font/google"
 import "./globals.css"
 import "@/styles/patterns.css"
 import { Toaster } from "@/components/ui/toaster"
 import Navbar from "@/components/LandingPage/Navbar"
 import Footer from '@/components/LandingPage/Footer'
-import { Open_Sans } from "next/font/google"
 import { Toaster as SonnerToaster } from "sonner"
 import { ShortlistProvider } from "@/lib/ShortlistContext"
 import { WhatsAppButton } from "@/components/ui/whatsapp-button"
@@ -14,14 +13,14 @@ import StarFollower from "@/components/LandingPage/StarFollower"
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
   variable: "--font-poppins",
 })
 
-const openSans = Open_Sans({
+const frankRuhlLibre = Frank_Ruhl_Libre({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
-  variable: "--font-open-sans",
+  weight: ["300", "400", "500", "700", "900"],
+  variable: "--font-frank-ruhl",
 })
 
 export const metadata: Metadata = {
@@ -39,8 +38,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} ${openSans.variable} font-sans antialiased`}>
-      <link href="https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&display=swap" rel="stylesheet" />
+      <body className={`${poppins.variable} ${frankRuhlLibre.variable} font-sans antialiased`}>
         <ShortlistProvider>
           <Navbar></Navbar>
           <main>{children}</main>
