@@ -198,46 +198,13 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen">
-      <div className="flex overflow-x-auto md:overflow-x-visible justify-start md:justify-center gap-4 md:gap-10 my-4 md:my-8 px-4 md:px-0 md:flex-wrap no-scrollbar">
-        {giftCategories.map((cat, idx) => (
-          <div
-            key={idx}
-            className="flex flex-col items-center flex-shrink-0 w-20 md:w-24"
-          >
-            <div className="w-16 h-16 md:w-24 md:h-24 rounded-full overflow-hidden shadow-md transition-transform duration-200 hover:scale-105 bg-gray-100 flex items-center justify-center">
-              <img
-                src={cat.image}
-                alt={cat.label}
-                className="object-cover w-full h-full"
-              />
-            </div>
-            <span className="mt-2 md:mt-3 text-[10px] md:text-xs font-medium text-gray-800 text-center whitespace-nowrap">{cat.label}</span>
-          </div>
-        ))}
-      </div>
-
+      
       <HeroSection/>
       <div className="px-4 md:px-0">
         <ProductGrid title="Trending Today" products={trendingProducts} />
       </div>
 
-      {/* Occasion-Wise Gifts Section */}
-      <div className="my-8 px-4 md:px-0">
-        <h2 className="text-3xl md:text-4xl font-edu-cursive text-center mb-6 md:mb-10">Occasion-Wise Gifts</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
-          {occasionGifts.map((item, idx) => (
-            <div key={idx} className="flex flex-col items-center">
-              <img
-                src={item.image}
-                alt={item.label}
-                className="w-full h-24 md:h-28 object-contain rounded-xl transition-transform duration-200 hover:scale-105"
-                loading="lazy"
-              />
-              <span className="mt-2 text-sm md:text-base font-medium text-gray-800 text-center">{item.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+     
 
       {/* Our Offerings Section */}
       <div className="my-8 md:my-16 px-4 md:px-0">
