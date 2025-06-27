@@ -33,7 +33,7 @@ import NewArrival from '@/components/LandingPage/NewArrival'
 import OurClient from "@/components/LandingPage/OurClient"
 import BlogCarousel from "@/components/LandingPage/BlogCarousel"
 import FeatureSection from "@/components/LandingPage/FeatureSection"
-
+import { QuotePopup } from "@/components/ui/quote-popup"
 
 export default async function HomePage() {
   // Fetch trending products from Supabase
@@ -185,7 +185,7 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen">
-
+      <QuotePopup />
       <HeroSection />
       <div className="px-4 md:px-0">
         <ProductGrid title="Trending Today" products={trendingProducts} />
@@ -328,6 +328,59 @@ export default async function HomePage() {
       <div className="">
         <Gifting />
       </div>
+
+      <section className="py-10 md:py-12 bg-gradient-to-b from-white to-[#F4F4F4]/30">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-10">
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <div className="flex items-center justify-center mb-6">
+              <div className="w-12 h-[1px] bg-[#AD9660]"></div>
+              <span className="mx-4 text-sm uppercase tracking-wider text-[#AD9660] font-light">Our Solutions</span>
+              <div className="w-12 h-[1px] bg-[#AD9660]"></div>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-serif mb-6 text-[#323433] font-light">
+              Elevate Your Corporate Gifting Experience
+            </h2>
+            <p className="text-[#323433]/70 text-lg font-light">
+              Discover our comprehensive range of corporate gifting solutions designed to strengthen relationships and create lasting impressions.
+            </p>
+          </div>
+
+          <FeatureSection
+            title="Bulk Corporate Gifting Solutions"
+            description="We bring to the table a range of bulk corporate gifts for employees that will redefine your relationship with them. A brand-new way to cherish, honour and acknowledge your employees that is hassle free and premium!"
+            image="https://www.boxupgifting.com/cdn/shop/files/Bulk_Corporate_Gifting.jpg?v=1725348252"
+            highlightedText="bulk corporate gifts"
+            ctaLink="/bulk-orders"
+            ctaText="Explore Bulk Gifting"
+          />
+
+          <FeatureSection
+            title="WFH Employee Gifting"
+            description="Connect with your remote family through WFH employee gifts that are unique and utilitarian! Share the company values and foster a sense of belonging with company gifts that show you value and revere your employees."
+            image="https://www.boxupgifting.com/cdn/shop/files/WFH_Employee_Gifting.jpg?v=1725348290"
+            isReversed
+            ctaLink="/categories/wfh-gifts"
+            ctaText="View WFH Collection"
+          />
+
+          <FeatureSection
+            title="Foster Positive Company Culture"
+            description="Create a vibrant and engaging workplace environment through thoughtfully curated gifts that inspire and motivate. Our corporate gifting solutions help build stronger teams and celebrate achievements."
+            image="https://www.boxupgifting.com/cdn/shop/files/Positive_Company_Culture.jpg"
+            ctaLink="/categories/recognition"
+            ctaText="Explore Recognition Gifts"
+          />
+
+          <FeatureSection
+            title="Enhance Brand Recognition"
+            description="Elevate your brand presence with our premium customization options. From elegant corporate merchandise to bespoke gift packages, we help you create memorable brand experiences that resonate with your audience."
+            image="https://www.boxupgifting.com/cdn/shop/files/Brand_Recognition.jpg"
+            isReversed
+            ctaLink="/customization"
+            ctaText="Discover Branding Options"
+          />
+        </div>
+      </section>
 
       {/* Our Clients Section */}
       <div className="bg-white">

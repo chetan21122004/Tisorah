@@ -87,7 +87,7 @@ const ContactForm = () => {
   ];
 
   return (
-    <section className="py-24 px-4 relative overflow-hidden">
+    <section className="py-10 pb-0 px-4 relative overflow-hidden">
       {/* Decorative Elements */}
       <motion.div
         className="absolute inset-0 pointer-events-none"

@@ -123,9 +123,9 @@ export default function HeroSection() {
       </div>
       
       {/* Featured Products Section */}
-      <div className="py-6 bg-white">
+      <div className=" bg-white">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col items-center mb-12">
+          <div className="flex flex-col items-center ">
             {/* Decorative line above title */}
             <div className="w-16 h-[1px] bg-[#AD9660] mb-8"></div>
             
