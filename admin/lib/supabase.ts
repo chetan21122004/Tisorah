@@ -12,7 +12,11 @@ export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
 export async function getProducts() {
   const { data, error } = await supabase
     .from('products')
-    .select('*, gift_categories(name)')
+    .select(`
+      *,
+      main_category_data:categories!products_main_category_fkey(id, name, slug),
+      sub_category_data:categories!products_sub_category_fkey(id, name, slug)
+    `)
     .order('created_at', { ascending: false });
 
   if (error) {
@@ -26,7 +30,11 @@ export async function getProducts() {
 export async function getProductById(id: string) {
   const { data, error } = await supabase
     .from('products')
-    .select('*, gift_categories(name)')
+    .select(`
+      *,
+      main_category_data:categories!products_main_category_fkey(id, name, slug),
+      sub_category_data:categories!products_sub_category_fkey(id, name, slug)
+    `)
     .eq('id', id)
     .single();
 
@@ -86,7 +94,7 @@ export async function deleteProduct(id: string) {
 // Categories
 export async function getCategories() {
   const { data, error } = await supabase
-    .from('gift_categories')
+    .from('categories')
     .select('*')
     .order('name');
 
@@ -100,7 +108,7 @@ export async function getCategories() {
 
 export async function getCategoryById(id: string) {
   const { data, error } = await supabase
-    .from('gift_categories')
+    .from('categories')
     .select('*')
     .eq('id', id)
     .single();
@@ -115,7 +123,7 @@ export async function getCategoryById(id: string) {
 
 export async function createCategory(category: any) {
   const { data, error } = await supabase
-    .from('gift_categories')
+    .from('categories')
     .insert(category)
     .select()
     .single();
@@ -130,7 +138,7 @@ export async function createCategory(category: any) {
 
 export async function updateCategory(id: string, category: any) {
   const { data, error } = await supabase
-    .from('gift_categories')
+    .from('categories')
     .update(category)
     .eq('id', id)
     .select()
@@ -146,7 +154,7 @@ export async function updateCategory(id: string, category: any) {
 
 export async function deleteCategory(id: string) {
   const { error } = await supabase
-    .from('gift_categories')
+    .from('categories')
     .delete()
     .eq('id', id);
 
@@ -183,6 +191,43 @@ export async function getQuoteRequestById(id: string) {
   if (error) {
     console.error('Error fetching quote request:', error);
     return null;
+  }
+
+  // Enhance the shortlisted products with full product data if needed
+  if (data && data.shortlisted_products && Array.isArray(data.shortlisted_products)) {
+    // The data is already structured correctly with product details embedded
+    // This structure allows for compatibility with both string IDs and object formats
+    return data;
+  }
+
+  return data;
+}
+
+export async function getQuoteProductDetails(quoteData: any) {
+  // This is a helper function to get full product details for a quote's shortlisted products
+  if (!quoteData?.shortlisted_products || !Array.isArray(quoteData.shortlisted_products)) {
+    return [];
+  }
+
+  // Extract product IDs from the shortlisted products
+  const productIds = quoteData.shortlisted_products.map((item: any) => 
+    typeof item === 'string' ? item : item.id
+  ).filter(Boolean);
+  
+  if (productIds.length === 0) return [];
+
+  const { data, error } = await supabase
+    .from('products')
+    .select(`
+      *,
+      main_category_data:categories!products_main_category_fkey(id, name, slug),
+      sub_category_data:categories!products_sub_category_fkey(id, name, slug)
+    `)
+    .in('id', productIds);
+
+  if (error) {
+    console.error('Error fetching quote product details:', error);
+    return [];
   }
 
   return data;

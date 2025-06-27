@@ -215,6 +215,56 @@ export async function getMainCategories(): Promise<Category[]> {
   return categories;
 }
 
+export async function getRelatedProducts(productId: string, category: string | null): Promise<any[]> {
+  try {
+    const supabase = createClient();
+    
+    let query = supabase
+      .from("products")
+      .select("*")
+      .neq("id", productId) // Exclude the current product
+      .limit(8);
+      
+    // If we have a category, filter by it
+    if (category) {
+      query = query.eq("category", category);
+    }
+    
+    const { data: products, error } = await query;
+    
+    if (error) {
+      console.error("Error fetching related products:", error);
+      return [];
+    }
+    
+    // If we don't have enough products in the same category, get some other featured products
+    if (products.length < 4) {
+      const { data: featuredProducts, error: featuredError } = await supabase
+        .from("products")
+        .select("*")
+        .neq("id", productId)
+        .eq("featured", true)
+        .limit(8 - products.length);
+        
+      if (!featuredError && featuredProducts) {
+        // Combine and deduplicate
+        const combinedProducts = [...products];
+        featuredProducts.forEach(product => {
+          if (!combinedProducts.some(p => p.id === product.id)) {
+            combinedProducts.push(product);
+          }
+        });
+        return combinedProducts;
+      }
+    }
+    
+    return products || [];
+  } catch (error) {
+    console.error("Error in getRelatedProducts:", error);
+    return [];
+  }
+}
+
 export async function getSubCategories(parentId: string): Promise<Category[]> {
   const supabase = createClient();
   

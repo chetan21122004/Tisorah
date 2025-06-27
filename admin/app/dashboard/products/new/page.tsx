@@ -19,6 +19,7 @@ interface Category {
   id: string
   name: string
   slug: string
+  parent_id: string | null
 }
 
 export default function NewProductPage() {
@@ -31,12 +32,18 @@ export default function NewProductPage() {
     name: "",
     description: "",
     price: "",
-    category: "",
+    main_category: "",
+    sub_category: "",
     moq: "",
     delivery: "",
     featured: false,
     customizable: false,
   })
+  
+  // Get parent categories (no parent_id)
+  const mainCategories = categories.filter(cat => !cat.parent_id)
+  // Get subcategories for the selected main category
+  const subCategories = categories.filter(cat => cat.parent_id === formData.main_category)
 
   useEffect(() => {
     async function loadCategories() {
@@ -61,7 +68,12 @@ export default function NewProductPage() {
   }
 
   const handleSelectChange = (name: string, value: string) => {
-    setFormData(prev => ({ ...prev, [name]: value }))
+    if (name === 'main_category') {
+      // Reset sub_category when main_category changes
+      setFormData(prev => ({ ...prev, [name]: value, sub_category: '' }))
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }))
+    }
   }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,7 +111,8 @@ export default function NewProductPage() {
         name: formData.name,
         description: formData.description,
         price: parseFloat(formData.price),
-        category: formData.category,
+        main_category: formData.main_category || null,
+        sub_category: formData.sub_category || null,
         moq: formData.moq || null,
         delivery: formData.delivery || null,
         featured: formData.featured,
@@ -175,18 +188,37 @@ export default function NewProductPage() {
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="category">Category *</Label>
+                <Label htmlFor="main_category">Main Category *</Label>
                 <Select 
-                  value={formData.category} 
-                  onValueChange={(value) => handleSelectChange("category", value)}
-                  required
+                  value={formData.main_category} 
+                  onValueChange={(value) => handleSelectChange("main_category", value)}
                 >
                   <SelectTrigger className="bg-white border-neutral-200">
-                    <SelectValue placeholder="Select a category" />
+                    <SelectValue placeholder="Select a main category" />
                   </SelectTrigger>
                   <SelectContent>
-                    {categories.map((category) => (
-                      <SelectItem key={category.id} value={category.slug}>
+                    {mainCategories.map((category) => (
+                      <SelectItem key={category.id} value={category.id}>
+                        {category.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="sub_category">Sub Category</Label>
+                <Select 
+                  value={formData.sub_category}
+                  onValueChange={(value) => handleSelectChange("sub_category", value)}
+                  disabled={!formData.main_category || subCategories.length === 0}
+                >
+                  <SelectTrigger className="bg-white border-neutral-200">
+                    <SelectValue placeholder="Select a sub category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {subCategories.map((category) => (
+                      <SelectItem key={category.id} value={category.id}>
                         {category.name}
                       </SelectItem>
                     ))}
@@ -199,53 +231,54 @@ export default function NewProductPage() {
                 <Input 
                   id="moq" 
                   name="moq" 
-                  placeholder="e.g. 10 units" 
+                  placeholder="e.g., 50 units" 
                   value={formData.moq}
                   onChange={handleChange}
                   className="bg-white border-neutral-200"
                 />
               </div>
               
-              <div className="space-y-2 md:col-span-2">
-                <Label htmlFor="delivery">Delivery Information</Label>
+              <div className="space-y-2">
+                <Label htmlFor="delivery">Delivery Time</Label>
                 <Input 
                   id="delivery" 
                   name="delivery" 
-                  placeholder="e.g. 7-10 business days" 
+                  placeholder="e.g., 3-5 business days" 
                   value={formData.delivery}
                   onChange={handleChange}
                   className="bg-white border-neutral-200"
                 />
               </div>
               
-              <div className="space-y-2 md:col-span-2">
+              <div className="col-span-1 md:col-span-2 space-y-2">
                 <Label htmlFor="description">Description</Label>
                 <Textarea 
                   id="description" 
                   name="description" 
                   placeholder="Enter product description" 
+                  rows={4}
                   value={formData.description}
                   onChange={handleChange}
-                  className="min-h-32 bg-white border-neutral-200"
+                  className="bg-white border-neutral-200 resize-y"
                 />
               </div>
               
               <div className="flex items-center space-x-2">
                 <Checkbox 
-                  id="featured" 
+                  id="featured"
                   checked={formData.featured}
-                  onCheckedChange={(checked) => handleCheckboxChange("featured", !!checked)}
+                  onCheckedChange={(checked) => handleCheckboxChange("featured", checked === true)}
                 />
-                <Label htmlFor="featured">Featured Product</Label>
+                <Label htmlFor="featured" className="font-normal">Featured product</Label>
               </div>
               
               <div className="flex items-center space-x-2">
                 <Checkbox 
-                  id="customizable" 
+                  id="customizable"
                   checked={formData.customizable}
-                  onCheckedChange={(checked) => handleCheckboxChange("customizable", !!checked)}
+                  onCheckedChange={(checked) => handleCheckboxChange("customizable", checked === true)}
                 />
-                <Label htmlFor="customizable">Customizable</Label>
+                <Label htmlFor="customizable" className="font-normal">Customizable product</Label>
               </div>
             </div>
           </CardContent>
@@ -256,74 +289,48 @@ export default function NewProductPage() {
             <CardTitle className="text-xl font-serif">Product Images</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="grid grid-cols-1 gap-6">
-              <div className="space-y-4">
-                <Label htmlFor="images">Upload Images</Label>
-                <div className="flex items-center justify-center w-full">
-                  <label 
-                    htmlFor="images" 
-                    className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer border-neutral-300 bg-neutral-50 hover:bg-neutral-100"
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {imagePreviewUrls.map((url, index) => (
+                <div key={index} className="relative aspect-square bg-neutral-100 rounded overflow-hidden">
+                  <img src={url} alt="preview" className="object-cover w-full h-full" />
+                  <button
+                    type="button"
+                    onClick={() => removeImage(index)}
+                    className="absolute top-2 right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
                   >
-                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                      <Upload className="w-8 h-8 mb-2 text-neutral-500" />
-                      <p className="mb-2 text-sm text-neutral-500">
-                        <span className="font-medium">Click to upload</span> or drag and drop
-                      </p>
-                      <p className="text-xs text-neutral-500">PNG, JPG or WEBP (Max. 5MB each)</p>
-                    </div>
-                    <Input 
-                      id="images" 
-                      type="file" 
-                      accept="image/png, image/jpeg, image/webp" 
-                      multiple 
-                      className="hidden"
-                      onChange={handleImageChange}
-                    />
-                  </label>
+                    &times;
+                  </button>
                 </div>
-              </div>
-              
-              {imagePreviewUrls.length > 0 && (
-                <div className="space-y-2">
-                  <Label>Preview</Label>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                    {imagePreviewUrls.map((url, index) => (
-                      <div key={index} className="relative group aspect-square rounded-lg overflow-hidden border border-neutral-200">
-                        <img 
-                          src={url} 
-                          alt={`Preview ${index + 1}`} 
-                          className="w-full h-full object-cover"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => removeImage(index)}
-                          className="absolute top-2 right-2 bg-white/80 text-red-500 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M18 6 6 18"></path>
-                            <path d="m6 6 12 12"></path>
-                          </svg>
-                          <span className="sr-only">Remove</span>
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+              ))}
+              <label className="aspect-square bg-neutral-100 rounded border border-dashed border-neutral-300 flex flex-col items-center justify-center cursor-pointer hover:bg-neutral-50 transition-colors text-neutral-500">
+                <Upload className="w-6 h-6 mb-2" />
+                <span className="text-xs">Add Image</span>
+                <input
+                  type="file"
+                  multiple
+                  accept="image/png, image/jpeg, image/webp"
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
+              </label>
             </div>
           </CardContent>
         </Card>
         
-        <div className="flex justify-end gap-4">
-          <Link href="/dashboard/products">
-            <Button variant="outline" className="bg-white border-neutral-200">
-              Cancel
-            </Button>
-          </Link>
-          <Button 
-            type="submit" 
-            className="bg-secondary hover:bg-secondary/90 text-white"
+        <div className="flex justify-end gap-2">
+          <Button
+            type="button"
+            variant="outline"
             disabled={loading}
+            onClick={() => router.push("/dashboard/products")}
+            className="bg-white border-neutral-200"
+          >
+            Cancel
+          </Button>
+          <Button 
+            type="submit"
+            disabled={loading}
+            className="bg-primary hover:bg-primary/90 text-white"
           >
             {loading ? "Creating..." : "Create Product"}
           </Button>

@@ -1,11 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { use } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { getQuoteRequestById, updateQuoteRequestStatus, getProductById } from "@/lib/supabase"
+import { getQuoteRequestById, updateQuoteRequestStatus, getQuoteProductDetails } from "@/lib/supabase"
 import { ArrowLeft, Check, Clock, Mail, Phone, X } from "lucide-react"
 import Link from "next/link"
 import { toast } from "sonner"
@@ -29,14 +30,39 @@ interface QuoteRequest {
   updated_at: string | null
 }
 
+interface ShortlistedProduct {
+  id: string
+  name: string
+  price: string
+  image?: string
+  category?: string
+  quantity: number
+  originalPrice?: string
+  moq?: number
+}
+
 interface Product {
   id: string
   name: string
   price: number
   images: string[] | null
+  main_category: string | null
+  sub_category: string | null
+  main_category_data: {
+    id: string
+    name: string
+    slug: string
+  } | null
+  sub_category_data: {
+    id: string
+    name: string
+    slug: string
+  } | null
 }
 
-export default function QuoteDetailPage({ params }: { params: { id: string } }) {
+export default function QuoteDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  // Use the params correctly with React.use()
+  const { id } = use(params)
   const router = useRouter()
   const [quote, setQuote] = useState<QuoteRequest | null>(null)
   const [products, setProducts] = useState<Product[]>([])
@@ -46,7 +72,7 @@ export default function QuoteDetailPage({ params }: { params: { id: string } }) 
   useEffect(() => {
     async function loadQuote() {
       try {
-        const quoteData = await getQuoteRequestById(params.id)
+        const quoteData = await getQuoteRequestById(id)
         if (!quoteData) {
           toast.error("Quote request not found")
           router.push("/dashboard/quotes")
@@ -55,15 +81,9 @@ export default function QuoteDetailPage({ params }: { params: { id: string } }) 
         
         setQuote(quoteData)
         
-        // Load shortlisted products
-        if (quoteData.shortlisted_products && Array.isArray(quoteData.shortlisted_products)) {
-          const productPromises = quoteData.shortlisted_products.map((productId: string) => 
-            getProductById(productId)
-          )
-          
-          const productData = await Promise.all(productPromises)
-          setProducts(productData.filter(Boolean) as Product[])
-        }
+        // Load detailed product data for the shortlisted products
+        const productDetails = await getQuoteProductDetails(quoteData)
+        setProducts(productDetails as Product[])
       } catch (error) {
         console.error("Error loading quote request:", error)
         toast.error("Failed to load quote request")
@@ -73,7 +93,7 @@ export default function QuoteDetailPage({ params }: { params: { id: string } }) 
     }
     
     loadQuote()
-  }, [params.id, router])
+  }, [id, router])
 
   const handleStatusUpdate = async (status: string) => {
     if (!quote) return
@@ -315,36 +335,96 @@ export default function QuoteDetailPage({ params }: { params: { id: string } }) 
             </Card>
           )}
           
-          {products.length > 0 && (
+          {quote.shortlisted_products && Array.isArray(quote.shortlisted_products) && quote.shortlisted_products.length > 0 && (
             <Card className="border-neutral-200 bg-white">
               <CardHeader>
                 <CardTitle className="text-xl font-serif">Shortlisted Products</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                  {products.map((product) => (
-                    <div key={product.id} className="border border-neutral-200 rounded-lg overflow-hidden">
-                      <div className="aspect-square w-full bg-neutral-100 relative">
-                        {product.images && product.images.length > 0 ? (
-                          <img 
-                            src={product.images[0]} 
-                            alt={product.name}
-                            className="object-cover w-full h-full"
-                          />
-                        ) : (
-                          <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-                            No Image
+                <div className="space-y-4">
+                  {quote.shortlisted_products.map((item: any, index: number) => {
+                    const productId = typeof item === 'string' ? item : item.id;
+                    const quantity = typeof item === 'object' && item.quantity ? item.quantity : 1;
+                    const matchedProduct = products.find(p => p.id === productId);
+                    
+                    if (!matchedProduct) return null;
+                    
+                    return (
+                      <div 
+                        key={productId} 
+                        className="flex flex-col sm:flex-row items-start gap-4 p-4 border border-neutral-200 rounded-lg bg-neutral-50"
+                      >
+                        <div className="aspect-square w-24 h-24 bg-white rounded-md overflow-hidden flex-shrink-0">
+                          {matchedProduct.images && matchedProduct.images.length > 0 ? (
+                            <img 
+                              src={matchedProduct.images[0]} 
+                              alt={matchedProduct.name}
+                              className="object-cover w-full h-full"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm">
+                              No Image
+                            </div>
+                          )}
+                        </div>
+                        
+                        <div className="flex-grow space-y-1">
+                          <h3 className="font-medium">{matchedProduct.name}</h3>
+                          <div className="text-sm text-muted-foreground">
+                            {matchedProduct.main_category_data?.name || 'Uncategorized'}
+                            {matchedProduct.sub_category_data?.name && ` / ${matchedProduct.sub_category_data.name}`}
                           </div>
-                        )}
+                          <div className="flex flex-wrap gap-x-6 gap-y-1 mt-2">
+                            <div className="text-sm">
+                              <span className="text-muted-foreground">Price:</span>{" "}
+                              <span className="font-medium">₹{matchedProduct.price.toLocaleString('en-IN')}</span>
+                            </div>
+                            <div className="text-sm">
+                              <span className="text-muted-foreground">Quantity:</span>{" "}
+                              <span className="font-medium">{quantity}</span>
+                            </div>
+                            <div className="text-sm">
+                              <span className="text-muted-foreground">Total:</span>{" "}
+                              <span className="font-medium">₹{(matchedProduct.price * quantity).toLocaleString('en-IN')}</span>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <Link 
+                          href={`/dashboard/products/${matchedProduct.id}`} 
+                          className="text-sm text-primary font-medium flex-shrink-0 hover:underline"
+                        >
+                          View Product
+                        </Link>
                       </div>
-                      <div className="p-3">
-                        <h3 className="font-medium truncate">{product.name}</h3>
-                        <p className="text-sm text-secondary font-medium mt-1">
-                          ₹{product.price.toLocaleString('en-IN')}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
+                  
+                  <div className="flex justify-between border-t border-neutral-200 pt-4 mt-6">
+                    <div className="text-muted-foreground font-medium">Total Items:</div>
+                    <div className="font-medium">{
+                      quote.shortlisted_products.reduce((total: number, item: any) => {
+                        const quantity = typeof item === 'object' && item.quantity ? item.quantity : 1;
+                        return total + quantity;
+                      }, 0)
+                    }</div>
+                  </div>
+                  
+                  <div className="flex justify-between">
+                    <div className="text-muted-foreground font-medium">Estimated Total:</div>
+                    <div className="font-medium">₹{
+                      quote.shortlisted_products.reduce((total: number, item: any) => {
+                        const productId = typeof item === 'string' ? item : item.id;
+                        const quantity = typeof item === 'object' && item.quantity ? item.quantity : 1;
+                        const matchedProduct = products.find(p => p.id === productId);
+                        
+                        if (matchedProduct) {
+                          return total + (matchedProduct.price * quantity);
+                        }
+                        return total;
+                      }, 0).toLocaleString('en-IN')
+                    }</div>
+                  </div>
                 </div>
               </CardContent>
             </Card>

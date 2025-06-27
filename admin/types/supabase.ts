@@ -15,7 +15,8 @@ export interface Database {
           name: string
           description: string | null
           price: number
-          category: string
+          main_category: string | null
+          sub_category: string | null
           moq: string | null
           delivery: string | null
           rating: number | null
@@ -24,13 +25,15 @@ export interface Database {
           images: string[] | null
           created_at: string | null
           updated_at: string | null
+          reviews: number | null
         }
         Insert: {
           id?: string
           name: string
           description?: string | null
           price: number
-          category: string
+          main_category?: string | null
+          sub_category?: string | null
           moq?: string | null
           delivery?: string | null
           rating?: number | null
@@ -39,13 +42,15 @@ export interface Database {
           images?: string[] | null
           created_at?: string | null
           updated_at?: string | null
+          reviews?: number | null
         }
         Update: {
           id?: string
           name?: string
           description?: string | null
           price?: number
-          category?: string
+          main_category?: string | null
+          sub_category?: string | null
           moq?: string | null
           delivery?: string | null
           rating?: number | null
@@ -54,13 +59,63 @@ export interface Database {
           images?: string[] | null
           created_at?: string | null
           updated_at?: string | null
+          reviews?: number | null
         }
         Relationships: [
           {
-            foreignKeyName: "fk_product_category"
-            columns: ["category"]
-            referencedRelation: "gift_categories"
-            referencedColumns: ["slug"]
+            foreignKeyName: "products_main_category_fkey"
+            columns: ["main_category"]
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_sub_category_fkey"
+            columns: ["sub_category"]
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      categories: {
+        Row: {
+          id: string
+          name: string
+          slug: string
+          description: string | null
+          image_url: string | null
+          parent_id: string | null
+          created_at: string | null
+          updated_at: string | null
+          count: number | null
+        }
+        Insert: {
+          id?: string
+          name: string
+          slug: string
+          description?: string | null
+          image_url?: string | null
+          parent_id?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+          count?: number | null
+        }
+        Update: {
+          id?: string
+          name?: string
+          slug?: string
+          description?: string | null
+          image_url?: string | null
+          parent_id?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+          count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "new_categories_parent_id_fkey"
+            columns: ["parent_id"]
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
           }
         ]
       }

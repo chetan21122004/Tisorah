@@ -14,6 +14,13 @@ import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
 import Link from "next/link"
 
+interface Category {
+  id: string
+  name: string
+  slug: string
+  parent_id: string | null
+}
+
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
   const router = useRouter()
@@ -27,6 +34,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const [imageUploading, setImageUploading] = useState(false)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  // Get parent categories (no parent_id)
+  const mainCategories = categories.filter(cat => !cat.parent_id)
+  // Get subcategories for the selected main category
+  const subCategories = categories.filter(cat => cat.parent_id === formData.main_category)
 
   useEffect(() => {
     async function loadData() {
@@ -57,7 +69,19 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   }
 
   const handleSelectChange = (name: string, value: string) => {
-    setFormData((prev: any) => ({ ...prev, [name]: value }))
+    if (name === 'main_category') {
+      // Reset sub_category when main_category changes if it's a child of previous main category
+      const currentSubCategory = formData.sub_category;
+      const currentSubCategoryParent = categories.find(c => c.id === currentSubCategory)?.parent_id;
+      
+      if (!currentSubCategory || currentSubCategoryParent === formData.main_category) {
+        setFormData((prev: any) => ({ ...prev, [name]: value, sub_category: null }))
+      } else {
+        setFormData((prev: any) => ({ ...prev, [name]: value }))
+      }
+    } else {
+      setFormData((prev: any) => ({ ...prev, [name]: value }))
+    }
   }
 
   const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -236,14 +260,29 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                   <Input id="price" name="price" type="number" value={formData.price} onChange={handleChange} required className="bg-white border-neutral-200" />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="category">Category *</Label>
-                  <Select value={formData.category} onValueChange={(v: string) => handleSelectChange("category", v)} required>
+                  <Label htmlFor="main_category">Main Category</Label>
+                  <Select value={formData.main_category || ""} onValueChange={(v: string) => handleSelectChange("main_category", v)}>
                     <SelectTrigger className="bg-white border-neutral-200">
-                      <SelectValue placeholder="Select a category" />
+                      <SelectValue placeholder="Select main category" />
                     </SelectTrigger>
                     <SelectContent>
-                      {categories.map((cat: any) => (
-                        <SelectItem key={cat.id} value={cat.slug}>{cat.name}</SelectItem>
+                      <SelectItem value="">None</SelectItem>
+                      {mainCategories.map((cat: any) => (
+                        <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="sub_category">Sub Category</Label>
+                  <Select value={formData.sub_category || ""} onValueChange={(v: string) => handleSelectChange("sub_category", v)} disabled={!formData.main_category || subCategories.length === 0}>
+                    <SelectTrigger className="bg-white border-neutral-200">
+                      <SelectValue placeholder="Select sub category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">None</SelectItem>
+                      {subCategories.map((cat: any) => (
+                        <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -286,8 +325,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                   <p className="font-medium">₹{product.price}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Category</p>
-                  <p className="font-medium">{categories.find(c => c.slug === product.category)?.name || product.category}</p>
+                  <p className="text-sm text-muted-foreground">Categories</p>
+                  <p className="font-medium">
+                    {product.main_category_data?.name || 'No main category'} 
+                    {product.sub_category_data?.name && ` / ${product.sub_category_data.name}`}
+                  </p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">MOQ</p>

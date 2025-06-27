@@ -11,14 +11,22 @@ import Link from "next/link"
 interface Product {
   id: string
   name: string
-  category: string
   price: number
   images: string[] | null
   featured: boolean | null
   customizable: boolean | null
   created_at: string | null
-  gift_categories: {
+  main_category: string | null
+  sub_category: string | null
+  main_category_data: {
+    id: string
     name: string
+    slug: string
+  } | null
+  sub_category_data: {
+    id: string
+    name: string
+    slug: string
   } | null
 }
 
@@ -44,7 +52,8 @@ export default function ProductsPage() {
   
   const filteredProducts = products.filter(product => 
     product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (product.gift_categories?.name || "").toLowerCase().includes(searchTerm.toLowerCase())
+    (product.main_category_data?.name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (product.sub_category_data?.name || "").toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   return (
@@ -140,7 +149,10 @@ export default function ProductsPage() {
                       <div className="flex items-center justify-between">
                         <h3 className="font-medium truncate">{product.name}</h3>
                       </div>
-                      <div className="text-sm text-muted-foreground">{product.gift_categories?.name || product.category}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {product.main_category_data?.name || 'Uncategorized'}
+                        {product.sub_category_data?.name && ` / ${product.sub_category_data.name}`}
+                      </div>
                       <div className="flex items-center justify-between">
                         <div className="font-medium text-sm">₹{product.price.toLocaleString('en-IN')}</div>
                         <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
