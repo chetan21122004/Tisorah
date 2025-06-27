@@ -304,7 +304,7 @@ export default async function HomePage() {
       <BlogCarousel posts={latestBlogPosts} />
 
       {/* Features Section */}
-      <section className="py-10 md:py-12 bg-gradient-to-b from-white to-[#F4F4F4]/30">
+      {/* <section className="py-10 md:py-12 bg-gradient-to-b from-white to-[#F4F4F4]/30">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-10">
           <div className="text-center max-w-3xl mx-auto mb-20">
             <div className="flex items-center justify-center mb-6">
@@ -355,7 +355,7 @@ export default async function HomePage() {
             ctaText="Discover Branding Options"
           />
         </div>
-      </section>
+      </section> */}
 
       {/* Contact Form Section */}
       <ContactForm />
@@ -366,97 +366,7 @@ export default async function HomePage() {
         </div>
       )}
 
-      {/* New section for categories */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-[#F4F4F4]">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                Our Categories
-              </h2>
-              <p className="max-w-[900px] text-zinc-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-zinc-400">
-                Discover our wide range of corporate gifting solutions
-              </p>
-            </div>
-          </div>
-          <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
-            {curatedCategories.map((category, index) => (
-              <div key={index} className="flex flex-col items-center space-y-4">
-                <div className="relative h-64 w-full overflow-hidden rounded-lg">
-                  <img
-                    alt={category.name}
-                    className="object-cover w-full h-full transition-transform duration-300 hover:scale-110"
-                    src={category.image}
-                  />
-                </div>
-                <h3 className="text-xl font-bold">{category.name}</h3>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-      
-      {/* Occasion-wise gifts section */}
-      <section className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                Corporate Occasions
-              </h2>
-              <p className="max-w-[900px] text-zinc-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-zinc-400">
-                Perfect gifts for every corporate milestone and celebration
-              </p>
-            </div>
-          </div>
-          <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
-            {corporateOccasions.map((occasion, index) => (
-              <div key={index} className="flex flex-col items-center space-y-4">
-                <div className="relative h-64 w-full overflow-hidden rounded-lg">
-                  <img
-                    alt={occasion.label}
-                    className="object-cover w-full h-full transition-transform duration-300 hover:scale-110"
-                    src={occasion.image}
-                  />
-                </div>
-                <h3 className="text-xl font-bold">{occasion.label}</h3>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Offerings section */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-[#F4F4F4]">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                Our Offerings
-              </h2>
-              <p className="max-w-[900px] text-zinc-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-zinc-400">
-                Comprehensive corporate gifting solutions for your business
-              </p>
-            </div>
-          </div>
-          <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
-            {offerings.map((offering, index) => (
-              <div key={index} className="flex flex-col items-center space-y-4">
-                <div className="relative h-64 w-full overflow-hidden rounded-lg">
-                  <img
-                    alt={offering.title}
-                    className="object-cover w-full h-full transition-transform duration-300 hover:scale-110"
-                    src={offering.image}
-                  />
-                </div>
-                <h3 className="text-xl font-bold">{offering.title}</h3>
-                <p className="text-zinc-500 dark:text-zinc-400">{offering.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+    
     </div>
   )
 }
