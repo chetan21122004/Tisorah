@@ -17,7 +17,7 @@ export async function getFeaturedProducts() {
       .select()
       .eq('featured', true)
       .order('created_at', { ascending: false })
-      .limit(8)
+      .limit(10)
 
     if (error) {
       console.error('Error fetching featured products:', error)

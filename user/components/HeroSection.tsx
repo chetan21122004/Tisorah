@@ -117,8 +117,8 @@ export default function HeroSection() {
       <div className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center mb-10">
-            <h2 className="text-3xl font-semibold font-edu-cursive text-[#323433] mb-2 font-[Poppins]">
-              Featured Collections
+          <h2 className="text-2xl md:text-4xl font-light text-center mx-auto w-full md:w-1/2 text-[#323433] mb-6 font-['Frank_Ruhl_Libre']">
+          Featured Collections
             </h2>
             <div className="w-24 h-1 bg-[#AD9660] mb-6"></div>
             <p className="text-center text-gray-500 font-light max-w-3xl mx-auto mb-8">
@@ -187,7 +187,7 @@ export default function HeroSection() {
       </div>
       
       {/* Decorative Elements */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-[#E6E2DD] opacity-30 -skew-x-12 transform origin-top-right z-0" />
+      {/* <div className="absolute top-0 right-0 w-1/3 h-full bg-[#E6E2DD] opacity-30 -skew-x-12 transform origin-top-right z-0" /> */}
     </section>
   )
 } 

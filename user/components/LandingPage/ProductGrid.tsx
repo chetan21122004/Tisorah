@@ -17,22 +17,42 @@ interface ProductGridProps {
   products: Product[];
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({  products }) => {
+const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
   return (
-    <section className="py-8 bg-white">
-      <div className="max-w-md sm:max-w-2xl md:max-w-4xl lg:max-w-full  mx-auto sm:px-24">
-        <h2 className="text-2xl md:text-4xl font-normal text-center mx-auto w-full md:w-1/2  text-gray-900  mb-6  font-edu-cursive">Corporate Gifts – India’s Most Trusted Gifting Brand</h2>
-        <p className="text-center text-gray-500 font-light  mx-auto mb-6 opacity-80 text-sm md:text-base">
-        Looking for unique and premium corporate gift hampers? Explore our top gifting options for employees and clients at affordable prices across India.
-      </p>
-        <div className="grid grid-cols-1 sm:grid-cols-5 lg:grid-cols-5  gap-x-4">
+    <section className="py-16 bg-white">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col items-center mb-12">
+          {/* Decorative line above title */}
+          <div className="w-16 h-[1px] bg-[#AD9660] mb-8"></div>
+          
+          <h2 className="text-3xl md:text-4xl font-light text-[#323433] mb-4 font-['Frank_Ruhl_Libre'] text-center">
+            Corporate Gifts – India's Most Trusted Gifting Brand
+          </h2>
+          
+          {/* Decorative geometric element */}
+          <div className="flex items-center gap-2 mb-6">
+            <div className="w-2 h-2 rotate-45 bg-[#AD9660]/20"></div>
+            <div className="w-2 h-2 rotate-45 bg-[#AD9660]"></div>
+            <div className="w-2 h-2 rotate-45 bg-[#AD9660]/20"></div>
+          </div>
+          
+          <p className="text-center text-gray-500 font-light max-w-3xl mx-auto mb-12 text-base leading-relaxed">
+            Looking for unique and premium corporate gift hampers? Explore our top gifting options for employees and clients at affordable prices across India.
+          </p>
+        </div>
+
+        {/* Product Grid with refined spacing and layout */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mb-16">
           {products.map((product, index) => (
             <ProductCard key={index} product={product} index={index} products={products} />
           ))}
         </div>
-        <div className="flex justify-center ">
-          <button className="bg-white border border-black text-black font-bold text-lg px-8 py-3 rounded-full transition hover:bg-[#f5f5f5]">
-            View More
+
+        {/* Elegant CTA button */}
+        <div className="flex justify-center">
+          <button className="group relative bg-white hover:bg-[#AD9660] text-[#323433] hover:text-white border border-[#323433] px-12 py-4 rounded-none transition-all duration-300">
+            <span className="relative z-10 font-light tracking-wider text-sm uppercase">View Collection</span>
+            <div className="absolute inset-0 border border-[#AD9660] -translate-x-1 -translate-y-1 group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-300"></div>
           </button>
         </div>
       </div>
@@ -44,35 +64,47 @@ const ProductCard: React.FC<{ product: Product; index: number; products: Product
   const [hovered, setHovered] = useState(false);
   const nextIndex = (index + 1) % products.length;
   const hoverImage = products[nextIndex].image;
+  
   return (
     <div
-      className="rounded-xl overflow-hidden flex ml-6 md:ml-0 flex-col pb-4 transition-transform duration-300 hover:scale-105 group"
-      style={{ minHeight: 420, maxWidth: 340 }}
+      className="group relative overflow-hidden flex flex-col transition-transform duration-500 hover:scale-[1.02]"
+      style={{ minHeight: 380 }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className="relative h-64 mb-3  ">
+      <div className="relative h-64 mb-4 bg-[#F4F4F4]">
         <img
           src={product.image}
           alt={product.name}
-          className={`w-full h-64 object-cover object-center rounded-xl absolute left-0 top-0 transition-all duration-300 ${hovered ? 'opacity-0' : 'opacity-100'}`}
+          className={`w-full h-full object-contain p-2 transition-opacity duration-500 ${hovered ? 'opacity-0' : 'opacity-100'}`}
         />
         <img
           src={hoverImage}
           alt={product.name + ' alt'}
-          className={`w-full h-64 object-cover object-center rounded-xl absolute left-0 top-0 transition-all duration-300 ${hovered ? 'opacity-100' : 'opacity-0'}`}
+          className={`absolute inset-0 w-full h-full object-contain p-2 transition-opacity duration-500 ${hovered ? 'opacity-100' : 'opacity-0'}`}
         />
-        <div className="absolute top-3 left-3 z-10">
-          <div className="backdrop-blur-sm bg-white/40 border border-white/30 text-gray-900 font-light text-base px-4  rounded-tr-xl rounded-bl-xl font-sans shadow-sm" style={{letterSpacing: 0.2}}>
+        {/* Elegant badge design */}
+        <div className="absolute top-4 left-0">
+          <div className="bg-white/90 backdrop-blur-sm border-l-2 border-[#AD9660] text-[#323433] font-light text-xs px-4 py-2">
             Best Seller
           </div>
         </div>
       </div>
-      <div className="px-4 flex flex-col flex-1 transform scale-[0.952] will-change-transform">
-        <h3 className="font-normal text-lg text-gray-900 font-sans leading-snug break-words line-clamp-2 text-left">{product.name}</h3>
-        <span className="text-sm font-normal text-gray-600  italic">coporate gift</span>
-        <span className="text-lg font-light text-gray-900 mb-2 text-left">₹{product.price.toLocaleString()}</span>
+
+      {/* Product details with refined typography */}
+      <div className="px-2 flex flex-col flex-1">
+        <h3 className="font-light text-base text-[#323433] leading-snug line-clamp-2 mb-2 group-hover:text-[#AD9660] transition-colors duration-300">
+          {product.name}
+        </h3>
+        <span className="text-xs text-gray-500 font-light tracking-wide uppercase">corporate gift</span>
+        <div className="mt-3 flex items-center justify-between">
+          <span className="text-lg font-light text-[#AD9660]">₹{product.price.toLocaleString()}</span>
+          <div className="w-6 h-[1px] bg-[#AD9660]/20"></div>
+        </div>
       </div>
+
+      {/* Geometric decorative element on hover */}
+      <div className="absolute -bottom-full right-0 w-12 h-12 border border-[#AD9660]/20 rotate-45 group-hover:-translate-y-12 transition-transform duration-500"></div>
     </div>
   );
 };
