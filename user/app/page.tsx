@@ -191,7 +191,6 @@ export default async function HomePage() {
         <ProductGrid title="Trending Today" products={trendingProducts} />
       </div>
 
-      {/* Gifting categories */}
       <section className="py-16 bg-[#F4F4F4]/30 relative overflow-hidden">
         {/* Subtle decorative elements */}
         <div className="absolute inset-0 pointer-events-none">
@@ -212,84 +211,119 @@ export default async function HomePage() {
           
           <div className="hero-section text-center flex gap-6 max-w-6xl items-center justify-center mx-auto flex-col md:flex-row px-2">
             <div className="flex flex-col gap-6 md:w-1/2 w-full">
-              {curatedCategories.slice(0, 2).map((cat, index) => (
-                <Link href={`/categories/${cat.slug}`} key={cat.name} className="relative group overflow-hidden rounded-xl">
-                  <img
-                    src={cat.image}
-                    alt={cat.name}
-                    className={`w-full h-${index === 0 ? '[214px]' : '[400px]'} object-cover transition-transform duration-700 ease-out group-hover:scale-105`}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#323433]/70 via-[#323433]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <div className="absolute bottom-0 left-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 w-full">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-white font-light text-xl font-['Frank_Ruhl_Libre']">{cat.name}</h3>
-                      <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                        <span className="text-[#AD9660] text-xs tracking-wider font-light">Explore</span>
-                        <div className="ml-2 w-4 h-[1px] bg-[#AD9660] transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 delay-200"></div>
-                      </div>
+              <div className="relative group overflow-hidden rounded-xl">
+                <img
+                  src="https://www.boxupgifting.com/cdn/shop/files/quokkabottles-LGPLafOVhqY-unsplash_copy_222d70ad-99f7-4de2-b07c-56c34b9fc8e4.jpg?v=1744178433"
+                  alt="Journal"
+                  className="w-full h-[214px] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#323433]/70 via-[#323433]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute bottom-0 left-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 w-full">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-white font-light text-xl font-['Frank_Ruhl_Libre']">Journal</h3>
+                    <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                      <span className="text-[#AD9660] text-xs tracking-wider font-light">Explore</span>
+                      <div className="ml-2 w-4 h-[1px] bg-[#AD9660] transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 delay-200"></div>
                     </div>
                   </div>
-                  <div className="absolute inset-0 rounded-xl border-2 border-[#AD9660]/0 group-hover:border-[#AD9660]/20 transition-all duration-500"></div>
-                </Link>
-              ))}
+                </div>
+                <div className="absolute inset-0 rounded-xl border-2 border-[#AD9660]/0 group-hover:border-[#AD9660]/20 transition-all duration-500"></div>
+              </div>
+
+              {/* Drinkware Category */}
+              <div className="relative group overflow-hidden rounded-xl">
+                <img
+                  src="https://www.boxupgifting.com/cdn/shop/files/quokkabottles-LGPLafOVhqY-unsplash_copy_222d70ad-99f7-4de2-b07c-56c34b9fc8e4.jpg?v=1744178433"
+                  alt="Drinkware"
+                  className="w-full h-[400px] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#323433]/70 via-[#323433]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute bottom-0 left-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 w-full">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-white font-light text-xl font-['Frank_Ruhl_Libre']">Drinkware</h3>
+                    <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                      <span className="text-[#AD9660] text-xs tracking-wider font-light">Explore</span>
+                      <div className="ml-2 w-4 h-[1px] bg-[#AD9660] transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 delay-200"></div>
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute inset-0 rounded-xl border-2 border-[#AD9660]/0 group-hover:border-[#AD9660]/20 transition-all duration-500"></div>
+              </div>
             </div>
 
             <div className="flex flex-col gap-8 md:w-1/2 w-full">
               <div className="text-left">
                 <h3 className="text-2xl mb-4 font-light text-[#323433] font-['Frank_Ruhl_Libre']">Custom-branded gifts that connect with your audience.</h3>
-                <Link href="/categories" className="bg-[#AD9660] text-white px-8 py-3 rounded-full hover:bg-[#9e865a] transition-all duration-300 flex items-center group inline-block">
+                <button className="bg-[#AD9660] text-white px-8 py-3 rounded-full hover:bg-[#9e865a] transition-all duration-300 flex items-center group">
                   <span className="mr-2">Explore Collection</span>
                   <div className="w-4 h-[1px] bg-white transform transition-all duration-300 group-hover:w-6"></div>
-                </Link>
+                </button>
               </div>
-              
-              {curatedCategories.slice(2, 3).map((cat) => (
-                <Link href={`/categories/${cat.slug}`} key={cat.name} className="relative group overflow-hidden rounded-xl">
-                  <img
-                    src={cat.image}
-                    alt={cat.name}
-                    className="w-full h-[450px] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#323433]/70 via-[#323433]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <div className="absolute bottom-0 left-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 w-full">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-white font-light text-xl font-['Frank_Ruhl_Libre']">{cat.name}</h3>
-                      <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                        <span className="text-[#AD9660] text-xs tracking-wider font-light">Explore</span>
-                        <div className="ml-2 w-4 h-[1px] bg-[#AD9660] transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 delay-200"></div>
-                      </div>
+              {/* Electronic Gadgets Category */}
+              <div className="relative group overflow-hidden rounded-xl">
+                <img
+                  src="https://www.boxupgifting.com/cdn/shop/files/Magnetic_charger_cable_holder_-_1_2_99287279-cc16-4f06-8d3d-8506f6347a50.jpg?v=1744178647"
+                  alt="Electronic Gadgets"
+                  className="w-full h-[450px] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#323433]/70 via-[#323433]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute bottom-0 left-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 w-full">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-white font-light text-xl font-['Frank_Ruhl_Libre']">Electronic Gadgets</h3>
+                    <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                      <span className="text-[#AD9660] text-xs tracking-wider font-light">Explore</span>
+                      <div className="ml-2 w-4 h-[1px] bg-[#AD9660] transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 delay-200"></div>
                     </div>
                   </div>
-                  <div className="absolute inset-0 rounded-xl border-2 border-[#AD9660]/0 group-hover:border-[#AD9660]/20 transition-all duration-500"></div>
-                </Link>
-              ))}
+                </div>
+                <div className="absolute inset-0 rounded-xl border-2 border-[#AD9660]/0 group-hover:border-[#AD9660]/20 transition-all duration-500"></div>
+              </div>
             </div>
 
             <div className="flex flex-col gap-6 md:w-1/2 w-full">
-              {curatedCategories.slice(3).map((cat) => (
-                <Link href={`/categories/${cat.slug}`} key={cat.name} className="relative group overflow-hidden rounded-xl">
-                  <img
-                    src={cat.image}
-                    alt={cat.name}
-                    className="w-full h-[214px] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#323433]/70 via-[#323433]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <div className="absolute bottom-0 left-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 w-full">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-white font-light text-xl font-['Frank_Ruhl_Libre']">{cat.name}</h3>
-                      <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                        <span className="text-[#AD9660] text-xs tracking-wider font-light">Explore</span>
-                        <div className="ml-2 w-4 h-[1px] bg-[#AD9660] transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 delay-200"></div>
-                      </div>
+              {/* Coffee & Tea Delights Category */}
+              <div className="relative group overflow-hidden rounded-xl">
+                <img
+                  src="https://www.boxupgifting.com/cdn/shop/files/Tea_ceramic_cups_-_set_of_two_-_2_copy_2f7a4acc-f87d-4526-bd0d-13856992d8d9.jpg?v=1744178455"
+                  alt="Coffee & Tea Delights"
+                  className="w-full h-[214px] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#323433]/70 via-[#323433]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute bottom-0 left-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 w-full">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-white font-light text-xl font-['Frank_Ruhl_Libre']">Coffee & Tea Delights</h3>
+                    <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                      <span className="text-[#AD9660] text-xs tracking-wider font-light">Explore</span>
+                      <div className="ml-2 w-4 h-[1px] bg-[#AD9660] transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 delay-200"></div>
                     </div>
                   </div>
-                  <div className="absolute inset-0 rounded-xl border-2 border-[#AD9660]/0 group-hover:border-[#AD9660]/20 transition-all duration-500"></div>
-                </Link>
-              ))}
+                </div>
+                <div className="absolute inset-0 rounded-xl border-2 border-[#AD9660]/0 group-hover:border-[#AD9660]/20 transition-all duration-500"></div>
+              </div>
+              {/* Lights & Lamps Category */}
+              <div className="relative group overflow-hidden rounded-xl">
+                <img
+                  src="https://www.boxupgifting.com/cdn/shop/files/joyce-g-3y9ymqvRR_s-unsplash_copy_2accb539-f2c2-4e4b-8997-f7751abc1209.jpg?v=1744178278"
+                  alt="Lights & Lamps"
+                  className="w-full h-[400px] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#323433]/70 via-[#323433]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute bottom-0 left-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 w-full">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-white font-light text-xl font-['Frank_Ruhl_Libre']">Lights & Lamps</h3>
+                    <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                      <span className="text-[#AD9660] text-xs tracking-wider font-light">Explore</span>
+                      <div className="ml-2 w-4 h-[1px] bg-[#AD9660] transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 delay-200"></div>
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute inset-0 rounded-xl border-2 border-[#AD9660]/0 group-hover:border-[#AD9660]/20 transition-all duration-500"></div>
+              </div>
             </div>
           </div>
         </div>
       </section>
+
 
       <div className="">
         <Gifting />
@@ -304,59 +338,7 @@ export default async function HomePage() {
       <BlogCarousel posts={latestBlogPosts} />
 
       {/* Features Section */}
-      {/* <section className="py-10 md:py-12 bg-gradient-to-b from-white to-[#F4F4F4]/30">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-10">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <div className="flex items-center justify-center mb-6">
-              <div className="w-12 h-[1px] bg-[#AD9660]"></div>
-              <span className="mx-4 text-sm uppercase tracking-wider text-[#AD9660] font-light">Our Solutions</span>
-              <div className="w-12 h-[1px] bg-[#AD9660]"></div>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-serif mb-6 text-[#323433] font-light">
-              Elevate Your Corporate Gifting Experience
-            </h2>
-            <p className="text-[#323433]/70 text-lg font-light">
-              Discover our comprehensive range of corporate gifting solutions designed to strengthen relationships and create lasting impressions.
-            </p>
-          </div>
-
-          <FeatureSection
-            title="Bulk Corporate Gifting Solutions"
-            description="We bring to the table a range of bulk corporate gifts for employees that will redefine your relationship with them. A brand-new way to cherish, honour and acknowledge your employees that is hassle free and premium!"
-            image="https://www.boxupgifting.com/cdn/shop/files/Bulk_Corporate_Gifting.jpg?v=1725348252"
-            highlightedText="bulk corporate gifts"
-            ctaLink="/bulk-orders"
-            ctaText="Explore Bulk Gifting"
-          />
-
-          <FeatureSection
-            title="WFH Employee Gifting"
-            description="Connect with your remote family through WFH employee gifts that are unique and utilitarian! Share the company values and foster a sense of belonging with company gifts that show you value and revere your employees."
-            image="https://www.boxupgifting.com/cdn/shop/files/WFH_Employee_Gifting.jpg?v=1725348290"
-            isReversed
-            ctaLink="/categories/wfh-gifts"
-            ctaText="View WFH Collection"
-          />
-
-          <FeatureSection
-            title="Foster Positive Company Culture"
-            description="Create a vibrant and engaging workplace environment through thoughtfully curated gifts that inspire and motivate. Our corporate gifting solutions help build stronger teams and celebrate achievements."
-            image="https://www.boxupgifting.com/cdn/shop/files/Positive_Company_Culture.jpg"
-            ctaLink="/categories/recognition"
-            ctaText="Explore Recognition Gifts"
-          />
-
-          <FeatureSection
-            title="Enhance Brand Recognition"
-            description="Elevate your brand presence with our premium customization options. From elegant corporate merchandise to bespoke gift packages, we help you create memorable brand experiences that resonate with your audience."
-            image="https://www.boxupgifting.com/cdn/shop/files/Brand_Recognition.jpg"
-            isReversed
-            ctaLink="/customization"
-            ctaText="Discover Branding Options"
-          />
-        </div>
-      </section> */}
-
+  
       {/* Contact Form Section */}
       <ContactForm />
 
