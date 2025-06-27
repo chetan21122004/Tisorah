@@ -117,75 +117,75 @@ export default async function HomePage() {
 
   const giftCategories = [
     {
-      label: 'Employee Welcome kits',
-      image: 'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=400&q=80',
+      label: 'Corporate Merchandise',
+      image: 'https://corporategiftsbyconfetti.in/cdn/shop/files/MellowYellow.png?v=1713177433&width=400',
     },
     {
-      label: 'Eco Friendly Gifts',
-      image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
-    },
-    {
-      label: 'Client Gifts',
+      label: 'Tech Accessories',
       image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
     },
     {
-      label: 'Employee Gifts',
+      label: 'Awards & Recognition',
       image: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80',
     },
     {
-      label: 'Drinkware',
-      image: 'https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=400&q=80',
+      label: 'Stationery & Office',
+      image: 'https://corporategiftsbyconfetti.in/cdn/shop/files/WorkEssentials.png?v=1713001095&width=400',
     },
     {
-      label: 'Promotional Gifts',
-      image: 'https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=400&q=80',
+      label: 'Wellness & Lifestyle',
+      image: 'https://corporategiftsbyconfetti.in/cdn/shop/files/Mindful.png?v=1713177239&width=400',
+    },
+    {
+      label: 'Home & Living',
+      image: 'https://corporategiftsbyconfetti.in/cdn/shop/files/8_ea239095-f9d7-4452-b5ba-52a34762ccd6.png?v=1713181083&width=400',
     },
   ]
 
-  // Occasion-wise gifts data
+  // Updated occasion-wise gifts to focus on corporate occasions
   const occasionGifts = [
     {
-      label: 'Birthday',
-      image: 'https://www.boxupgifting.com/cdn/shop/files/Happy_birthday-rafiki.png?v=1736240900',
+      label: 'Employee Onboarding',
+      image: 'https://www.boxupgifting.com/cdn/shop/files/Employee_Onboarding_aeb3ed63-0ceb-4d55-9058-136583b8e7c1.png?v=1736240876',
     },
     {
       label: 'Work Anniversary',
       image: 'https://www.boxupgifting.com/cdn/shop/files/Work_Anniversary.png?v=1736240917',
     },
     {
-      label: 'Rewards and Recognition',
+      label: 'Rewards & Recognition',
       image: 'https://www.boxupgifting.com/cdn/shop/files/Rewards_and_Recognition.png?v=1736240932',
-    },
-    {
-      label: 'Employee Onboarding',
-      image: 'https://www.boxupgifting.com/cdn/shop/files/Employee_Onboarding_aeb3ed63-0ceb-4d55-9058-136583b8e7c1.png?v=1736240876',
     },
     {
       label: 'Client Appreciation',
       image: 'https://www.boxupgifting.com/cdn/shop/files/Client_Appreciation_7f2b79cc-0947-4a67-b7cf-cab0a5c14e68.png?v=1736240974',
     },
     {
-      label: 'Events',
+      label: 'Corporate Events',
       image: 'https://www.boxupgifting.com/cdn/shop/files/Corporate_Events_7bf08475-18f0-4df1-9d0f-74630cacf7bd.png?v=1736241000',
+    },
+    {
+      label: 'Team Building',
+      image: 'https://www.boxupgifting.com/cdn/shop/files/Employee_Onboarding_aeb3ed63-0ceb-4d55-9058-136583b8e7c1.png?v=1736240876',
     },
   ];
 
-  // Our Offerings data
+  // Updated offerings to focus on corporate solutions
   const offerings = [
     {
-      image: 'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=600&q=80',
-      title: 'Make Your Gift Hamper',
-      desc: 'Tailor your corporate gifting with premium products and customisation.',
+      image: 'https://corporategiftsbyconfetti.in/cdn/shop/files/Exemplary.png?v=1713181877&width=400',
+      title: 'Corporate Merchandise',
+      desc: 'Premium branded merchandise and promotional items for your organization.',
     },
     {
-      image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80',
-      title: 'Promotional Gifts',
-      desc: 'Make a difference with promotional gifts that feature elegance, luxury and functionality.',
+      image: 'https://corporategiftsbyconfetti.in/cdn/shop/files/KeepRocking.png?v=1713177837&width=400',
+      title: 'Recognition Awards',
+      desc: 'Elegant awards and trophies to celebrate achievements and milestones.',
     },
     {
-      image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
-      title: 'Sustainable Gifts',
-      desc: 'Choose gifts with our Eco-Friendly gifts that leave a positive impact.',
+      image: 'https://corporategiftsbyconfetti.in/cdn/shop/files/WorkEssentials.png?v=1713001095&width=400',
+      title: 'Welcome Kits',
+      desc: 'Thoughtfully curated onboarding kits to welcome new team members.',
     },
   ];
 
