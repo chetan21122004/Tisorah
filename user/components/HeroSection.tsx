@@ -9,14 +9,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 
 // Banner slides for the hero slider
 const bannerSlides = [
-  {
-    image: "https://corporategiftsbyconfetti.in/cdn/shop/files/Artboard_2_copy_6corp_85822496-b5e4-4579-b3db-0489eab16bd7.webp?v=1718692062&width=2000",
-    title: "Elevate Your Corporate Gifting",
-    description: "Curated luxury gifts that make a lasting impression for every corporate occasion",
-    buttonText: "Explore Collections",
-    buttonLink: "/categories",
-    align: "left"
-  },
+ 
   {
     image: "https://www.boxupgifting.com/cdn/shop/files/Corporate_Compressed_copy_120d4d8f-0b6b-42d7-a84e-a10eaae409be.jpg?v=1733485155",
     title: "Premium Corporate Gifts",
@@ -27,6 +20,22 @@ const bannerSlides = [
   },
   {
     image: "https://corporategiftsbyconfetti.in/cdn/shop/files/banner_4_6692d39c-d5bf-44d4-9b94-9bcdb3129766.jpg?v=1701962949&width=1400",
+    title: "Premium Corporate Gifts",
+    description: "Thoughtfully designed gifts for recognition, events, and employee engagement",
+    buttonText: "Request Quote",
+    buttonLink: "/quote",
+    align: "center"
+  },
+  {
+    image: "https://corporategiftsbyconfetti.in/cdn/shop/files/Artboard_16corp_0d2c4056-b183-4662-b656-1abb6d78cfe6.webp?v=1718692062&width=2000",
+    title: "Premium Corporate Gifts",
+    description: "Thoughtfully designed gifts for recognition, events, and employee engagement",
+    buttonText: "Request Quote",
+    buttonLink: "/quote",
+    align: "center"
+  },
+  {
+    image: "https://corporategiftsbyconfetti.in/cdn/shop/files/Untitled_design_9_1.jpg?v=1742302025&width=2000",
     title: "Premium Corporate Gifts",
     description: "Thoughtfully designed gifts for recognition, events, and employee engagement",
     buttonText: "Request Quote",
@@ -114,73 +123,112 @@ export default function HeroSection() {
       </div>
       
       {/* Featured Products Section */}
-      <div className="py-16 bg-white">
+      <div className="py-6 bg-white">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col items-center mb-10">
-          <h2 className="text-2xl md:text-4xl font-light text-center mx-auto w-full md:w-1/2 text-[#323433] mb-6 font-['Frank_Ruhl_Libre']">
-          Featured Collections
+          <div className="flex flex-col items-center mb-12">
+            {/* Decorative line above title */}
+            <div className="w-16 h-[1px] bg-[#AD9660] mb-8"></div>
+            
+            <h2 className="text-3xl md:text-4xl font-light text-[#323433] mb-4 font-['Frank_Ruhl_Libre'] text-center">
+              Featured Collections
             </h2>
-            <div className="w-24 h-1 bg-[#AD9660] mb-6"></div>
-            <p className="text-center text-gray-500 font-light max-w-3xl mx-auto mb-8">
+            
+            {/* Decorative geometric element */}
+            <div className="flex items-center gap-2 mb-6">
+              <div className="w-2 h-2 rotate-45 bg-[#AD9660]/20"></div>
+              <div className="w-2 h-2 rotate-45 bg-[#AD9660]"></div>
+              <div className="w-2 h-2 rotate-45 bg-[#AD9660]/20"></div>
+            </div>
+            
+            <p className="text-center text-gray-500 font-light max-w-3xl mx-auto mb-12 text-base leading-relaxed">
               Explore our curated selection of premium corporate gifts designed to impress your clients and motivate your team.
             </p>
           </div>
           
           {/* Product Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-4">
             {isLoading ? (
               // Loading skeleton
               Array(5).fill(0).map((_, index) => (
                 <div key={index} className="animate-pulse">
-                  <div className="bg-gray-200 rounded-xl h-64 mb-3"></div>
-                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                  <div className="bg-gray-200 h-64 mb-4"></div>
+                  <div className="h-4 bg-gray-200 w-3/4 mb-2"></div>
+                  <div className="h-4 bg-gray-200 w-1/2"></div>
                 </div>
               ))
             ) : (
-              featuredProducts.map((product) => (
-                <Link href={`/products/${product.id}`} key={product.id} className="group">
-                  <div 
-                    className="rounded-xl overflow-hidden flex flex-col pb-4 transition-transform duration-300 hover:scale-105 bg-white shadow-sm hover:shadow-md"
-                    style={{ minHeight: 380 }}
-                  >
-                    <div className="relative h-64 mb-3">
-                      {product.images && product.images[0] ? (
-                        <Image 
-                          src={product.images[0]}
-                          alt={product.name}
-                          fill
-                          className="object-contain p-2"
-                          style={{ background: '#f7f7f7' }}
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                          <span className="text-gray-400">No image</span>
-                        </div>
-                      )}
-                      <div className="absolute top-3 left-3">
-                        <div className="backdrop-blur-sm bg-white/40 border border-white/30 text-gray-900 font-light text-xs px-3 py-1 rounded-tr-xl rounded-bl-xl">
-                          Best Seller
+              featuredProducts.map((product, index) => {
+                const nextIndex = (index + 1) % featuredProducts.length;
+                const hoverImage = featuredProducts[nextIndex]?.images?.[0];
+                
+                return (
+                  <Link href={`/products/${product.id}`} key={product.id}>
+                    <div
+                      className="group relative overflow-hidden flex flex-col transition-transform duration-500 hover:scale-[1.02]"
+                      style={{ minHeight: 380 }}
+                    >
+                      <div className="relative h-64 mb-4 bg-white">
+                        {product.images && product.images[0] ? (
+                          <>
+                            <Image 
+                              src={product.images[0]}
+                              alt={product.name}
+                              fill
+                              className={`w-full h-full object-contain p-2 transition-opacity duration-500 group-hover:opacity-0`}
+                            />
+                            {hoverImage && (
+                              <Image
+                                src={hoverImage}
+                                alt={product.name + ' alt'}
+                                fill
+                                className={`absolute inset-0 w-full h-full object-contain p-2 transition-opacity duration-500 opacity-0 group-hover:opacity-100`}
+                              />
+                            )}
+                          </>
+                        ) : (
+                          <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                            <span className="text-gray-400">No image</span>
+                          </div>
+                        )}
+                        {/* Elegant badge design */}
+                        <div className="absolute top-4 left-0">
+                          <div className="bg-white/90 backdrop-blur-sm border-l-2 border-[#AD9660] text-[#323433] font-light text-xs px-4 py-2">
+                            Best Seller
+                          </div>
                         </div>
                       </div>
+
+                      {/* Product details with refined typography */}
+                      <div className="px-2 flex flex-col flex-1">
+                        <h3 className="font-light text-base text-[#323433] leading-snug line-clamp-2 mb-2 group-hover:text-[#AD9660] transition-colors duration-300">
+                          {product.name}
+                        </h3>
+                        <span className="text-xs text-gray-500 font-light tracking-wide uppercase">corporate gift</span>
+                        <div className="mt-3 flex items-center justify-between">
+                          <span className="text-lg font-light text-[#AD9660]">₹{product.price}</span>
+                          <div className="w-6 h-[1px] bg-[#AD9660]/20"></div>
+                        </div>
+                      </div>
+
+                      {/* Geometric decorative element on hover */}
+                      <div className="absolute -bottom-full right-0 w-12 h-12 border border-[#AD9660]/20 rotate-45 group-hover:-translate-y-12 transition-transform duration-500"></div>
                     </div>
-                    <div className="px-4 flex flex-col flex-1">
-                      <h3 className="font-medium text-base text-[#323433] leading-snug line-clamp-2 mb-1">{product.name}</h3>
-                      <span className="text-xs text-gray-600 italic">corporate gift</span>
-                      <span className="text-lg font-medium text-[#AD9660] mt-2">₹{product.price}</span>
-                    </div>
-                  </div>
-                </Link>
-              ))
+                  </Link>
+                );
+              })
             )}
           </div>
           
-          <div className="flex justify-center mt-10">
+          {/* Elegant CTA button */}
+          <div className="flex justify-center">
             <Button 
               asChild
-              className="bg-white hover:bg-[#f5f5f5] text-[#323433] border border-[#323433] px-8 py-6 rounded-full"
+              className="group relative bg-white hover:bg-[#AD9660] text-[#323433] hover:text-white border border-[#323433] px-12 py-4 rounded-none transition-all duration-300"
             >
-              <Link href="/products">View All Products</Link>
+              <Link href="/products">
+                <span className="relative z-10 font-light tracking-wider text-sm uppercase">View Products</span>
+                <div className="absolute inset-0 border border-[#AD9660] -translate-x-1 -translate-y-1 group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-300"></div>
+              </Link>
             </Button>
           </div>
         </div>

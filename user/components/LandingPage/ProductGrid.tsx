@@ -36,13 +36,13 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
             <div className="w-2 h-2 rotate-45 bg-[#AD9660]/20"></div>
           </div>
           
-          <p className="text-center text-gray-500 font-light max-w-3xl mx-auto mb-12 text-base leading-relaxed">
+          <p className="text-center text-gray-500 font-light max-w-3xl mx-auto  text-base leading-relaxed">
             Looking for unique and premium corporate gift hampers? Explore our top gifting options for employees and clients at affordable prices across India.
           </p>
         </div>
 
         {/* Product Grid with refined spacing and layout */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mb-4">
           {products.map((product, index) => (
             <ProductCard key={index} product={product} index={index} products={products} />
           ))}
@@ -51,7 +51,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
         {/* Elegant CTA button */}
         <div className="flex justify-center">
           <button className="group relative bg-white hover:bg-[#AD9660] text-[#323433] hover:text-white border border-[#323433] px-12 py-4 rounded-none transition-all duration-300">
-            <span className="relative z-10 font-light tracking-wider text-sm uppercase">View Collection</span>
+            <span className="relative z-10 font-light tracking-wider text-sm uppercase">View All..!</span>
             <div className="absolute inset-0 border border-[#AD9660] -translate-x-1 -translate-y-1 group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-300"></div>
           </button>
         </div>
@@ -72,7 +72,7 @@ const ProductCard: React.FC<{ product: Product; index: number; products: Product
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className="relative h-64 mb-4 bg-[#F4F4F4]">
+      <div className="relative h-64 mb-4 bg-white">
         <img
           src={product.image}
           alt={product.name}

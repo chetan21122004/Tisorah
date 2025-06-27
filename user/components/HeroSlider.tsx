@@ -58,7 +58,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
   
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
-  const [aspectRatio, setAspectRatio] = useState("42.85%") // Default aspect ratio (21:9)
+  const [aspectRatio, setAspectRatio] = useState("35.16%") // Default aspect ratio (910:320)
   const containerRef = useRef<HTMLDivElement>(null)
 
   // Handle window resize for adaptive height
@@ -71,7 +71,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
       } else if (width < 1024) { // Tablet
         setAspectRatio("56.25%") // 16:9 aspect ratio
       } else { // Desktop
-        setAspectRatio("42.85%") // 21:9 aspect ratio
+        setAspectRatio("35.16%") // 910:320 aspect ratio (≈2.84:1)
       }
     }
     
@@ -190,4 +190,4 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
       </div>
     </section>
   )
-} 
+}

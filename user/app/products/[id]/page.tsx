@@ -670,7 +670,7 @@ export default function ProductPage({ params }: ProductPageProps) {
         </section>
 
         {/* You Might Also Like Section */}
-        <section className="bg-gray-50">
+        <section className="bg-gray-50">x
           <div className="container mx-auto px-4 py-8">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-edu-cursive font-semibold font-poppins">You Might Also Like</h2>
