@@ -53,24 +53,160 @@ export interface GiftCategory {
   updated_at: string | null
 }
 
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
+
 export interface Database {
   public: {
     Tables: {
+      categories: {
+        Row: {
+          id: string
+          name: string
+          slug: string
+          description: string | null
+          image_url: string | null
+          parent_id: string | null
+          created_at: string | null
+          updated_at: string | null
+          count: number | null
+        }
+        Insert: {
+          id?: string
+          name: string
+          slug: string
+          description?: string | null
+          image_url?: string | null
+          parent_id?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+          count?: number | null
+        }
+        Update: {
+          id?: string
+          name?: string
+          slug?: string
+          description?: string | null
+          image_url?: string | null
+          parent_id?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+          count?: number | null
+        }
+      }
       products: {
-        Row: Product
-        Insert: Omit<Product, 'id' | 'created_at' | 'updated_at'>
-        Update: Partial<Omit<Product, 'id' | 'created_at' | 'updated_at'>>
+        Row: {
+          id: string
+          name: string
+          description: string | null
+          price: number
+          moq: string | null
+          delivery: string | null
+          rating: number | null
+          featured: boolean | null
+          customizable: boolean | null
+          images: string[] | null
+          created_at: string | null
+          updated_at: string | null
+          main_category: string | null
+          sub_category: string | null
+          reviews: number | null
+        }
+        Insert: {
+          id?: string
+          name: string
+          description?: string | null
+          price: number
+          moq?: string | null
+          delivery?: string | null
+          rating?: number | null
+          featured?: boolean | null
+          customizable?: boolean | null
+          images?: string[] | null
+          created_at?: string | null
+          updated_at?: string | null
+          main_category?: string | null
+          sub_category?: string | null
+          reviews?: number | null
+        }
+        Update: {
+          id?: string
+          name?: string
+          description?: string | null
+          price?: number
+          moq?: string | null
+          delivery?: string | null
+          rating?: number | null
+          featured?: boolean | null
+          customizable?: boolean | null
+          images?: string[] | null
+          created_at?: string | null
+          updated_at?: string | null
+          main_category?: string | null
+          sub_category?: string | null
+          reviews?: number | null
+        }
       }
       testimonials: {
-        Row: Testimonial
-        Insert: Omit<Testimonial, 'id' | 'created_at'>
-        Update: Partial<Omit<Testimonial, 'id' | 'created_at'>>
+        Row: {
+          id: string
+          name: string
+          position: string
+          company: string
+          content: string
+          rating: number
+          product_bought: string
+          avatar_url: string | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          name: string
+          position: string
+          company: string
+          content: string
+          rating: number
+          product_bought: string
+          avatar_url?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          name?: string
+          position?: string
+          company?: string
+          content?: string
+          rating?: number
+          product_bought?: string
+          avatar_url?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
       }
       gift_categories: {
         Row: GiftCategory
         Insert: Omit<GiftCategory, 'id' | 'created_at' | 'updated_at'>
         Update: Partial<Omit<GiftCategory, 'id' | 'created_at' | 'updated_at'>>
       }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      [_ in never]: never
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
     }
   }
 } 

@@ -20,7 +20,7 @@ import {
 import Link from "next/link"
 import Image from "next/image"
 import HeroSection from "../components/HeroSection"
-import { getFeaturedProducts, getLatestProducts, getTestimonials } from "./actions"
+import { getFeaturedProducts, getLatestProducts, getTestimonials, getCategories, getMainCategories } from "./actions"
 import { getAllBlogPosts } from "@/lib/blog-service"
 import { format } from 'date-fns'
 
@@ -76,71 +76,51 @@ export default async function HomePage() {
   // Fetch latest blog posts
   const latestBlogPosts = await getAllBlogPosts({ limit: 9 });
 
-  const services = [
-    {
-      title: "Bespoke Corporate Solutions",
-      description: "Tailored gifting programs that reflect your organization's unique identity and values",
-      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=300&fit=crop&crop=center",
-      link: "/services/corporate-gifting",
-      icon: <Gift className="w-8 h-8 text-secondary" />,
-      clients: "500+ Distinguished Clients",
-      rating: 4.9,
-    },
-    {
-      title: "Volume Excellence Program",
-      description: "Sophisticated solutions for large-scale requirements with exclusive pricing advantages",
-      image: "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&h=300&fit=crop&crop=center",
-      link: "/bulk-orders",
-      icon: <Package className="w-8 h-8 text-accent" />,
-      clients: "350+ Enterprise Partners",
-      rating: 4.8,
-    },
-    {
-      title: "Artisanal Customization",
-      description: "Meticulous personalization services that transform gifts into meaningful brand ambassadors",
-      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop&crop=center",
-      link: "/customization",
-      icon: <Palette className="w-8 h-8 text-neutral-500" />,
-      clients: "450+ Satisfied Partners",
-      rating: 4.9,
-    },
-    {
-      title: "Recognition Excellence",
-      description: "Comprehensive programs that celebrate achievements and foster organizational culture",
-      image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400&h=300&fit=crop&crop=center",
-      link: "/services/recognition",
-      icon: <Award className="w-8 h-8 text-secondary" />,
-      clients: "300+ Corporate Programs",
-      rating: 4.8,
-    },
-  ]
+  const categories = await getCategories();
+  const mainCategories = await getMainCategories();
 
-  const giftCategories = [
+  // Filter categories for different sections
+  const productCategories = categories.filter(cat => 
+    ['Corporate Merchandise', 'Tech Accessories', 'Awards & Recognition', 
+     'Stationery & Office', 'Wellness & Lifestyle', 'Home & Living'].includes(cat.name)
+  ).map(cat => ({
+    label: cat.name,
+    image: cat.image_url || '/placeholder.jpg'
+  }));
+
+  const corporateOccasions = [
     {
-      label: 'Corporate Merchandise',
-      image: 'https://corporategiftsbyconfetti.in/cdn/shop/files/MellowYellow.png?v=1713177433&width=400',
+      label: 'Employee Onboarding',
+      image: 'https://www.boxupgifting.com/cdn/shop/files/Employee_Onboarding_aeb3ed63-0ceb-4d55-9058-136583b8e7c1.png?v=1736240876',
     },
     {
-      label: 'Tech Accessories',
-      image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
+      label: 'Work Anniversary',
+      image: 'https://www.boxupgifting.com/cdn/shop/files/Work_Anniversary.png?v=1736240917',
     },
     {
-      label: 'Awards & Recognition',
-      image: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80',
+      label: 'Rewards & Recognition',
+      image: 'https://www.boxupgifting.com/cdn/shop/files/Rewards_and_Recognition.png?v=1736240932',
     },
     {
-      label: 'Stationery & Office',
-      image: 'https://corporategiftsbyconfetti.in/cdn/shop/files/WorkEssentials.png?v=1713001095&width=400',
+      label: 'Client Appreciation',
+      image: 'https://www.boxupgifting.com/cdn/shop/files/Client_Appreciation_7f2b79cc-0947-4a67-b7cf-cab0a5c14e68.png?v=1736240974',
     },
     {
-      label: 'Wellness & Lifestyle',
-      image: 'https://corporategiftsbyconfetti.in/cdn/shop/files/Mindful.png?v=1713177239&width=400',
+      label: 'Corporate Events',
+      image: 'https://www.boxupgifting.com/cdn/shop/files/Corporate_Events_7bf08475-18f0-4df1-9d0f-74630cacf7bd.png?v=1736241000',
     },
     {
-      label: 'Home & Living',
-      image: 'https://corporategiftsbyconfetti.in/cdn/shop/files/8_ea239095-f9d7-4452-b5ba-52a34762ccd6.png?v=1713181083&width=400',
+      label: 'Team Building',
+      image: 'https://www.boxupgifting.com/cdn/shop/files/Employee_Onboarding_aeb3ed63-0ceb-4d55-9058-136583b8e7c1.png?v=1736240876',
     },
-  ]
+  ];
+
+  // Get main categories for offerings section
+  const offerings = mainCategories.slice(0, 3).map(cat => ({
+    image: cat.image_url || '/placeholder.jpg',
+    title: cat.name,
+    desc: cat.description || `Premium ${cat.name.toLowerCase()} for your organization.`
+  }));
 
   // Updated occasion-wise gifts to focus on corporate occasions
   const occasionGifts = [
@@ -171,7 +151,7 @@ export default async function HomePage() {
   ];
 
   // Updated offerings to focus on corporate solutions
-  const offerings = [
+  const offeringsSection = [
     {
       image: 'https://corporategiftsbyconfetti.in/cdn/shop/files/Exemplary.png?v=1713181877&width=400',
       title: 'Corporate Merchandise',
@@ -211,10 +191,7 @@ export default async function HomePage() {
         <ProductGrid title="Trending Today" products={trendingProducts} />
       </div>
 
-
-
-
-{/*  Gifting categories */}
+      {/* Gifting categories */}
       <section className="py-16 bg-[#F4F4F4]/30 relative overflow-hidden">
         {/* Subtle decorative elements */}
         <div className="absolute inset-0 pointer-events-none">
@@ -352,8 +329,6 @@ export default async function HomePage() {
         <Gifting />
       </div>
 
-
-
       {/* Our Clients Section */}
       <div className="bg-white">
         <OurClient />
@@ -361,10 +336,6 @@ export default async function HomePage() {
 
       {/* Blog Section */}
       <BlogCarousel posts={latestBlogPosts} />
-
-
-    
-
 
       {/* Features Section */}
       <section className="py-10 md:py-12 bg-gradient-to-b from-white to-[#F4F4F4]/30">
@@ -428,6 +399,97 @@ export default async function HomePage() {
           <Testimonials testimonials={testimonials} />
         </div>
       )}
+
+      {/* New section for categories */}
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-[#F4F4F4]">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center">
+            <div className="space-y-2">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                Our Categories
+              </h2>
+              <p className="max-w-[900px] text-zinc-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-zinc-400">
+                Discover our wide range of corporate gifting solutions
+              </p>
+            </div>
+          </div>
+          <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
+            {productCategories.map((category, index) => (
+              <div key={index} className="flex flex-col items-center space-y-4">
+                <div className="relative h-64 w-full overflow-hidden rounded-lg">
+                  <img
+                    alt={category.label}
+                    className="object-cover w-full h-full transition-transform duration-300 hover:scale-110"
+                    src={category.image}
+                  />
+                </div>
+                <h3 className="text-xl font-bold">{category.label}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      {/* Occasion-wise gifts section */}
+      <section className="w-full py-12 md:py-24 lg:py-32">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center">
+            <div className="space-y-2">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                Corporate Occasions
+              </h2>
+              <p className="max-w-[900px] text-zinc-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-zinc-400">
+                Perfect gifts for every corporate milestone and celebration
+              </p>
+            </div>
+          </div>
+          <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
+            {corporateOccasions.map((occasion, index) => (
+              <div key={index} className="flex flex-col items-center space-y-4">
+                <div className="relative h-64 w-full overflow-hidden rounded-lg">
+                  <img
+                    alt={occasion.label}
+                    className="object-cover w-full h-full transition-transform duration-300 hover:scale-110"
+                    src={occasion.image}
+                  />
+                </div>
+                <h3 className="text-xl font-bold">{occasion.label}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Offerings section */}
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-[#F4F4F4]">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center">
+            <div className="space-y-2">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                Our Offerings
+              </h2>
+              <p className="max-w-[900px] text-zinc-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-zinc-400">
+                Comprehensive corporate gifting solutions for your business
+              </p>
+            </div>
+          </div>
+          <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
+            {offerings.map((offering, index) => (
+              <div key={index} className="flex flex-col items-center space-y-4">
+                <div className="relative h-64 w-full overflow-hidden rounded-lg">
+                  <img
+                    alt={offering.title}
+                    className="object-cover w-full h-full transition-transform duration-300 hover:scale-110"
+                    src={offering.image}
+                  />
+                </div>
+                <h3 className="text-xl font-bold">{offering.title}</h3>
+                <p className="text-zinc-500 dark:text-zinc-400">{offering.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
     </div>
   )
