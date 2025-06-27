@@ -6,6 +6,12 @@ import type { Product, GiftCategory } from '@/types/database'
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
+// Create default client instance
+const supabase = createClientBrowser<Database>(supabaseUrl, supabaseKey)
+
+// Export default client
+export default supabase
+
 // Client-side Supabase instance
 export const createBrowserClient = () => {
   return createClientBrowser<Database>(supabaseUrl, supabaseKey)

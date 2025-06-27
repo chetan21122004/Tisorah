@@ -6,6 +6,16 @@ interface PatternProps {
   className?: string;
   style?: React.CSSProperties;
   children?: React.ReactNode;
+  overlay?: string;
+  opacity?: number;
+  intensity?: 'subtle' | 'medium' | 'strong';
+  size?: 'small' | 'default' | 'large';
+  interactive?: boolean;
+}
+
+interface DividerProps extends PatternProps {
+  thick?: boolean;
+  withFade?: boolean;
 }
 
 // Linear geometric pattern with clean thin strokes
@@ -32,28 +42,16 @@ export function LinearPatternBackground({ className, style, children }: PatternP
 }
 
 // Geometric corner accent in Art Deco style
-export function GeometricCornerAccent({ className }: PatternProps) {
+export function GeometricCornerAccent({ className, children }: PatternProps) {
   return (
-    <svg 
-      viewBox="0 0 24 24" 
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={cn("text-secondary", className)}
-    >
-      <path 
-        d="M4 4H12V6H6V12H4V4Z" 
-        fill="currentColor"
-      />
-      <path 
-        d="M20 20H12V18H18V12H20V20Z" 
-        fill="currentColor" 
-      />
-      <path 
-        d="M8 8L16 16" 
-        stroke="currentColor" 
-        strokeWidth="1.5"
-      />
-    </svg>
+    <div className={cn("relative", className)}>
+      <div className="absolute top-0 left-0 w-16 h-16">
+        <div className="absolute top-0 left-0 w-[2px] h-8 bg-[#AD9660]/20"></div>
+        <div className="absolute top-0 left-0 w-8 h-[2px] bg-[#AD9660]/20"></div>
+        <div className="absolute top-4 left-4 w-4 h-4 border-2 border-[#AD9660]/20 rotate-45"></div>
+      </div>
+      {children}
+    </div>
   );
 }
 
@@ -85,18 +83,26 @@ export function ArtDecoBorder({ className, children }: PatternProps) {
 }
 
 // Decorative divider with Art Deco flair
-export function PatternDivider({ className }: PatternProps) {
+export function PatternDivider({ className, thick, withFade }: DividerProps) {
   return (
     <div className={cn("flex items-center justify-center w-full my-4", className)}>
-      <div className="flex-1 h-px bg-gray-200"></div>
+      <div className={cn(
+        "flex-1 h-px",
+        withFade ? "bg-gradient-to-r from-transparent via-gray-200 to-transparent" : "bg-gray-200",
+        thick ? "h-0.5" : "h-px"
+      )}></div>
       <div className="mx-4 flex items-center">
-        <div className="w-1 h-1 bg-secondary rounded-full"></div>
-        <div className="w-6 h-px bg-secondary mx-1"></div>
-        <div className="w-2 h-2 bg-secondary rotate-45"></div>
-        <div className="w-6 h-px bg-secondary mx-1"></div>
-        <div className="w-1 h-1 bg-secondary rounded-full"></div>
+        <div className={cn("w-1 h-1 bg-secondary rounded-full", thick ? "w-1.5 h-1.5" : "")}></div>
+        <div className={cn("w-6 h-px bg-secondary mx-1", thick ? "h-0.5" : "")}></div>
+        <div className={cn("w-2 h-2 bg-secondary rotate-45", thick ? "w-2.5 h-2.5" : "")}></div>
+        <div className={cn("w-6 h-px bg-secondary mx-1", thick ? "h-0.5" : "")}></div>
+        <div className={cn("w-1 h-1 bg-secondary rounded-full", thick ? "w-1.5 h-1.5" : "")}></div>
       </div>
-      <div className="flex-1 h-px bg-gray-200"></div>
+      <div className={cn(
+        "flex-1 h-px",
+        withFade ? "bg-gradient-to-r from-transparent via-gray-200 to-transparent" : "bg-gray-200",
+        thick ? "h-0.5" : "h-px"
+      )}></div>
     </div>
   );
 }
@@ -105,16 +111,58 @@ export default function PatternBackground({
   className,
   style,
   children,
+  overlay = 'primary',
+  opacity = 0.05,
+  intensity = 'medium',
+  size = 'default',
+  interactive = false,
 }: PatternProps) {
+  const getOverlayColor = () => {
+    switch (overlay) {
+      case 'primary': return '#323433';
+      case 'secondary': return '#AD9660';
+      case 'accent': return '#1E2A47';
+      case 'neutral': return '#E6E2DD';
+      default: return '#323433';
+    }
+  };
+
+  const getPatternSize = () => {
+    switch (size) {
+      case 'small': return '12px';
+      case 'large': return '24px';
+      default: return '16px';
+    }
+  };
+
+  const getPatternIntensity = () => {
+    switch (intensity) {
+      case 'subtle': return 0.5;
+      case 'strong': return 2;
+      default: return 1;
+    }
+  };
+
   return (
     <div
-      className={cn("relative overflow-hidden", className)}
+      className={cn(
+        "relative overflow-hidden transition-all duration-500",
+        interactive && "hover:scale-[1.02]",
+        className
+      )}
       style={{
         ...style,
       }}
     >
       <div className="absolute inset-0">
-        <div className="h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+        <div 
+          className="h-full w-full [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]"
+          style={{
+            background: `radial-gradient(${getOverlayColor()}${Math.round(opacity * 255).toString(16)} 1px,transparent 1px)`,
+            backgroundSize: `${getPatternSize()} ${getPatternSize()}`,
+            opacity: getPatternIntensity(),
+          }}
+        />
       </div>
 
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent" />

@@ -20,7 +20,7 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import PatternBackground, { PatternDivider, PatternAccentCorner } from "@/components/PatternBackground"
+import PatternBackground, { PatternDivider, GeometricCornerAccent } from "@/components/PatternBackground"
 
 export default function AboutPage() {
   const stats = [
@@ -308,7 +308,7 @@ export default function AboutPage() {
 
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {values.map((value, index) => (
-              <PatternAccentCorner key={index} className="group">
+              <GeometricCornerAccent key={index} className="group">
                 <div className="relative">
                   <div className="absolute inset-0 bg-[#1E2A47]/5 rotate-2 transform transition-transform group-hover:rotate-0"></div>
                   <div className="relative bg-white/90 backdrop-blur-sm border border-[#AD9660]/20 p-8 transition-all group-hover:border-[#AD9660] shadow-sm">
@@ -323,7 +323,7 @@ export default function AboutPage() {
                     </div>
                   </div>
                 </div>
-              </PatternAccentCorner>
+              </GeometricCornerAccent>
             ))}
           </div>
         </div>

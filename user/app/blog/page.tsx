@@ -3,14 +3,9 @@ import Link from 'next/link'
 import { format } from 'date-fns'
 import type { BlogPost } from '@/types/blog'
 import { EXAMPLE_BLOGS } from '@/utils/blog-constants'
-import { getAllBlogPosts } from '@/lib/blog-service'
 
-export default async function BlogPage() {
-  // Fetch all blog posts
-  const fetchedBlogs = await getAllBlogPosts();
-  
-  // Use example blogs as fallback if no blogs were fetched
-  const blogs = fetchedBlogs.length > 0 ? fetchedBlogs : EXAMPLE_BLOGS;
+export default function BlogPage() {
+  const blogs = EXAMPLE_BLOGS;
 
   return (
     <div className="bg-neutral-50">

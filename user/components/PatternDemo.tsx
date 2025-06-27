@@ -1,5 +1,5 @@
 import React from 'react';
-import PatternBackground, { PatternDivider, PatternAccentCorner } from '@/components/PatternBackground';
+import PatternBackground, { PatternDivider, GeometricCornerAccent } from '@/components/PatternBackground';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -230,7 +230,7 @@ export const PatternDemo = () => {
                 description: "Custom solutions that perfectly capture your organization's essence" 
               }
             ].map((item, index) => (
-              <PatternAccentCorner key={index} className="bg-white p-8 rounded-md shadow-sm border border-gray-100 relative">
+              <GeometricCornerAccent key={index} className="bg-white p-8 rounded-md shadow-sm border border-gray-100 relative">
                 <div className="flex items-start gap-4">
                   {item.icon}
                   <div>
@@ -241,7 +241,7 @@ export const PatternDemo = () => {
                 <div className="absolute top-0 right-0 z-10 bg-[#AD9660] text-white p-2 text-xs font-medium">
                   Premium
                 </div>
-              </PatternAccentCorner>
+              </GeometricCornerAccent>
             ))}
           </div>
         </div>
