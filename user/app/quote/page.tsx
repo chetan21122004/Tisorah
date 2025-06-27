@@ -140,23 +140,21 @@ export default function QuotePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="bg-[#1E2A47] py-20">
+      <div className="bg-[#1E2A47] py-16">
         <div className="container mx-auto px-4">
           <div className="text-center">
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <div className="w-20 h-20 bg-[#AD9660]/20 rounded-none flex items-center justify-center border border-[#AD9660]/30">
-                <Mail className="w-10 h-10 text-[#AD9660]" />
-              </div>
-              <div>
-                <h1 className="text-5xl lg:text-6xl font-light text-white font-['Frank_Ruhl_Libre']">Request Consultation</h1>
-                <p className="text-[#E6E2DD] font-light text-xl font-['Poppins']">Discover Bespoke Corporate Gifting Solutions</p>
+            <div className="flex items-center justify-center gap-3 mb-5">
+              <div className="w-16 h-16 bg-[#AD9660]/10 rounded-sm flex items-center justify-center border border-[#AD9660]/20">
+                <Mail className="w-8 h-8 text-[#AD9660]" />
               </div>
             </div>
+            <h1 className="text-4xl lg:text-5xl font-light text-white font-['Frank_Ruhl_Libre'] mb-3">Corporate Consultation</h1>
+            <p className="text-[#E6E2DD] font-light text-lg font-['Poppins'] max-w-2xl mx-auto">Discover tailored corporate gifting solutions for your business</p>
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-12">
         {/* Breadcrumb */}
         <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-16">
           <Link href="/" className="hover:text-teal-600 flex items-center gap-2">
@@ -169,43 +167,43 @@ export default function QuotePage() {
 
         {/* Benefits Section */}
         <div className="grid md:grid-cols-4 gap-8 mb-16">
-          <Card className="shadow-none border border-[#AD9660]/20 text-center hover:border-[#AD9660] transition-all">
-            <CardContent className="p-8">
-              <div className="w-16 h-16 bg-[#1E2A47]/5 rounded-none flex items-center justify-center mx-auto mb-4 border border-[#1E2A47]/10">
-                <Clock className="w-8 h-8 text-[#1E2A47]" />
+          <Card className="shadow-none border border-[#AD9660]/20 text-center hover:border-[#AD9660] hover:bg-[#F4F4F4] transition-all">
+            <CardContent className="p-6">
+              <div className="w-14 h-14 bg-[#1E2A47]/5 rounded-sm flex items-center justify-center mx-auto mb-4 border border-[#1E2A47]/10">
+                <Clock className="w-7 h-7 text-[#1E2A47]" />
               </div>
-              <h3 className="text-xl font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">Prompt Excellence</h3>
-              <p className="text-gray-600 font-['Poppins'] text-sm">Get your quote within 24 hours</p>
+              <h3 className="text-lg font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">24-Hour Response</h3>
+              <p className="text-gray-600 font-['Poppins'] text-sm">Swift professional consultation</p>
             </CardContent>
           </Card>
 
-          <Card className="shadow-none border border-[#AD9660]/20 text-center hover:border-[#AD9660] transition-all">
-            <CardContent className="p-8">
-              <div className="w-16 h-16 bg-[#1E2A47]/5 rounded-none flex items-center justify-center mx-auto mb-4 border border-[#1E2A47]/10">
-                <Users className="w-8 h-8 text-[#1E2A47]" />
+          <Card className="shadow-none border border-[#AD9660]/20 text-center hover:border-[#AD9660] hover:bg-[#F4F4F4] transition-all">
+            <CardContent className="p-6">
+              <div className="w-14 h-14 bg-[#1E2A47]/5 rounded-sm flex items-center justify-center mx-auto mb-4 border border-[#1E2A47]/10">
+                <Users className="w-7 h-7 text-[#1E2A47]" />
               </div>
-              <h3 className="text-xl font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">Bespoke Consultation</h3>
-              <p className="text-gray-600 font-['Poppins'] text-sm">Personalized recommendations</p>
+              <h3 className="text-lg font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">Expert Guidance</h3>
+              <p className="text-gray-600 font-['Poppins'] text-sm">Strategic recommendations</p>
             </CardContent>
           </Card>
 
-          <Card className="shadow-none border border-[#AD9660]/20 text-center hover:border-[#AD9660] transition-all">
-            <CardContent className="p-8">
-              <div className="w-16 h-16 bg-[#1E2A47]/5 rounded-none flex items-center justify-center mx-auto mb-4 border border-[#1E2A47]/10">
-                <Award className="w-8 h-8 text-[#1E2A47]" />
+          <Card className="shadow-none border border-[#AD9660]/20 text-center hover:border-[#AD9660] hover:bg-[#F4F4F4] transition-all">
+            <CardContent className="p-6">
+              <div className="w-14 h-14 bg-[#1E2A47]/5 rounded-sm flex items-center justify-center mx-auto mb-4 border border-[#1E2A47]/10">
+                <Award className="w-7 h-7 text-[#1E2A47]" />
               </div>
-              <h3 className="text-xl font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">Exclusive Pricing</h3>
-              <p className="text-gray-600 font-['Poppins'] text-sm">Competitive bulk discounts</p>
+              <h3 className="text-lg font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">Premium Solutions</h3>
+              <p className="text-gray-600 font-['Poppins'] text-sm">Corporate pricing benefits</p>
             </CardContent>
           </Card>
 
-          <Card className="shadow-none border border-[#AD9660]/20 text-center hover:border-[#AD9660] transition-all">
-            <CardContent className="p-8">
-              <div className="w-16 h-16 bg-[#1E2A47]/5 rounded-none flex items-center justify-center mx-auto mb-4 border border-[#1E2A47]/10">
-                <Gift className="w-8 h-8 text-[#1E2A47]" />
+          <Card className="shadow-none border border-[#AD9660]/20 text-center hover:border-[#AD9660] hover:bg-[#F4F4F4] transition-all">
+            <CardContent className="p-6">
+              <div className="w-14 h-14 bg-[#1E2A47]/5 rounded-sm flex items-center justify-center mx-auto mb-4 border border-[#1E2A47]/10">
+                <Gift className="w-7 h-7 text-[#1E2A47]" />
               </div>
-              <h3 className="text-xl font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">Tailored Excellence</h3>
-              <p className="text-gray-600 font-['Poppins'] text-sm">Tailored to your needs</p>
+              <h3 className="text-lg font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">Customization</h3>
+              <p className="text-gray-600 font-['Poppins'] text-sm">Tailored to your brand</p>
             </CardContent>
           </Card>
         </div>
@@ -332,13 +330,14 @@ export default function QuotePage() {
                             <SelectValue placeholder="Select event type" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="onboarding">Employee Onboarding</SelectItem>
-                            <SelectItem value="festival">Festival Celebration</SelectItem>
+                            <SelectItem value="onboarding">Employee Onboarding Kits</SelectItem>
+                            <SelectItem value="corporate-milestone">Corporate Milestones</SelectItem>
                             <SelectItem value="recognition">Employee Recognition</SelectItem>
-                            <SelectItem value="birthday">Birthday Gifts</SelectItem>
-                            <SelectItem value="corporate-event">Corporate Event</SelectItem>
-                            <SelectItem value="client-gifting">Client Gifting</SelectItem>
-                            <SelectItem value="other">Other</SelectItem>
+                            <SelectItem value="executive-gifts">Executive Gifts</SelectItem>
+                            <SelectItem value="corporate-event">Corporate Events</SelectItem>
+                            <SelectItem value="client-appreciation">Client Appreciation</SelectItem>
+                            <SelectItem value="seasonal">Seasonal Corporate</SelectItem>
+                            <SelectItem value="other">Other Business Events</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -402,15 +401,15 @@ export default function QuotePage() {
                   <div className="flex flex-col sm:flex-row gap-6">
                     <Button
                       type="submit"
-                      className="flex-1 bg-[#1E2A47] hover:bg-[#323433] h-16 text-xl font-['Poppins'] font-light transition-all"
+                      className="flex-1 bg-[#1E2A47] hover:bg-[#323433] h-12 text-base font-['Poppins'] font-light transition-all"
                       disabled={isSubmitting}
                     >
                       {isSubmitting ? (
-                        "Submitting..."
+                        "Processing..."
                       ) : (
                         <>
-                          <Mail className="w-6 h-6 mr-3" />
-                          Submit Consultation Request
+                          <Mail className="w-5 h-5 mr-2" />
+                          Submit Request
                         </>
                       )}
                     </Button>
@@ -418,10 +417,10 @@ export default function QuotePage() {
                     <Button
                       type="button"
                       variant="outline"
-                      className="flex-1 border-[#AD9660] text-[#AD9660] hover:bg-[#AD9660]/5 h-16 text-xl font-['Poppins'] font-light transition-all"
+                      className="flex-1 border-[#AD9660] text-[#AD9660] hover:bg-[#AD9660]/5 h-12 text-base font-['Poppins'] font-light transition-all"
                     >
-                      <MessageCircle className="w-6 h-6 mr-3" />
-                      Chat on WhatsApp
+                      <MessageCircle className="w-5 h-5 mr-2" />
+                      WhatsApp Inquiry
                     </Button>
                   </div>
                 </form>
@@ -540,42 +539,42 @@ export default function QuotePage() {
 
         {/* Process Section */}
         <section className="mt-24">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-light text-[#323433] mb-6 font-['Frank_Ruhl_Libre']">How It Works</h2>
-            <p className="text-xl text-gray-600 font-['Poppins'] font-light">Simple steps to get your perfect corporate gifts</p>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-light text-[#323433] mb-3 font-['Frank_Ruhl_Libre']">Consultation Process</h2>
+            <p className="text-base text-gray-600 font-['Poppins'] font-light">Simple steps to corporate gifting excellence</p>
           </div>
 
           <div className="grid md:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="w-20 h-20 bg-[#1E2A47]/5 rounded-none flex items-center justify-center mx-auto mb-6 border border-[#1E2A47]/10">
-                <span className="text-2xl font-light text-[#1E2A47] font-['Frank_Ruhl_Libre']">1</span>
+              <div className="w-12 h-12 bg-[#1E2A47]/5 rounded-sm flex items-center justify-center mx-auto mb-4 border border-[#1E2A47]/10">
+                <span className="text-lg font-light text-[#1E2A47] font-['Frank_Ruhl_Libre']">1</span>
               </div>
-              <h3 className="text-xl font-light text-[#323433] mb-4 font-['Frank_Ruhl_Libre']">Submit Request</h3>
-              <p className="text-gray-600 font-['Poppins'] text-sm">Fill out the quote form with your requirements</p>
+              <h3 className="text-lg font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">Submit Request</h3>
+              <p className="text-gray-600 font-['Poppins'] text-sm">Share your requirements</p>
             </div>
 
             <div className="text-center">
-              <div className="w-20 h-20 bg-[#1E2A47]/5 rounded-none flex items-center justify-center mx-auto mb-6 border border-[#1E2A47]/10">
-                <span className="text-2xl font-light text-[#1E2A47] font-['Frank_Ruhl_Libre']">2</span>
+              <div className="w-12 h-12 bg-[#1E2A47]/5 rounded-sm flex items-center justify-center mx-auto mb-4 border border-[#1E2A47]/10">
+                <span className="text-lg font-light text-[#1E2A47] font-['Frank_Ruhl_Libre']">2</span>
               </div>
-              <h3 className="text-xl font-light text-[#323433] mb-4 font-['Frank_Ruhl_Libre']">Expert Review</h3>
-              <p className="text-gray-600 font-['Poppins'] text-sm">Our team reviews and prepares personalized recommendations</p>
+              <h3 className="text-lg font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">Expert Review</h3>
+              <p className="text-gray-600 font-['Poppins'] text-sm">Professional assessment</p>
             </div>
 
             <div className="text-center">
-              <div className="w-20 h-20 bg-[#1E2A47]/5 rounded-none flex items-center justify-center mx-auto mb-6 border border-[#1E2A47]/10">
-                <span className="text-2xl font-light text-[#1E2A47] font-['Frank_Ruhl_Libre']">3</span>
+              <div className="w-12 h-12 bg-[#1E2A47]/5 rounded-sm flex items-center justify-center mx-auto mb-4 border border-[#1E2A47]/10">
+                <span className="text-lg font-light text-[#1E2A47] font-['Frank_Ruhl_Libre']">3</span>
               </div>
-              <h3 className="text-xl font-light text-[#323433] mb-4 font-['Frank_Ruhl_Libre']">Receive Quote</h3>
-              <p className="text-gray-600 font-['Poppins'] text-sm">Get detailed pricing and product suggestions within 24 hours</p>
+              <h3 className="text-lg font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">Receive Quote</h3>
+              <p className="text-gray-600 font-['Poppins'] text-sm">Detailed pricing</p>
             </div>
 
             <div className="text-center">
-              <div className="w-20 h-20 bg-[#1E2A47]/5 rounded-none flex items-center justify-center mx-auto mb-6 border border-[#1E2A47]/10">
-                <span className="text-2xl font-light text-[#1E2A47] font-['Frank_Ruhl_Libre']">4</span>
+              <div className="w-12 h-12 bg-[#1E2A47]/5 rounded-sm flex items-center justify-center mx-auto mb-4 border border-[#1E2A47]/10">
+                <span className="text-lg font-light text-[#1E2A47] font-['Frank_Ruhl_Libre']">4</span>
               </div>
-              <h3 className="text-xl font-light text-[#323433] mb-4 font-['Frank_Ruhl_Libre']">Place Order</h3>
-              <p className="text-gray-600 font-['Poppins'] text-sm">Approve the quote and we'll handle the rest</p>
+              <h3 className="text-lg font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">Finalize</h3>
+              <p className="text-gray-600 font-['Poppins'] text-sm">Seamless execution</p>
             </div>
           </div>
         </section>
