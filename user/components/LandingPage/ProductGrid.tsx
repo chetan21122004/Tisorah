@@ -19,7 +19,7 @@ interface ProductGridProps {
 
 const ProductGrid: React.FC<ProductGridProps> = ({  products }) => {
   return (
-    <section className="">
+    <section className="py-8 bg-white">
       <div className="max-w-md sm:max-w-2xl md:max-w-4xl lg:max-w-full  mx-auto sm:px-24">
         <h2 className="text-2xl md:text-4xl font-normal text-center mx-auto w-full md:w-1/2  text-gray-900  mb-6  font-edu-cursive">Corporate Gifts – India’s Most Trusted Gifting Brand</h2>
         <p className="text-center text-gray-500 font-light  mx-auto mb-6 opacity-80 text-sm md:text-base">
@@ -55,17 +55,15 @@ const ProductCard: React.FC<{ product: Product; index: number; products: Product
         <img
           src={product.image}
           alt={product.name}
-          className={`w-full h-64 w-64 object-cover object-center rounded-xl absolute left-0 top-0 transition-all duration-300 ${hovered ? 'opacity-0' : 'opacity-100'}`}
-          style={{ background: '#f7f7f7' }}
+          className={`w-full h-64 object-cover object-center rounded-xl absolute left-0 top-0 transition-all duration-300 ${hovered ? 'opacity-0' : 'opacity-100'}`}
         />
         <img
           src={hoverImage}
           alt={product.name + ' alt'}
           className={`w-full h-64 object-cover object-center rounded-xl absolute left-0 top-0 transition-all duration-300 ${hovered ? 'opacity-100' : 'opacity-0'}`}
-          style={{ background: '#f7f7f7' }}
         />
         <div className="absolute top-3 left-3 z-10">
-          <div className="backdrop-blur-sm bg-white/40 border border-white/30 text-gray-900 font-light text-base px-4 py-2 rounded-tr-xl rounded-bl-xl font-sans shadow-sm" style={{letterSpacing: 0.2}}>
+          <div className="backdrop-blur-sm bg-white/40 border border-white/30 text-gray-900 font-light text-base px-4  rounded-tr-xl rounded-bl-xl font-sans shadow-sm" style={{letterSpacing: 0.2}}>
             Best Seller
           </div>
         </div>

@@ -1,13 +1,24 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react"
 
-// Banner data with improved imagery and messaging
-const bannerData = [
+interface SlideType {
+  id?: number;
+  image: string;
+  title: string;
+  subtitle?: string;
+  description?: string;
+  buttonText: string;
+  buttonLink: string;
+  align?: string;
+}
+
+// Default banner data
+const defaultBannerData: SlideType[] = [
   {
     id: 1,
     image: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0",
@@ -37,9 +48,37 @@ const bannerData = [
   },
 ]
 
-export default function HeroSlider() {
+interface HeroSliderProps {
+  slides?: SlideType[];
+}
+
+export default function HeroSlider({ slides }: HeroSliderProps) {
+  // Use provided slides or fall back to default banner data
+  const bannerData = slides || defaultBannerData;
+  
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
+  const [aspectRatio, setAspectRatio] = useState("42.85%") // Default aspect ratio (21:9)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  // Handle window resize for adaptive height
+  useEffect(() => {
+    const updateAspectRatio = () => {
+      const width = window.innerWidth;
+      // Responsive aspect ratios based on screen size
+      if (width < 640) { // Mobile
+        setAspectRatio("66.67%") // 3:2 aspect ratio
+      } else if (width < 1024) { // Tablet
+        setAspectRatio("56.25%") // 16:9 aspect ratio
+      } else { // Desktop
+        setAspectRatio("42.85%") // 21:9 aspect ratio
+      }
+    }
+    
+    updateAspectRatio()
+    window.addEventListener("resize", updateAspectRatio)
+    return () => window.removeEventListener("resize", updateAspectRatio)
+  }, [])
 
   // Auto-play functionality
   useEffect(() => {
@@ -59,7 +98,7 @@ export default function HeroSlider() {
     
     // Reset animation lock after transition completes
     setTimeout(() => setIsAnimating(false), 600)
-  }, [isAnimating])
+  }, [isAnimating, bannerData.length])
 
   const prevSlide = useCallback(() => {
     if (isAnimating) return
@@ -69,7 +108,7 @@ export default function HeroSlider() {
     
     // Reset animation lock after transition completes
     setTimeout(() => setIsAnimating(false), 600)
-  }, [isAnimating])
+  }, [isAnimating, bannerData.length])
 
   const goToSlide = useCallback((index: number) => {
     if (isAnimating || index === currentSlide) return
@@ -81,25 +120,17 @@ export default function HeroSlider() {
     setTimeout(() => setIsAnimating(false), 600)
   }, [currentSlide, isAnimating])
 
-  // Get alignment class based on banner data
-  const getAlignmentClass = (align: string) => {
-    switch(align) {
-      case 'left':
-        return 'items-start text-left';
-      case 'right':
-        return 'items-end text-right';
-      default:
-        return 'items-center text-center';
-    }
-  }
-
   return (
     <section className="relative">
       {/* Banner Image */}
-      <div className="relative h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden">
+      <div 
+        ref={containerRef} 
+        className="relative w-full overflow-hidden"
+        style={{ paddingTop: aspectRatio }}
+      >
         {bannerData.map((banner, index) => (
-          <div
-            key={banner.id}
+          <div   
+            key={banner.id || index}
             className={`absolute inset-0 transition-all duration-700 ease-in-out ${
               index === currentSlide ? "opacity-100 scale-100" : "opacity-0 scale-105"
             }`}
@@ -110,46 +141,15 @@ export default function HeroSlider() {
               alt={banner.title}
               fill
               className="object-cover object-center"
-              priority={index === 0}
+              priority={index === currentSlide || index === (currentSlide + 1) % bannerData.length}
+              sizes="100vw"
             />
-            
-            {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent"></div>
-            
-            {/* Banner Content */}
-            <div className="absolute inset-0 flex items-center">
-              <div className="container mx-auto px-6">
-                <div className={`max-w-lg flex flex-col ${getAlignmentClass(banner.align)}`}>
-                  <div 
-                    className={`transition-all duration-700 delay-100 transform ${
-                      index === currentSlide ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
-                    }`}
-                  >
-                    <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
-                      {banner.title}
-                    </h1>
-                    <p className="text-white/90 text-lg md:text-xl mb-8 max-w-md">
-                      {banner.subtitle}
-                    </p>
-                    <Button 
-                      size="lg"
-                      className="bg-[#AD9660] hover:bg-[#AD9660]/90 text-white rounded-full px-8 transition-transform hover:scale-105 group"
-                    >
-                      <Link href={banner.buttonLink} className="flex items-center gap-2">
-                        {banner.buttonText}
-                        <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                      </Link>
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         ))}
       </div>
 
       {/* Slider Controls - More elegant and minimal */}
-      <div className="absolute inset-y-0 left-4 md:left-8 flex items-center">
+      <div className="absolute inset-y-0 left-4 md:left-8 flex items-center z-10">
         <Button
           size="icon"
           variant="ghost"
@@ -160,7 +160,7 @@ export default function HeroSlider() {
           <ChevronLeft className="h-6 w-6 text-white" />
         </Button>
       </div>
-      <div className="absolute inset-y-0 right-4 md:right-8 flex items-center">
+      <div className="absolute inset-y-0 right-4 md:right-8 flex items-center z-10">
         <Button
           size="icon"
           variant="ghost"
@@ -173,7 +173,7 @@ export default function HeroSlider() {
       </div>
 
       {/* Slider Indicators - More modern and elegant */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-3">
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-3 z-10">
         {bannerData.map((_, index) => (
           <button
             key={index}
