@@ -59,15 +59,15 @@ export async function getProducts(): Promise<Product[]> {
   const supabase = createBrowserClient()
   try {
     // Get all products
-    const { data, error } = await supabase
-      .from('products')
+  const { data, error } = await supabase
+    .from('products')
       .select('*')
-      .order('created_at', { ascending: false })
+    .order('created_at', { ascending: false })
 
-    if (error) {
-      console.error('Error fetching products:', error)
-      return []
-    }
+  if (error) {
+    console.error('Error fetching products:', error)
+    return []
+  }
 
     return data as Product[]
   } catch (error) {
@@ -94,16 +94,16 @@ export async function getProductsByCategory(category: string): Promise<Product[]
 export async function getProductById(id: string): Promise<Product | null> {
   const supabase = createBrowserClient()
   try {
-    const { data, error } = await supabase
-      .from('products')
+  const { data, error } = await supabase
+    .from('products')
       .select('*')
-      .eq('id', id)
-      .single()
+    .eq('id', id)
+    .single()
 
-    if (error) {
-      console.error('Error fetching product:', error)
-      return null
-    }
+  if (error) {
+    console.error('Error fetching product:', error)
+    return null
+  }
 
     return data as Product
   } catch (error) {
