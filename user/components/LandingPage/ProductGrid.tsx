@@ -1,15 +1,19 @@
 "use client"
 
 import React, { useState } from 'react';
-import { Star } from 'lucide-react';
+import { Star, Package } from 'lucide-react';
 
 interface Product {
   name: string;
   image: string;
   price: number;
+  price_min?: number | null;
+  price_max?: number | null;
+  has_price_range?: boolean | null;
   discount?: number;
   rating: number;
   reviews: number;
+  moq?: number | null;
 }
 
 interface ProductGridProps {
@@ -65,6 +69,23 @@ const ProductCard: React.FC<{ product: Product; index: number; products: Product
   const nextIndex = (index + 1) % products.length;
   const hoverImage = products[nextIndex].image;
   
+  // Format price display based on whether it's a range or single price
+  const formatPrice = () => {
+    if (product.has_price_range && product.price_min && product.price_max) {
+      return (
+        <span className="text-lg font-light text-[#AD9660]">
+          ₹{product.price_min.toLocaleString()} - ₹{product.price_max.toLocaleString()}
+        </span>
+      );
+    } else {
+      return (
+        <span className="text-lg font-light text-[#AD9660]">
+          ₹{product.price.toLocaleString()}
+        </span>
+      );
+    }
+  };
+  
   return (
     <div
       className="group relative overflow-hidden flex flex-col transition-transform duration-500 hover:scale-[1.02]"
@@ -98,9 +119,17 @@ const ProductCard: React.FC<{ product: Product; index: number; products: Product
         </h3>
         <span className="text-xs text-gray-500 font-light tracking-wide uppercase">corporate gift</span>
         <div className="mt-3 flex items-center justify-between">
-          <span className="text-lg font-light text-[#AD9660]">₹{product.price.toLocaleString()}</span>
+          {formatPrice()}
           <div className="w-6 h-[1px] bg-[#AD9660]/20"></div>
         </div>
+        
+        {/* MOQ Information */}
+        {product.moq && (
+          <div className="mt-2 flex items-center text-xs text-gray-500">
+            <Package className="w-3 h-3 mr-1" />
+            <span>MOQ: {product.moq} {product.moq === 1 ? 'piece' : 'pieces'}</span>
+          </div>
+        )}
       </div>
 
       {/* Geometric decorative element on hover */}

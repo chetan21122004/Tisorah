@@ -127,6 +127,58 @@ export default function ProductPage({ params }: ProductPageProps) {
     return `₹${price.toLocaleString()}`
   }
 
+  // Display price based on whether it's a range or single price
+  const displayPrice = () => {
+    if (product?.has_price_range && product?.price_min && product?.price_max) {
+      return (
+        <div className="flex flex-col">
+          <div className="text-3xl font-semibold text-gray-900">
+            {formatPrice(product.price_min)} - {formatPrice(product.price_max)}
+          </div>
+          {product.moq && (
+            <div className="text-sm text-gray-600 mt-1">
+              MOQ: {product.moq} {product.moq === 1 ? 'piece' : 'pieces'}
+            </div>
+          )}
+          {product.original_price && (
+            <div className="flex items-center mt-1">
+              <span className="text-lg text-gray-500 line-through mr-2">
+                {formatPrice(product.original_price)}
+              </span>
+              {product.discount && (
+                <Badge className="bg-red-100 text-red-800 border-red-200">{product.discount}</Badge>
+              )}
+            </div>
+          )}
+        </div>
+      );
+    } else if (product) {
+      return (
+        <div className="flex flex-col">
+          <div className="text-3xl font-semibold text-gray-900">
+            {formatPrice(product.price)}
+          </div>
+          {product.moq && (
+            <div className="text-sm text-gray-600 mt-1">
+              MOQ: {product.moq} {product.moq === 1 ? 'piece' : 'pieces'}
+            </div>
+          )}
+          {product.original_price && (
+            <div className="flex items-center mt-1">
+              <span className="text-lg text-gray-500 line-through mr-2">
+                {formatPrice(product.original_price)}
+              </span>
+              {product.discount && (
+                <Badge className="bg-red-100 text-red-800 border-red-200">{product.discount}</Badge>
+              )}
+            </div>
+          )}
+        </div>
+      );
+    }
+    return null;
+  };
+
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (!imageRef.current || !isZoomed) return
@@ -162,14 +214,16 @@ export default function ProductPage({ params }: ProductPageProps) {
       const shortlistItem: ShortlistItem = {
         id: product.id,
         name: product.name,
-        price: formatPrice(product.price),
+        price: product.has_price_range 
+          ? `${formatPrice(product.price_min || 0)} - ${formatPrice(product.price_max || 0)}`
+          : formatPrice(product.price),
         originalPrice: formatPrice(product.original_price || product.price),
         image: product.images && product.images.length > 0 ? product.images[0] : "",
         rating: product.rating || 4.5,
         reviews: product.reviews || 0,
         discount: product.discount || (product.original_price ? `${Math.round(((product.original_price - product.price) / product.original_price) * 100)}% OFF` : undefined),
         quantity: quantity,
-        moq: typeof product.moq === 'number' ? product.moq : 1,
+        moq: product.moq || 1,
         category: product.category,
       }
       
@@ -498,10 +552,47 @@ export default function ProductPage({ params }: ProductPageProps) {
               </div>
 
               <div className="mb-6">
-                <div className="text-2xl md:text-3xl font-medium text-[#323433] mb-1">
-                  {formatPrice(product?.price)}
-                </div>
-                <p className="text-sm text-gray-500">Min. Order Quantity: {product?.moq || 25} pcs</p>
+                {/* Price section - Updated */}
+                {displayPrice()}
+                
+                {/* MOQ Section - New */}
+                {product.moq && (
+                  <div className="mt-4 p-3 bg-amber-50 rounded-lg border border-amber-100">
+                    <div className="flex items-center">
+                      <Package className="w-5 h-5 text-amber-600 mr-2" />
+                      <span className="font-medium">Minimum Order Quantity: {product.moq} {product.moq === 1 ? 'piece' : 'pieces'}</span>
+                    </div>
+                  </div>
+                )}
+                
+                {/* Volume pricing - New */}
+                {product?.has_price_range && product?.price_min && product?.price_max && (
+                  <div className="mt-4 border border-gray-200 rounded-lg p-4">
+                    <h3 className="text-lg font-medium mb-3">Volume Pricing</h3>
+                    <div className="space-y-2">
+                      <div className="grid grid-cols-2 text-sm">
+                        <span className="font-medium">Quantity</span>
+                        <span className="font-medium">Price per unit</span>
+                      </div>
+                      <Separator />
+                      <div className="grid grid-cols-2 text-sm">
+                        <span>{product.moq || 1}-99 pieces</span>
+                        <span>{formatPrice(product.price_max)}</span>
+                      </div>
+                      <div className="grid grid-cols-2 text-sm">
+                        <span>100-499 pieces</span>
+                        <span>{formatPrice((product.price_min + product.price_max) / 2)}</span>
+                      </div>
+                      <div className="grid grid-cols-2 text-sm">
+                        <span>500+ pieces</span>
+                        <span>{formatPrice(product.price_min)}</span>
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-3">
+                      Contact us for custom pricing on larger quantities.
+                    </p>
+                  </div>
+                )}
               </div>
 
               {product.description && (
@@ -513,39 +604,36 @@ export default function ProductPage({ params }: ProductPageProps) {
               )}
 
               {/* Quantity Selector */}
-              <div className="mb-8">
-                <Label htmlFor="quantity" className="block mb-2 font-medium text-[#323433]">
+              <div className="mt-6">
+                <Label htmlFor="quantity" className="block text-sm font-medium text-gray-700 mb-2">
                   Quantity
                 </Label>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center">
                   <Button
                     variant="outline"
-                    onClick={() => setQuantity(Math.max(Number(product?.moq) || 1, quantity - 5))}
-                    className="w-10 h-10 p-0 border-gray-300"
+                    size="icon"
+                    className="rounded-l-md"
+                    onClick={() => setQuantity(Math.max((product.moq || 1), quantity - 1))}
+                    disabled={quantity <= (product.moq || 1)}
                   >
-                    <Minus className="w-4 h-4" />
+                    <Minus className="h-4 w-4" />
                   </Button>
                   <Input
                     type="number"
                     id="quantity"
                     value={quantity}
                     onChange={(e) => {
-                      const value = parseInt(e.target.value);
-                      if (!isNaN(value)) {
-                        setQuantity(Math.max(Number(product?.moq) || 1, value));
+                      const val = parseInt(e.target.value);
+                      if (!isNaN(val) && val >= (product.moq || 1)) {
+                        setQuantity(val);
                       }
                     }}
-                    className="w-20 text-center h-10 border-gray-300"
-                    min={Number(product?.moq) || 1}
+                    className="w-20 rounded-none text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    min={product.moq || 1}
                   />
-                  <Button
-                    variant="outline"
-                    onClick={() => setQuantity(quantity + 5)}
-                    className="w-10 h-10 p-0 border-gray-300"
-                  >
-                    <Plus className="w-4 h-4" />
+                  <Button variant="outline" size="icon" className="rounded-r-md" onClick={() => setQuantity(quantity + 1)}>
+                    <Plus className="h-4 w-4" />
                   </Button>
-                  <span className="text-sm text-gray-500">pcs</span>
                 </div>
               </div>
 

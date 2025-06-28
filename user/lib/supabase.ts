@@ -57,21 +57,23 @@ export async function getGiftCategoryBySlug(slug: string): Promise<GiftCategory 
 // Product related functions
 export async function getProducts(): Promise<Product[]> {
   const supabase = createBrowserClient()
-  const { data, error } = await supabase
-    .from('products')
-    .select(`
-      *,
-      main_category_info:new_categories!main_category(id, name, slug),
-      sub_category_info:new_categories!sub_category(id, name, slug)
-    `)
-    .order('created_at', { ascending: false })
+  try {
+    // Get all products
+    const { data, error } = await supabase
+      .from('products')
+      .select('*')
+      .order('created_at', { ascending: false })
 
-  if (error) {
+    if (error) {
+      console.error('Error fetching products:', error)
+      return []
+    }
+
+    return data as Product[]
+  } catch (error) {
     console.error('Error fetching products:', error)
     return []
   }
-
-  return data
 }
 
 export async function getProductsByCategory(category: string): Promise<Product[]> {
@@ -91,22 +93,23 @@ export async function getProductsByCategory(category: string): Promise<Product[]
 
 export async function getProductById(id: string): Promise<Product | null> {
   const supabase = createBrowserClient()
-  const { data, error } = await supabase
-    .from('products')
-    .select(`
-      *,
-      main_category_info:new_categories!main_category(id, name, slug),
-      sub_category_info:new_categories!sub_category(id, name, slug)
-    `)
-    .eq('id', id)
-    .single()
+  try {
+    const { data, error } = await supabase
+      .from('products')
+      .select('*')
+      .eq('id', id)
+      .single()
 
-  if (error) {
+    if (error) {
+      console.error('Error fetching product:', error)
+      return null
+    }
+
+    return data as Product
+  } catch (error) {
     console.error('Error fetching product:', error)
     return null
   }
-
-  return data
 }
 
 // Quote request functions

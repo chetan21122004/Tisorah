@@ -4,6 +4,9 @@ export interface Product {
   description?: string | null
   price: number
   original_price?: number
+  price_min?: number | null
+  price_max?: number | null
+  has_price_range?: boolean | null
   images?: string[] | null
   category?: string
   main_category?: string
@@ -13,7 +16,7 @@ export interface Product {
   rating?: number | null
   reviews?: number | null
   discount?: string
-  moq?: string | number | null
+  moq?: number | null
   features?: string[] | null
   specifications?: Record<string, string> | null
   benefits?: string[] | null
@@ -105,7 +108,10 @@ export interface Database {
           name: string
           description: string | null
           price: number
-          moq: string | null
+          price_min: number | null
+          price_max: number | null
+          has_price_range: boolean | null
+          moq: number | null
           delivery: string | null
           rating: number | null
           featured: boolean | null
@@ -122,7 +128,10 @@ export interface Database {
           name: string
           description?: string | null
           price: number
-          moq?: string | null
+          price_min?: number | null
+          price_max?: number | null
+          has_price_range?: boolean | null
+          moq?: number | null
           delivery?: string | null
           rating?: number | null
           featured?: boolean | null
@@ -139,7 +148,10 @@ export interface Database {
           name?: string
           description?: string | null
           price?: number
-          moq?: string | null
+          price_min?: number | null
+          price_max?: number | null
+          has_price_range?: boolean | null
+          moq?: number | null
           delivery?: string | null
           rating?: number | null
           featured?: boolean | null

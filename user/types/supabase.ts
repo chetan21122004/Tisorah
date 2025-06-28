@@ -130,8 +130,11 @@ export interface Database {
           name: string
           description: string | null
           price: number
+          price_min: number | null
+          price_max: number | null
+          has_price_range: boolean | null
           category: string
-          moq: string | null
+          moq: number | null
           delivery: string | null
           rating: number | null
           featured: boolean | null
@@ -145,8 +148,11 @@ export interface Database {
           name: string
           description?: string | null
           price: number
+          price_min?: number | null
+          price_max?: number | null
+          has_price_range?: boolean | null
           category: string
-          moq?: string | null
+          moq?: number | null
           delivery?: string | null
           rating?: number | null
           featured?: boolean | null
@@ -160,8 +166,11 @@ export interface Database {
           name?: string
           description?: string | null
           price?: number
+          price_min?: number | null
+          price_max?: number | null
+          has_price_range?: boolean | null
           category?: string
-          moq?: string | null
+          moq?: number | null
           delivery?: string | null
           rating?: number | null
           featured?: boolean | null

@@ -43,9 +43,13 @@ export default async function HomePage() {
       name: product.name,
       image: product.images && product.images.length > 0 ? product.images[0] : '/placeholder.svg',
       price: product.price,
+      price_min: product.price_min,
+      price_max: product.price_max,
+      has_price_range: product.has_price_range,
       discount: undefined, // You can calculate discount if you have originalPrice
       rating: product.rating || 0,
-      reviews: 0, // Supabase schema does not have reviews, so default to 0
+      reviews: product.reviews || 0,
+      moq: product.moq || 1,
     }))
     .slice(0, 10);
   const latestProductsRaw = await getLatestProducts();
@@ -54,9 +58,13 @@ export default async function HomePage() {
       name: product.name,
       image: product.images && product.images.length > 0 ? product.images[0] : '/placeholder.svg',
       price: product.price,
+      price_min: product.price_min,
+      price_max: product.price_max,
+      has_price_range: product.has_price_range,
       discount: undefined,
       rating: product.rating || 0,
-      reviews: 0,
+      reviews: product.reviews || 0,
+      moq: product.moq || 1,
     }))
     .slice(0, 8);
 

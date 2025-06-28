@@ -75,6 +75,22 @@ ON blog_posts FOR DELETE
 TO authenticated
 USING (auth.jwt() ->> 'role' = 'admin');
 
+-- Alter products table to add price range fields and change moq to numeric
+ALTER TABLE products ADD COLUMN IF NOT EXISTS price_min NUMERIC;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS price_max NUMERIC;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS has_price_range BOOLEAN DEFAULT false;
+
+-- Convert existing moq from string to numeric
+ALTER TABLE products 
+  ALTER COLUMN moq TYPE NUMERIC USING (moq::numeric);
+
+-- Update has_price_range for existing products
+UPDATE products 
+SET price_min = price * 0.8,
+    price_max = price * 1.2,
+    has_price_range = true
+WHERE featured = true;
+
 -- Insert sample category data
 INSERT INTO blog_categories (name, slug, description)
 VALUES

@@ -6,6 +6,7 @@ import { Button } from "./ui/button"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { Package } from "lucide-react"
 
 // Banner slides for the hero slider
 const bannerSlides = [
@@ -49,6 +50,10 @@ interface Product {
   name: string;
   images: string[];
   price: number;
+  price_min?: number | null;
+  price_max?: number | null;
+  has_price_range?: boolean | null;
+  moq?: number | null;
   rating?: number;
   reviews?: number;
 }
@@ -95,7 +100,8 @@ export default function HeroSection() {
         const supabase = createClientComponentClient();
         const { data, error } = await supabase
           .from('products')
-          .select('id, name, images, price, rating')
+          .select('id, name, images, price, price_min, price_max, has_price_range, moq, rating, reviews')
+          .eq('featured', true)
           .order('created_at', { ascending: false })
           .limit(5);
           
@@ -114,6 +120,15 @@ export default function HeroSection() {
     
     fetchFeaturedProducts();
   }, []);
+
+  // Format price display based on whether it's a range or single price
+  const formatPrice = (product: Product) => {
+    if (product.has_price_range && product.price_min && product.price_max) {
+      return `₹${product.price_min.toLocaleString()} - ₹${product.price_max.toLocaleString()}`;
+    } else {
+      return `₹${product.price.toLocaleString()}`;
+    }
+  };
   
   return (
     <section className="relative bg-[#F4F4F4]">
@@ -205,9 +220,17 @@ export default function HeroSection() {
                         </h3>
                         <span className="text-xs text-gray-500 font-light tracking-wide uppercase">corporate gift</span>
                         <div className="mt-3 flex items-center justify-between">
-                          <span className="text-lg font-light text-[#AD9660]">₹{product.price}</span>
+                          <span className="text-lg font-light text-[#AD9660]">{formatPrice(product)}</span>
                           <div className="w-6 h-[1px] bg-[#AD9660]/20"></div>
                         </div>
+                        
+                        {/* MOQ Information */}
+                        {product.moq && (
+                          <div className="mt-2 flex items-center text-xs text-gray-500">
+                            <Package className="w-3 h-3 mr-1" />
+                            <span>MOQ: {product.moq} {product.moq === 1 ? 'piece' : 'pieces'}</span>
+                          </div>
+                        )}
                       </div>
 
                       {/* Geometric decorative element on hover */}
@@ -234,8 +257,6 @@ export default function HeroSection() {
         </div>
       </div>
       
-      {/* Decorative Elements */}
-      {/* <div className="absolute top-0 right-0 w-1/3 h-full bg-[#E6E2DD] opacity-30 -skew-x-12 transform origin-top-right z-0" /> */}
-    </section>
+     </section>
   )
 } 

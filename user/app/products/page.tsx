@@ -100,10 +100,14 @@ interface ProductCardProps {
     name: string;
     image: string;
     price: number;
+    price_min?: number | null;
+    price_max?: number | null;
+    has_price_range?: boolean | null;
     discount?: number;
     rating: number;
     reviews: number;
     category?: string;
+    moq?: number | null;
   };
   index: number;
   products: any[];
@@ -128,13 +132,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products }) =
       const shortlistItem = {
         id: product.id,
         name: product.name,
-        price: `₹${product.price.toLocaleString()}`,
+        price: product.has_price_range 
+          ? `₹${product.price_min?.toLocaleString()} - ₹${product.price_max?.toLocaleString()}`
+          : `₹${product.price.toLocaleString()}`,
         originalPrice: `₹${product.price.toLocaleString()}`,
         image: product.image,
         rating: product.rating,
         reviews: product.reviews,
         quantity: 1,
-        moq: 1,
+        moq: product.moq || 1,
         category: product.category,
       };
 
@@ -147,6 +153,23 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products }) =
       }
     } finally {
       setIsAddingToShortlist(false);
+    }
+  };
+
+  // Function to format price display
+  const formatPrice = () => {
+    if (product.has_price_range && product.price_min && product.price_max) {
+      return (
+        <span className="text-lg font-normal text-gray-900 mb-2 text-left">
+          ₹{product.price_min.toLocaleString()} - ₹{product.price_max.toLocaleString()}
+        </span>
+      );
+    } else {
+      return (
+        <span className="text-lg font-normal text-gray-900 mb-2 text-left">
+          ₹{product.price.toLocaleString()}
+        </span>
+      );
     }
   };
 
@@ -175,7 +198,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products }) =
       </Link>
       <div className="px-4 flex flex-col flex-1 transform scale-[0.952] will-change-transform">
         <h3 className="font-normal text-md text-gray-900 mb-2 font-sans leading-snug break-words line-clamp-2 text-left">{product.name}</h3>
-        <span className="text-lg font-normal text-gray-900 mb-2 text-left">₹{product.price.toLocaleString()}</span>
+        {formatPrice()}
+        {product.moq && (
+          <div className="text-xs text-gray-500 mb-2 text-left">
+            MOQ: {product.moq} {product.moq === 1 ? 'piece' : 'pieces'}
+          </div>
+        )}
         <div className="flex items-center justify-between">
           <div className="flex items-center text-left">
             <div className="flex items-center mr-2">
@@ -242,9 +270,15 @@ export default function ProductsPage() {
       try {
         setLoading(true)
         const data = await getProducts()
-        setProducts(data || [])
+        if (data && Array.isArray(data)) {
+          setProducts(data)
+        } else {
+          console.error('Invalid products data format:', data)
+          setProducts([])
+        }
       } catch (error) {
         console.error('Error fetching products:', error)
+        setProducts([])
       } finally {
         setLoading(false)
       }
@@ -353,15 +387,38 @@ export default function ProductsPage() {
     
     let matchesPrice = true;
     if (priceRange === "under-500") {
-      matchesPrice = product.price < 500;
+      if (product.has_price_range && product.price_min) {
+        matchesPrice = product.price_min < 500;
+      } else {
+        matchesPrice = product.price < 500;
+      }
     } else if (priceRange === "500-1000") {
-      matchesPrice = product.price >= 500 && product.price <= 1000;
+      if (product.has_price_range && product.price_min && product.price_max) {
+        matchesPrice = (product.price_min >= 500 && product.price_min <= 1000) || 
+                      (product.price_max >= 500 && product.price_max <= 1000);
+      } else {
+        matchesPrice = product.price >= 500 && product.price <= 1000;
+      }
     } else if (priceRange === "1000-2000") {
-      matchesPrice = product.price > 1000 && product.price <= 2000;
+      if (product.has_price_range && product.price_min && product.price_max) {
+        matchesPrice = (product.price_min > 1000 && product.price_min <= 2000) || 
+                      (product.price_max > 1000 && product.price_max <= 2000);
+      } else {
+        matchesPrice = product.price > 1000 && product.price <= 2000;
+      }
     } else if (priceRange === "2000-5000") {
-      matchesPrice = product.price > 2000 && product.price <= 5000;
+      if (product.has_price_range && product.price_min && product.price_max) {
+        matchesPrice = (product.price_min > 2000 && product.price_min <= 5000) || 
+                      (product.price_max > 2000 && product.price_max <= 5000);
+      } else {
+        matchesPrice = product.price > 2000 && product.price <= 5000;
+      }
     } else if (priceRange === "5000+") {
-      matchesPrice = product.price > 5000;
+      if (product.has_price_range && product.price_min) {
+        matchesPrice = product.price_min > 5000 || (product.price_max || 0) > 5000;
+      } else {
+        matchesPrice = product.price > 5000;
+      }
     }
     
     return matchesSearch && matchesCategory && matchesSubcategory && matchesPrice;
@@ -731,10 +788,14 @@ export default function ProductsPage() {
                       name: product.name,
                       image: product.images && product.images.length > 0 ? product.images[0] : '/placeholder.svg',
                       price: product.price,
+                      price_min: product.price_min,
+                      price_max: product.price_max,
+                      has_price_range: product.has_price_range,
                       discount: undefined,
                       rating: product.rating || 0,
                       reviews: 0,
-                      category: product.category
+                      category: product.category,
+                      moq: product.moq,
                     }}
                     index={index}
                     products={arr.map(p => ({
@@ -742,10 +803,14 @@ export default function ProductsPage() {
                       name: p.name,
                       image: p.images && p.images.length > 0 ? p.images[0] : '/placeholder.svg',
                       price: p.price,
+                      price_min: p.price_min,
+                      price_max: p.price_max,
+                      has_price_range: p.has_price_range,
                       discount: undefined,
                       rating: p.rating || 0,
                       reviews: 0,
-                      category: p.category
+                      category: p.category,
+                      moq: p.moq,
                     }))}
                   />
                 ))}
