@@ -6,7 +6,7 @@ import { Package, ArrowRight, MessageCircle, Check, Clock, Award, Shield } from 
 
 const QuoteCTA: FC = () => {
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-br from-[#F8F7F5]/50 to-white relative overflow-hidden">
+    <section className="py-6 md:py-12 bg-gradient-to-br from-[#F8F7F5]/50 to-white relative overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-32 h-32 border border-[#AD9660]/10 rotate-45 -translate-x-16 -translate-y-16"></div>
       <div className="absolute bottom-0 right-0 w-64 h-64 border-2 border-[#AD9660]/5 rounded-full translate-x-1/3 translate-y-1/3"></div>

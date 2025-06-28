@@ -21,9 +21,9 @@ interface ProductGridProps {
   products: Product[];
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
+const   ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
   return (
-    <section className="py-16 bg-white">
+    <section className="py-6 md:py-12 bg-white">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center mb-12">
           {/* Decorative line above title */}
