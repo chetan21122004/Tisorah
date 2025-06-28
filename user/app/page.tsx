@@ -41,7 +41,6 @@ import NewArrival from '@/components/LandingPage/NewArrival'
 import OurClient from "@/components/LandingPage/OurClient"
 import BlogCarousel from "@/components/LandingPage/BlogCarousel"
 import FeatureSection from "@/components/LandingPage/FeatureSection"
-import CuratedCategories from "@/components/LandingPage/CuratedCategories"
 import ServicesSection from "@/components/LandingPage/ServicesSection"
 import QuoteCTA from "@/components/LandingPage/QuoteCTA"
 import HowItWorks from "@/components/LandingPage/HowItWorks"
@@ -152,26 +151,27 @@ export default async function HomePage() {
       {/* Hero Section */}
       <HeroSection />
       
+      {/* How It Works Section */}
+      <HowItWorks />
+      
+      {/* Services Section */}
+      <ServicesSection />
+      
+      {/* Quote CTA Section */}
+      <QuoteCTA />
+      
+     
+      
       {/* Trending Products Section */}
       <div className="px-4 md:px-0">
         <ProductGrid title="Trending Today" products={trendingProducts} />
       </div>
-
-      {/* Curated Categories Section */}
-      <CuratedCategories categories={curatedCategories} />
-
-      {/* Services Section */}
-      <ServicesSection />
-
-      {/* Gifting Section */}
-        <Gifting />
-
-      {/* Quote CTA Section */}
-      <QuoteCTA />
-
-      {/* How It Works Section */}
-      <HowItWorks />
-
+      
+      {/* Our Clients Section */}
+      <div className="bg-white">
+        <OurClient />
+      </div>
+      
       {/* Features Section */}
       <section className="py-10 md:py-12 bg-gradient-to-b from-white to-[#F4F4F4]/30">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-10">
@@ -194,8 +194,8 @@ export default async function HomePage() {
             description="We bring to the table a range of bulk corporate gifts for employees that will redefine your relationship with them. A brand-new way to cherish, honour and acknowledge your employees that is hassle free and premium!"
             image="https://www.boxupgifting.com/cdn/shop/files/Bulk_Corporate_Gifting.jpg?v=1725348252"
             highlightedText="bulk corporate gifts"
-            ctaLink="/bulk-orders"
-            ctaText="Explore Bulk Gifting"
+            ctaLink="/quote"
+            ctaText="Request Quote Now"
           />
 
           <FeatureSection
@@ -203,16 +203,16 @@ export default async function HomePage() {
             description="Connect with your remote family through WFH employee gifts that are unique and utilitarian! Share the company values and foster a sense of belonging with company gifts that show you value and revere your employees."
             image="https://www.boxupgifting.com/cdn/shop/files/WFH_Employee_Gifting.jpg?v=1725348290"
             isReversed
-            ctaLink="/categories/wfh-gifts"
-            ctaText="View WFH Collection"
+            ctaLink="/quote"
+            ctaText="Get Custom WFH Gifts"
           />
 
           <FeatureSection
             title="Foster Positive Company Culture"
             description="Create a vibrant and engaging workplace environment through thoughtfully curated gifts that inspire and motivate. Our corporate gifting solutions help build stronger teams and celebrate achievements."
             image="https://www.boxupgifting.com/cdn/shop/files/Positive_Company_Culture.jpg"
-            ctaLink="/categories/recognition"
-            ctaText="Explore Recognition Gifts"
+            ctaLink="/quote"
+            ctaText="Request Culture Kits"
           />
 
           <FeatureSection
@@ -220,29 +220,27 @@ export default async function HomePage() {
             description="Elevate your brand presence with our premium customization options. From elegant corporate merchandise to bespoke gift packages, we help you create memorable brand experiences that resonate with your audience."
             image="https://www.boxupgifting.com/cdn/shop/files/Brand_Recognition.jpg"
             isReversed
-            ctaLink="/customization"
-            ctaText="Discover Branding Options"
+            ctaLink="/quote"
+            ctaText="Get Branded Solutions"
           />
         </div>
       </section>
+      
+      {/* Gifting Section */}
+      <Gifting />
 
-      {/* Our Clients Section */}
-      <div className="bg-white">
-        <OurClient />
-      </div>
-
-      {/* Blog Section */}
-      <BlogCarousel posts={latestBlogPosts} />
-  
-      {/* Contact Form Section */}
-      <ContactForm />
-
-      {/* Testimonials Section */}
-      {testimonials && testimonials.length > 0 && (
+       {/* Testimonials Section */}
+       {testimonials && testimonials.length > 0 && (
         <div className="mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <Testimonials testimonials={testimonials} />
         </div>
       )}
+      
+      {/* Blog Section */}
+      <BlogCarousel posts={latestBlogPosts} />
+      
+      {/* Contact Form Section */}
+      <ContactForm />
     </div>
   )
 }

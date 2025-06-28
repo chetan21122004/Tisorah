@@ -205,19 +205,7 @@ const Navbar = () => {
     
   return (
     <div className="sticky top-0 left-0 bg-white z-50">
-     <div className='bg-black'>
-       <div className="w-full mx-auto flex justify-between items-center px-4 md:px-8 bg-black text-white py-2 text-sm">
-       
-         <div className="flex items-center mx-auto ">
-           <span>WE DO BULK & CORPORATE GIFTING TOO</span>
-           <Link href="/quote">
-             <Button size="sm" className="text-white m-1 border-white hover:text-black">
-               Enquire Now
-             </Button>
-           </Link>
-         </div>
-       </div>
-     </div>
+   
 
       <header className="">
         {/* Desktop Header */}

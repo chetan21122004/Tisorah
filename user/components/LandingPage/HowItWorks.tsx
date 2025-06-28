@@ -1,13 +1,14 @@
 import { FC } from 'react';
 import Link from 'next/link';
 import { Button } from "@/components/ui/button";
-import { Headphones, PenTool, ClipboardCheck, Truck, ArrowRight } from 'lucide-react';
+import { Headphones, PenTool, ClipboardCheck, Truck, ArrowRight, Check } from 'lucide-react';
 
 interface ProcessStep {
   id: string;
   title: string;
   description: string;
   icon: React.ReactNode;
+  benefits: string[];
 }
 
 const HowItWorks: FC = () => {
@@ -15,31 +16,52 @@ const HowItWorks: FC = () => {
     {
       id: "01",
       title: "Consultation",
-      description: "We discuss your bespoke requirements",
-      icon: <Headphones className="w-12 h-12 text-[#AD9660]" />
+      description: "We discuss your specific requirements and objectives",
+      icon: <Headphones className="w-12 h-12 text-[#AD9660]" />,
+      benefits: [
+        "Free, no-obligation consultation",
+        "Understand your brand values",
+        "Define budget parameters"
+      ]
     },
     {
       id: "02",
       title: "Curation",
-      description: "We curate products with your exclusive branding",
-      icon: <PenTool className="w-12 h-12 text-[#AD9660]" />
+      description: "We create a tailored selection of premium products",
+      icon: <PenTool className="w-12 h-12 text-[#AD9660]" />,
+      benefits: [
+        "Handpicked quality items",
+        "Custom branding options",
+        "Personalized packaging"
+      ]
     },
     {
       id: "03",
       title: "Refinement",
-      description: "We ensure meticulous quality standards",
-      icon: <ClipboardCheck className="w-12 h-12 text-[#AD9660]" />
+      description: "We perfect every detail to meet your expectations",
+      icon: <ClipboardCheck className="w-12 h-12 text-[#AD9660]" />,
+      benefits: [
+        "Sample approvals",
+        "Quality assurance checks",
+        "Final customization"
+      ]
     },
     {
       id: "04",
-      title: "Presentation",
-      description: "We deliver an exceptional gifting experience",
-      icon: <Truck className="w-12 h-12 text-[#AD9660]" />
+      title: "Delivery",
+      description: "We ensure timely delivery of your premium gifts",
+      icon: <Truck className="w-12 h-12 text-[#AD9660]" />,
+      benefits: [
+        "Nationwide shipping",
+        "Bulk order handling",
+        "On-time guaranteed delivery"
+      ]
     }
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-white relative overflow-hidden">
+    <section className=" bg-white relative overflow-hidden">
+      {/* Background decorative elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-40 left-0 w-64 h-64 border border-[#AD9660]/5 rotate-45 -translate-x-1/2 rounded-[30%]"></div>
         <div className="absolute bottom-20 right-0 w-72 h-72 border border-[#AD9660]/5 rotate-12 translate-x-1/3 rounded-[30%]"></div>
@@ -48,31 +70,41 @@ const HowItWorks: FC = () => {
       <div className="container mx-auto px-4 relative">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <div className="w-12 h-[1px] bg-gradient-to-r from-transparent via-[#AD9660] to-transparent mb-6 mx-auto"></div>
-          <p className="text-lg text-gray-600 mb-4 font-light">
-            From meticulous curation to complimentary delivery. <br/> Experience our refined corporate gifting process
-          </p>
-          <h2 className="text-3xl md:text-4xl font-['Frank_Ruhl_Libre'] font-light text-[#323433]">
+          <h2 className="text-3xl md:text-4xl font-['Frank_Ruhl_Libre'] font-light text-[#323433] mb-4">
             The Tisorah Experience
           </h2>
+          <p className="text-lg text-gray-600 mb-8 font-light">
+            Our streamlined process ensures a seamless journey from consultation to delivery,
+            creating an exceptional corporate gifting experience tailored to your needs.
+          </p>
+          
+          {/* Trust indicators */}
+          <div className="flex flex-wrap justify-center gap-4 mb-8">
+            <div className="bg-[#F0EBE1] px-4 py-2 rounded-full text-sm text-[#323433] font-medium">
+              500+ Happy Clients
+            </div>
+            <div className="bg-[#F0EBE1] px-4 py-2 rounded-full text-sm text-[#323433] font-medium">
+              24-Hour Response Time
+            </div>
+            <div className="bg-[#F0EBE1] px-4 py-2 rounded-full text-sm text-[#323433] font-medium">
+              Premium Quality Guaranteed
+            </div>
+          </div>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 relative">
+        {/* Process steps with connecting lines */}
+        <div className="relative">
           {/* Connecting lines - only visible on desktop */}
           <div className="hidden md:block absolute top-16 left-1/4 w-1/2 h-[2px] bg-gradient-to-r from-[#AD9660]/20 via-[#AD9660]/30 to-[#AD9660]/20"></div>
           
-          {steps.map((step) => (
-            <ProcessStepCard key={step.id} step={step} />
-          ))}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-6 relative">
+            {steps.map((step, index) => (
+              <ProcessStepCard key={step.id} step={step} isLast={index === steps.length - 1} />
+            ))}
+          </div>
         </div>
         
-        <div className="mt-16 text-center">
-          <Link href="/quote">
-            <Button className="bg-transparent hover:bg-[#AD9660]/10 text-[#323433] border border-[#AD9660] rounded-none px-8 py-6 font-light inline-flex items-center group">
-              <span className="mr-2">Begin Your Gifting Journey</span>
-              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Button>
-          </Link>
-        </div>
+      
       </div>
     </section>
   );
@@ -80,11 +112,12 @@ const HowItWorks: FC = () => {
 
 interface ProcessStepCardProps {
   step: ProcessStep;
+  isLast: boolean;
 }
 
-const ProcessStepCard: FC<ProcessStepCardProps> = ({ step }) => {
+const ProcessStepCard: FC<ProcessStepCardProps> = ({ step, isLast }) => {
   return (
-    <div className="group cursor-pointer">
+    <div className="group">
       <Link href="/quote" className="block">
         <div className="flex flex-col items-center text-center transition-all duration-300 hover:translate-y-[-8px]">
           <div className="w-24 h-24 md:w-32 md:h-32 mb-6 relative flex items-center justify-center">
@@ -94,8 +127,32 @@ const ProcessStepCard: FC<ProcessStepCardProps> = ({ step }) => {
           <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#AD9660]/10 mb-4">
             <span className="text-[#AD9660] font-medium">{step.id}</span>
           </div>
-          <h3 className="text-lg font-medium text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">{step.title}</h3>
-          <p className="text-gray-600 text-sm font-light">{step.description}</p>
+          <h3 className="text-xl font-medium text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">{step.title}</h3>
+          <p className="text-gray-600 text-sm font-light mb-4">{step.description}</p>
+          
+          {/* Benefits list */}
+          <div className="bg-white shadow-md rounded-lg p-4 w-full border border-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <ul className="text-left space-y-2">
+              {step.benefits.map((benefit, index) => (
+                <li key={index} className="flex items-start gap-2 text-sm">
+                  <Check className="w-4 h-4 text-[#AD9660] mt-0.5 flex-shrink-0" />
+                  <span>{benefit}</span>
+                </li>
+              ))}
+            </ul>
+            
+            {!isLast && (
+              <div className="mt-3 pt-3 border-t border-gray-100 text-center">
+                <span className="text-xs text-[#AD9660] font-medium">Step {parseInt(step.id) + 1} →</span>
+              </div>
+            )}
+            
+            {isLast && (
+              <div className="mt-3 pt-3 border-t border-gray-100 text-center">
+                <span className="text-xs text-[#AD9660] font-medium">Get Started Today →</span>
+              </div>
+            )}
+          </div>
         </div>
       </Link>
     </div>

@@ -6,40 +6,39 @@ import { Button } from "./ui/button"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import { Package } from "lucide-react"
+import { Package, Check, Star, ArrowRight, Shield, Clock } from "lucide-react"
 
 // Banner slides for the hero slider
 const bannerSlides = [
- 
   {
     image: "https://www.boxupgifting.com/cdn/shop/files/Corporate_Compressed_copy_120d4d8f-0b6b-42d7-a84e-a10eaae409be.jpg?v=1733485155",
     title: "Premium Corporate Gifts",
-    description: "Thoughtfully designed gifts for recognition, events, and employee engagement",
-    buttonText: "Request Quote",
+    description: "Elevate your brand with customized corporate gifts that leave a lasting impression",
+    buttonText: "Get Free Quote",
     buttonLink: "/quote",
     align: "center"
   },
   {
     image: "https://corporategiftsbyconfetti.in/cdn/shop/files/banner_4_6692d39c-d5bf-44d4-9b94-9bcdb3129766.jpg?v=1701962949&width=1400",
-    title: "Premium Corporate Gifts",
-    description: "Thoughtfully designed gifts for recognition, events, and employee engagement",
-    buttonText: "Request Quote",
+    title: "Employee Recognition Gifts",
+    description: "Celebrate achievements and milestones with thoughtfully curated gift boxes",
+    buttonText: "Request Quote Now",
     buttonLink: "/quote",
     align: "center"
   },
   {
     image: "https://corporategiftsbyconfetti.in/cdn/shop/files/Artboard_16corp_0d2c4056-b183-4662-b656-1abb6d78cfe6.webp?v=1718692062&width=2000",
-    title: "Premium Corporate Gifts",
-    description: "Thoughtfully designed gifts for recognition, events, and employee engagement",
-    buttonText: "Request Quote",
+    title: "Bulk Corporate Gifting",
+    description: "Save up to 30% on bulk orders with our volume discount pricing",
+    buttonText: "Get Volume Pricing",
     buttonLink: "/quote",
     align: "center"
   },
   {
     image: "https://corporategiftsbyconfetti.in/cdn/shop/files/Untitled_design_9_1.jpg?v=1742302025&width=2000",
-    title: "Premium Corporate Gifts",
-    description: "Thoughtfully designed gifts for recognition, events, and employee engagement",
-    buttonText: "Request Quote",
+    title: "Custom Branded Merchandise",
+    description: "Transform ordinary products into powerful brand ambassadors",
+    buttonText: "Start Your Project",
     buttonLink: "/quote",
     align: "center"
   },
@@ -135,12 +134,56 @@ export default function HeroSection() {
       {/* Hero Slider */}
       <div className="relative w-full overflow-hidden">
         <HeroSlider slides={bannerSlides} />
+        
+        {/* Trust badges overlay */}
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/40 to-transparent">
+          <div className="container mx-auto px-4 py-3">
+            <div className="flex flex-wrap justify-center gap-4 md:gap-8 text-white">
+              <div className="flex items-center">
+                <Shield className="w-4 h-4 mr-2 text-[#AD9660]" />
+                <span className="text-xs md:text-sm font-light">Premium Quality</span>
+              </div>
+              <div className="flex items-center">
+                <Check className="w-4 h-4 mr-2 text-[#AD9660]" />
+                <span className="text-xs md:text-sm font-light">Custom Branding</span>
+              </div>
+              <div className="flex items-center">
+                <Star className="w-4 h-4 mr-2 text-[#AD9660]" />
+                <span className="text-xs md:text-sm font-light">Trusted by 500+ Companies</span>
+              </div>
+              <div className="flex items-center">
+                <Clock className="w-4 h-4 mr-2 text-[#AD9660]" />
+                <span className="text-xs md:text-sm font-light">Fast Delivery</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Quick Quote CTA Bar */}
+      <div className="bg-[#323433] text-white py-5">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row items-center justify-between">
+            <div className="mb-4 md:mb-0">
+              <h3 className="text-xl font-['Frank_Ruhl_Libre'] font-light">Ready to elevate your corporate gifting?</h3>
+              <p className="text-sm text-white/70">Get a custom quote tailored to your specific requirements</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <Link href="/quote">
+                <Button size="lg" className="bg-[#AD9660] hover:bg-[#8d7c50] text-white px-8 py-6 rounded-md flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                  <span className="font-medium">Request Free Quote</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
       
       {/* Featured Products Section */}
-      <div className=" bg-white">
+      <div className="bg-white py-16">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col items-center ">
+          <div className="flex flex-col items-center">
             {/* Decorative line above title */}
             <div className="w-16 h-[1px] bg-[#AD9660] mb-8"></div>
             
@@ -161,7 +204,7 @@ export default function HeroSection() {
           </div>
           
           {/* Product Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
             {isLoading ? (
               // Loading skeleton
               Array(5).fill(0).map((_, index) => (
@@ -242,21 +285,30 @@ export default function HeroSection() {
             )}
           </div>
           
-          {/* Elegant CTA button */}
-          <div className="flex justify-center">
+          {/* Dual CTA buttons */}
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
             <Button 
               asChild
-              className="group relative bg-white hover:bg-[#AD9660] text-[#323433] hover:text-white border border-[#323433] px-12 py-4 rounded-none transition-all duration-300"
+              className="bg-[#323433] hover:bg-black text-white px-10 py-6 rounded-md flex items-center gap-2 transition-all duration-300"
+            >
+              <Link href="/quote">
+                <span>Request Custom Quote</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </Button>
+            
+            <Button 
+              asChild
+              variant="outline"
+              className="border-[#323433] text-[#323433] hover:bg-[#323433] hover:text-white px-10 py-6 rounded-md transition-all duration-300"
             >
               <Link href="/products">
-                <span className="relative z-10 font-light tracking-wider text-sm uppercase">View Products</span>
-                <div className="absolute inset-0 border border-[#AD9660] -translate-x-1 -translate-y-1 group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-300"></div>
+                <span>Browse All Products</span>
               </Link>
             </Button>
           </div>
         </div>
       </div>
-      
-     </section>
+    </section>
   )
 } 
