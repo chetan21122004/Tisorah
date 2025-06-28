@@ -44,7 +44,7 @@ import FeatureSection from "@/components/LandingPage/FeatureSection"
 import ServicesSection from "@/components/LandingPage/ServicesSection"
 import QuoteCTA from "@/components/LandingPage/QuoteCTA"
 import HowItWorks from "@/components/LandingPage/HowItWorks"
-import { QuotePopup } from "@/components/ui/quote-popup"
+import { QuotePopup } from "@/components/quote-popup"
 
 export default async function HomePage() {
   // Fetch trending products from Supabase
@@ -184,9 +184,7 @@ export default async function HomePage() {
             <h2 className="text-4xl md:text-5xl font-serif mb-6 text-[#323433] font-light">
               Elevate Your Corporate Gifting Experience
             </h2>
-            <p className="text-[#323433]/70 text-lg font-light">
-              Discover our comprehensive range of corporate gifting solutions designed to strengthen relationships and create lasting impressions.
-            </p>
+           
           </div>
 
           <FeatureSection
@@ -231,7 +229,7 @@ export default async function HomePage() {
 
        {/* Testimonials Section */}
        {testimonials && testimonials.length > 0 && (
-        <div className="mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="">
           <Testimonials testimonials={testimonials} />
         </div>
       )}

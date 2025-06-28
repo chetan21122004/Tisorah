@@ -1,8 +1,9 @@
 'use client'
 
-import React from 'react'
-import { motion } from 'framer-motion'
-import { IconGift, IconArrowRight, IconPackage, IconPalette } from '@tabler/icons-react'
+import React, { useState, useEffect } from 'react'
+import { motion, useAnimation } from 'framer-motion'
+import { IconGift, IconArrowRight, IconPackage, IconPalette, IconChevronRight, IconChevronLeft } from '@tabler/icons-react'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 interface GiftCard {
   title: string
@@ -73,7 +74,7 @@ const GiftCard = ({ title, image, alt, text, buttonText, icon: Icon, index }: Gi
         />
         
         {/* Image container */}
-        <div className="relative h-72 overflow-hidden">
+        <div className="relative h-48 sm:h-56 md:h-72 overflow-hidden">
           <motion.img 
             src={image} 
             alt={alt} 
@@ -90,26 +91,26 @@ const GiftCard = ({ title, image, alt, text, buttonText, icon: Icon, index }: Gi
         </div>
 
         {/* Content */}
-        <div className="p-8">
+        <div className="p-5 md:p-8">
           {/* Icon and Title */}
           <motion.div 
-            className="flex items-center gap-4 mb-6"
+            className="flex items-center gap-3 md:gap-4 mb-4 md:mb-6"
             initial={{ x: -20, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 + index * 0.2 }}
           >
-            <div className="w-10 h-10 rounded-full bg-[#AD9660]/10 flex items-center justify-center">
-              <Icon size={20} className="text-[#AD9660]" />
+            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#AD9660]/10 flex items-center justify-center">
+              <Icon size={16} className="text-[#AD9660] md:text-lg" />
             </div>
             <div>
-              <div className="w-8 h-[1px] bg-[#AD9660]/30 mb-2"></div>
-              <h3 className="text-xl font-light text-[#323433] font-['Frank_Ruhl_Libre']">{title}</h3>
+              <div className="w-6 md:w-8 h-[1px] bg-[#AD9660]/30 mb-1 md:mb-2"></div>
+              <h3 className="text-lg md:text-xl font-light text-[#323433] font-['Frank_Ruhl_Libre']">{title}</h3>
             </div>
           </motion.div>
           
           <motion.p 
-            className="text-gray-600 mb-8 font-light leading-relaxed"
+            className="text-xs md:text-sm text-gray-600 mb-5 md:mb-8 font-light leading-relaxed"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -119,7 +120,7 @@ const GiftCard = ({ title, image, alt, text, buttonText, icon: Icon, index }: Gi
           </motion.p>
 
           <motion.button 
-            className="w-full bg-transparent border border-[#AD9660] text-[#323433] px-8 py-3 rounded-full hover:bg-[#AD9660] hover:text-white transition-all duration-300 flex items-center justify-center group relative overflow-hidden"
+            className="w-full bg-transparent border border-[#AD9660] text-[#323433] px-6 md:px-8 py-2.5 md:py-3 rounded-full hover:bg-[#AD9660] hover:text-white transition-all duration-300 flex items-center justify-center group relative overflow-hidden"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -130,10 +131,10 @@ const GiftCard = ({ title, image, alt, text, buttonText, icon: Icon, index }: Gi
               transition={{ duration: 0.3 }}
               style={{ opacity: 0.1 }}
             />
-            <span className="mr-2 text-sm tracking-wide font-light relative z-10">{buttonText}</span>
+            <span className="mr-2 text-xs md:text-sm tracking-wide font-light relative z-10">{buttonText}</span>
             <motion.div
-              className="w-4 h-[1px] bg-current relative z-10"
-              whileHover={{ width: "24px" }}
+              className="w-3 md:w-4 h-[1px] bg-current relative z-10"
+              whileHover={{ width: "20px" }}
               transition={{ duration: 0.2 }}
             />
           </motion.button>
@@ -144,8 +145,46 @@ const GiftCard = ({ title, image, alt, text, buttonText, icon: Icon, index }: Gi
 )
 
 const Gifting = () => {
+  const isMobile = useIsMobile();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const controls = useAnimation();
+  
+  const nextSlide = () => {
+    if (currentIndex < giftingCards.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    } else {
+      setCurrentIndex(0);
+    }
+  };
+  
+  const prevSlide = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    } else {
+      setCurrentIndex(giftingCards.length - 1);
+    }
+  };
+  
+  // Auto slide for mobile
+  useEffect(() => {
+    if (isMobile) {
+      const interval = setInterval(() => {
+        nextSlide();
+      }, 5000);
+      
+      return () => clearInterval(interval);
+    }
+  }, [currentIndex, isMobile]);
+  
+  // Update animation when current index changes
+  useEffect(() => {
+    if (isMobile) {
+      controls.start({ x: `${-currentIndex * 100}%` });
+    }
+  }, [currentIndex, controls, isMobile]);
+
   return (
-    <section className="bg-white relative overflow-hidden py-10 pb-0">
+    <section className="bg-white relative overflow-hidden py-8 md:py-10 pb-0">
       {/* Decorative elements */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
@@ -154,7 +193,7 @@ const Gifting = () => {
         transition={{ duration: 1 }}
       >
         <motion.div
-          className="absolute top-0 right-0 w-64 h-64 border border-[#AD9660]/5 rounded-[30%]"
+          className="absolute top-0 right-0 w-32 md:w-64 h-32 md:h-64 border border-[#AD9660]/5 rounded-[30%]"
           animate={{ 
             rotate: [45, 90, 45],
             scale: [1, 1.1, 1],
@@ -166,7 +205,7 @@ const Gifting = () => {
           }}
         />
         <motion.div
-          className="absolute bottom-0 left-0 w-64 h-64 border border-[#AD9660]/5 rounded-[30%]"
+          className="absolute bottom-0 left-0 w-32 md:w-64 h-32 md:h-64 border border-[#AD9660]/5 rounded-[30%]"
           animate={{ 
             rotate: [-45, -90, -45],
             scale: [1, 1.1, 1],
@@ -190,14 +229,14 @@ const Gifting = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <motion.div
-          className="flex flex-col items-center mb-16"
+          className="flex flex-col items-center mb-8 md:mb-16"
           initial="initial"
           whileInView="animate"
           viewport={{ once: true }}
           variants={fadeInUp}
         >
           <motion.div
-            className="w-12 h-[1px]"
+            className="w-10 md:w-12 h-[1px]"
             initial={{ scale: 0 }}
             whileInView={{ scale: 1 }}
             viewport={{ once: true }}
@@ -208,33 +247,83 @@ const Gifting = () => {
           />
           
           <motion.div 
-            className="flex items-center gap-2 mt-6 mb-4"
+            className="flex items-center gap-2 mt-4 md:mt-6 mb-3 md:mb-4"
             variants={fadeInUp}
           >
-            <IconGift size={20} className="text-[#AD9660]" />
-            <span className="text-sm uppercase tracking-wider text-[#AD9660] font-light">Our Services</span>
+            <IconGift size={16} className="text-[#AD9660] md:w-5 md:h-5" />
+            <span className="text-xs md:text-sm uppercase tracking-wider text-[#AD9660] font-light">Our Services</span>
           </motion.div>
 
           <motion.h2
-            className="text-3xl md:text-4xl font-light text-[#323433] mb-4 font-['Frank_Ruhl_Libre'] text-center"
+            className="text-2xl sm:text-3xl md:text-4xl font-light text-[#323433] mb-3 md:mb-4 font-['Frank_Ruhl_Libre'] text-center"
             variants={fadeInUp}
           >
             The Art of Corporate Gifting
           </motion.h2>
           
           <motion.p
-            className="text-gray-600 font-light max-w-2xl mx-auto text-center text-sm md:text-base"
+            className="text-gray-600 font-light max-w-2xl mx-auto text-center text-xs md:text-sm lg:text-base"
             variants={fadeInUp}
           >
             Elevating corporate relationships through meticulously curated gift experiences
           </motion.p>
         </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {giftingCards.map((card, idx) => (
-            <GiftCard key={idx} {...card} index={idx} />
-          ))}
-        </div>
+        {/* Mobile Slider */}
+        {isMobile ? (
+          <div className="relative">
+            {/* Navigation Arrows */}
+            <button 
+              onClick={prevSlide}
+              className="absolute -left-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white w-8 h-8 rounded-full shadow-md flex items-center justify-center transition-all duration-200"
+              aria-label="Previous service"
+            >
+              <IconChevronLeft size={16} className="text-[#323433]" />
+            </button>
+            
+            <button 
+              onClick={nextSlide}
+              className="absolute -right-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white w-8 h-8 rounded-full shadow-md flex items-center justify-center transition-all duration-200"
+              aria-label="Next service"
+            >
+              <IconChevronRight size={16} className="text-[#323433]" />
+            </button>
+            
+            <div className="overflow-hidden">
+              <motion.div 
+                className="flex"
+                animate={controls}
+                transition={{ type: "tween", ease: "easeInOut", duration: 0.5 }}
+              >
+                {giftingCards.map((card, idx) => (
+                  <div key={idx} className="w-full flex-shrink-0 px-2">
+                    <GiftCard {...card} index={idx} />
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+            
+            {/* Pagination Dots */}
+            <div className="flex justify-center mt-6 gap-1.5">
+              {giftingCards.map((_, idx) => (
+                <button
+                  key={idx}
+                  className={`w-2 h-2 rounded-full transition-all ${
+                    currentIndex === idx ? 'bg-[#AD9660] scale-125' : 'bg-gray-300 hover:bg-gray-400'
+                  }`}
+                  onClick={() => setCurrentIndex(idx)}
+                  aria-label={`Go to slide ${idx + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            {giftingCards.map((card, idx) => (
+              <GiftCard key={idx} {...card} index={idx} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )

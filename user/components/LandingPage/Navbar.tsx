@@ -205,17 +205,16 @@ const Navbar = () => {
     
   return (
     <div className="sticky top-0 left-0 bg-white z-50">
-   
+    
 
-      <header className="">
+      <header className="shadow-sm">
         {/* Desktop Header */}
-        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 pt-0 pb-8 hidden md:block">
-          <div className="flex ixtems-center justify-between h-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 hidden md:block">
+          <div className="flex items-center justify-between h-20">
             {/* Logo at left */}
             <div className="flex items-center flex-col justify-center flex-shrink-0 gap-0">
-              <Link href="/" className='flex items-center  flex-col'>
-                <Image src="/logo.png" alt="BoxUp Logo" width={220} height={40} className="-mb-5 w-auto h-[80px]" />
-                <span className="text-xs opacity-80 hidden mx-auto sm:block">Premium gifting</span>
+              <Link href="/" className='flex items-center justify-center flex-col'>
+                <Image src="/logo.png" alt="BoxUp Logo" width={220} height={40} className=" w-auto h-[80px]" />
               </Link>
             </div>
 
@@ -232,13 +231,13 @@ const Navbar = () => {
                 />
               </form>
               
-            <div className="flex items-center space-x-4">
-              <Link href="/quote">
-                <Button variant="outline" size="sm" className="text-gray-700 border-gray-300">
-                  Request Quote
-                </Button>
-              </Link>
-            </div>
+              <div className="flex items-center space-x-4">
+                <Link href="/quote">
+                  <Button variant="outline" size="sm" className="text-gray-700 border-gray-300">
+                    Request Quote
+                  </Button>
+                </Link>
+              </div>
               <div className="flex items-center gap-2">
                 <PhoneCall className="h-5 w-5 text-gray-700" />
                 <div className="flex flex-col">
@@ -252,10 +251,7 @@ const Navbar = () => {
               <Link href="/shortlist" className="relative">
                 <ShoppingBag className="h-7 w-7 hover:opacity-60 transition-all duration-300 text-gray-700" />
                 {shortlist.length > 0 && (
-                  <Badge 
-                    className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-[#AD9660] hover:bg-[#AD9660]"
-                    variant="secondary"
-                  >
+                  <Badge className="absolute -top-2 -right-2 bg-[#AD9660] text-white text-xs h-5 w-5 flex items-center justify-center rounded-full p-0">
                     {shortlist.length}
                   </Badge>
                 )}
@@ -265,334 +261,198 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Header */}
-        <div className="md:hidden">
-          <div className="flex items-center justify-between p-4">
-            <button
-              className="p-2"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              <Menu className="h-6 w-6 text-gray-700" />
-            </button>
-            <div className="flex flex-col items-center justify-center">
-              <Link href="/" className='flex items-center flex-col'>
-                <Image src="/logo.png" alt="BoxUp Logo" width={150} height={40} />
-                <span className="text-xs opacity-80 text-center -mt-5">Premium gifting</span>
-              </Link>
-            </div>
-            <div className="flex items-center space-x-3">
-              <Link href="/search">
-                <Search className="h-6 w-6 text-gray-700" />
-              </Link>
-              <Link href="/shortlist" className="relative">
-                <ShoppingBag className="h-6 w-6 text-gray-700" />
-                {shortlist.length > 0 && (
-                  <Badge 
-                    className="absolute -top-2 -right-2 h-4 w-4 flex items-center justify-center p-0 bg-[#AD9660] hover:bg-[#AD9660]"
-                    variant="secondary"
-                  >
-                    {shortlist.length}
-                  </Badge>
-                )}
-              </Link>
-            </div>
+        <div className="md:hidden p-4 flex items-center justify-between">
+          <button 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
+            className="p-2 rounded-md text-gray-700"
+            aria-label="Toggle menu"
+          >
+            <Menu className="h-6 w-6" />
+          </button>
+          
+          <Link href="/" className="flex items-center justify-center">
+            <Image src="/logo.png" alt="Tisorah Logo" width={140} height={30} className="w-auto h-[50px]" />
+          </Link>
+          
+          <div className="flex items-center gap-3">
+            <Link href="/search" aria-label="Search">
+              <Search className="h-5 w-5 text-gray-700" />
+            </Link>
+            <Link href="/shortlist" className="relative" aria-label="Shortlist">
+              <ShoppingBag className="h-5 w-5 text-gray-700" />
+              {shortlist.length > 0 && (
+                <Badge className="absolute -top-2 -right-2 bg-[#AD9660] text-white text-xs h-4 w-4 flex items-center justify-center rounded-full p-0">
+                  {shortlist.length}
+                </Badge>
+              )}
+            </Link>
           </div>
-
+        </div>
         
-        </div>
-      </header>
-
-      {/* Navigation Menu - Desktop only */}
-      <nav className="border-b border-gray-100 hidden md:block">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-6 lg:px-8">
-          <div className="flex items-center justify-center">
-            <NavigationMenu>
-              <NavigationMenuList className="space-x-6">
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-sm font-medium text-gray-700 hover:text-gray-900 bg-transparent hover:bg-transparent  data-[active]:bg-transparent data-[state=open]:bg-transparent">
-                     Gift Categories
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="fixed left-1/2 top-44 z-50 flex justify-center items-center -translate-x-1/2 w-auto">
-                      <div
-                        ref={menuRef}
-                        key={Math.random()} // this retriggers on each open
-                        className="flex gap-10 font-gallery px-8 py-8 bg-white shadow-xl rounded-xl z-50 border-t-2 border-[#AD9660]"
-                      >
-                        {/* Edibles Column */}
-                        <div className="min-w-[200px]">
-                          <div className="text-[16px] mb-3 tracking-tight font-gallery font-semibold leading-tight text-gray-800 border-b pb-2">Edibles</div>
-                          <div className="grid grid-cols-2 gap-x-6">
-                            <ul className="space-y-1.5">
-                              {shopGiftsMenu[0].items.slice(0, Math.ceil(shopGiftsMenu[0].items.length/2)).map((item, i) => (
-                                <li key={i}>
-                                  <NavigationMenuLink className="flex items-center px-1 py-0.5 text-[14px] leading-tight text-gray-700 hover:text-[#AD9660] transition-colors duration-200 cursor-pointer">
-                                    <span className="w-1 h-1 bg-[#AD9660] rounded-full mr-2 opacity-70"></span>
-                                    {item}
-                                  </NavigationMenuLink>
-                                </li>
-                              ))}
-                            </ul>
-                            <ul className="space-y-1.5">
-                              {shopGiftsMenu[0].items.slice(Math.ceil(shopGiftsMenu[0].items.length/2)).map((item, i) => (
-                                <li key={i}>
-                                  <NavigationMenuLink className="flex items-center px-1 py-0.5 text-[14px] leading-tight text-gray-700 hover:text-[#AD9660] transition-colors duration-200 cursor-pointer">
-                                    <span className="w-1 h-1 bg-[#AD9660] rounded-full mr-2 opacity-70"></span>
-                                    {item}
-                                  </NavigationMenuLink>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-                        
-                        {/* Non-Edibles Column */}
-                        <div className="min-w-[180px]">
-                          <div className="text-[16px] mb-3 tracking-tight font-gallery font-semibold leading-tight text-gray-800 border-b pb-2">Non-Edibles</div>
-                          <ul className="space-y-1.5">
-                            {shopGiftsMenu[1].items.map((item, i) => (
-                              <li key={i}>
-                                <NavigationMenuLink className="flex items-center px-1 py-0.5 text-[14px] leading-tight text-gray-700 hover:text-[#AD9660] transition-colors duration-200 cursor-pointer">
-                                  <span className="w-1 h-1 bg-[#AD9660] rounded-full mr-2 opacity-70"></span>
-                                  {item}
-                                </NavigationMenuLink>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        
-                        {/* Sub-Categories Column */}
-                        <div className="min-w-[180px]">
-                          <div className="text-[16px] mb-3 tracking-tight font-gallery font-semibold leading-tight text-gray-800 border-b pb-2">Sub-Categories</div>
-                          <ul className="space-y-1.5">
-                            {shopGiftsMenu[2].items.map((item, i) => (
-                              <li key={i}>
-                                <NavigationMenuLink className="flex items-center px-1 py-0.5 text-[14px] leading-tight text-gray-700 hover:text-[#AD9660] transition-colors duration-200 cursor-pointer">
-                                  <span className="w-1 h-1 bg-[#AD9660] rounded-full mr-2 opacity-70"></span>
-                                  {item}
-                                </NavigationMenuLink>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-
-
-             
-
-
-
-
-              
-                {navLinks.map((link, idx) => (
-                  <NavigationMenuItem key={idx}>
-                    <Link 
-                      href={link.href} 
-                      className={`text-sm font-medium relative  py-2 px-1 ${
-                        pathname === link.href ? 'text-[#AD9660]' : 'text-gray-700 hover:text-gray-900'
-                      }`}
-                    >
-                      {link.label}
-                      <span 
-                        className={`absolute bottom-0 left-0 w-full h-0.5 bg-[#AD9660] transform origin-left transition-all duration-300 ease-out ${
-                          pathname === link.href 
-                            ? 'scale-x-100' 
-                            : 'scale-x-0 group-hover:scale-x-100'
-                        }`}
-                      />
-                    </Link>
-                  </NavigationMenuItem>
-                ))}
-
-                <button className='text-xs font-medium text-white bg-black/80
-                 px-5 py-2 rounded-[100px] hover:text-gray-900 py-24flex flex-col items-center '>
-                  <Link href="/contact">Download catlog</Link>
-                </button>
-              </NavigationMenuList>
-            </NavigationMenu>
-
-          </div>
-        </div>
-      </nav>
-
-      {/* Mobile menu */}
-      <div
-        className={`fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300 ${
-          mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`}
-        onClick={() => setMobileMenuOpen(false)}
-      />
-      
-      <div
-        className={`fixed top-0 left-0 w-72 h-full bg-white z-50 transform transition-transform duration-300 ease-in-out ${
-          mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
-      >
-        <div className="flex flex-col h-full">
-          <div className="p-4 border-b">
-            <div className="flex items-center justify-between">
-              <Image src="/logo.png" alt="BoxUp Logo" width={120} height={30} />
-              <button onClick={() => setMobileMenuOpen(false)} className="p-2">
-                <span className="text-2xl">&times;</span>
+        {/* Mobile Navigation Menu */}
+        {mobileMenuOpen && (
+          <div className="fixed inset-0 z-50 bg-white overflow-y-auto">
+            <div className="p-4 flex justify-between items-center border-b">
+              <Link href="/" className="flex items-center" onClick={() => setMobileMenuOpen(false)}>
+                <Image src="/logo.png" alt="Tisorah Logo" width={140} height={30} className="w-auto h-[50px]" />
+              </Link>
+              <button 
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-2 rounded-md text-gray-700"
+                aria-label="Close menu"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-6 w-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
               </button>
             </div>
-          </div>
-
-          <div className="flex-1 overflow-y-auto p-4">
-            <div className="space-y-4">
-              <form onSubmit={handleSearch} className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600 h-5 w-5" />
+            
+            <div className="p-4">
+              <form onSubmit={handleSearch} className="relative mb-6">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600 h-4 w-4" />
                 <Input
                   type="search"
                   placeholder="Search products, categories..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 w-full"
+                  className="pl-10 py-2 text-sm rounded-lg w-full"
                 />
               </form>
-
-              <div className="flex items-center gap-2 py-2">
-                <PhoneCall className="h-5 w-5 text-gray-700" />
-                <div className="flex flex-col">
-                  <span className="text-md font-semibold text-gray-700">+9194016464</span>
-                  <span className="text-xs tracking-tight font-light text-gray-500">Call us for bulk orders</span>
+              
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  {navLinks.map((link, index) => (
+                    <Link 
+                      key={index} 
+                      href={link.href}
+                      className={`block py-2 border-b border-gray-100 text-base ${
+                        pathname === link.href ? 'text-[#AD9660] font-medium' : 'text-gray-700'
+                      }`}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
                 </div>
-              </div>
-
-              <div className="space-y-2">
-                <p className="font-semibold text-sm">Gifts Categories </p>
-                {shopGiftsMenu.map((section, idx) => (
-                  <div key={idx} className="pl-4 space-y-1">
-                    <p className="text-sm text-gray-600">{section.title}</p>
-                    {section.items.slice(0, 5).map((item, i) => (
-                      <Link key={i} href="#" className="block text-sm text-gray-700 hover:text-gray-900 py-1">
-                        {item}
+                
+                <div className="pt-4 border-t border-gray-200">
+                  <Link 
+                    href="/quote"
+                    className="block w-full py-3 px-4 bg-[#AD9660] text-white text-center rounded-md font-medium"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Request Quote
+                  </Link>
+                </div>
+                
+                <div className="pt-4 border-t border-gray-200">
+                  <div className="flex items-center gap-2 mb-4">
+                    <PhoneCall className="h-4 w-4 text-[#AD9660]" />
+                    <div>
+                      <a href="tel:+9194016464" className="text-sm font-medium">+91 94016464</a>
+                      <p className="text-xs text-gray-500">Call us for bulk orders</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-2">
+                    <Mail className="h-4 w-4 text-[#AD9660]" />
+                    <a href="mailto:info@tisorah.com" className="text-sm">info@tisorah.com</a>
+                  </div>
+                </div>
+                
+                <div className="pt-4 border-t border-gray-200">
+                  <div className="flex items-center gap-4">
+                    {socialLinks.map((social, index) => (
+                      <Link 
+                        key={index} 
+                        href={social.href}
+                        aria-label={social.label}
+                        className="bg-gray-100 p-2 rounded-full"
+                      >
+                        <social.icon className="h-4 w-4 text-gray-700" />
                       </Link>
                     ))}
-                    {section.items.length > 5 && (
-                      <Link href="#" className="block text-sm text-blue-600 hover:text-blue-800 py-1">
-                        View all ({section.items.length})
-                      </Link>
-                    )}
                   </div>
-                ))}
+                </div>
               </div>
+            </div>
+          </div>
+        )}
 
-              <div className="space-y-2">
-                {navLinks.map((link, idx) => (
-                  <Link
-                    key={idx}
-                    href={link.href}
-                    className={`block text-sm font-medium py-2 relative ${
-                      pathname === link.href 
-                        ? 'text-[#AD9660]' 
-                        : 'text-gray-700 hover:text-gray-900'
-                    }`}
-                  >
-                    <div className="flex items-center">
-                      {link.label}
-                      {pathname === link.href && (
-                        <span className="ml-2 w-1 h-4 bg-[#AD9660] rounded-full" />
-                      )}
+        {/* Desktop Navigation Menu */}
+        <nav className="hidden md:block border-t border-gray-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <NavigationMenu className="py-2">
+              <NavigationMenuList className="flex justify-between w-full">
+                {/* Regular navigation links */}
+                {navLinks.map((link, index) => (
+                  <NavigationMenuItem key={index}>
+                    <Link href={link.href} legacyBehavior passHref>
+                      <NavigationMenuLink
+                        className={`group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-[#AD9660] focus:outline-none disabled:pointer-events-none disabled:opacity-50 ${
+                          pathname === link.href ? 'text-[#AD9660]' : 'text-gray-700'
+                        }`}
+                      >
+                        {link.label}
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuItem>
+                ))}
+                
+                {/* Promotional Gifts Mega Menu */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="text-sm font-medium text-gray-700 hover:text-[#AD9660]">
+                    Promotional Gifts
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <div ref={menuRef} className="w-[800px] p-6 grid grid-cols-3 gap-6">
+                      {shopGiftsMenu.map((section, index) => (
+                        <div key={index}>
+                          <div className="text-[16px] font-medium text-gray-700 mb-3">{section.title}</div>
+                          <ul className="space-y-2">
+                            {section.items.map((item, itemIndex) => (
+                              <li key={itemIndex}>
+                                <Link href={`/products?category=${encodeURIComponent(item.toLowerCase())}`} className="text-sm text-gray-600 hover:text-[#AD9660]">
+                                  {item}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
                     </div>
-                  </Link>
-                ))}
-              </div>
-
-              <div className="space-y-2 pt-4">
-                <Link href="/quote">
-                  <Button className="w-full" variant="outline">
-                    Request Quote
-                  </Button>
-                </Link>
-                <Link href="/contact">
-                  <Button className="w-full bg-black text-white hover:bg-gray-800">
-                    Download Catalog
-                  </Button>
-                </Link>
-              </div>
-
-              <div className="flex items-center justify-between pt-2">
-                <Link href="/account" className="flex items-center gap-2 text-gray-700">
-                  <User className="h-5 w-5" />
-                  <span>Account</span>
-                </Link>
-                <Link href="/shortlist" className="flex items-center gap-2 text-gray-700 relative">
-                  <ShoppingBag className="h-5 w-5" />
-                  <span>Shortlist</span>
-                  {shortlist.length > 0 && (
-                    <Badge 
-                      className="absolute -top-2 left-4 h-5 w-5 flex items-center justify-center p-0 bg-[#AD9660] hover:bg-[#AD9660]"
-                      variant="secondary"
-                    >
-                      {shortlist.length}
-                    </Badge>
-                  )}
-                </Link>
-              </div>
-            </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                
+                {/* Corporate Gifts Mega Menu */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="text-sm font-medium text-gray-700 hover:text-[#AD9660]">
+                    Corporate Gifts
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <div ref={menuRef} className="w-[800px] p-6 grid grid-cols-3 gap-6">
+                      {corporateGiftsMenu.map((section, index) => (
+                        <div key={index}>
+                          <div className="text-[16px] font-medium text-gray-700 mb-3">{section.title}</div>
+                          <ul className="space-y-2">
+                            {section.items.map((item, itemIndex) => (
+                              <li key={itemIndex}>
+                                <Link href={`/products?category=${encodeURIComponent(item.toLowerCase())}`} className="text-sm text-gray-600 hover:text-[#AD9660]">
+                                  {item}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
-
-          <div className="p-4 border-t">
-            <div className="flex justify-center space-x-4">
-              {socialLinks.map((social, idx) => (
-                <Link key={idx} href={social.href} className="text-gray-600 hover:text-gray-900">
-                  <social.icon className="h-5 w-5" />
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Categories Dropdown */}
-      <div className="md:hidden border-t">
-        <div className="p-4">
-          <details className="group [&_summary::-webkit-details-marker]:hidden">
-            <summary className="flex justify-between items-center font-medium cursor-pointer list-none p-2 rounded-md hover:bg-gray-50 transition-all">
-              <span className="font-medium text-gray-800">Gift Categories</span>
-              <ChevronDown className="h-4 w-4 transition-transform duration-300 group-open:rotate-180" />
-            </summary>
-            <div className="mt-3 space-y-4 bg-white rounded-md overflow-hidden transition-all max-h-0 group-open:max-h-[1000px] duration-500 ease-in-out">
-              <div className="p-3 border-l-2 border-[#AD9660]">
-                <h4 className="font-semibold text-sm text-gray-800">Edibles</h4>
-                <div className="grid grid-cols-2 gap-1 mt-2">
-                  {shopGiftsMenu[0].items.slice(0, 8).map((item, i) => (
-                    <Link key={i} href="#" className="text-sm text-gray-700 hover:text-[#AD9660] py-1 transition-colors flex items-center">
-                      <span className="w-1 h-1 bg-gray-400 rounded-full mr-2"></span>
-                      {item}
-                    </Link>
-                  ))}
-                  {shopGiftsMenu[0].items.length > 8 && (
-                    <Link href="#" className="text-sm text-[#AD9660] hover:text-[#8a7a4d] py-1 transition-colors mt-1 font-medium">
-                      View all ({shopGiftsMenu[0].items.length})
-                    </Link>
-                  )}
-                </div>
-              </div>
-              
-              <div className="p-3 border-l-2 border-[#AD9660]">
-                <h4 className="font-semibold text-sm text-gray-800">Non-Edibles</h4>
-                <div className="grid grid-cols-2 gap-1 mt-2">
-                  {shopGiftsMenu[1].items.slice(0, 8).map((item, i) => (
-                    <Link key={i} href="#" className="text-sm text-gray-700 hover:text-[#AD9660] py-1 transition-colors flex items-center">
-                      <span className="w-1 h-1 bg-gray-400 rounded-full mr-2"></span>
-                      {item}
-                    </Link>
-                  ))}
-                  {shopGiftsMenu[1].items.length > 8 && (
-                    <Link href="#" className="text-sm text-[#AD9660] hover:text-[#8a7a4d] py-1 transition-colors mt-1 font-medium">
-                      View all ({shopGiftsMenu[1].items.length})
-                    </Link>
-                  )}
-                </div>
-              </div>
-            </div>
-          </details>
-        </div>
-      </div>
+        </nav>
+      </header>
     </div>
   )
 }

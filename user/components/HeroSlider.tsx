@@ -67,7 +67,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
       const width = window.innerWidth;
       // Responsive aspect ratios based on screen size
       if (width < 640) { // Mobile
-        setAspectRatio("66.67%") // 3:2 aspect ratio
+        setAspectRatio("75%") // 4:3 aspect ratio for smaller screens
       } else if (width < 1024) { // Tablet
         setAspectRatio("56.25%") // 16:9 aspect ratio
       } else { // Desktop
@@ -149,39 +149,39 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
       </div>
 
       {/* Slider Controls - More elegant and minimal */}
-      <div className="absolute inset-y-0 left-4 md:left-8 flex items-center z-10">
+      <div className="absolute inset-y-0 left-2 md:left-8 flex items-center z-10">
         <Button
           size="icon"
           variant="ghost"
-          className="h-10 w-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-all duration-200"
+          className="h-8 w-8 md:h-10 md:w-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-all duration-200"
           onClick={prevSlide}
           aria-label="Previous slide"
         >
-          <ChevronLeft className="h-6 w-6 text-white" />
+          <ChevronLeft className="h-4 w-4 md:h-6 md:w-6 text-white" />
         </Button>
       </div>
-      <div className="absolute inset-y-0 right-4 md:right-8 flex items-center z-10">
+      <div className="absolute inset-y-0 right-2 md:right-8 flex items-center z-10">
         <Button
           size="icon"
           variant="ghost"
-          className="h-10 w-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-all duration-200"
+          className="h-8 w-8 md:h-10 md:w-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-all duration-200"
           onClick={nextSlide}
           aria-label="Next slide"
         >
-          <ChevronRight className="h-6 w-6 text-white" />
+          <ChevronRight className="h-4 w-4 md:h-6 md:w-6 text-white" />
         </Button>
       </div>
 
       {/* Slider Indicators - More modern and elegant */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-3 z-10">
+      <div className="absolute bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 md:gap-3 z-10">
         {bannerData.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`h-2 rounded-full transition-all duration-300 ${
+            className={`h-1.5 md:h-2 rounded-full transition-all duration-300 ${
               index === currentSlide
-                ? "bg-[#AD9660] w-10"
-                : "bg-white/40 hover:bg-white/60 w-2"
+                ? "bg-[#AD9660] w-6 md:w-10"
+                : "bg-white/40 hover:bg-white/60 w-1.5 md:w-2"
             }`}
             aria-label={`Go to slide ${index + 1}`}
             aria-current={index === currentSlide}
