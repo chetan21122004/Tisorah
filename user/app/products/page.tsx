@@ -160,13 +160,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products }) =
   const formatPrice = () => {
     if (product.has_price_range && product.price_min && product.price_max) {
       return (
-        <span className="text-lg font-normal text-gray-900 mb-2 text-left">
+        <span className="text-sm font-light text-[#AD9660]">
           ₹{product.price_min.toLocaleString()} - ₹{product.price_max.toLocaleString()}
         </span>
       );
     } else {
       return (
-        <span className="text-lg font-normal text-gray-900 mb-2 text-left">
+        <span className="text-sm font-light text-[#AD9660]">
           ₹{product.price.toLocaleString()}
         </span>
       );
@@ -175,64 +175,87 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products }) =
 
   return (
     <div
-      className="rounded-xl overflow-hidden flex flex-col pb-4 transition-transform duration-300 hover:scale-105 group relative"
-      style={{ minHeight: 420, maxWidth: 340 }}
+      className="group relative overflow-hidden flex flex-col transition-all duration-300 hover:scale-[1.02] h-full border border-gray-100 shadow-sm hover:shadow-md"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <Link href={`/products/${product.id}`} className="mt-4">
-        <div className="relative h-64 mb-3">
+      <Link href={`/products/${product.id}`} className="relative block">
+        <div className="relative h-48 md:h-52 bg-white overflow-hidden">
           <img
             src={product.image}
             alt={product.name}
-            className={`w-full h-64 object-cover object-center rounded-xl absolute left-0 top-0 transition-all duration-300 ${hovered ? 'opacity-0' : 'opacity-100'}`}
-            style={{ background: '#f7f7f7' }}
+            className={`w-full h-full object-contain p-3 transition-opacity duration-500 ${hovered ? 'opacity-0' : 'opacity-100'}`}
           />
           <img
             src={hoverImage}
             alt={product.name + ' alt'}
-            className={`w-full h-64 object-cover object-center rounded-xl absolute left-0 top-0 transition-all duration-300 ${hovered ? 'opacity-100' : 'opacity-0'}`}
-            style={{ background: '#f7f7f7' }}
+            className={`absolute inset-0 w-full h-full object-contain p-3 transition-opacity duration-500 ${hovered ? 'opacity-100' : 'opacity-0'}`}
           />
+          
+          {/* Elegant badge design */}
+          <div className="absolute top-2 left-0">
+            <div className="bg-white/90 backdrop-blur-sm border-l-2 border-[#AD9660] text-[#323433] font-light text-[10px] px-2 py-0.5">
+              Best Seller
+            </div>
+          </div>
+          
+          {/* Quick action buttons on hover */}
+          <div className={`absolute bottom-2 left-0 right-0 flex justify-center transition-opacity duration-300 ${hovered ? 'opacity-100' : 'opacity-0'}`}>
+            <div className="flex gap-2">
+              <button 
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleShortlistClick(e);
+                }}
+                className={`bg-white/90 backdrop-blur-sm w-7 h-7 rounded-full shadow-sm flex items-center justify-center transition-all duration-300 ${isInShortlistState ? 'text-[#AD9660]' : 'text-gray-500'}`}
+              >
+                <Heart className={`w-3 h-3 ${isInShortlistState ? 'fill-[#AD9660]' : ''}`} />
+              </button>
+              <div className="bg-white/90 backdrop-blur-sm w-7 h-7 rounded-full shadow-sm flex items-center justify-center">
+                <Eye className="w-3 h-3 text-gray-500" />
+              </div>
+            </div>
+          </div>
         </div>
       </Link>
-      <div className="px-4 flex flex-col flex-1 transform scale-[0.952] will-change-transform">
-        <h3 className="font-normal text-md text-gray-900 mb-2 font-sans leading-snug break-words line-clamp-2 text-left">{product.name}</h3>
-        {formatPrice()}
-        {product.moq && (
-          <div className="text-xs text-gray-500 mb-2 text-left">
-            MOQ: {product.moq} {product.moq === 1 ? 'piece' : 'pieces'}
-          </div>
-        )}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center text-left">
-            <div className="flex items-center mr-2">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className={`w-4 h-4 ${i < product.rating ? 'text-[#B8860B] fill-[#B8860B]' : 'text-gray-300'}`}
-                  strokeWidth={i < product.rating ? 0 : 1.5}
-                />
-              ))}
+      
+      <div className="p-3 flex flex-col flex-1">
+        {/* Category label */}
+        <span className="text-[10px] text-gray-500 font-light tracking-wide uppercase mb-1">
+          corporate gift
+        </span>
+        
+        {/* Product name */}
+        <h3 className="font-light text-xs md:text-sm text-[#323433] leading-snug line-clamp-2 mb-1 group-hover:text-[#AD9660] transition-colors duration-300">
+          {product.name}
+        </h3>
+        
+        {/* Price and decorative line */}
+        <div className="mt-1 flex items-center justify-between">
+          {formatPrice()}
+          <div className="w-4 h-[1px] bg-[#AD9660]/20"></div>
+        </div>
+        
+        {/* Bottom info row */}
+        <div className="flex items-center justify-between mt-2">
+          {/* MOQ Information */}
+          {product.moq && (
+            <div className="flex items-center text-[10px] text-gray-500">
+              <Package className="w-2.5 h-2.5 mr-1" />
+              <span>MOQ: {product.moq}</span>
             </div>
-            <span className="text-base text-gray-700 font-sans mr-1">{product.rating}</span>
-            <span className="text-sm text-gray-400 font-sans">({product.reviews})</span>
+          )}
+          
+          {/* Rating */}
+          <div className="flex items-center">
+            <Star className="w-2.5 h-2.5 text-[#AD9660] fill-[#AD9660] mr-0.5" />
+            <span className="text-[10px] text-gray-600">{product.rating} ({product.reviews})</span>
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            className={`h-9 w-9 rounded-full transition-colors ${
-              isInShortlistState 
-                ? 'bg-[#AD9660] text-white hover:bg-[#8B7A4F]' 
-                : 'hover:bg-[#E6E2DD]'
-            }`}
-            onClick={handleShortlistClick}
-            disabled={isAddingToShortlist}
-          >
-            <Heart className={`w-5 h-5 ${isInShortlistState ? 'fill-current' : ''}`} />
-          </Button>
         </div>
       </div>
+      
+      {/* Geometric decorative element on hover */}
+      <div className="absolute -bottom-full right-0 w-8 h-8 border border-[#AD9660]/20 rotate-45 group-hover:-translate-y-8 transition-transform duration-500"></div>
     </div>
   );
 };
@@ -250,11 +273,12 @@ export default function ProductsPage() {
   const [wishlist, setWishlist] = useState<string[]>([])
   const [showFilters, setShowFilters] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState<any>(null)
-  const [visibleProducts, setVisibleProducts] = useState(8)
+  const [visibleProducts, setVisibleProducts] = useState(12)
   const [sortBy, setSortBy] = useState("featured")
   const [expandedSubcategories, setExpandedSubcategories] = useState(true)
   const [visibleSubcategories, setVisibleSubcategories] = useState(5)
   const [searchInputValue, setSearchInputValue] = useState("")
+  const [loadingMore, setLoadingMore] = useState(false)
 
   // Get search query from URL
   useEffect(() => {
@@ -264,6 +288,92 @@ export default function ProductsPage() {
       setSearchInputValue(searchQuery)
     }
   }, [searchParams])
+
+  // Filter products based on selected categories and search term
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch = product.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.description?.toLowerCase().includes(searchTerm.toLowerCase());
+      
+    let matchesCategory = true;
+    if (selectedCategory === "edibles") {
+      matchesCategory = product.main_category_info?.slug === "edible-items";
+    } else if (selectedCategory === "non-edibles") {
+      matchesCategory = product.main_category_info?.slug === "non-edible-items";
+    }
+    
+    let matchesSubcategory = true;
+    if (selectedSubcategories.length > 0) {
+      matchesSubcategory = selectedSubcategories.includes(product.sub_category || '');
+    }
+    
+    let matchesPrice = true;
+    if (priceRange === "under-500") {
+      if (product.has_price_range && product.price_min) {
+        matchesPrice = product.price_min < 500;
+      } else {
+        matchesPrice = product.price < 500;
+      }
+    } else if (priceRange === "500-1000") {
+      if (product.has_price_range && product.price_min && product.price_max) {
+        matchesPrice = (product.price_min >= 500 && product.price_min <= 1000) || 
+                      (product.price_max >= 500 && product.price_max <= 1000);
+      } else {
+        matchesPrice = product.price >= 500 && product.price <= 1000;
+      }
+    } else if (priceRange === "1000-2000") {
+      if (product.has_price_range && product.price_min && product.price_max) {
+        matchesPrice = (product.price_min > 1000 && product.price_min <= 2000) || 
+                      (product.price_max > 1000 && product.price_max <= 2000);
+      } else {
+        matchesPrice = product.price > 1000 && product.price <= 2000;
+      }
+    } else if (priceRange === "2000-5000") {
+      if (product.has_price_range && product.price_min && product.price_max) {
+        matchesPrice = (product.price_min > 2000 && product.price_min <= 5000) || 
+                      (product.price_max > 2000 && product.price_max <= 5000);
+      } else {
+        matchesPrice = product.price > 2000 && product.price <= 5000;
+      }
+    } else if (priceRange === "5000+") {
+      if (product.has_price_range && product.price_min) {
+        matchesPrice = product.price_min > 5000 || (product.price_max || 0) > 5000;
+      } else {
+        matchesPrice = product.price > 5000;
+      }
+    }
+    
+    return matchesSearch && matchesCategory && matchesSubcategory && matchesPrice;
+  });
+
+  // Sorting logic
+  if (sortBy === "price-low") {
+    filteredProducts.sort((a, b) => a.price - b.price)
+  } else if (sortBy === "price-high") {
+    filteredProducts.sort((a, b) => b.price - a.price)
+  } else if (sortBy === "rating") {
+    filteredProducts.sort((a, b) => (b.rating || 0) - (a.rating || 0))
+  } else if (sortBy === "newest") {
+    filteredProducts.sort((a, b) => {
+      const dateA = a.created_at ? new Date(a.created_at).getTime() : 0;
+      const dateB = b.created_at ? new Date(b.created_at).getTime() : 0;
+      return dateB - dateA;
+    });
+  } else if (sortBy === "featured") {
+    filteredProducts.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0))
+  }
+
+  // Add scroll event listener for infinite scrolling
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerHeight + document.documentElement.scrollTop < document.documentElement.offsetHeight - 500 || loadingMore) {
+        return;
+      }
+      loadMore();
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [loadingMore, filteredProducts]);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -368,79 +478,6 @@ export default function ProductsPage() {
     }
   };
 
-  // Filter products based on selected categories and search term
-  let filteredProducts = products.filter((product) => {
-    const matchesSearch = product.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.description?.toLowerCase().includes(searchTerm.toLowerCase());
-      
-    let matchesCategory = true;
-    if (selectedCategory === "edibles") {
-      matchesCategory = product.main_category_info?.slug === "edible-items";
-    } else if (selectedCategory === "non-edibles") {
-      matchesCategory = product.main_category_info?.slug === "non-edible-items";
-    }
-    
-    let matchesSubcategory = true;
-    if (selectedSubcategories.length > 0) {
-      matchesSubcategory = selectedSubcategories.includes(product.sub_category || '');
-    }
-    
-    let matchesPrice = true;
-    if (priceRange === "under-500") {
-      if (product.has_price_range && product.price_min) {
-        matchesPrice = product.price_min < 500;
-      } else {
-        matchesPrice = product.price < 500;
-      }
-    } else if (priceRange === "500-1000") {
-      if (product.has_price_range && product.price_min && product.price_max) {
-        matchesPrice = (product.price_min >= 500 && product.price_min <= 1000) || 
-                      (product.price_max >= 500 && product.price_max <= 1000);
-      } else {
-        matchesPrice = product.price >= 500 && product.price <= 1000;
-      }
-    } else if (priceRange === "1000-2000") {
-      if (product.has_price_range && product.price_min && product.price_max) {
-        matchesPrice = (product.price_min > 1000 && product.price_min <= 2000) || 
-                      (product.price_max > 1000 && product.price_max <= 2000);
-      } else {
-        matchesPrice = product.price > 1000 && product.price <= 2000;
-      }
-    } else if (priceRange === "2000-5000") {
-      if (product.has_price_range && product.price_min && product.price_max) {
-        matchesPrice = (product.price_min > 2000 && product.price_min <= 5000) || 
-                      (product.price_max > 2000 && product.price_max <= 5000);
-      } else {
-        matchesPrice = product.price > 2000 && product.price <= 5000;
-      }
-    } else if (priceRange === "5000+") {
-      if (product.has_price_range && product.price_min) {
-        matchesPrice = product.price_min > 5000 || (product.price_max || 0) > 5000;
-      } else {
-        matchesPrice = product.price > 5000;
-      }
-    }
-    
-    return matchesSearch && matchesCategory && matchesSubcategory && matchesPrice;
-  });
-
-  // Sorting logic
-  if (sortBy === "price-low") {
-    filteredProducts = filteredProducts.sort((a, b) => a.price - b.price)
-  } else if (sortBy === "price-high") {
-    filteredProducts = filteredProducts.sort((a, b) => b.price - a.price)
-  } else if (sortBy === "rating") {
-    filteredProducts = filteredProducts.sort((a, b) => (b.rating || 0) - (a.rating || 0))
-  } else if (sortBy === "newest") {
-    filteredProducts = filteredProducts.sort((a, b) => {
-      const dateA = a.created_at ? new Date(a.created_at).getTime() : 0;
-      const dateB = b.created_at ? new Date(b.created_at).getTime() : 0;
-      return dateB - dateA;
-    });
-  } else if (sortBy === "featured") {
-    filteredProducts = filteredProducts.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0))
-  }
-
   const toggleWishlist = (productId: string) => {
     setWishlist(prev => 
       prev.includes(productId) 
@@ -449,8 +486,14 @@ export default function ProductsPage() {
     )
   }
 
-  const loadMore = () => {
-    setVisibleProducts(prev => Math.min(prev + 8, filteredProducts.length))
+  const loadMore = async () => {
+    if (visibleProducts >= filteredProducts.length || loadingMore) return;
+    
+    setLoadingMore(true);
+    // Simulate loading delay
+    await new Promise(resolve => setTimeout(resolve, 800));
+    setVisibleProducts(prev => prev + 12);
+    setLoadingMore(false);
   }
 
   const FiltersContent = () => (
@@ -615,32 +658,19 @@ export default function ProductsPage() {
   }
 
   return (
-    <div className="min-h-screen pt-12 mb-10">
-      <div className="container mx-auto px-4 -mt-10 relative z-10">
-        {/* Mobile Search and Filters */}
-        <div className="lg:hidden space-y-4 bg-white rounded-2xl shadow-lg p-4 mb-8">
-          <form onSubmit={handleSearch} className="relative">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#323433]/50 h-4 w-4" />
-            <Input
-              type="search"
-              placeholder="Search products..."
-              value={searchInputValue}
-              onChange={(e) => setSearchInputValue(e.target.value)}
-              className="pl-12 w-full border-[#C8C2B6] bg-white/50 focus:ring-[#AD9660] focus:border-[#AD9660] rounded-xl h-12"
-            />
-          </form>
-          <div className="flex gap-3">
+    <div className="bg-white min-h-screen">
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col md:flex-row gap-6">
+          {/* Mobile Filter Button */}
+          <div className="md:hidden mb-4">
             <Sheet>
               <SheetTrigger asChild>
-                <Button 
-                  variant="outline" 
-                  className="flex-1 border-[#C8C2B6] hover:bg-[#E6E2DD] rounded-xl h-12"
-                >
-                  <SlidersHorizontal className="w-4 h-4 mr-2" />
-                  Filters
+                <Button variant="outline" className="w-full flex items-center justify-center gap-2">
+                  <SlidersHorizontal className="w-4 h-4" />
+                  <span>Filters</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-[300px] overflow-y-auto">
+              <SheetContent side="left" className="w-[300px] sm:w-[400px]">
                 <SheetHeader className="mb-6">
                   <SheetTitle>Filters</SheetTitle>
                   <SheetDescription>Refine your product search</SheetDescription>
@@ -648,188 +678,155 @@ export default function ProductsPage() {
                 <FiltersContent />
                 <SheetFooter className="mt-6">
                   <SheetClose asChild>
-                    <Button className="w-full bg-[#1E2A47] hover:bg-[#1E2A47]/90 text-white rounded-xl h-12">
-                      Apply Filters
-                    </Button>
+                    <Button className="w-full">Apply Filters</Button>
                   </SheetClose>
                 </SheetFooter>
               </SheetContent>
             </Sheet>
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="flex-1 border-[#C8C2B6] rounded-xl h-12">
-                <SelectValue placeholder="Sort by" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="featured">Featured</SelectItem>
-                <SelectItem value="price-low">Price: Low to High</SelectItem>
-                <SelectItem value="price-high">Price: High to Low</SelectItem>
-                <SelectItem value="rating">Highest Rated</SelectItem>
-                <SelectItem value="newest">Newest</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
-        </div>
-
-        <div className="grid lg:grid-cols-4 gap-8">
-          {/* Desktop Filters Sidebar */}
-          <div className="hidden lg:block">
-            <Card className="sticky top-24 border-[#C8C2B6] bg-white rounded-2xl overflow-hidden" style={{ height: 'fit-content', maxHeight: 'calc(100vh - 6rem)', overflowY: 'auto' }}>
-              <CardContent className="p-6">
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="w-10 h-10 rounded-xl bg-[#AD9660]/10 flex items-center justify-center">
-                    <Filter className="h-5 w-5 text-[#AD9660]" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-[#323433]">Filters</h3>
-                </div>
-                <FiltersContent />
-              </CardContent>
-            </Card>
+          
+          {/* Sidebar for Desktop */}
+          <div className="hidden md:block w-64 flex-shrink-0">
+            <div className="sticky top-24 bg-white p-6 border border-gray-100 rounded-md shadow-sm">
+              <h2 className="text-lg font-medium mb-4">Filters</h2>
+              <FiltersContent />
+            </div>
           </div>
-
-          {/* Products Grid */}
-          <div className="lg:col-span-3">
-            {/* Desktop Search and Sort */}
-            <div className="hidden lg:flex items-center gap-6 mb-8 bg-white rounded-2xl p-4 shadow-sm">
+          
+          {/* Main Content */}
+          <div className="flex-1">
+            {/* Search and Sort Bar */}
+            <div className="mb-6 flex flex-col sm:flex-row gap-4">
               <form onSubmit={handleSearch} className="relative flex-1">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#323433]/50 h-4 w-4" />
-                <Input
-                  type="search"
-                  placeholder="Search products..."
-                  value={searchInputValue}
-                  onChange={(e) => setSearchInputValue(e.target.value)}
-                  className="pl-12 border-[#C8C2B6] bg-white/50 focus:ring-[#AD9660] focus:border-[#AD9660] rounded-xl h-12"
+                <Input 
+                  type="text" 
+                  placeholder="Search products..." 
+                  className="pl-10 pr-4 py-2 w-full"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
+                <Search className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
               </form>
-              <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="w-48 border-[#C8C2B6] rounded-xl h-12">
-                  <SelectValue placeholder="Sort by" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="featured">Featured</SelectItem>
-                  <SelectItem value="price-low">Price: Low to High</SelectItem>
-                  <SelectItem value="price-high">Price: High to Low</SelectItem>
-                  <SelectItem value="rating">Highest Rated</SelectItem>
-                  <SelectItem value="newest">Newest</SelectItem>
-                </SelectContent>
-              </Select>
+              
+              <div className="flex gap-2 items-center">
+                <Select 
+                  value={priceRange} 
+                  onValueChange={(value) => setPriceRange(value)}
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Price Range" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Prices</SelectItem>
+                    <SelectItem value="0-500">₹0 - ₹500</SelectItem>
+                    <SelectItem value="500-1000">₹500 - ₹1000</SelectItem>
+                    <SelectItem value="1000-2000">₹1000 - ₹2000</SelectItem>
+                    <SelectItem value="2000+">₹2000+</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-
-            {/* Category Title */}
-            <div className="mb-6">
-              <h2 className="text-2xl font-semibold text-[#323433]">
-                {selectedCategory === "all" ? "All Products" : 
-                 selectedCategory === "edibles" ? "Edibles" : "Non-Edibles"}
-                {selectedSubcategories.length > 0 && subcategories.length > 0 && 
-                 ` > ${selectedSubcategories.map(id => subcategories.find(s => s.id === id)?.name).join(', ')}`}
-                {searchTerm && ` - Search: "${searchTerm}"`}
-              </h2>
-              <p className="text-[#323433]/70">
-                Showing {filteredProducts.length} products
-              </p>
-            </div>
-
+            
+            {/* Products Display */}
             {loading ? (
-              <div className="flex flex-col items-center justify-center h-64 bg-white rounded-2xl">
-                <Loader2 className="w-10 h-10 animate-spin text-[#AD9660] mb-4" />
-                <p className="text-[#323433]/70">Loading products...</p>
+              <div className="flex items-center justify-center h-64">
+                <Loader2 className="w-8 h-8 animate-spin text-[#AD9660]" />
               </div>
             ) : filteredProducts.length === 0 ? (
-              <div className="text-center py-16 bg-white rounded-2xl">
-                <div className="w-20 h-20 bg-[#E6E2DD] rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <Search className="w-10 h-10 text-[#AD9660]" />
+              <div className="text-center py-12">
+                <div className="mb-4 flex justify-center">
+                  <Package className="w-12 h-12 text-gray-300" />
                 </div>
-                <h3 className="text-2xl font-semibold text-[#323433] mb-3">No Products Found</h3>
-                <p className="text-[#323433]/70 mb-8 max-w-md mx-auto">
-                  We couldn't find any products matching your criteria. Try adjusting your search or filters.
-                </p>
-                <div className="flex gap-3">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="text-xs"
-                    onClick={() => {
-                      setSearchInputValue("")
-                      setSelectedCategory("all")
-                      setSelectedSubcategories([])
-                      setPriceRange("all")
-                    }}
-                  >
-                    Clear Filters
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="text-xs"
-                    onClick={() => {
-                      setSelectedCategory("edibles")
-                    }}
-                  >
-                    Edibles Only
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="text-xs"
-                    onClick={() => {
-                      setSelectedCategory("non-edibles")
-                    }}
-                  >
-                    Non-Edibles Only
-                  </Button>
-                </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-1">No products found</h3>
+                <p className="text-gray-500">Try adjusting your search or filter criteria</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-x-4">
-                {filteredProducts.slice(0, visibleProducts).map((product, index, arr) => (
-                  <ProductCard
-                    key={product.id}
-                    product={{
-                      id: product.id,
-                      name: product.name,
-                      image: product.images && product.images.length > 0 ? product.images[0] : '/placeholder.svg',
-                      price: product.price,
-                      price_min: product.price_min,
-                      price_max: product.price_max,
-                      has_price_range: product.has_price_range,
-                      discount: undefined,
-                      rating: product.rating || 0,
-                      reviews: 0,
-                      category: product.category,
-                      moq: product.moq,
-                    }}
-                    index={index}
-                    products={arr.map(p => ({
-                      id: p.id,
-                      name: p.name,
-                      image: p.images && p.images.length > 0 ? p.images[0] : '/placeholder.svg',
-                      price: p.price,
-                      price_min: p.price_min,
-                      price_max: p.price_max,
-                      has_price_range: p.has_price_range,
-                      discount: undefined,
-                      rating: p.rating || 0,
-                      reviews: 0,
-                      category: p.category,
-                      moq: p.moq,
-                    }))}
-                  />
-                ))}
-              </div>
-            )}
-                {/* Load More */}
-                {visibleProducts < filteredProducts.length && (
-                  <div className="text-center mt-12">
-                    <Button 
-                      variant="outline" 
-                      size="lg" 
-                      onClick={loadMore}
-                      className="h-12 px-8 border-[#C8C2B6] hover:bg-[#E6E2DD] text-[#323433] rounded-xl"
-                    >
-                      Load More Products
-                    </Button>
+              <>
+                {/* Active Filters */}
+                {selectedSubcategories.length > 0 && (
+                  <div className="mb-6">
+                    <div className="flex flex-wrap gap-2 items-center">
+                      <span className="text-sm text-gray-500">Active filters:</span>
+                      {selectedSubcategories.map((subcatId) => {
+                        const subcat = subcategories.find(s => s.id === subcatId);
+                        return (
+                          <Badge key={subcatId} variant="secondary" className="flex items-center gap-1 px-2 py-1">
+                            {subcat?.name}
+                            <button onClick={() => toggleSubcategory(subcatId)}>
+                              <X className="w-3 h-3" />
+                            </button>
+                          </Badge>
+                        );
+                      })}
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="text-xs"
+                        onClick={() => toggleAllSubcategories(false)}
+                      >
+                        Clear all
+                      </Button>
+                    </div>
                   </div>
+                )}
+                
+                {/* Grid View */}
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                  {filteredProducts.slice(0, visibleProducts).map((product, index) => {
+                    const productImage = product.images && product.images.length > 0 ? product.images[0] : '/placeholder.svg';
+                    return (
+                      <ProductCard 
+                        key={product.id} 
+                        product={{
+                          id: product.id,
+                          name: product.name,
+                          image: productImage,
+                          price: product.price,
+                          price_min: product.price_min,
+                          price_max: product.price_max,
+                          has_price_range: product.has_price_range,
+                          discount: undefined,
+                          rating: product.rating || 0,
+                          reviews: product.reviews || 0,
+                          category: product.category,
+                          moq: product.moq,
+                        }}
+                        index={index}
+                        products={filteredProducts.slice(0, visibleProducts).map(p => ({
+                          id: p.id,
+                          name: p.name,
+                          image: p.images && p.images.length > 0 ? p.images[0] : '/placeholder.svg',
+                          price: p.price,
+                          price_min: p.price_min,
+                          price_max: p.price_max,
+                          has_price_range: p.has_price_range,
+                          discount: undefined,
+                          rating: p.rating || 0,
+                          reviews: p.reviews || 0,
+                          category: p.category,
+                          moq: p.moq,
+                        }))}
+                      />
+                    );
+                  })}
+                </div>
+                
+                {/* Loading indicator for infinite scroll */}
+                {loadingMore && (
+                  <div className="flex justify-center items-center py-8">
+                    <Loader2 className="w-6 h-6 animate-spin text-[#AD9660]" />
+                    <span className="ml-2 text-sm text-gray-500">Loading more products...</span>
+                  </div>
+                )}
+                
+                {/* End of results message */}
+                {visibleProducts >= filteredProducts.length && filteredProducts.length > 0 && (
+                  <div className="text-center py-8 text-sm text-gray-500">
+                    You've reached the end of the results
+                  </div>
+                )}
+              </>
             )}
-            
           </div>
         </div>
       </div>
