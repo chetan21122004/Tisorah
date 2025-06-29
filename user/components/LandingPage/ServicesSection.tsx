@@ -48,7 +48,7 @@ const ServicesSection: FC = () => {
   ];
 
   return (
-    <section className="relative bg-white overflow-hidden ">
+    <section className="relative bg-white overflow-hidden py-6 ">
       {/* Decorative elements */}
       <motion.div 
         className="absolute top-0 left-0 w-32 h-32 md:w-64 md:h-64 opacity-10"

@@ -1,4 +1,4 @@
-"use client";
+  "use client";
 
 import React, { useEffect, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
@@ -117,10 +117,10 @@ export function QuotePopup() {
 
               <AnimatePresence mode="wait">
                 {isSubmitted ? (
-                  <motion.div 
+              <motion.div 
                     key="success"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
                     className="p-6 flex flex-col items-center justify-center text-center"
@@ -165,7 +165,7 @@ export function QuotePopup() {
                           <label htmlFor="phone" className="text-xs text-gray-500 mb-1 block">
                             Phone Number <span className="text-[#AD9660]">*</span>
                           </label>
-                          <Input
+                      <Input
                             id="phone"
                             name="phone"
                             value={formData.phone}
@@ -173,31 +173,31 @@ export function QuotePopup() {
                             placeholder="For quick follow-up"
                             required
                             className="h-10 text-sm border-gray-200 focus:border-[#AD9660] focus:ring-[#AD9660]/20 font-light bg-gray-50/30 rounded-md"
-                          />
-                        </div>
-                      </div>
-                      
-                      <div className="space-y-3">
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-3">
                         <div>
                           <label htmlFor="email" className="text-xs text-gray-500 mb-1 block">
                             Email Address <span className="text-[#AD9660]">*</span>
                           </label>
-                          <Input
+                    <Input
                             id="email"
                             name="email"
-                            type="email"
+                      type="email"
                             value={formData.email}
                             onChange={handleInputChange}
                             placeholder="Work email preferred"
                             required
                             className="h-10 text-sm border-gray-200 focus:border-[#AD9660] focus:ring-[#AD9660]/20 font-light bg-gray-50/30 rounded-md"
-                          />
+                    />
                         </div>
                         <div>
                           <label htmlFor="company" className="text-xs text-gray-500 mb-1 block">
                             Company Name <span className="text-[#AD9660]">*</span>
                           </label>
-                          <Input
+                    <Input
                             id="company"
                             name="company"
                             value={formData.company}
@@ -205,29 +205,29 @@ export function QuotePopup() {
                             placeholder="Your organization"
                             required
                             className="h-10 text-sm border-gray-200 focus:border-[#AD9660] focus:ring-[#AD9660]/20 font-light bg-gray-50/30 rounded-md"
-                          />
+                    />
                         </div>
                         <div>
                           <label htmlFor="message" className="text-xs text-gray-500 mb-1 block">
                             Requirements
                           </label>
-                          <Textarea
+                    <Textarea
                             id="message"
                             name="message"
                             value={formData.message}
                             onChange={handleInputChange}
-                            placeholder="Tell us about your gifting requirements..."
+                      placeholder="Tell us about your gifting requirements..."
                             className="text-sm border-gray-200 focus:border-[#AD9660] focus:ring-[#AD9660]/20 min-h-[80px] font-light bg-gray-50/30 rounded-md resize-none"
-                          />
+                    />
                         </div>
-                      </div>
+                  </div>
 
                       <div className="pt-2">
-                        <Button 
-                          type="submit" 
+                    <Button 
+                      type="submit" 
                           disabled={isSubmitting}
                           className="w-full bg-[#AD9660] hover:bg-[#8d7c50] text-white h-11 rounded-md transition-colors duration-200 font-light text-sm flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
-                        >
+                    >
                           {isSubmitting ? (
                             <>
                               <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -238,17 +238,17 @@ export function QuotePopup() {
                             </>
                           ) : (
                             <>
-                              Submit Request
+                      Submit Request
                               <ArrowRight className="w-4 h-4 ml-1" />
                             </>
                           )}
-                        </Button>
-                        <p className="text-[11px] text-gray-500 text-center mt-3 font-light">
-                          We'll get back to you within 24 hours with a customized quote.
-                        </p>
-                      </div>
-                    </form>
-                  </motion.div>
+                    </Button>
+                    <p className="text-[11px] text-gray-500 text-center mt-3 font-light">
+                      We'll get back to you within 24 hours with a customized quote.
+                    </p>
+                  </div>
+                </form>
+              </motion.div>
                 )}
               </AnimatePresence>
             </motion.div>

@@ -170,89 +170,89 @@ const ContactForm = () => {
 
         <div className="grid md:grid-cols-5 gap-6 md:gap-8">
           {/* Form Section - Takes up more space */}
-          <motion.div
+        <motion.div
             className="md:col-span-3 bg-white rounded-xl md:rounded-2xl shadow-[0_0_30px_0_rgba(0,0,0,0.08)] p-6 md:p-12"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-          >
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+        >
             <h3 className="text-xl md:text-2xl font-['Frank_Ruhl_Libre'] font-light mb-6 text-[#323433]">Request Your Free Quote</h3>
             
             <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
-              <motion.div 
+            <motion.div 
                 className="grid md:grid-cols-2 gap-4 md:gap-6"
-                variants={stagger}
-                initial="initial"
-                animate="animate"
-              >
-                {inputFields.map((field, index) => (
-                  <motion.div 
-                    key={field.name}
+              variants={stagger}
+              initial="initial"
+              animate="animate"
+            >
+              {inputFields.map((field, index) => (
+                <motion.div 
+                  key={field.name}
                     className="space-y-1 md:space-y-2"
-                    variants={fadeInUp}
-                    custom={index}
-                  >
+                  variants={fadeInUp}
+                  custom={index}
+                >
                     <label htmlFor={field.name} className="text-xs md:text-sm font-medium text-[#323433]/70 flex items-center gap-1">
-                      {field.label}
+                    {field.label}
                       {field.required && <span className="text-[#AD9660]">*</span>}
-                    </label>
-                    <div className="relative group">
-                      {field.icon && (
+                  </label>
+                  <div className="relative group">
+                    {field.icon && (
                         <field.icon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#323433]/40 group-hover:text-[#AD9660] transition-colors duration-300 h-3 w-3 md:h-4 md:w-4" />
-                      )}
-                      <Input
-                        id={field.name}
-                        name={field.name}
-                        type={field.type}
-                        value={formData[field.name as keyof FormData]}
-                        onChange={handleInputChange}
+                    )}
+                    <Input
+                      id={field.name}
+                      name={field.name}
+                      type={field.type}
+                      value={formData[field.name as keyof FormData]}
+                      onChange={handleInputChange}
                         className={`h-10 md:h-12 text-sm ${field.icon ? 'pl-8 md:pl-10' : ''} bg-gray-50 border-[#323433]/10 focus:border-[#AD9660] focus:ring-[#AD9660] rounded-lg transition-all duration-300`}
-                        placeholder={field.placeholder}
+                      placeholder={field.placeholder}
                         required={field.required}
-                      />
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
+                    />
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
 
-              <motion.div 
+            <motion.div 
                 className="space-y-1 md:space-y-2"
-                variants={fadeInUp}
-              >
+              variants={fadeInUp}
+            >
                 <label htmlFor="message" className="text-xs md:text-sm font-medium text-[#323433]/70 block">
                   Additional Requirements
-                </label>
-                <Textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
+              </label>
+              <Textarea
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={handleInputChange}
                   rows={isMobile ? 3 : 5}
                   className="bg-gray-50 border-[#323433]/10 focus:border-[#AD9660] focus:ring-[#AD9660] rounded-lg resize-none transition-all duration-300 text-sm"
                   placeholder="Tell us about your project, branding requirements, or any specific preferences..."
-                />
-              </motion.div>
+              />
+            </motion.div>
 
-              <motion.div 
+            <motion.div 
                 className="flex justify-center pt-4 md:pt-6"
-                variants={fadeInUp}
-              >
-                <Button
-                  type="submit"
+              variants={fadeInUp}
+            >
+              <Button
+                type="submit"
                   className="bg-[#AD9660] hover:bg-[#8d7c50] text-white px-8 md:px-12 py-5 md:py-6 rounded-md text-sm md:text-lg font-medium tracking-wide transition-all duration-300 flex items-center gap-2 group shadow-lg hover:shadow-xl w-full md:w-auto"
-                >
+              >
                   <span>Get My Free Quote</span>
                   <ArrowRight className="w-4 h-4 md:w-5 md:h-5 transform transition-transform duration-300 group-hover:translate-x-1" />
-                </Button>
-              </motion.div>
+              </Button>
+            </motion.div>
               
               <div className="text-center text-xs md:text-sm text-gray-500 pt-2 md:pt-4">
                 By submitting this form, you'll receive a no-obligation quote tailored to your needs
               </div>
-            </form>
-          </motion.div>
-          
+          </form>
+        </motion.div>
+
           {/* Benefits Section */}
           <motion.div 
             className="md:col-span-2 space-y-4 md:space-y-8"

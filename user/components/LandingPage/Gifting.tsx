@@ -20,10 +20,10 @@ interface GiftCardProps extends GiftCard {
 
 const giftingCards: GiftCard[] = [
   {
-    title: 'Ready to Ship',
+    title: 'Ready to Gift',
     image: 'https://www.boxupgifting.com/cdn/shop/files/Ready_to_ship.jpg?v=1685185091',
     alt: 'Ready to ship gifts',
-    text: 'Experience our curated collection of ready-to-ship corporate gifts, meticulously handcrafted and elegantly assembled for every occasion.',
+    text: 'We have a range of ready-to-ship, pre-curated hampers that have been thoughtfully assembled for every occasion imaginable, keeping in mind different clients. Perfectly suitable for a quick purchase or a tight schedule.',
     buttonText: 'Explore Options',
     icon: IconPackage,
   },
@@ -31,15 +31,15 @@ const giftingCards: GiftCard[] = [
     title: 'Semi-Customized',
     image: 'https://www.boxupgifting.com/cdn/shop/files/Semi-Customized.jpg?v=1685185187&width=1240',
     alt: 'Semi customized gifts',
-    text: 'Transform our exquisite hampers into your own by incorporating your distinctive branding, creating a perfect blend of luxury and personalization.',
+    text: 'Do you see a hamper that you like? We can have your branding on the products you see in a hamper and make it feel like your very own. Adding branding on the products is a small detail that will go a long way.',
     buttonText: 'Customize Now',
     icon: IconPalette,
   },
   {
-    title: 'Custom Curated',
+    title: 'Hamper Curation',
     image: 'https://www.boxupgifting.com/cdn/shop/files/Custom_curated.jpg?v=1685185266&width=1240',
-    alt: 'Custom curated gifts',
-    text: 'Our expert stylists craft bespoke gift experiences, creating unique hampers that reflect your appreciation for clients, employees, and loved ones.',
+    alt: 'Hamper curation services',
+    text: 'Our Products stylist will help you curate truly one-of-a-kind hampers for the most important people in your life - be it family, friends, clients, or your employees, we\'re here to curate a hamper that fits your style, personality, and budget.',
     buttonText: 'Start Creating',
     icon: IconGift,
   },
@@ -319,10 +319,10 @@ const Gifting = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            {giftingCards.map((card, idx) => (
-              <GiftCard key={idx} {...card} index={idx} />
-            ))}
-          </div>
+          {giftingCards.map((card, idx) => (
+            <GiftCard key={idx} {...card} index={idx} />
+          ))}
+        </div>
         )}
       </div>
     </section>

@@ -214,7 +214,12 @@ const Navbar = () => {
             {/* Logo at left */}
             <div className="flex items-center flex-col justify-center flex-shrink-0 gap-0">
               <Link href="/" className='flex items-center justify-center flex-col'>
-                <Image src="/logo.png" alt="BoxUp Logo" width={220} height={40} className=" w-auto h-[80px]" />
+                <div className="font-serif text-3xl tracking-wide text-[#323433]">
+                  <span className="font-light tracking-tight">TISO</span><span className="font-light tracking-tighter">RAH</span>
+                  
+                  <span className="font-light">BOX</span>
+                </div>
+                <div className="text-xs uppercase tracking-widest text-gray-500 mt-1">Premium Corporate Gifts</div>
               </Link>
             </div>
 
@@ -271,7 +276,10 @@ const Navbar = () => {
           </button>
           
           <Link href="/" className="flex items-center justify-center">
-            <Image src="/logo.png" alt="Tisorah Logo" width={140} height={30} className="w-auto h-[50px]" />
+            <div className="font-serif text-2xl tracking-wide text-[#323433]">
+              <span className="font-light">Tisorah</span>
+              <span className="text-[#AD9660] font-medium">box</span>
+            </div>
           </Link>
           
           <div className="flex items-center gap-3">
@@ -294,7 +302,10 @@ const Navbar = () => {
           <div className="fixed inset-0 z-50 bg-white overflow-y-auto">
             <div className="p-4 flex justify-between items-center border-b">
               <Link href="/" className="flex items-center" onClick={() => setMobileMenuOpen(false)}>
-                <Image src="/logo.png" alt="Tisorah Logo" width={140} height={30} className="w-auto h-[50px]" />
+                <div className="font-serif text-2xl tracking-wide text-[#323433]">
+                  <span className="font-light">Tisorah</span>
+                  <span className="text-[#AD9660] font-medium">box</span>
+                </div>
               </Link>
               <button 
                 onClick={() => setMobileMenuOpen(false)}

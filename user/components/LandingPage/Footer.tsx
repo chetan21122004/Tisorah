@@ -78,13 +78,10 @@ export default function Footer() {
           {/* Company Info */}
           <div className="space-y-6">
             <div className="flex items-center">
-              <Image 
-                src="/white_logo.png" 
-                alt="Tisorah Logo" 
-                width={140} 
-                height={45} 
-                className="h-auto"
-              />
+              <div className="font-serif text-3xl tracking-wide text-white">
+                <span className="font-light tracking-tight">TISO</span><span className="font-light tracking-tighter">RAH</span>
+                <span className="font-light">BOX</span>
+              </div>
             </div>
             <p className="text-gray-300 leading-relaxed text-sm md:text-base">
               Crafting extraordinary corporate relationships through sophisticated, premium gifting solutions that
@@ -163,17 +160,17 @@ export default function Footer() {
             <h3 className="text-lg font-['Frank_Ruhl_Libre'] relative inline-block after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-8 after:h-0.5 after:bg-[#AD9660]">
               Connect With Us
             </h3>
-            <div className="space-y-4">
+          <div className="space-y-4">
               <a href="tel:+919860002313" className="flex items-center space-x-3 group">
                 <div className="w-8 h-8 rounded-full bg-white/10 group-hover:bg-[#AD9660] flex items-center justify-center transition-colors duration-300">
                   <Phone className="h-3 w-3 text-white" />
-                </div>
+              </div>
                 <span className="text-gray-300 group-hover:text-white transition-colors duration-300">+91 98600 02313</span>
               </a>
               <a href="mailto:info@tisorah.com" className="flex items-center space-x-3 group">
                 <div className="w-8 h-8 rounded-full bg-white/10 group-hover:bg-[#AD9660] flex items-center justify-center transition-colors duration-300">
                   <Mail className="h-3 w-3 text-white" />
-                </div>
+              </div>
                 <span className="text-gray-300 group-hover:text-white transition-colors duration-300">info@tisorah.com</span>
               </a>
               <div className="flex items-start space-x-3">
@@ -192,15 +189,15 @@ export default function Footer() {
               <h4 className="text-base font-medium mb-3">Exclusive Updates</h4>
               <form onSubmit={handleSubscribe} className="flex space-x-2">
                 <div className="relative flex-grow">
-                  <Input
-                    type="email"
+                <Input
+                  type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Your email address"
+                  placeholder="Your email address"
                     className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 pr-10 h-11"
                     required
-                  />
-                </div>
+                />
+              </div>
                 <Button 
                   type="submit" 
                   disabled={isSubmitting}
