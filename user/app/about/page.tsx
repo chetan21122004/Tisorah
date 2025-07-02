@@ -468,7 +468,7 @@ export default function AboutPage() {
                   <span className="font-['Poppins'] font-light">Location</span>
                 </div>
                 <p className="text-[#E6E2DD]/80 font-['Poppins'] font-light">
-                  12/14, Laxmi Narayan Nagar, Erandwane, Pune - 411004
+                  Pancard Club Road, Baner, Pune - 411045
                 </p>
               </div>
               <div className="text-center">
@@ -476,14 +476,14 @@ export default function AboutPage() {
                   <Mail className="w-5 h-5 text-[#AD9660]" />
                   <span className="font-['Poppins'] font-light">Email</span>
                 </div>
-                <p className="text-[#E6E2DD]/80 font-['Poppins'] font-light">quotes@tisorah.com</p>
+                <p className="text-[#E6E2DD]/80 font-['Poppins'] font-light">hello@tisorahbox.com</p>
               </div>
               <div className="text-center">
                 <div className="flex items-center justify-center gap-2 text-[#E6E2DD] mb-2">
                   <Phone className="w-5 h-5 text-[#AD9660]" />
                   <span className="font-['Poppins'] font-light">Phone</span>
                 </div>
-                <p className="text-[#E6E2DD]/80 font-['Poppins'] font-light">+91 98600 02313</p>
+                <p className="text-[#E6E2DD]/80 font-['Poppins'] font-light">+91 93701 72365</p>
               </div>
             </div>
           </div>

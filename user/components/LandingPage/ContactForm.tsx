@@ -327,7 +327,7 @@ const ContactForm = () => {
               <Phone className="w-4 h-4 md:w-5 md:h-5 text-[#AD9660]" />
             </div>
             <h4 className="text-base md:text-lg font-medium mb-1">Call Us</h4>
-            <p className="text-sm md:text-base text-gray-600">+91 80888 48484</p>
+            <p className="text-sm md:text-base text-gray-600">+91 93701 72365</p>
             <p className="text-xs md:text-sm text-gray-600">Mon-Fri, 9am-6pm IST</p>
           </div>
           
@@ -336,7 +336,7 @@ const ContactForm = () => {
               <Mail className="w-4 h-4 md:w-5 md:h-5 text-[#AD9660]" />
             </div>
             <h4 className="text-base md:text-lg font-medium mb-1">Email Us</h4>
-            <p className="text-sm md:text-base text-gray-600">info@tisorah.com</p>
+            <p className="text-sm md:text-base text-gray-600">hello@tisorahbox.com</p>
             <p className="text-xs md:text-sm text-gray-600">24/7 Support</p>
           </div>
           
@@ -345,8 +345,8 @@ const ContactForm = () => {
               <Building2 className="w-4 h-4 md:w-5 md:h-5 text-[#AD9660]" />
             </div>
             <h4 className="text-base md:text-lg font-medium mb-1">Visit Us</h4>
-            <p className="text-sm md:text-base text-gray-600">12/14, Laxmi Narayan Nagar</p>
-            <p className="text-xs md:text-sm text-gray-600">Erandwane, Pune - 411004</p>
+            <p className="text-sm md:text-base text-gray-600">Pancard Club Road, Baner</p>
+            <p className="text-xs md:text-sm text-gray-600">Pune - 411045, Maharashtra</p>
           </div>
         </motion.div>
       </div>

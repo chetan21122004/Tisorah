@@ -245,7 +245,7 @@ const Navbar = () => {
               <div className="flex items-center gap-2">
                 <PhoneCall className="h-5 w-5 text-gray-700" />
                 <div className="flex flex-col">
-                  <span className="text-md font-semibold text-gray-700">+9194016464</span>
+                  <span className="text-md font-semibold text-gray-700">+91 93701 72365</span>
                   <span className="text-xs tracking-tight font-light text-gray-500">Call us for bulk orders</span>
                 </div>
               </div>

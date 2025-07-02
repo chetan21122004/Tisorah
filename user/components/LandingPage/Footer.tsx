@@ -161,26 +161,26 @@ export default function Footer() {
               Connect With Us
             </h3>
           <div className="space-y-4">
-              <a href="tel:+919860002313" className="flex items-center space-x-3 group">
+              <a href="tel:+919370172365" className="flex items-center space-x-3 group">
                 <div className="w-8 h-8 rounded-full bg-white/10 group-hover:bg-[#AD9660] flex items-center justify-center transition-colors duration-300">
                   <Phone className="h-3 w-3 text-white" />
               </div>
-                <span className="text-gray-300 group-hover:text-white transition-colors duration-300">+91 98600 02313</span>
+                <span className="text-gray-300 group-hover:text-white transition-colors duration-300">+91 93701 72365</span>
               </a>
-              <a href="mailto:info@tisorah.com" className="flex items-center space-x-3 group">
+              <a href="mailto:hello@tisorahbox.com" className="flex items-center space-x-3 group">
                 <div className="w-8 h-8 rounded-full bg-white/10 group-hover:bg-[#AD9660] flex items-center justify-center transition-colors duration-300">
                   <Mail className="h-3 w-3 text-white" />
               </div>
-                <span className="text-gray-300 group-hover:text-white transition-colors duration-300">info@tisorah.com</span>
+                <span className="text-gray-300 group-hover:text-white transition-colors duration-300">hello@tisorahbox.com</span>
               </a>
               <div className="flex items-start space-x-3">
                 <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center mt-1">
                   <MapPin className="h-3 w-3 text-white" />
                 </div>
                 <span className="text-gray-300 text-sm">
-                  12/14, Laxmi Narayan Nagar, Erandwane,
+                  Pancard Club Road, Baner,
                   <br />
-                  Pune - 411004, Maharashtra, India
+                  Pune - 411045, Maharashtra, India
                 </span>
               </div>
             </div>
