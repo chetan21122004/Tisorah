@@ -165,15 +165,23 @@ const Gifting = () => {
     }
   };
   
-  // Auto slide for mobile
+  // Auto slide for mobile with improved performance
   useEffect(() => {
+    // Disable auto-sliding completely on mobile to prevent scroll issues
+    return;
+    
+    /* Original auto-sliding code commented out
     if (isMobile) {
-      const interval = setInterval(() => {
-        nextSlide();
-      }, 5000);
+      const autoSlideTimer = setTimeout(() => {
+        // Use requestAnimationFrame for better performance
+        window.requestAnimationFrame(() => {
+          nextSlide();
+        });
+      }, 7000); // Increased from 5000ms to 7000ms for better performance
       
-      return () => clearInterval(interval);
+      return () => clearTimeout(autoSlideTimer);
     }
+    */
   }, [currentIndex, isMobile]);
   
   // Update animation when current index changes
@@ -290,17 +298,9 @@ const Gifting = () => {
             </button>
             
             <div className="overflow-hidden">
-              <motion.div 
-                className="flex"
-                animate={controls}
-                transition={{ type: "tween", ease: "easeInOut", duration: 0.5 }}
-              >
-                {giftingCards.map((card, idx) => (
-                  <div key={idx} className="w-full flex-shrink-0 px-2">
-                    <GiftCard {...card} index={idx} />
-                  </div>
-                ))}
-              </motion.div>
+              <div className="w-full px-2">
+                <GiftCard {...giftingCards[currentIndex]} index={currentIndex} />
+              </div>
             </div>
             
             {/* Pagination Dots */}

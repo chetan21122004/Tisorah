@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useRef, useEffect } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const clientLogos = [
   'https://www.boxupgifting.com/cdn/shop/files/frame-88-1651742428557_1200x_1.png?v=1657792548',
@@ -36,14 +37,18 @@ const OurClient: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   let autoScrollInterval: number | null = null;
   const isHovered = useRef(false);
+  const isMobile = useIsMobile();
 
   // Auto-scroll logic
   useEffect(() => {
+    // Don't auto-scroll on mobile to prevent performance issues
+    if (isMobile) return;
+    
     function startAutoScroll() {
       if (autoScrollInterval) return;
       autoScrollInterval = window.setInterval(() => {
         if (!isHovered.current && scrollRef.current) {
-          scrollRef.current.scrollBy({ left: 1, behavior: 'smooth' });
+          scrollRef.current.scrollBy({ left: 1, behavior: 'auto' });
           // Looping effect: if near end, reset to start
           if (
             scrollRef.current.scrollLeft + scrollRef.current.offsetWidth >=
@@ -52,18 +57,19 @@ const OurClient: React.FC = () => {
             scrollRef.current.scrollLeft = 0;
           }
         }
-      }, 16); // ~60fps
+      }, 50); // Reduced frequency from 16ms to 50ms for better performance
     }
+    
     function stopAutoScroll() {
       if (autoScrollInterval) {
         clearInterval(autoScrollInterval);
         autoScrollInterval = null;
       }
     }
+    
     startAutoScroll();
     return () => stopAutoScroll();
-    // eslint-disable-next-line
-  }, []);
+  }, [isMobile]);
 
   // Pause/resume on hover
   const handleMouseEnter = () => {

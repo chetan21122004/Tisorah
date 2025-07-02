@@ -2,43 +2,52 @@
 
 import Link from "next/link";
 import { Gift, Clock, Phone, ArrowRight, Menu } from "lucide-react";
-import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function HeroBanner() {
   const [isVisible, setIsVisible] = useState(true);
   const isMobile = useIsMobile();
   const [lastScrollY, setLastScrollY] = useState(0);
+  const ticking = useRef(false);
 
-  // Hide banner on scroll down for mobile
+  // Hide banner on scroll down for mobile with improved performance
   useEffect(() => {
     if (!isMobile) return;
 
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY && currentScrollY > 50) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
+      if (!ticking.current) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          
+          // Only update state if there's a significant change
+          if (Math.abs(currentScrollY - lastScrollY) > 10) {
+            if (currentScrollY > lastScrollY && currentScrollY > 50) {
+              setIsVisible(false);
+            } else {
+              setIsVisible(true);
+            }
+            setLastScrollY(currentScrollY);
+          }
+          
+          ticking.current = false;
+        });
+        
+        ticking.current = true;
       }
-      setLastScrollY(currentScrollY);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY, isMobile]);
 
+  // If not visible on mobile, don't render at all to prevent layout shifts
+  if (isMobile && !isVisible) {
+    return null;
+  }
+
   return (
-    <motion.section 
-      className="bg-gradient-to-r from-[#323433] to-[#1E2A47] text-white overflow-hidden border-b border-[#AD9660]/10"
-      initial={{ opacity: 1, height: "auto" }}
-      animate={{ 
-        opacity: isVisible ? 1 : 0,
-        height: isVisible ? "auto" : 0
-      }}
-      transition={{ duration: 0.3 }}
-    >
+    <section className="bg-gradient-to-r from-[#323433] to-[#1E2A47] text-white overflow-hidden border-b border-[#AD9660]/10">
       <div className="container mx-auto">
         <div className="flex items-center justify-between py-2 px-3 md:py-3 md:px-8">
           {/* Mobile View */}
@@ -117,6 +126,6 @@ export default function HeroBanner() {
           </div>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 } 

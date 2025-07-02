@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Star, Package, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { preserveScroll } from '@/lib/utils';
 
 interface Product {
   name: string;
@@ -43,14 +44,32 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
   
   // Auto-slide functionality - only for mobile
   useEffect(() => {
+    // Completely disable auto-sliding to prevent scroll issues
+    return;
+    
+    /* Original code commented out
+    // Disable auto-sliding on mobile to prevent scroll issues
     if (!isMobile || isPaused || mobileProducts.length === 0) return;
     
-    const interval = setInterval(() => {
-      nextMobilePage();
-    }, 5000);
+    // Use setTimeout instead of interval for better control
+    const autoSlideTimer = setTimeout(() => {
+      // Store scroll position before animation
+      const restoreScroll = preserveScroll();
+      
+      // Use requestAnimationFrame for smoother animation
+      window.requestAnimationFrame(() => {
+        nextMobilePage();
+        
+        // Restore scroll position after state update
+        if (restoreScroll) {
+          setTimeout(restoreScroll, 10);
+        }
+      });
+    }, 8000); // Increase interval to reduce frequency
     
-    return () => clearInterval(interval);
-  }, [mobilePageIndex, isPaused, isMobile, mobileProducts.length]);
+    return () => clearTimeout(autoSlideTimer);
+    */
+  }, [isPaused, isMobile, mobileProducts.length]);
   
   // Get visible products for mobile
   const mobileVisibleProducts = mobileProducts.slice(mobilePageIndex * 4, mobilePageIndex * 4 + 4);
@@ -99,26 +118,17 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
             </button>
             
             <div className="overflow-hidden">
-              <AnimatePresence mode="wait">
-                <motion.div 
-                  key={mobilePageIndex}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
-                  className="grid grid-cols-2 gap-4"
-                >
-                  {mobileVisibleProducts.map((product, index) => (
-                    <ProductCard 
-                      key={`${mobilePageIndex}-${index}`} 
-                      product={product} 
-                      index={index} 
-                      products={mobileProducts} 
-                      isMobile={true} 
-                    />
-                  ))}
-                </motion.div>
-              </AnimatePresence>
+              <div className="grid grid-cols-2 gap-4">
+                {mobileVisibleProducts.map((product, index) => (
+                  <ProductCard 
+                    key={`${mobilePageIndex}-${index}`} 
+                    product={product} 
+                    index={index} 
+                    products={mobileProducts} 
+                    isMobile={true} 
+                  />
+                ))}
+              </div>
             </div>
             
             {/* Pagination Dots for mobile */}

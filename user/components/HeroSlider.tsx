@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 interface SlideType {
   id?: number;
@@ -69,6 +70,9 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
   const [isAnimating, setIsAnimating] = useState(false)
   const [aspectRatio, setAspectRatio] = useState("35.16%") // Default aspect ratio (910:320)
   const containerRef = useRef<HTMLDivElement>(null)
+  const autoPlayRef = useRef<NodeJS.Timeout | null>(null)
+  const isMobile = useIsMobile()
+  const isPaused = useRef(false)
 
   // Handle window resize for adaptive height
   useEffect(() => {
@@ -89,14 +93,34 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
     return () => window.removeEventListener("resize", updateAspectRatio)
   }, [])
 
-  // Auto-play functionality
+  // Auto-play functionality with improved performance
+  const startAutoPlay = useCallback(() => {
+    // Don't auto-play on mobile to prevent scroll issues
+    if (isMobile) return;
+    
+    // Clear any existing interval
+    if (autoPlayRef.current) {
+      clearInterval(autoPlayRef.current)
+    }
+    
+    // Set new interval - only for desktop
+    autoPlayRef.current = setInterval(() => {
+      if (!isPaused.current) {
+        setCurrentSlide((prev) => (prev + 1) % bannerData.length)
+      }
+    }, 6000)
+  }, [bannerData.length, isMobile])
+  
+  // Start/stop auto-play
   useEffect(() => {
-    const timer = setInterval(() => {
-      nextSlide()
-    }, 6000) // Change slide every 6 seconds
-
-    return () => clearInterval(timer)
-  }, [])
+    startAutoPlay()
+    
+    return () => {
+      if (autoPlayRef.current) {
+        clearInterval(autoPlayRef.current)
+      }
+    }
+  }, [startAutoPlay])
 
   // Navigation functions
   const nextSlide = useCallback(() => {
@@ -130,7 +154,11 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
   }, [currentSlide, isAnimating])
 
   return (
-    <section className="relative">
+    <section 
+      className="relative"
+      onMouseEnter={() => { isPaused.current = true }}
+      onMouseLeave={() => { isPaused.current = false }}
+    >
       {/* Banner Image */}
       <div 
         ref={containerRef} 

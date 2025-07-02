@@ -1,4 +1,4 @@
-  "use client";
+"use client";
 
 import React, { useEffect, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
@@ -24,12 +24,15 @@ export function QuotePopup() {
   const isMobile = useIsMobile();
 
   useEffect(() => {
+    // Don't auto-open on mobile to prevent scroll issues
+    if (isMobile) return;
+    
     const timer = setTimeout(() => {
       setIsOpen(true);
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [isMobile]);
 
   const handleClose = () => {
     setIsOpen(false);
@@ -74,6 +77,11 @@ export function QuotePopup() {
       setIsSubmitting(false);
     }
   };
+
+  // Don't render the popup at all on mobile
+  if (isMobile) {
+    return null;
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

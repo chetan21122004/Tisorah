@@ -4,10 +4,12 @@ import HeroSlider from "@/components/HeroSlider"
 import Image from "next/image"
 import { Button } from "./ui/button"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Package, Check, Star, ArrowRight, Shield, Clock, ChevronLeft, ChevronRight } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
+import { useIsMobile } from "@/hooks/use-mobile"
+import { preserveScroll } from "@/lib/utils"
 
 // Banner slides for the hero slider
 const bannerSlides = [
@@ -157,14 +159,31 @@ export default function HeroSection() {
   
   // Auto-sliding functionality only for mobile view
   useEffect(() => {
+    // Completely disable auto-sliding on mobile to prevent scroll issues
+    return;
+    
+    /* Original code commented out
     if (!isMobile || isPaused || isLoading || featuredProducts.length === 0) return;
     
+    // Use a longer interval for mobile to reduce performance impact
     const interval = setInterval(() => {
-      setMobilePageIndex(prev => (prev + 1) % Math.ceil(Math.min(featuredProducts.length, 8) / 4));
-    }, 5000);
+      // Store scroll position before animation
+      const restoreScroll = preserveScroll();
+      
+      // Use requestAnimationFrame to optimize performance
+      window.requestAnimationFrame(() => {
+        setMobilePageIndex(prev => (prev + 1) % Math.ceil(Math.min(featuredProducts.length, 8) / 4));
+        
+        // Restore scroll position after state update
+        if (restoreScroll) {
+          setTimeout(restoreScroll, 10);
+        }
+      });
+    }, 7000); // Increased from 5000ms to 7000ms for better performance
     
     return () => clearInterval(interval);
-  }, [isPaused, isLoading, isMobile, featuredProducts.length, mobilePageIndex]);
+    */
+  }, [isPaused, isLoading, isMobile, featuredProducts.length]);
   
   return (
     <section className="relative bg-[#F4F4F4]">
@@ -277,87 +296,78 @@ export default function HeroSection() {
               ) : (
                 isMobile ? (
                   // Mobile View (2x2 Grid with Auto-Sliding) - Show only 8 products
-                  <AnimatePresence mode="wait">
-                    <motion.div 
-                      key={mobilePageIndex}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
-                      transition={{ duration: 0.3 }}
-                      className="grid grid-cols-2 gap-4"
-                    >
-                      {featuredProducts
-                        .slice(0, 8) // Limit to 8 products for mobile
-                        .slice(mobilePageIndex * 4, mobilePageIndex * 4 + 4)
-                        .map((product, index) => {
-                          const nextIndex = (index + 1) % Math.min(featuredProducts.length, 8);
-                          const hoverImage = featuredProducts[nextIndex]?.images?.[0];
-                          
-                          return (
-                            <Link href={`/products/${product.id}`} key={`mobile-${product.id}`}>
-                              <div
-                                className="group relative overflow-hidden flex flex-col transition-transform duration-500 hover:scale-[1.02]"
-                                style={{ height: '100%' }}
-                              >
-                                <div className="relative h-32 sm:h-36 mb-3 bg-white">
-                                  {product.images && product.images[0] ? (
-                                    <>
-                                      <Image 
-                                        src={product.images[0]}
-                                        alt={product.name}
+                  <div className="grid grid-cols-2 gap-4">
+                    {featuredProducts
+                      .slice(0, 8) // Limit to 8 products for mobile
+                      .slice(mobilePageIndex * 4, mobilePageIndex * 4 + 4)
+                      .map((product, index) => {
+                        const nextIndex = (index + 1) % Math.min(featuredProducts.length, 8);
+                        const hoverImage = featuredProducts[nextIndex]?.images?.[0];
+                        
+                        return (
+                          <Link href={`/products/${product.id}`} key={`mobile-${product.id}`}>
+                            <div
+                              className="group relative overflow-hidden flex flex-col transition-transform duration-500 hover:scale-[1.02]"
+                              style={{ height: '100%' }}
+                            >
+                              <div className="relative h-32 sm:h-36 mb-3 bg-white">
+                                {product.images && product.images[0] ? (
+                                  <>
+                                    <Image 
+                                      src={product.images[0]}
+                                      alt={product.name}
+                                      fill
+                                      className="w-full h-full object-contain p-2 transition-opacity duration-500 group-hover:opacity-0"
+                                    />
+                                    {hoverImage && (
+                                      <Image
+                                        src={hoverImage}
+                                        alt={product.name + ' alt'}
                                         fill
-                                        className="w-full h-full object-contain p-2 transition-opacity duration-500 group-hover:opacity-0"
+                                        className="absolute inset-0 w-full h-full object-contain p-2 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
                                       />
-                                      {hoverImage && (
-                                        <Image
-                                          src={hoverImage}
-                                          alt={product.name + ' alt'}
-                                          fill
-                                          className="absolute inset-0 w-full h-full object-contain p-2 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
-                                        />
-                                      )}
-                                    </>
-                                  ) : (
-                                    <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                                      <span className="text-gray-400 text-xs">No image</span>
-                                    </div>
-                                  )}
-                                  {/* Elegant badge design */}
-                                  <div className="absolute top-2 left-0">
-                                    <div className="bg-white/90 backdrop-blur-sm border-l-2 border-[#AD9660] text-[#323433] font-light text-[10px] px-2 py-1">
-                                      Best Seller
-                                    </div>
+                                    )}
+                                  </>
+                                ) : (
+                                  <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                                    <span className="text-gray-400 text-xs">No image</span>
+                                  </div>
+                                )}
+                                {/* Elegant badge design */}
+                                <div className="absolute top-2 left-0">
+                                  <div className="bg-white/90 backdrop-blur-sm border-l-2 border-[#AD9660] text-[#323433] font-light text-[10px] px-2 py-1">
+                                    Best Seller
                                   </div>
                                 </div>
-
-                                {/* Product details with refined typography */}
-                                <div className="px-1 flex flex-col flex-1">
-                                  <h3 className="font-light text-xs text-[#323433] leading-snug line-clamp-2 mb-1 group-hover:text-[#AD9660] transition-colors duration-300">
-                                    {product.name}
-                                  </h3>
-                                  <span className="text-[8px] text-gray-500 font-light tracking-wide uppercase">corporate gift</span>
-                                  <div className="mt-2 flex items-center justify-between">
-                                    <span className="text-sm font-light text-[#AD9660]">{formatPrice(product)}</span>
-                                    <div className="w-4 h-[1px] bg-[#AD9660]/20"></div>
-                                  </div>
-                                  
-                                  {/* MOQ Information */}
-                                  {product.moq && (
-                                    <div className="mt-1 flex items-center text-[8px] text-gray-500">
-                                      <Package className="w-2 h-2 mr-1" />
-                                      <span>MOQ: {product.moq} {product.moq === 1 ? 'piece' : 'pieces'}</span>
-                                    </div>
-                                  )}
-                                </div>
-
-                                {/* Geometric decorative element on hover */}
-                                <div className="absolute -bottom-full right-0 w-8 h-8 border border-[#AD9660]/20 rotate-45 group-hover:-translate-y-8 transition-transform duration-500"></div>
                               </div>
-                            </Link>
-                          );
-                        })}
-                    </motion.div>
-                  </AnimatePresence>
+
+                              {/* Product details with refined typography */}
+                              <div className="px-1 flex flex-col flex-1">
+                                <h3 className="font-light text-xs text-[#323433] leading-snug line-clamp-2 mb-1 group-hover:text-[#AD9660] transition-colors duration-300">
+                                  {product.name}
+                                </h3>
+                                <span className="text-[8px] text-gray-500 font-light tracking-wide uppercase">corporate gift</span>
+                                <div className="mt-2 flex items-center justify-between">
+                                  <span className="text-sm font-light text-[#AD9660]">{formatPrice(product)}</span>
+                                  <div className="w-4 h-[1px] bg-[#AD9660]/20"></div>
+                                </div>
+                                
+                                {/* MOQ Information */}
+                                {product.moq && (
+                                  <div className="mt-1 flex items-center text-[8px] text-gray-500">
+                                    <Package className="w-2 h-2 mr-1" />
+                                    <span>MOQ: {product.moq} {product.moq === 1 ? 'piece' : 'pieces'}</span>
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* Geometric decorative element on hover */}
+                              <div className="absolute -bottom-full right-0 w-8 h-8 border border-[#AD9660]/20 rotate-45 group-hover:-translate-y-8 transition-transform duration-500"></div>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                  </div>
                 ) : (
                   // Desktop View (Static Grid) - Show all 10 products
                   <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-8">
