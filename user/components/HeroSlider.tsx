@@ -46,6 +46,15 @@ const defaultBannerData: SlideType[] = [
     buttonLink: "/categories/festival",
     align: "right",
   },
+  {
+    id: 3,
+    image: "./banner/pink_bg_box.jpg",
+    title: "Festival Special",
+    subtitle: "Early access to our curated festive collection",
+    buttonText: "Shop Now",
+    buttonLink: "/categories/festival",
+    align: "right",
+  },
 ]
 
 interface HeroSliderProps {

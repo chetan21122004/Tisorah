@@ -43,6 +43,14 @@ const bannerSlides = [
     buttonLink: "/quote",
     align: "center"
   },
+  {
+    image: "./banners/pink_bg_box.jpg",
+    title: "Festival Special",
+    description: "Early access to our curated festive collection",
+    buttonText: "Shop Now",
+    buttonLink: "/quote",
+    align: "center"
+  },
 ];
 
 interface Product {
