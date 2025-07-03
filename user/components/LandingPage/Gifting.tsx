@@ -21,7 +21,7 @@ interface GiftCardProps extends GiftCard {
 const giftingCards: GiftCard[] = [
   {
     title: 'Ready to Gift',
-    image: 'https://www.boxupgifting.com/cdn/shop/files/Ready_to_ship.jpg?v=1685185091',
+    image: './display_images/display_1.png',
     alt: 'Ready to ship gifts',
     text: 'We have a range of ready-to-ship, pre-curated hampers that have been thoughtfully assembled for every occasion imaginable, keeping in mind different clients. Perfectly suitable for a quick purchase or a tight schedule.',
     buttonText: 'Explore Options',

@@ -460,7 +460,7 @@ export default async function HomePage() {
           <FeatureSection
             title="Foster Positive Company Culture"
             description="Create a vibrant and engaging workplace environment through thoughtfully curated gifts that inspire and motivate. Our corporate gifting solutions help build stronger teams and celebrate achievements."
-            image="https://www.boxupgifting.com/cdn/shop/files/Positive_Company_Culture.jpg"
+            image="./display_images/image.png"
             ctaLink="/quote"
             ctaText="Request Culture Kits"
           />
