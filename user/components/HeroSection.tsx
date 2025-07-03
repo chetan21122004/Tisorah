@@ -14,7 +14,7 @@ import { preserveScroll } from "@/lib/utils"
 // Banner slides for the hero slider
 const bannerSlides = [
   {
-    image: "https://www.boxupgifting.com/cdn/shop/files/Corporate_Compressed_copy_120d4d8f-0b6b-42d7-a84e-a10eaae409be.jpg?v=1733485155",
+    image: "./banners/banner_01.png",
     title: "Premium Corporate Gifts",
     description: "Elevate your brand with customized corporate gifts that leave a lasting impression",
     buttonText: "Get Free Quote",
@@ -22,7 +22,7 @@ const bannerSlides = [
     align: "center"
   },
   {
-    image: "https://corporategiftsbyconfetti.in/cdn/shop/files/banner_4_6692d39c-d5bf-44d4-9b94-9bcdb3129766.jpg?v=1701962949&width=1400",
+    image: "./banners/banner_02.png",
     title: "Employee Recognition Gifts",
     description: "Celebrate achievements and milestones with thoughtfully curated gift boxes",
     buttonText: "Request Quote Now",
@@ -30,7 +30,7 @@ const bannerSlides = [
     align: "center"
   },
   {
-    image: "https://corporategiftsbyconfetti.in/cdn/shop/files/Artboard_16corp_0d2c4056-b183-4662-b656-1abb6d78cfe6.webp?v=1718692062&width=2000",
+    image: "./banners/banner_03.png",
     title: "Bulk Corporate Gifting",
     description: "Save up to 30% on bulk orders with our volume discount pricing",
     buttonText: "Get Volume Pricing",
@@ -38,21 +38,14 @@ const bannerSlides = [
     align: "center"
   },
   {
-    image: "https://corporategiftsbyconfetti.in/cdn/shop/files/Untitled_design_9_1.jpg?v=1742302025&width=2000",
+    image: "./banners/banner_04.png",
     title: "Custom Branded Merchandise",
     description: "Transform ordinary products into powerful brand ambassadors",
     buttonText: "Start Your Project",
     buttonLink: "/quote",
     align: "center"
   },
-  {
-    image: "./banners/pink_bg_box.jpg",
-    title: "Festival Special",
-    description: "Early access to our curated festive collection",
-    buttonText: "Shop Now",
-    buttonLink: "/quote",
-    align: "center"
-  },
+
 ];
 
 interface Product {

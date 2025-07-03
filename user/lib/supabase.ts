@@ -128,9 +128,19 @@ export async function submitQuoteRequestToSupabase(quoteData: {
   shortlisted_products: any[]
 }) {
   const supabase = createBrowserClient()
+  
+  // Ensure shortlisted_products is a valid JSON structure
+  const formattedData = {
+    ...quoteData,
+    // If shortlisted_products is empty, set it to an empty array to maintain JSONB structure
+    shortlisted_products: Array.isArray(quoteData.shortlisted_products) && quoteData.shortlisted_products.length > 0 
+      ? quoteData.shortlisted_products 
+      : []
+  }
+  
   const { data, error } = await supabase
     .from('quote_requests')
-    .insert([quoteData])
+    .insert([formattedData])
     .select()
   
   if (error) {

@@ -4,13 +4,16 @@ import { FC, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from "@/components/ui/button";
-import { Package, ArrowRight, MessageCircle, Check, Clock, Award, Shield, Phone } from 'lucide-react';
+import { Package, ArrowRight, MessageCircle, Check, Clock, Award, Shield, Phone, ShoppingBag } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useShortlist } from '@/lib/ShortlistContext';
 
 const QuoteCTA: FC = () => {
   const isMobile = useIsMobile();
   const [isHovered, setIsHovered] = useState(false);
+  const { shortlist } = useShortlist();
+  const hasShortlistedItems = shortlist && shortlist.length > 0;
   
   return (
     <section className="py-6 md:py-12 bg-gradient-to-br from-[#F8F7F5]/50 to-white relative overflow-hidden">
@@ -79,12 +82,31 @@ const QuoteCTA: FC = () => {
             </div>
             
             <div className="flex flex-col xs:flex-row gap-3 md:gap-4 pt-2 md:pt-4">
-              <Button className="h-10 md:h-12 px-4 md:px-8 bg-[#AD9660] hover:bg-[#8d7c50] text-white rounded-md flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-sm md:text-base">
-                <Link href="/quote" className="flex items-center gap-2 w-full justify-center">
-                  <span className="font-medium">Get Your Free Quote Now</span>
-                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
-                </Link>
-              </Button>
+              {hasShortlistedItems ? (
+                <Button className="h-10 md:h-12 px-4 md:px-8 bg-[#AD9660] hover:bg-[#8d7c50] text-white rounded-md flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-sm md:text-base">
+                  <Link href="/quote?type=shortlist" className="flex items-center gap-2 w-full justify-center">
+                    <ShoppingBag className="w-4 h-4 md:w-5 md:h-5" />
+                    <span className="font-medium">Get Quote for Shortlisted Items</span>
+                    <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
+                  </Link>
+                </Button>
+              ) : (
+                <Button className="h-10 md:h-12 px-4 md:px-8 bg-[#AD9660] hover:bg-[#8d7c50] text-white rounded-md flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-sm md:text-base">
+                  <Link href="/quote" className="flex items-center gap-2 w-full justify-center">
+                    <span className="font-medium">Get Your Free Quote Now</span>
+                    <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
+                  </Link>
+                </Button>
+              )}
+              
+              {hasShortlistedItems && (
+                <Button variant="outline" className="h-10 md:h-12 px-4 md:px-8 border-[#323433] text-[#323433] hover:bg-[#323433] hover:text-white rounded-md transition-all duration-300 text-sm md:text-base">
+                  <Link href="/quote?type=custom" className="flex items-center gap-2 w-full justify-center">
+                    <Package className="w-4 h-4 md:w-5 md:h-5" />
+                    <span className="font-medium">Custom Quote Request</span>
+                  </Link>
+                </Button>
+              )}
               
               {isMobile ? (
                 <Button variant="outline" className="h-10 md:h-12 px-4 md:px-8 border-[#323433] text-[#323433] hover:bg-[#323433] hover:text-white rounded-md transition-all duration-300 text-sm md:text-base">

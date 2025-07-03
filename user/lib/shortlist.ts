@@ -114,14 +114,14 @@ export const submitQuoteRequest = async (quoteData: QuoteRequest): Promise<{ suc
       customization: quoteData.customization || false,
       branding: quoteData.branding || false,
       packaging: quoteData.packaging || false,
-      shortlisted_products: quoteData.items
+      shortlisted_products: quoteData.items || []
     }
 
     // Submit to Supabase
     const result = await submitQuoteRequestToSupabase(supabaseQuoteData)
 
-    if (result.success) {
-      // Clear shortlist on successful submission
+    if (result.success && quoteData.items.length > 0) {
+      // Only clear shortlist if this was a shortlist quote
       clearShortlist()
     }
 

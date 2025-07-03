@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Mail,
   MessageCircle,
@@ -22,15 +23,19 @@ import {
   Phone,
   MapPin,
   Calendar,
+  Package,
 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { getShortlist, submitQuoteRequest, type ShortlistItem, type QuoteRequest } from "@/lib/shortlist"
 import { useToast } from "@/hooks/use-toast"
+import { useSearchParams } from "next/navigation"
 
 export default function QuotePage() {
   const [shortlistedProducts, setShortlistedProducts] = useState<ShortlistItem[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [quoteType, setQuoteType] = useState<"shortlist" | "custom">("shortlist")
+  const searchParams = useSearchParams()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -46,10 +51,21 @@ export default function QuotePage() {
   })
   const { toast } = useToast()
 
-  // Load shortlist on component mount
+  // Load shortlist on component mount and set quote type based on URL param
   useEffect(() => {
-    setShortlistedProducts(getShortlist())
-  }, [])
+    const shortlist = getShortlist()
+    setShortlistedProducts(shortlist)
+    
+    const type = searchParams.get("type")
+    if (type === "custom") {
+      setQuoteType("custom")
+    } else if (type === "shortlist" && shortlist.length > 0) {
+      setQuoteType("shortlist")
+    } else if (shortlist.length === 0) {
+      // Default to custom if no shortlisted items
+      setQuoteType("custom")
+    }
+  }, [searchParams])
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -81,7 +97,7 @@ export default function QuotePage() {
       customization: formData.customization,
       branding: formData.branding,
       packaging: formData.packaging,
-      items: shortlistedProducts,
+      items: quoteType === "shortlist" ? shortlistedProducts : [],
     }
 
     try {
@@ -222,6 +238,23 @@ export default function QuotePage() {
                 </p>
               </CardHeader>
               <CardContent>
+                {shortlistedProducts.length > 0 && (
+                  <div className="mb-8">
+                    <Tabs value={quoteType} onValueChange={(value) => setQuoteType(value as "shortlist" | "custom")} className="w-full">
+                      <TabsList className="grid grid-cols-2 mb-6">
+                        <TabsTrigger value="shortlist" className="data-[state=active]:bg-[#AD9660] data-[state=active]:text-white">
+                          <ShoppingBag className="w-4 h-4 mr-2" />
+                          Shortlisted Products Quote
+                        </TabsTrigger>
+                        <TabsTrigger value="custom" className="data-[state=active]:bg-[#323433] data-[state=active]:text-white">
+                          <Package className="w-4 h-4 mr-2" />
+                          Custom Quote
+                        </TabsTrigger>
+                      </TabsList>
+                    </Tabs>
+                  </div>
+                )}
+
                 <form onSubmit={handleSubmitQuote} className="space-y-8">
                   {/* Contact Information */}
                   <div>
@@ -432,7 +465,7 @@ export default function QuotePage() {
           <div>
             <div className="space-y-8">
               {/* Summary Card */}
-              <Card className="shadow-none border border-[#AD9660]/20 sticky top-8">
+              <Card className={`shadow-none border border-[#AD9660]/20 sticky top-8 ${quoteType === "custom" || shortlistedProducts.length === 0 ? "hidden lg:block opacity-50" : ""}`}>
                 <CardHeader className="pb-6">
                   <CardTitle className="text-2xl flex items-center gap-3 font-['Frank_Ruhl_Libre'] font-light">
                     <Calculator className="w-7 h-7 text-[#AD9660]" />
@@ -497,87 +530,49 @@ export default function QuotePage() {
                       </div>
 
                       <div className="text-center">
-                        <Link href="/shortlist">
-                          <Button variant="outline" className="w-full">
-                            View Full Shortlist
-                          </Button>
-                        </Link>
+                        <p className="text-sm text-gray-500 italic font-light">
+                          * Final pricing may vary based on customization requirements and bulk discounts
+                        </p>
                       </div>
                     </div>
                   ) : (
-                    <div className="text-center py-8">
-                      <ShoppingBag className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                      <p className="text-gray-500 mb-4">No items in shortlist</p>
-                      <Link href="/categories">
-                        <Button className="bg-teal-600 hover:bg-teal-700">Browse Products</Button>
-                      </Link>
+                    <div className="text-center p-8">
+                      <ShoppingBag className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">No Items Selected</h3>
+                      <p className="text-gray-500 text-sm">
+                        Browse our products and add items to your shortlist to get a detailed quote.
+                      </p>
+                      <Button variant="outline" className="mt-4">
+                        <Link href="/products">Browse Products</Link>
+                      </Button>
                     </div>
                   )}
                 </CardContent>
               </Card>
 
-              {/* Contact Info */}
-              <Card className="shadow-none border border-[#AD9660]/20">
-                <CardContent className="p-8 text-center">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Need Help?</h3>
-                  <p className="text-gray-600 mb-6">Our experts are here to assist you</p>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-center gap-3 text-gray-700">
-                      <Phone className="w-5 h-5" />
-                      <span>+91 98600 02313</span>
-                    </div>
-                    <div className="flex items-center justify-center gap-3 text-gray-700">
-                      <Mail className="w-5 h-5" />
-                      <span>quotes@tisorah.com</span>
-                    </div>
+              {/* Promo Card */}
+              <Card className="shadow-none border-none overflow-hidden">
+                <div className="relative">
+                  <Image
+                    src="/banners/pink_bg_box.jpg"
+                    alt="Corporate Gift Consultation"
+                    width={400}
+                    height={300}
+                    className="w-full object-cover h-[300px]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#323433]/90 to-transparent p-6 flex flex-col justify-end">
+                    <h3 className="text-xl text-white font-light font-['Frank_Ruhl_Libre']">Need Expert Advice?</h3>
+                    <p className="text-white/70 text-sm mb-4">Our gifting consultants are here to help you find the perfect solution</p>
+                    <Button variant="outline" className="bg-white text-[#323433] hover:bg-white/90 w-full">
+                      <Phone className="w-4 h-4 mr-2" />
+                      Schedule a Call
+                    </Button>
                   </div>
-                </CardContent>
+                </div>
               </Card>
             </div>
           </div>
         </div>
-
-        {/* Process Section */}
-        <section className="mt-24">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-light text-[#323433] mb-3 font-['Frank_Ruhl_Libre']">Consultation Process</h2>
-            <p className="text-base text-gray-600 font-['Poppins'] font-light">Simple steps to corporate gifting excellence</p>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="w-12 h-12 bg-[#1E2A47]/5 rounded-sm flex items-center justify-center mx-auto mb-4 border border-[#1E2A47]/10">
-                <span className="text-lg font-light text-[#1E2A47] font-['Frank_Ruhl_Libre']">1</span>
-              </div>
-              <h3 className="text-lg font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">Submit Request</h3>
-              <p className="text-gray-600 font-['Poppins'] text-sm">Share your requirements</p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-12 h-12 bg-[#1E2A47]/5 rounded-sm flex items-center justify-center mx-auto mb-4 border border-[#1E2A47]/10">
-                <span className="text-lg font-light text-[#1E2A47] font-['Frank_Ruhl_Libre']">2</span>
-              </div>
-              <h3 className="text-lg font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">Expert Review</h3>
-              <p className="text-gray-600 font-['Poppins'] text-sm">Professional assessment</p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-12 h-12 bg-[#1E2A47]/5 rounded-sm flex items-center justify-center mx-auto mb-4 border border-[#1E2A47]/10">
-                <span className="text-lg font-light text-[#1E2A47] font-['Frank_Ruhl_Libre']">3</span>
-              </div>
-              <h3 className="text-lg font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">Receive Quote</h3>
-              <p className="text-gray-600 font-['Poppins'] text-sm">Detailed pricing</p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-12 h-12 bg-[#1E2A47]/5 rounded-sm flex items-center justify-center mx-auto mb-4 border border-[#1E2A47]/10">
-                <span className="text-lg font-light text-[#1E2A47] font-['Frank_Ruhl_Libre']">4</span>
-              </div>
-              <h3 className="text-lg font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">Finalize</h3>
-              <p className="text-gray-600 font-['Poppins'] text-sm">Seamless execution</p>
-            </div>
-          </div>
-        </section>
       </div>
     </div>
   )
