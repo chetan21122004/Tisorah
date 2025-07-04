@@ -99,6 +99,9 @@ interface ProductCardProps {
     id: string;
     name: string;
     image: string;
+    display_image?: string | null;
+    hover_image?: string | null;
+    images?: string[] | null;
     price: number;
     price_min?: number | null;
     price_max?: number | null;
@@ -115,8 +118,11 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, index, products }) => {
   const [hovered, setHovered] = useState(false);
-  const nextIndex = (index + 1) % products.length;
-  const hoverImage = products[nextIndex].image;
+  
+  // Use display_image as primary, fallback to image prop, then first additional image
+  const displayImage = product.display_image || product.image || product.images?.[0];
+  // Use hover_image as hover, fallback to display_image
+  const hoverImage = product.hover_image || product.display_image || product.image;
   const { addToShortlist, removeFromShortlist, isInShortlist } = useShortlist();
   const [isInShortlistState, setIsInShortlistState] = useState(false);
   const [isAddingToShortlist, setIsAddingToShortlist] = useState(false);
@@ -181,16 +187,26 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products }) =
     >
       <Link href={`/products/${product.id}`} className="relative block">
         <div className="relative h-48 md:h-52 bg-white overflow-hidden">
-          <img
-            src={product.image}
-            alt={product.name}
-            className={`w-full h-full object-contain p-3 transition-opacity duration-500 ${hovered ? 'opacity-0' : 'opacity-100'}`}
-          />
-          <img
-            src={hoverImage}
-            alt={product.name + ' alt'}
-            className={`absolute inset-0 w-full h-full object-contain p-3 transition-opacity duration-500 ${hovered ? 'opacity-100' : 'opacity-0'}`}
-          />
+          {displayImage ? (
+            <>
+              <img
+                src={displayImage}
+                alt={product.name}
+                className={`w-full h-full object-contain p-3 transition-opacity duration-500 ${hovered ? 'opacity-0' : 'opacity-100'}`}
+              />
+              {hoverImage && hoverImage !== displayImage && (
+                <img
+                  src={hoverImage}
+                  alt={product.name + ' hover'}
+                  className={`absolute inset-0 w-full h-full object-contain p-3 transition-opacity duration-500 ${hovered ? 'opacity-100' : 'opacity-0'}`}
+                />
+              )}
+            </>
+          ) : (
+            <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+              <span className="text-gray-400 text-sm">No image</span>
+            </div>
+          )}
           
           {/* Elegant badge design */}
           <div className="absolute top-2 left-0">

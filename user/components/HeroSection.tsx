@@ -52,6 +52,8 @@ interface Product {
   id: string;
   name: string;
   images: string[];
+  display_image?: string | null;
+  hover_image?: string | null;
   price: number;
   price_min?: number | null;
   price_max?: number | null;
@@ -107,7 +109,7 @@ export default function HeroSection() {
         const supabase = createClientComponentClient();
         const { data, error } = await supabase
           .from('products')
-          .select('id, name, images, price, price_min, price_max, has_price_range, moq, rating, reviews')
+          .select('id, name, images, display_image, hover_image, price, price_min, price_max, has_price_range, moq, rating, reviews')
           .eq('featured', true)
           .order('created_at', { ascending: false })
           .limit(10);
@@ -294,8 +296,10 @@ export default function HeroSection() {
                       .slice(0, 8) // Limit to 8 products for mobile
                       .slice(mobilePageIndex * 4, mobilePageIndex * 4 + 4)
                       .map((product, index) => {
-                        const nextIndex = (index + 1) % Math.min(featuredProducts.length, 8);
-                        const hoverImage = featuredProducts[nextIndex]?.images?.[0];
+                        // Use display_image as primary, fallback to first image, then placeholder
+                        const displayImage = product.display_image || product.images?.[0];
+                        // Use hover_image as hover, fallback to display_image
+                        const hoverImage = product.hover_image || product.display_image;
                         
                         return (
                           <Link href={`/products/${product.id}`} key={`mobile-${product.id}`}>
@@ -304,18 +308,18 @@ export default function HeroSection() {
                               style={{ height: '100%' }}
                             >
                               <div className="relative h-32 sm:h-36 mb-3 bg-white">
-                                {product.images && product.images[0] ? (
+                                {displayImage ? (
                                   <>
                                     <Image 
-                                      src={product.images[0]}
+                                      src={displayImage}
                                       alt={product.name}
                                       fill
                                       className="w-full h-full object-contain p-2 transition-opacity duration-500 group-hover:opacity-0"
                                     />
-                                    {hoverImage && (
+                                    {hoverImage && hoverImage !== displayImage && (
                                       <Image
                                         src={hoverImage}
-                                        alt={product.name + ' alt'}
+                                        alt={product.name + ' hover'}
                                         fill
                                         className="absolute inset-0 w-full h-full object-contain p-2 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
                                       />
@@ -365,8 +369,10 @@ export default function HeroSection() {
                   // Desktop View (Static Grid) - Show all 10 products
                   <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-8">
                     {featuredProducts.map((product, index) => {
-                      const nextIndex = (index + 1) % featuredProducts.length;
-                      const hoverImage = featuredProducts[nextIndex]?.images?.[0];
+                      // Use display_image as primary, fallback to first image, then placeholder
+                      const displayImage = product.display_image || product.images?.[0];
+                      // Use hover_image as hover, fallback to display_image
+                      const hoverImage = product.hover_image || product.display_image;
                       
                       return (
                         <Link href={`/products/${product.id}`} key={product.id}>
@@ -375,18 +381,18 @@ export default function HeroSection() {
                             style={{ minHeight: 280, height: '100%' }}
                           >
                             <div className="relative h-40 md:h-64 mb-3 md:mb-4 bg-white">
-                              {product.images && product.images[0] ? (
+                              {displayImage ? (
                                 <>
                                   <Image 
-                                    src={product.images[0]}
+                                    src={displayImage}
                                     alt={product.name}
                                     fill
                                     className={`w-full h-full object-contain p-2 transition-opacity duration-500 group-hover:opacity-0`}
                                   />
-                                  {hoverImage && (
+                                  {hoverImage && hoverImage !== displayImage && (
                                     <Image
                                       src={hoverImage}
-                                      alt={product.name + ' alt'}
+                                      alt={product.name + ' hover'}
                                       fill
                                       className={`absolute inset-0 w-full h-full object-contain p-2 transition-opacity duration-500 opacity-0 group-hover:opacity-100`}
                                     />

@@ -29,10 +29,10 @@ const scaleIn = {
 }
 
 const decorativeIcons = [
-  { Icon: IconGift, color: "#AD9660" },
-  { Icon: IconGiftCard, color: "#323433" },
-  { Icon: IconConfetti, color: "#AB8E76" },
-  { Icon: IconStars, color: "#C8C2B6" }
+  { Icon: IconGift, color: "#AD9660", leftOffset: 2 },
+  { Icon: IconGiftCard, color: "#323433", leftOffset: 7 },
+  { Icon: IconConfetti, color: "#AB8E76", leftOffset: 4 },
+  { Icon: IconStars, color: "#C8C2B6", leftOffset: 9 }
 ]
 
 export default function FeatureSection({
@@ -158,13 +158,13 @@ export default function FeatureSection({
           )}
 
           {/* Floating Icons */}
-          {decorativeIcons.map(({ Icon, color }, index) => (
+          {decorativeIcons.map(({ Icon, color, leftOffset }, index) => (
             <motion.div
               key={index}
               className="absolute hidden md:block"
               style={{
                 top: `${20 + index * 25}%`,
-                left: isReversed ? `${85 + Math.random() * 10}%` : `${-5 - Math.random() * 10}%`,
+                left: isReversed ? `${85 + leftOffset}%` : `${-5 - leftOffset}%`,
                 color
               }}
               animate={{

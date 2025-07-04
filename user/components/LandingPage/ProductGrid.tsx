@@ -9,6 +9,9 @@ import { preserveScroll } from '@/lib/utils';
 interface Product {
   name: string;
   image: string;
+  display_image?: string | null;
+  hover_image?: string | null;
+  images?: string[] | null;
   price: number;
   price_min?: number | null;
   price_max?: number | null;
@@ -183,8 +186,11 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, index, products, isMobile }) => {
   const [hovered, setHovered] = useState(false);
-  const nextIndex = (index + 1) % products.length;
-  const hoverImage = products[nextIndex].image;
+  
+  // Use display_image as primary, fallback to image prop, then first additional image
+  const displayImage = product.display_image || product.image || product.images?.[0];
+  // Use hover_image as hover, fallback to display_image
+  const hoverImage = product.hover_image || product.display_image || product.image;
   
   // Format price display based on whether it's a range or single price
   const formatPrice = () => {
@@ -210,16 +216,26 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products, isM
       onMouseLeave={() => setHovered(false)}
     >
       <div className={`relative ${isMobile ? 'h-32 sm:h-36' : 'h-40 sm:h-48 md:h-64'} mb-3 md:mb-4 bg-white`}>
-        <img
-          src={product.image}
-          alt={product.name}
-          className={`w-full h-full object-contain p-2 transition-opacity duration-500 ${hovered ? 'opacity-0' : 'opacity-100'}`}
-        />
-        <img
-          src={hoverImage}
-          alt={product.name + ' alt'}
-          className={`absolute inset-0 w-full h-full object-contain p-2 transition-opacity duration-500 ${hovered ? 'opacity-100' : 'opacity-0'}`}
-        />
+        {displayImage ? (
+          <>
+            <img
+              src={displayImage}
+              alt={product.name}
+              className={`w-full h-full object-contain p-2 transition-opacity duration-500 ${hovered ? 'opacity-0' : 'opacity-100'}`}
+            />
+            {hoverImage && hoverImage !== displayImage && (
+              <img
+                src={hoverImage}
+                alt={product.name + ' hover'}
+                className={`absolute inset-0 w-full h-full object-contain p-2 transition-opacity duration-500 ${hovered ? 'opacity-100' : 'opacity-0'}`}
+              />
+            )}
+          </>
+        ) : (
+          <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+            <span className="text-gray-400 text-xs">No image</span>
+          </div>
+        )}
         {/* Elegant badge design */}
         <div className="absolute top-2 md:top-4 left-0">
           <div className="bg-white/90 backdrop-blur-sm border-l-2 border-[#AD9660] text-[#323433] font-light text-[10px] md:text-xs px-2 md:px-4 py-1 md:py-2">

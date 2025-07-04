@@ -457,7 +457,13 @@ export default function ProductPage({ params }: ProductPageProps) {
                   }}
                 >
                   <Image
-                    src={product?.images?.[selectedImage] || "/placeholder.jpg"}
+                    src={
+                      selectedImage === 0 && product?.display_image
+                        ? product.display_image
+                        : selectedImage > 0 && product?.images?.[selectedImage - 1]
+                        ? product.images[selectedImage - 1]
+                        : product?.display_image || "/placeholder.jpg"
+                    }
                     alt={product?.name}
                     fill
                     className="object-contain"
@@ -490,27 +496,52 @@ export default function ProductPage({ params }: ProductPageProps) {
             </motion.div>
 
             {/* Thumbnail Images */}
-            {product?.images && product.images.length > 1 && (
+            {((product?.display_image || product?.images?.length) && 
+              ((product?.display_image ? 1 : 0) + (product?.images?.length || 0)) > 1) && (
               <div 
                 ref={thumbnailsRef}
                 className="grid grid-cols-5 gap-2 md:gap-4"
               >
-                {product.images.map((image: string, index: number) => (
+                {/* Display image as first thumbnail */}
+                {product?.display_image && (
                   <motion.button
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                    key={index}
-                    onClick={() => setSelectedImage(index)}
+                    transition={{ duration: 0.3, delay: 0 }}
+                    key="display-image"
+                    onClick={() => setSelectedImage(0)}
                     className={`relative aspect-square overflow-hidden border-2 ${
-                      selectedImage === index
+                      selectedImage === 0
+                        ? "border-[#AD9660]"
+                        : "border-transparent hover:border-gray-300"
+                    }`}
+                  >
+                    <Image 
+                      src={product.display_image} 
+                      alt={`${product.name} main`} 
+                      fill 
+                      className="object-cover" 
+                    />
+                  </motion.button>
+                )}
+                
+                {/* Additional images */}
+                {product?.images?.map((image: string, index: number) => (
+                  <motion.button
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: (index + 1) * 0.1 }}
+                    key={`additional-${index}`}
+                    onClick={() => setSelectedImage(index + 1)}
+                    className={`relative aspect-square overflow-hidden border-2 ${
+                      selectedImage === index + 1
                         ? "border-[#AD9660]"
                         : "border-transparent hover:border-gray-300"
                     }`}
                   >
                     <Image 
                       src={image} 
-                      alt={`${product.name} ${index + 1}`} 
+                      alt={`${product.name} ${index + 2}`} 
                       fill 
                       className="object-cover" 
                     />
@@ -986,7 +1017,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                       name: item.name,
                       price: formatPrice(item.price),
                       originalPrice: item.original_price ? formatPrice(item.original_price) : undefined,
-                      image: item.images && item.images.length > 0 ? item.images[0] : '/placeholder.jpg',
+                      image: item.display_image || (item.images && item.images.length > 0 ? item.images[0] : '/placeholder.jpg'),
                       rating: item.rating || 4.5,
                       discount: item.discount || (item.original_price ? `${Math.round(((item.original_price - item.price) / item.original_price) * 100)}% OFF` : undefined),
                     }}

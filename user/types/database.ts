@@ -8,6 +8,8 @@ export interface Product {
   price_max?: number | null
   has_price_range?: boolean | null
   images?: string[] | null
+  display_image?: string | null
+  hover_image?: string | null
   category?: string
   main_category?: string
   sub_category?: string
@@ -117,6 +119,8 @@ export interface Database {
           featured: boolean | null
           customizable: boolean | null
           images: string[] | null
+          display_image: string | null
+          hover_image: string | null
           created_at: string | null
           updated_at: string | null
           main_category: string | null
@@ -137,6 +141,8 @@ export interface Database {
           featured?: boolean | null
           customizable?: boolean | null
           images?: string[] | null
+          display_image?: string | null
+          hover_image?: string | null
           created_at?: string | null
           updated_at?: string | null
           main_category?: string | null
@@ -157,6 +163,8 @@ export interface Database {
           featured?: boolean | null
           customizable?: boolean | null
           images?: string[] | null
+          display_image?: string | null
+          hover_image?: string | null
           created_at?: string | null
           updated_at?: string | null
           main_category?: string | null
