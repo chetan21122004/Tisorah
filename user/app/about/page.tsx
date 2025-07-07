@@ -17,10 +17,14 @@ import {
   MapPin,
   Phone,
   Mail,
+  Check,
+  Clock,
+  Gift,
+  Briefcase
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import PatternBackground, { PatternDivider, GeometricCornerAccent } from "@/components/PatternBackground"
+import { QuotePopup } from "@/components/quote-popup"
 
 export default function AboutPage() {
   const stats = [
@@ -53,50 +57,6 @@ export default function AboutPage() {
     },
   ]
 
-  const services = [
-    {
-      icon: <Package className="w-6 h-6" />,
-      title: "Corporate Gifting",
-      description: "Curated gift collections for every corporate occasion",
-    },
-    {
-      icon: <Star className="w-6 h-6" />,
-      title: "Custom Branding",
-      description: "Personalized branding solutions for your gifts",
-    },
-    {
-      icon: <Smile className="w-6 h-6" />,
-      title: "Employee Recognition",
-      description: "Meaningful rewards for your team's achievements",
-    },
-    {
-      icon: <TrendingUp className="w-6 h-6" />,
-      title: "Bulk Orders",
-      description: "Efficient handling of large-scale corporate orders",
-    },
-  ]
-
-  const team = [
-    {
-      name: "Abhijit Atre",
-      position: "Founder & CEO",
-      image: "/placeholder.svg?height=300&width=300",
-      bio: "Visionary leader with a passion for excellence",
-    },
-    {
-      name: "Priya Sharma",
-      position: "Chief Marketing Officer",
-      image: "/placeholder.svg?height=300&width=300",
-      bio: "Expert in brand strategy and customer engagement",
-    },
-    {
-      name: "Raj Patel",
-      position: "Head of Product Development",
-      image: "/placeholder.svg?height=300&width=300",
-      bio: "Innovator in creating unique and sophisticated gifting solutions",
-    },
-  ]
-
   const milestones = [
     { year: "2015", event: "Foundation", description: "Established with a vision of sophisticated corporate gifting" },
     {
@@ -117,56 +77,83 @@ export default function AboutPage() {
     },
   ]
 
+  const team = [
+    {
+      name: "Abhijit Atre",
+      position: "Founder & CEO",
+      image: "/placeholder.svg",
+      bio: "Visionary leader with a passion for excellence in corporate gifting solutions.",
+      contact: { email: "atreabhijit@gmail.com", phone: "+91 98600 02313" }
+    },
+    {
+      name: "Priya Sharma",
+      position: "Chief Marketing Officer",
+      image: "/placeholder.svg",
+      bio: "Expert in brand strategy and customer engagement with over a decade of experience.",
+    },
+    {
+      name: "Raj Patel",
+      position: "Head of Product Development",
+      image: "/placeholder.svg",
+      bio: "Innovator in creating unique and sophisticated gifting solutions for corporate clients.",
+    },
+  ]
+
   return (
-    <div className="min-h-screen bg-[#F4F4F4]">
-      {/* Hero Section with Parallax Effect */}
-      <section className="relative h-[90vh] overflow-hidden bg-[#1E2A47]">
-        <div className="absolute inset-0 bg-[url('/placeholder.svg')] opacity-10 bg-cover bg-center"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#1E2A47] via-[#1E2A47]/95 to-[#1E2A47]"></div>
-        <div className="relative h-full flex items-center">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl">
-              <div className="inline-block mb-6">
-                <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-none border border-[#AD9660]/20">
-                  <Users className="w-5 h-5 text-[#AD9660]" />
-                  <span className="text-[#E6E2DD] font-light font-['Poppins']">Crafting Distinguished Corporate Relationships</span>
-                </div>
+    <div className="min-h-screen">
+      <QuotePopup />
+      
+      {/* Hero Section */}
+      <section className="relative min-h-[90vh] bg-gradient-to-b from-[#1E2A47] to-[#323433] overflow-hidden">
+        {/* Abstract geometric patterns */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-0 w-64 h-64 bg-[#AD9660]/5 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#AD9660]/10 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="absolute inset-0 bg-[url('/geometry_pattern.jpg')] opacity-5 bg-repeat"></div>
+        
+        <div className="relative container mx-auto px-4 h-full flex items-center">
+          <div className="max-w-4xl py-20">
+            <div className="inline-block mb-6">
+              <div className="flex items-center gap-3 bg-white/5 backdrop-blur-sm px-6 py-3 border border-[#AD9660]/20">
+                <Award className="w-5 h-5 text-[#AD9660]" />
+                <span className="text-[#E6E2DD] font-light tracking-wide">PREMIUM CORPORATE GIFTING SOLUTIONS</span>
               </div>
-              <h1 className="text-6xl lg:text-7xl font-light text-white font-['Frank_Ruhl_Libre'] leading-tight mb-8">
-                Elevating Corporate <br />
-                <span className="text-[#AD9660]">Gifting Excellence</span>
-              </h1>
-              <p className="text-xl text-[#E6E2DD]/90 leading-relaxed font-['Poppins'] font-light max-w-2xl mb-12">
-                Since 2015, Tisorah has been synonymous with heritage and sophistication, helping companies forge
-                meaningful connections through premium, customized gifting solutions.
-              </p>
-              <div className="flex flex-wrap gap-6">
-                <Button className="bg-[#AD9660] hover:bg-[#AD9660]/90 h-14 px-8 font-['Poppins'] font-light text-lg transition-all">
-                  <Link href="/contact" className="flex items-center gap-2">
-                    Start Your Journey <ArrowRight className="w-5 h-5" />
-                  </Link>
-                </Button>
-                <Button variant="outline" className="border-[#AD9660] text-[#E6E2DD] hover:bg-[#AD9660]/10 h-14 px-8 font-['Poppins'] font-light text-lg transition-all">
-                  <Link href="/portfolio">View Portfolio</Link>
-                </Button>
-              </div>
+            </div>
+            
+            <h1 className="text-5xl lg:text-7xl font-serif text-white leading-tight mb-8">
+              Crafting Memorable <br />
+              <span className="text-[#AD9660]">Corporate Experiences</span>
+            </h1>
+            
+            <p className="text-xl text-[#E6E2DD]/90 leading-relaxed font-light max-w-2xl mb-12">
+              Since 2015, we've been dedicated to elevating corporate relationships through thoughtfully curated gifts that reflect sophistication, quality, and meaningful connections.
+            </p>
+            
+            <div className="flex flex-wrap gap-6">
+              <Button className="bg-[#AD9660] hover:bg-[#8d7c50] text-white px-8 py-6 rounded-sm shadow-sm flex items-center gap-2 group transition-all duration-300">
+                <span>Request a Quote</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+              </Button>
+              <Button variant="outline" className="border-[#AD9660] text-[#2c2b29] hover:bg-[#AD9660]/10 px-8 py-6 rounded-sm">
+                Explore Our Portfolio
+              </Button>
             </div>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-white relative">
-        <div className="container mx-auto px-4">
+      <section className="py-16 bg-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/geometry_pattern.jpg')] opacity-5"></div>
+        <div className="container mx-auto px-4 relative">
           <div className="grid md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
-              <div key={index} className="text-center group">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-[#1E2A47]/5 -rotate-6 transform transition-transform group-hover:rotate-0"></div>
-                  <div className="relative bg-white border border-[#AD9660]/20 p-8">
-                    <div className="text-4xl font-light text-[#1E2A47] font-['Frank_Ruhl_Libre'] mb-2">{stat.number}</div>
-                    <div className="text-gray-600 font-['Poppins'] font-light">{stat.label}</div>
-                  </div>
+              <div key={index} className="group">
+                <div className="bg-white border border-[#AD9660]/10 p-8 transition-all duration-300 hover:border-[#AD9660]/30 hover:shadow-lg">
+                  <div className="text-4xl font-serif text-[#323433] mb-2">{stat.number}</div>
+                  <div className="text-gray-600 font-light">{stat.label}</div>
                 </div>
               </div>
             ))}
@@ -174,21 +161,24 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Our Story Section with Side Image */}
-      <section className="py-24 bg-[#F4F4F4] overflow-hidden">
-        <div className="container mx-auto px-4">
+      {/* Our Story Section */}
+      <section className="py-24 bg-[#F4F4F4] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/geometry_pattern.jpg')] opacity-5"></div>
+        <div className="container mx-auto px-4 relative">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="order-2 lg:order-1">
+            <div>
               <div className="inline-block mb-6">
-                <div className="flex items-center gap-2 bg-[#1E2A47]/5 px-4 py-2 border border-[#1E2A47]/10">
-                  <Target className="w-5 h-5 text-[#1E2A47]" />
-                  <span className="text-[#1E2A47] font-light font-['Poppins']">Our Story</span>
+                <div className="flex items-center gap-2">
+                  <div className="w-12 h-[2px] bg-[#AD9660]"></div>
+                  <span className="text-sm uppercase tracking-wider text-[#AD9660] font-light">Our Story</span>
                 </div>
               </div>
-              <h2 className="text-4xl lg:text-5xl font-light text-[#323433] mb-8 font-['Frank_Ruhl_Libre']">
-                A Legacy of Excellence in Corporate Gifting
+              
+              <h2 className="text-4xl lg:text-5xl font-serif text-[#323433] leading-tight mb-8">
+                A Legacy of Excellence in <span className="text-[#AD9660]">Corporate Gifting</span>
               </h2>
-              <div className="space-y-6 text-gray-600 leading-relaxed font-['Poppins'] font-light">
+              
+              <div className="space-y-6 text-gray-600 leading-relaxed font-light">
                 <p>
                   Tisorah emerged from a vision to redefine corporate gifting, transforming it into an art form that
                   reflects heritage, sophistication, and enduring value.
@@ -198,44 +188,41 @@ export default function AboutPage() {
                   stronger bonds with their employees, clients, and partners through meticulously curated gifts that
                   embody their brand's values and appreciation.
                 </p>
-                <p>
-                  Today, we take pride in serving numerous distinguished companies, delivering curated gift sets that
-                  have elevated corporate relationships and enhanced employee engagement across diverse sectors.
-                </p>
               </div>
-              <div className="mt-12 flex flex-wrap gap-8">
+
+              <div className="mt-12 grid grid-cols-3 gap-8">
                 <div>
-                  <div className="text-3xl font-light text-[#AD9660] font-['Frank_Ruhl_Libre'] mb-2">200+</div>
-                  <div className="text-gray-600 font-['Poppins'] font-light">Premium Brand Partners</div>
+                  <div className="text-3xl font-serif text-[#AD9660] mb-2">200+</div>
+                  <div className="text-gray-600 font-light">Premium Partners</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-light text-[#AD9660] font-['Frank_Ruhl_Libre'] mb-2">15+</div>
-                  <div className="text-gray-600 font-['Poppins'] font-light">Cities Served</div>
+                  <div className="text-3xl font-serif text-[#AD9660] mb-2">15+</div>
+                  <div className="text-gray-600 font-light">Cities Served</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-light text-[#AD9660] font-['Frank_Ruhl_Libre'] mb-2">50K+</div>
-                  <div className="text-gray-600 font-['Poppins'] font-light">Happy Recipients</div>
+                  <div className="text-3xl font-serif text-[#AD9660] mb-2">50K+</div>
+                  <div className="text-gray-600 font-light">Happy Recipients</div>
                 </div>
               </div>
             </div>
-            <div className="order-1 lg:order-2 relative">
-              <div className="absolute inset-0 bg-[#1E2A47]/5 rotate-6 transform"></div>
+            
+            <div className="relative">
               <div className="relative">
                 <Image
-                  src="/placeholder.svg?height=600&width=800"
+                  src="https://www.boxupgifting.com/cdn/shop/files/Custom_curated.jpg?v=1685185266&width=1240"
                   alt="Our Story"
                   width={800}
                   height={600}
-                  className="w-full h-[600px] object-cover border border-[#AD9660]/20"
+                  className="w-full h-[600px] object-cover shadow-xl"
                 />
-                <div className="absolute bottom-8 left-8 right-8 bg-white/95 backdrop-blur-sm p-6 border border-[#AD9660]/20">
+                <div className="absolute bottom-8 left-8 right-8 bg-white/95 backdrop-blur-sm p-6 shadow-lg">
                   <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 bg-[#1E2A47] rounded-none flex items-center justify-center">
+                    <div className="w-16 h-16 bg-[#1E2A47] flex items-center justify-center">
                       <Award className="w-8 h-8 text-[#AD9660]" />
                     </div>
                     <div>
-                      <div className="text-[#1E2A47] font-['Frank_Ruhl_Libre'] text-xl mb-1">Excellence Award 2023</div>
-                      <div className="text-gray-600 font-['Poppins'] font-light">Best Corporate Gifting Solutions</div>
+                      <div className="font-serif text-xl mb-1 text-[#323433]">Excellence Award 2023</div>
+                      <div className="text-gray-600 font-light">Best Corporate Gifting Solutions</div>
                     </div>
                   </div>
                 </div>
@@ -245,130 +232,33 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Services Grid */}
-      <section className="py-24 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <div className="inline-block mb-6">
-              <div className="flex items-center gap-2 bg-[#1E2A47]/5 px-4 py-2 border border-[#1E2A47]/10">
-                <Package className="w-5 h-5 text-[#1E2A47]" />
-                <span className="text-[#1E2A47] font-light font-['Poppins']">Our Services</span>
-              </div>
+      {/* Values Section */}
+      <section className="py-24 bg-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/geometry_pattern.jpg')] opacity-5"></div>
+        <div className="container mx-auto px-4 relative">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <div className="w-12 h-[2px] bg-[#AD9660]"></div>
+              <span className="text-sm uppercase tracking-wider text-[#AD9660] font-light">Our Values</span>
+              <div className="w-12 h-[2px] bg-[#AD9660]"></div>
             </div>
-            <h2 className="text-4xl lg:text-5xl font-light text-[#323433] mb-6 font-['Frank_Ruhl_Libre']">
-              Comprehensive Gifting Solutions
+            
+            <h2 className="text-4xl font-serif text-[#323433] mb-6">
+              The Principles That <span className="text-[#AD9660]">Guide Us</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-['Poppins'] font-light">
-              Discover our range of premium services designed to elevate your corporate gifting experience
+            
+            <p className="text-gray-600 font-light">
+              Our values shape every aspect of our service, from product curation to client relationships.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {services.map((service, index) => (
-              <div key={index} className="group cursor-pointer">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-[#1E2A47]/5 -rotate-3 transform transition-transform group-hover:rotate-0"></div>
-                  <div className="relative bg-white border border-[#AD9660]/20 p-8 transition-all group-hover:border-[#AD9660]">
-                    <div className="w-12 h-12 bg-[#1E2A47] rounded-none flex items-center justify-center mb-6">
-                      <div className="text-[#AD9660]">{service.icon}</div>
-                    </div>
-                    <h3 className="text-xl font-light text-[#323433] mb-4 font-['Frank_Ruhl_Libre']">{service.title}</h3>
-                    <p className="text-gray-600 font-['Poppins'] font-light">{service.description}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Values Section with Modern Layout and Pattern Background */}
-      <PatternBackground 
-        overlay="neutral" 
-        opacity={0.06} 
-        intensity="medium" 
-        size="small" 
-        className="py-24"
-      >
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <div className="inline-block mb-6">
-              <div className="flex items-center gap-2 bg-[#1E2A47]/10 backdrop-blur-sm px-4 py-2 border border-[#1E2A47]/10">
-                <Heart className="w-5 h-5 text-[#1E2A47]" />
-                <span className="text-[#1E2A47] font-light font-['Poppins']">Our Values</span>
-              </div>
-            </div>
-            <h2 className="text-4xl lg:text-5xl font-light text-[#323433] mb-6 font-['Frank_Ruhl_Libre']">
-              What Sets Us Apart
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-['Poppins'] font-light">
-              Our commitment to excellence and client satisfaction drives everything we do
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {values.map((value, index) => (
-              <GeometricCornerAccent key={index} className="group">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-[#1E2A47]/5 rotate-2 transform transition-transform group-hover:rotate-0"></div>
-                  <div className="relative bg-white/90 backdrop-blur-sm border border-[#AD9660]/20 p-8 transition-all group-hover:border-[#AD9660] shadow-sm">
-                    <div className="flex items-start gap-6">
-                      <div className="w-16 h-16 bg-[#1E2A47] rounded-none flex items-center justify-center flex-shrink-0">
-                        {value.icon}
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-light text-[#323433] mb-4 font-['Frank_Ruhl_Libre']">{value.title}</h3>
-                        <p className="text-gray-600 font-['Poppins'] font-light">{value.description}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </GeometricCornerAccent>
-            ))}
-          </div>
-        </div>
-      </PatternBackground>
-      
-      {/* Pattern Divider */}
-      <PatternDivider className="bg-white" />
-
-      {/* Team Section with Hover Effects */}
-      <section className="py-24 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <div className="inline-block mb-6">
-              <div className="flex items-center gap-2 bg-[#1E2A47]/5 px-4 py-2 border border-[#1E2A47]/10">
-                <Users className="w-5 h-5 text-[#1E2A47]" />
-                <span className="text-[#1E2A47] font-light font-['Poppins']">Our Team</span>
-              </div>
-            </div>
-            <h2 className="text-4xl lg:text-5xl font-light text-[#323433] mb-6 font-['Frank_Ruhl_Libre']">
-              Meet Our Leadership
-            </h2>
-            <p className="text-xl text-gray-600 font-['Poppins'] font-light">
-              Experienced professionals dedicated to your success
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {team.map((member, index) => (
               <div key={index} className="group">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-[#1E2A47]/5 rotate-6 transform transition-transform group-hover:rotate-0"></div>
-                  <div className="relative bg-white border border-[#AD9660]/20 p-8 transition-all group-hover:border-[#AD9660]">
-                    <div className="relative w-48 h-48 mx-auto mb-8 overflow-hidden">
-                      <Image
-                        src={member.image}
-                        alt={member.name}
-                        width={200}
-                        height={200}
-                        className="w-full h-full object-cover border border-[#AD9660]/20 transition-transform group-hover:scale-105"
-                      />
-                    </div>
-                    <h3 className="text-2xl font-light text-[#323433] mb-2 font-['Frank_Ruhl_Libre']">{member.name}</h3>
-                    <p className="text-[#AD9660] font-['Poppins'] font-light mb-4">{member.position}</p>
-                    <p className="text-gray-600 font-['Poppins'] font-light">{member.bio}</p>
-                  </div>
+                <div className="bg-white border border-[#AD9660]/10 p-8 transition-all duration-300 hover:border-[#AD9660]/30 hover:shadow-lg">
+                  <div className="mb-6">{value.icon}</div>
+                  <h3 className="text-xl font-serif text-[#323433] mb-4">{value.title}</h3>
+                  <p className="text-gray-600 font-light">{value.description}</p>
                 </div>
               </div>
             ))}
@@ -376,48 +266,36 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Timeline with Visual Elements */}
-      <section className="py-24 bg-[#F4F4F4]">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <div className="inline-block mb-6">
-              <div className="flex items-center gap-2 bg-[#1E2A47]/5 px-4 py-2 border border-[#1E2A47]/10">
-                <TrendingUp className="w-5 h-5 text-[#1E2A47]" />
-                <span className="text-[#1E2A47] font-light font-['Poppins']">Our Journey</span>
-              </div>
+      {/* Timeline Section */}
+      <section className="py-24 bg-[#F4F4F4] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/geometry_pattern.jpg')] opacity-5"></div>
+        <div className="container mx-auto px-4 relative">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <div className="w-12 h-[2px] bg-[#AD9660]"></div>
+              <span className="text-sm uppercase tracking-wider text-[#AD9660] font-light">Our Journey</span>
+              <div className="w-12 h-[2px] bg-[#AD9660]"></div>
             </div>
-            <h2 className="text-4xl lg:text-5xl font-light text-[#323433] mb-6 font-['Frank_Ruhl_Libre']">
-              Milestones of Excellence
+            
+            <h2 className="text-4xl font-serif text-[#323433] mb-6">
+              Milestones That <span className="text-[#AD9660]">Define Us</span>
             </h2>
-            <p className="text-xl text-gray-600 font-['Poppins'] font-light">
-              Key achievements in our journey of growth and success
-            </p>
           </div>
 
-          <div className="max-w-5xl mx-auto">
+          <div className="relative">
+            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-px bg-[#AD9660]/20"></div>
+            
             <div className="space-y-12">
               {milestones.map((milestone, index) => (
-                <div key={index} className="group">
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-[#1E2A47]/5 -rotate-1 transform transition-transform group-hover:rotate-0"></div>
-                    <div className="relative bg-white border border-[#AD9660]/20 p-8 transition-all group-hover:border-[#AD9660]">
-                      <div className="flex items-start gap-8">
-                        <div className="w-24 h-24 bg-[#1E2A47] rounded-none flex items-center justify-center flex-shrink-0 border border-[#AD9660]/20">
-                          <div className="text-2xl font-light text-white font-['Frank_Ruhl_Libre']">{milestone.year}</div>
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-4 mb-2">
-                            <h3 className="text-2xl font-light text-[#323433] font-['Frank_Ruhl_Libre']">
-                              {milestone.event}
-                            </h3>
-                            <Badge variant="outline" className="text-[#AD9660] border-[#AD9660] font-['Poppins'] font-light">
-                              {milestone.year}
-                            </Badge>
-                          </div>
-                          <p className="text-gray-600 font-['Poppins'] font-light text-lg">{milestone.description}</p>
-                        </div>
-                      </div>
-                    </div>
+                <div key={index} className={`relative flex items-center gap-8 ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}>
+                  <div className="flex-1 bg-white p-8 border border-[#AD9660]/10 shadow-sm">
+                    <div className="text-2xl font-serif text-[#AD9660] mb-2">{milestone.year}</div>
+                    <h3 className="text-xl text-[#323433] mb-2">{milestone.event}</h3>
+                    <p className="text-gray-600 font-light">{milestone.description}</p>
+                  </div>
+                  
+                  <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-[#AD9660] rounded-full">
+                    <div className="absolute inset-0 bg-[#AD9660] rounded-full animate-ping"></div>
                   </div>
                 </div>
               ))}
@@ -426,69 +304,94 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Contact CTA Section with Modern Pattern Background */}
-      <PatternBackground 
-        overlay="accent" 
-        opacity={0.08} 
-        intensity="medium"
-        size="large"
-        className="py-24 bg-[#1E2A47] text-white"
-      >
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-block mb-6">
-              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 border border-[#AD9660]/20">
-                <Mail className="w-5 h-5 text-[#AD9660]" />
-                <span className="text-white font-light font-['Poppins']">Begin Your Journey</span>
-              </div>
+      {/* Team Section */}
+      <section className="py-24 bg-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/geometry_pattern.jpg')] opacity-5"></div>
+        <div className="container mx-auto px-4 relative">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <div className="w-12 h-[2px] bg-[#AD9660]"></div>
+              <span className="text-sm uppercase tracking-wider text-[#AD9660] font-light">Our Team</span>
+              <div className="w-12 h-[2px] bg-[#AD9660]"></div>
             </div>
-            <h2 className="text-4xl lg:text-5xl font-light text-white font-['Frank_Ruhl_Libre'] mb-6">
-              Ready to Elevate Your Corporate Gifting?
+            
+            <h2 className="text-4xl font-serif text-[#323433] mb-6">
+              Meet the <span className="text-[#AD9660]">Visionaries</span>
             </h2>
-            <p className="text-xl text-[#E6E2DD]/90 font-['Poppins'] font-light mb-12">
-              Let's create meaningful connections through thoughtfully curated gifts that resonate with 
-              your brand values and delight your recipients
+            
+            <p className="text-gray-600 font-light">
+              Our leadership team brings together decades of experience in corporate gifting and brand engagement.
             </p>
-            <div className="flex flex-wrap justify-center gap-8">
-              <Button className="bg-[#AD9660] hover:bg-[#AD9660]/90 h-14 px-8 font-['Poppins'] font-light text-lg transition-all">
-                <Link href="/contact" className="flex items-center gap-2">
-                  <Mail className="w-5 h-5" /> Contact Us
-                </Link>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {team.map((member, index) => (
+              <div key={index} className="group">
+                <div className="bg-white border border-[#AD9660]/10 overflow-hidden transition-all duration-300 hover:border-[#AD9660]/30 hover:shadow-lg">
+                  <div className="relative h-80">
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  
+                  <div className="p-8">
+                    <h3 className="text-xl font-serif text-[#323433] mb-1">{member.name}</h3>
+                    <div className="text-[#AD9660] font-light mb-4">{member.position}</div>
+                    <p className="text-gray-600 font-light mb-6">{member.bio}</p>
+                    
+                    {member.contact && (
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 text-gray-600">
+                          <Mail className="w-4 h-4" />
+                          <span className="font-light">{member.contact.email}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-gray-600">
+                          <Phone className="w-4 h-4" />
+                          <span className="font-light">{member.contact.phone}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact CTA Section */}
+      <section className="py-24 bg-[#1E2A47] relative overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-0 w-64 h-64 bg-[#AD9660]/5 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#AD9660]/10 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="container mx-auto px-4 relative">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-4xl font-serif text-white mb-6">
+              Ready to Elevate Your <span className="text-[#AD9660]">Corporate Gifting</span>?
+            </h2>
+            
+            <p className="text-xl text-[#E6E2DD]/90 font-light mb-12">
+              Let's create meaningful connections through thoughtfully curated gifts that reflect your brand's values.
+            </p>
+            
+            <div className="flex flex-wrap justify-center gap-6">
+              <Button className="bg-[#AD9660] hover:bg-[#8d7c50] text-white px-8 py-6 rounded-sm shadow-sm flex items-center gap-2 group transition-all duration-300">
+                <span>Start Your Journey</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
               </Button>
-              <Button className="bg-transparent border border-[#AD9660] text-[#AD9660] hover:bg-[#AD9660]/10 h-14 px-8 font-['Poppins'] font-light text-lg transition-all">
-                <Link href="/portfolio" className="flex items-center gap-2">
-                  <Eye className="w-5 h-5" /> View Our Work
-                </Link>
+              
+              <Button variant="outline" className="border-[#AD9660] text-[#E6E2DD] hover:bg-[#AD9660]/10 px-8 py-6 rounded-sm">
+                View Our Portfolio
               </Button>
-            </div>
-            <div className="mt-16 grid md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="flex items-center justify-center gap-2 text-[#E6E2DD] mb-2">
-                  <MapPin className="w-5 h-5 text-[#AD9660]" />
-                  <span className="font-['Poppins'] font-light">Location</span>
-                </div>
-                <p className="text-[#E6E2DD]/80 font-['Poppins'] font-light">
-                  Pancard Club Road, Baner, Pune - 411045
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="flex items-center justify-center gap-2 text-[#E6E2DD] mb-2">
-                  <Mail className="w-5 h-5 text-[#AD9660]" />
-                  <span className="font-['Poppins'] font-light">Email</span>
-                </div>
-                <p className="text-[#E6E2DD]/80 font-['Poppins'] font-light">hello@tisorahbox.com</p>
-              </div>
-              <div className="text-center">
-                <div className="flex items-center justify-center gap-2 text-[#E6E2DD] mb-2">
-                  <Phone className="w-5 h-5 text-[#AD9660]" />
-                  <span className="font-['Poppins'] font-light">Phone</span>
-                </div>
-                <p className="text-[#E6E2DD]/80 font-['Poppins'] font-light">+91 93701 72365</p>
-              </div>
             </div>
           </div>
         </div>
-      </PatternBackground>
+      </section>
     </div>
   )
 }

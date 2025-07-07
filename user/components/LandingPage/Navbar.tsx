@@ -391,7 +391,7 @@ const Navbar = () => {
 
         {/* Desktop Navigation Menu */}
         <nav className="hidden md:block border-t border-gray-100">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl items-center justify-center flex mx-auto px-4 sm:px-6 lg:px-8">
             <NavigationMenu className="py-0">
               <NavigationMenuList className="flex justify-between w-full">
                 {/* Regular navigation links */}
@@ -409,20 +409,26 @@ const Navbar = () => {
                   </NavigationMenuItem>
                 ))}
                 
-                {/* Promotional Gifts Mega Menu */}
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-sm font-medium text-gray-700 hover:text-[#AD9660]">
+                {/* Promotional Gifts Dropdown */}
+                <NavigationMenuItem className="group">
+                  <button className="inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-gray-700 hover:text-[#AD9660] transition-colors">
                     Promotional Gifts
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div ref={menuRef} className="w-[800px] p-6 grid grid-cols-3 gap-6">
+                  </button>
+                  <div className="absolute hidden group-hover:block top-full left-0 w-[800px] bg-white shadow-lg rounded-lg transition-all duration-300 z-50">
+                    <div className="p-8 grid grid-cols-3 gap-8">
                       {shopGiftsMenu.map((section, index) => (
-                        <div key={index}>
-                          <div className="text-[16px] font-medium text-gray-700 mb-3">{section.title}</div>
+                        <div key={index} className="space-y-4">
+                          <h3 className="text-[16px] font-medium text-gray-800 pb-2 border-b border-gray-100">
+                            {section.title}
+                          </h3>
                           <ul className="space-y-2">
                             {section.items.map((item, itemIndex) => (
                               <li key={itemIndex}>
-                                <Link href={`/products?category=${encodeURIComponent(item.toLowerCase())}`} className="text-sm text-gray-600 hover:text-[#AD9660]">
+                                <Link 
+                                  href={`/products?category=${encodeURIComponent(item.toLowerCase())}`}
+                                  className="text-sm text-gray-600 hover:text-[#AD9660] hover:translate-x-1 transition-all duration-200 flex items-center group"
+                                >
+                                  <span className="h-1 w-0 bg-[#AD9660] group-hover:w-2 transition-all duration-200 mr-0 group-hover:mr-2"></span>
                                   {item}
                                 </Link>
                               </li>
@@ -431,33 +437,10 @@ const Navbar = () => {
                         </div>
                       ))}
                     </div>
-                  </NavigationMenuContent>
+                  </div>
                 </NavigationMenuItem>
-                
-                {/* Corporate Gifts Mega Menu */}
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-sm font-medium text-gray-700 hover:text-[#AD9660]">
-                    Corporate Gifts
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div ref={menuRef} className="w-[800px] p-6 grid grid-cols-3 gap-6">
-                      {corporateGiftsMenu.map((section, index) => (
-                        <div key={index}>
-                          <div className="text-[16px] font-medium text-gray-700 mb-3">{section.title}</div>
-                          <ul className="space-y-2">
-                            {section.items.map((item, itemIndex) => (
-                              <li key={itemIndex}>
-                                <Link href={`/products?category=${encodeURIComponent(item.toLowerCase())}`} className="text-sm text-gray-600 hover:text-[#AD9660]">
-                                  {item}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
+
+              
               </NavigationMenuList>
             </NavigationMenu>
           </div>
