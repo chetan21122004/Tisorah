@@ -14,7 +14,8 @@ import { preserveScroll } from "@/lib/utils"
 // Banner slides for the hero slider
 const bannerSlides = [
   {
-    image: "./banners/banner_01.png",
+    desktopImage: "./banners/banner_01.png",
+    mobileImage: "./banners_phn/banner_1.jpg",
     title: "Premium Corporate Gifts",
     description: "Elevate your brand with customized corporate gifts that leave a lasting impression",
     buttonText: "Get Free Quote",
@@ -22,7 +23,8 @@ const bannerSlides = [
     align: "center"
   },
   {
-    image: "./banners/banner_02.png",
+    desktopImage: "./banners/banner_02.png",
+    mobileImage: "./banners_phn/banner_2.jpg",
     title: "Employee Recognition Gifts",
     description: "Celebrate achievements and milestones with thoughtfully curated gift boxes",
     buttonText: "Request Quote Now",
@@ -30,7 +32,8 @@ const bannerSlides = [
     align: "center"
   },
   {
-    image: "./banners/banner_03.png",
+    desktopImage: "./banners/banner_03.png",
+    mobileImage: "./banners_phn/banner_3.jpg",
     title: "Bulk Corporate Gifting",
     description: "Save up to 30% on bulk orders with our volume discount pricing",
     buttonText: "Get Volume Pricing",
@@ -38,15 +41,16 @@ const bannerSlides = [
     align: "center"
   },
   {
-    image: "./banners/banner_04.png",
+    desktopImage: "./banners/banner_04.png",
+    mobileImage: "./banners_phn/banner_4.jpg",
     title: "Custom Branded Merchandise",
     description: "Transform ordinary products into powerful brand ambassadors",
     buttonText: "Start Your Project",
     buttonLink: "/quote",
     align: "center"
   },
-
 ];
+
 
 interface Product {
   id: string;

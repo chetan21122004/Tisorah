@@ -9,7 +9,8 @@ import { useIsMobile } from "@/hooks/use-mobile"
 
 interface SlideType {
   id?: number;
-  image: string;
+  desktopImage: string;
+  mobileImage: string;
   title: string;
   subtitle?: string;
   description?: string;
@@ -22,7 +23,8 @@ interface SlideType {
 const defaultBannerData: SlideType[] = [
   {
     id: 1,
-    image: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0",
+    desktopImage: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0",
+    mobileImage: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0",
     title: "Premium Corporate Gifts",
     subtitle: "Elevate your brand with our exclusive collection",
     buttonText: "Explore Collection",
@@ -31,7 +33,8 @@ const defaultBannerData: SlideType[] = [
   },
   {
     id: 2,
-    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62",
+    desktopImage: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62",
+    mobileImage: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62",
     title: "Executive Excellence",
     subtitle: "Sophisticated gifts starting at ₹2,999",
     buttonText: "View Selection",
@@ -40,7 +43,8 @@ const defaultBannerData: SlideType[] = [
   },
   {
     id: 3,
-    image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44",
+    desktopImage: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44",
+    mobileImage: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44",
     title: "Festival Special",
     subtitle: "Early access to our curated festive collection",
     buttonText: "Shop Now",
@@ -48,8 +52,9 @@ const defaultBannerData: SlideType[] = [
     align: "right",
   },
   {
-    id: 3,
-    image: "./banner/pink_bg_box.jpg",
+    id: 4,
+    desktopImage: "./banner/pink_bg_box.jpg",
+    mobileImage: "./banner/pink_bg_box.jpg",
     title: "Festival Special",
     subtitle: "Early access to our curated festive collection",
     buttonText: "Shop Now",
@@ -80,7 +85,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
       const width = window.innerWidth;
       // Responsive aspect ratios based on screen size
       if (width < 640) { // Mobile
-        setAspectRatio("75%") // 4:3 aspect ratio for smaller screens
+        setAspectRatio("133.49%") // 215:287 aspect ratio for mobile
       } else if (width < 1024) { // Tablet
         setAspectRatio("56.25%") // 16:9 aspect ratio
       } else { // Desktop
@@ -174,7 +179,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
             aria-hidden={index !== currentSlide}
           >
             <Image
-              src={banner.image}
+              src={isMobile ? banner.mobileImage : banner.desktopImage}
               alt={banner.title}
               fill
               className="object-cover object-center"
