@@ -210,7 +210,7 @@ const Navbar = () => {
       <header className="shadow-sm">
         {/* Desktop Header */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 hidden md:block">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-[60px]">
             {/* Logo at left */}
             <div className="flex items-center flex-col justify-center flex-shrink-0 gap-0">
               <Link href="/" className='flex items-center justify-center flex-col'>
