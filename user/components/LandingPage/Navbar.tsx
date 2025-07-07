@@ -87,7 +87,7 @@ const navLinks = [
   { label: 'Home ', href: '/' },
   { label: 'Bulk Orders', href: '/bulk-orders' },
   { label: 'Corporate Packages', href: '/packages' },
-  { label: 'Portfolio', href: '/portfolio' },
+  // { label: 'Portfolio', href: '/portfolio' },
   { label: 'Products', href: '/products' },
   { label: 'Blog', href: '/blog' },
   { label: 'About Us', href: '/about' },
