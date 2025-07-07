@@ -144,8 +144,8 @@ const StarFollower: React.FC = () => {
       if (now - lastAddTime.current > 40 && 
           (!lastPos.current || Math.hypot(x - lastPos.current.x, y - lastPos.current.y) > 5)) {
         
-        // Add a cluster of 2-3 stars for luxury effect
-        const starCount = Math.floor(Math.random()+1) ;
+        // Add a cluster of 1-2 stars (reduced from 2-3)
+        const starCount = Math.floor(Math.random() * 1.5) + 1;
         
         for (let i = 0; i < starCount; i++) {
           const offsetX = (Math.random() - 0.5) * 55;
@@ -160,7 +160,7 @@ const StarFollower: React.FC = () => {
             life: 0,
             rotation: Math.random() * Math.PI * 2,
             rotationSpeed: 0.01 + Math.random() * 0.01,
-            growthRate: 0.1 + Math.random() * 0.02,
+            growthRate: 0.05 + Math.random() * 0.01, // Reduced from 0.1 to 0.05
             fadeRate: 0.96 + Math.random() * 0.03
           });
         }
