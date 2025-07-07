@@ -414,7 +414,7 @@ const Navbar = () => {
                   <button className="peer inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-gray-700 hover:text-[#AD9660] transition-colors">
                     Promotional Gifts
                   </button>
-                  <div className="absolute invisible opacity-0 peer-hover:visible
+                  <div className="absolute invisible opacity-0 peer-hover:visible mt-2
                   peer-hover:opacity-100 hover:visible hover:opacity-100 top-[90%]
                    left-1/2 -translate-x-1/2 w-[800px] bg-white shadow-xl rounded-lg 
                    transition-all duration-300 transform origin-top peer-hover:translate-y-0 
