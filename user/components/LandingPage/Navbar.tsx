@@ -410,12 +410,17 @@ const Navbar = () => {
                 ))}
                 
                 {/* Promotional Gifts Dropdown */}
-                <NavigationMenuItem className="group">
-                  <button className="inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-gray-700 hover:text-[#AD9660] transition-colors">
+                <NavigationMenuItem className="relative">
+                  <button className="peer inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-gray-700 hover:text-[#AD9660] transition-colors">
                     Promotional Gifts
                   </button>
-                  <div className="absolute hidden group-hover:block top-full left-0 w-[800px] bg-white shadow-lg rounded-lg transition-all duration-300 z-50">
-                    <div className="p-8 grid grid-cols-3 gap-8">
+                  <div className="absolute invisible opacity-0 peer-hover:visible
+                  peer-hover:opacity-100 hover:visible hover:opacity-100 top-[90%]
+                   left-1/2 -translate-x-1/2 w-[800px] bg-white shadow-xl rounded-lg 
+                   transition-all duration-300 transform origin-top peer-hover:translate-y-0 
+                   translate-y-[-20px] z-50 border border-gray-100/10">
+                    <div className="relative p-8 grid grid-cols-3 gap-8 after:content-['']
+                     after:absolute after:top-0 after:left-0 after:w-full after:h-full  after:to-transparent after:pointer-events-none">
                       {shopGiftsMenu.map((section, index) => (
                         <div key={index} className="space-y-4">
                           <h3 className="text-[16px] font-medium text-gray-800 pb-2 border-b border-gray-100">
@@ -423,12 +428,14 @@ const Navbar = () => {
                           </h3>
                           <ul className="space-y-2">
                             {section.items.map((item, itemIndex) => (
-                              <li key={itemIndex}>
+                              <li key={itemIndex} 
+                                  className="transform transition-transform duration-200 hover:translate-x-2"
+                              >
                                 <Link 
                                   href={`/products?category=${encodeURIComponent(item.toLowerCase())}`}
-                                  className="text-sm text-gray-600 hover:text-[#AD9660] hover:translate-x-1 transition-all duration-200 flex items-center group"
+                                  className="text-sm text-gray-600 hover:text-[#AD9660] transition-all duration-200 flex items-center group"
                                 >
-                                  <span className="h-1 w-0 bg-[#AD9660] group-hover:w-2 transition-all duration-200 mr-0 group-hover:mr-2"></span>
+                                  <span className="h-[2px] w-0 bg-[#AD9660] group-hover:w-3 transition-all duration-200 mr-0 group-hover:mr-2 opacity-0 group-hover:opacity-100"></span>
                                   {item}
                                 </Link>
                               </li>
@@ -436,6 +443,7 @@ const Navbar = () => {
                           </ul>
                         </div>
                       ))}
+                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#AD9660]/20 via-[#AD9660]/40 to-[#AD9660]/20"></div>
                     </div>
                   </div>
                 </NavigationMenuItem>
