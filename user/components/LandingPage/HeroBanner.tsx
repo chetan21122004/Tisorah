@@ -49,7 +49,7 @@ export default function HeroBanner() {
   return (
     <section className="bg-gradient-to-r from-[#323433] to-[#1E2A47] text-white overflow-hidden border-b border-[#AD9660]/10">
       <div className="container mx-auto">
-        <div className="flex items-center justify-between py-2 px-3 md:py-3 md:px-8">
+        <div className="flex items-center justify-between  px-3 py-[6px] md:px-8">
           {/* Mobile View */}
           <div className="md:hidden flex items-center space-x-3 w-full">
             <div className="w-8 h-8 rounded-full bg-[#AD9660]/10 flex items-center justify-center flex-shrink-0">

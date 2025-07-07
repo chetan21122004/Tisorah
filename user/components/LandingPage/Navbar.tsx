@@ -210,7 +210,7 @@ const Navbar = () => {
       <header className="shadow-sm">
         {/* Desktop Header */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 hidden md:block">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between h-16">
             {/* Logo at left */}
             <div className="flex items-center flex-col justify-center flex-shrink-0 gap-0">
               <Link href="/" className='flex items-center justify-center flex-col'>
@@ -218,7 +218,7 @@ const Navbar = () => {
                   <span className="font-light ">Tisorah</span>
                   <span className="text-[#AD9660] font-medium">Box</span>
                 </div>
-                <div className="text-xs uppercase tracking-widest text-gray-500 mt-1">Premium Corporate Gifts</div>
+                <div className="text-xs uppercase tracking-widest text-gray-500 ">Premium Corporate Gifts</div>
               </Link>
             </div>
 
@@ -231,7 +231,7 @@ const Navbar = () => {
                   placeholder="Search products, categories..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-12 focus:ring-0 py-6 rounded-3xl outline-none border bg-gray-50 hover:border-gray-200 transition-colors"
+                  className="pl-12 focus:ring-0 py-2 rounded-3xl outline-none border bg-gray-50 hover:border-gray-200 transition-colors"
                 />
               </form>
               
@@ -392,7 +392,7 @@ const Navbar = () => {
         {/* Desktop Navigation Menu */}
         <nav className="hidden md:block border-t border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <NavigationMenu className="py-2">
+            <NavigationMenu className="py-0">
               <NavigationMenuList className="flex justify-between w-full">
                 {/* Regular navigation links */}
                 {navLinks.map((link, index) => (
