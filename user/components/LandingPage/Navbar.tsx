@@ -22,69 +22,107 @@ import { Button } from "@/components/ui/button"
 import { usePathname, useRouter } from "next/navigation"
 
 
-// Mega menu data for 'Promotional Gifts'
-const shopGiftsMenu = [
+// Update the mega menu data structures at the top of the file
+
+// Mega menu data for Non-Edible Gifts
+const nonEdibleGiftsMenu = [
   {
-    title: 'Edibles',
+    title: 'Personalized Gifts',
     items: [
-      'Chocolates',
-      'Yoga Bars',
-      'Dry Fruits',
-      'Snack',
-      'Cookies',
-      'Tea',
-      'Coffee',
-      'Granola',
-      'Mouth Freshners',
-      'Waffles',
-      'Perfumes',
-      'Green Tea',
-      'Makhana',
-      'Zafran',
-      'Apple Chips',
-      'Cookies Baked'
+      'Customized Corporate Stationery',
+      'Personalized Mugs & Glassware',
+      'Branded Desk Items',
+      'Custom Apparel',
+      'Personalized Keychains',
+      'Custom Travel Accessories'
     ],
   },
   {
-    title: 'Non-Edibles',
+    title: 'Traditional & Cultural',
     items: [
-      'Bottles',
-      'Mugs',
-      'Boxes',
-      'Diyas',
-      'Candles',
-      'Plants',
-      'Bags',
-      'Stationery',
-      'Home Décor',
-      'Kitchen Appliances',
-      'Electronic Appliances',
-      'Handmade Soaps',
-      'Incense Sticks',
-      'Brass Items'
+      'Brass & Silver Artefacts',
+      'Handcrafted Items',
+      'Ethnic Apparel',
+      'Handmade Paper Products',
+      'Wooden & Metal Clocks',
+      'Brass Lamps & Lanterns'
     ],
   },
   {
-    title: 'Sub-Categories',
+    title: 'Tech & Gadgets',
     items: [
-      'Wooden Bottles',
-      'Sippers',
-      'Thermus',
-      'Ceramic Mugs',
-      'Patola Art Tray',
-      'Duffle Bags',
-      'Handbags',
-      'Pens',
-      'Diary',
-      'Key Chains',
-      'Brass Infuser'
+      'Wireless Speakers',
+      'Power Banks & Chargers',
+      'Bluetooth Headphones',
+      'Smart Watches',
+      'Laptop Accessories',
+      'Portable Projectors'
+    ],
+  },
+  {
+    title: 'Eco-Friendly Gifts',
+    items: [
+      'Recycled Paper Products',
+      'Bamboo Accessories',
+      'Reusable Bottles',
+      'Cotton & Jute Bags',
+      'Plant Kits',
+      'Sustainable Packaging'
     ],
   }
 ];
-  
-// Navigation links for the main menu
+
+// Mega menu data for Edible Gifts
+const edibleGiftsMenu = [
+  {
+    title: 'Gourmet Food',
+    items: [
+      'Dry Fruits & Nuts',
+      'Premium Chocolates',
+      'Traditional Indian Sweets',
+      'Cheese & Crackers',
+      'Gourmet Snacks',
+      'International Delicacies'
+    ],
+  },
+  {
+    title: 'Regional Delicacies',
+    items: [
+      'North Indian Specialties',
+      'South Indian Delights',
+      'Regional Spice Boxes',
+      'Traditional Pickles',
+      'Authentic Chutneys',
+      'State Special Snacks'
+    ],
+  },
+  {
+    title: 'Beverages',
+    items: [
+      'Premium Tea Collections',
+      'Specialty Coffee Sets',
+      'Herbal Infusions',
+      'Organic Blends',
+      'Traditional Masala Chai',
+      'Coffee Hampers'
+    ],
+  },
+  {
+    title: 'Healthy & Special Diet',
+    items: [
+      'Organic Snacks',
+      'Sugar-Free Sweets',
+      'Keto-Friendly Options',
+      'Protein-Rich Treats',
+      'Gluten-Free Snacks',
+      'Vegan Delights'
+    ],
+  }
+];
+
+// Update the navigation links array
 const navLinks = [
-  { label: 'Home ', href: '/' },
+  { label: 'Home', href: '/' },
   { label: 'Bulk Orders', href: '/bulk-orders' },
   { label: 'Corporate Packages', href: '/packages' },
   // { label: 'Portfolio', href: '/portfolio' },
@@ -394,34 +432,19 @@ const Navbar = () => {
           <div className="max-w-7xl items-center justify-center flex mx-auto px-4 sm:px-6 lg:px-8">
             <NavigationMenu className="py-0">
               <NavigationMenuList className="flex justify-between w-full">
-                {/* Regular navigation links */}
-                {navLinks.map((link, index) => (
-                  <NavigationMenuItem key={index}>
-                    <Link href={link.href} legacyBehavior passHref>
-                      <NavigationMenuLink
-                        className={`group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-[#AD9660] focus:outline-none disabled:pointer-events-none disabled:opacity-50 ${
-                          pathname === link.href ? 'text-[#AD9660]' : 'text-gray-700'
-                        }`}
-                      >
-                        {link.label}
-                      </NavigationMenuLink>
-                    </Link>
-                  </NavigationMenuItem>
-                ))}
-                
-                {/* Promotional Gifts Dropdown */}
-                <NavigationMenuItem className="relative">
+
+       {/* Edible Gifts Dropdown */}
+       <NavigationMenuItem className="relative">
                   <button className="peer inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-gray-700 hover:text-[#AD9660] transition-colors">
-                    Promotional Gifts
+                    Edible Gifts <ChevronDown className="ml-1 h-4 w-4 opacity-50" />
                   </button>
-                  <div className="absolute invisible opacity-0 peer-hover:visible mt-2
+                  <div className="absolute  invisible opacity-0 peer-hover:visible mt-2
                   peer-hover:opacity-100 hover:visible hover:opacity-100 top-[90%]
-                   left-1/2 -translate-x-1/2 w-[800px] bg-white shadow-xl rounded-lg 
+                   w-[1000px] bg-white shadow-lg rounded-xl 
                    transition-all duration-300 transform origin-top peer-hover:translate-y-0 
-                   translate-y-[-20px] z-50 border border-gray-100/10">
-                    <div className="relative p-8 grid grid-cols-3 gap-8 after:content-['']
-                     after:absolute after:top-0 after:left-0 after:w-full after:h-full  after:to-transparent after:pointer-events-none">
-                      {shopGiftsMenu.map((section, index) => (
+                   translate-y-[-20px] z-50 border border-gray-100 ">
+                    <div className="relative p-8 grid grid-cols-4 gap-8">
+                      {edibleGiftsMenu.map((section, index) => (
                         <div key={index} className="space-y-4">
                           <h3 className="text-[16px] font-medium text-gray-800 pb-2 border-b border-gray-100">
                             {section.title}
@@ -443,11 +466,67 @@ const Navbar = () => {
                           </ul>
                         </div>
                       ))}
-                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#AD9660]/20 via-[#AD9660]/40 to-[#AD9660]/20"></div>
+                      <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#AD9660]/20 via-[#AD9660]/40 to-[#AD9660]/20"></div>
                     </div>
                   </div>
                 </NavigationMenuItem>
 
+
+  {/* Non-Edible Gifts Dropdown */}
+  <NavigationMenuItem className="relative">
+                  <button className="peer inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-gray-700 hover:text-[#AD9660] transition-colors">
+                    Non-Edible Gifts <ChevronDown className="ml-1 h-4 w-4 opacity-50" />
+                  </button>
+                  <div className="absolute  invisible opacity-0 peer-hover:visible mt-2
+                  peer-hover:opacity-100 hover:visible hover:opacity-100 top-[90%]
+                   w-[1000px] bg-white shadow-lg rounded-xl 
+                   transition-all duration-300 transform origin-top peer-hover:translate-y-0 
+                   translate-y-[-20px] z-50 border border-gray-100">
+                    <div className="relative p-8 grid grid-cols-4 gap-8">
+                      {nonEdibleGiftsMenu.map((section, index) => (
+                        <div key={index} className="space-y-4">
+                          <h3 className="text-[16px] font-medium text-gray-800 pb-2 border-b border-gray-100">
+                            {section.title}
+                          </h3>
+                          <ul className="space-y-2">
+                            {section.items.map((item, itemIndex) => (
+                              <li key={itemIndex} 
+                                  className="transform transition-transform duration-200 hover:translate-x-2"
+                              >
+                                <Link 
+                                  href={`/products?category=${encodeURIComponent(item.toLowerCase())}`}
+                                  className="text-sm text-gray-600 hover:text-[#AD9660] transition-all duration-200 flex items-center group"
+                                >
+                                  <span className="h-[2px] w-0 bg-[#AD9660] group-hover:w-3 transition-all duration-200 mr-0 group-hover:mr-2 opacity-0 group-hover:opacity-100"></span>
+                                  {item}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                      <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#AD9660]/20 via-[#AD9660]/40 to-[#AD9660]/20"></div>
+                    </div>
+                  </div>
+                </NavigationMenuItem>
+
+         
+
+                {/* Regular navigation links */}
+                {navLinks.map((link, index) => (
+                  <NavigationMenuItem key={index}>
+                    <Link href={link.href} legacyBehavior passHref>
+                      <NavigationMenuLink
+                        className={`group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-[#AD9660] focus:outline-none disabled:pointer-events-none disabled:opacity-50 ${
+                          pathname === link.href ? 'text-[#AD9660]' : 'text-gray-700'
+                        }`}
+                      >
+                        {link.label}
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuItem>
+                ))}
+                
               
               </NavigationMenuList>
             </NavigationMenu>

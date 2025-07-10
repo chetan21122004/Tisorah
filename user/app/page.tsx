@@ -148,6 +148,8 @@ export default async function HomePage() {
       {/* Top Horizontal Banner Section */}
       <HeroBanner />
       
+
+
       {/* Hero Section */}
       <HeroSection />
 
@@ -420,9 +422,9 @@ export default async function HomePage() {
       </div>
       
       {/* Our Clients Section */}
-      <div className="bg-white">
+      {/* <div className="bg-white">
         <OurClient />
-      </div>
+      </div> */}
       
       {/* Features Section */}
       <section className="py-10 md:py-12 bg-gradient-to-b from-white to-[#F4F4F4]/30">
@@ -477,14 +479,8 @@ export default async function HomePage() {
       </section>
       
       {/* Gifting Section */}
-      <Gifting />
 
-       {/* Testimonials Section */}
-       {testimonials && testimonials.length > 0 && (
-        <div className="">
-          <Testimonials testimonials={testimonials} />
-        </div>
-      )}
+    
       
       {/* Blog Section */}
       <BlogCarousel posts={latestBlogPosts} />

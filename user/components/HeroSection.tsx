@@ -10,6 +10,7 @@ import { Package, Check, Star, ArrowRight, Shield, Clock, ChevronLeft, ChevronRi
 import { AnimatePresence, motion } from "framer-motion"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { preserveScroll } from "@/lib/utils"
+import Gifting from "./LandingPage/Gifting"
 
 // Banner slides for the hero slider
 const bannerSlides = [
@@ -215,6 +216,7 @@ export default function HeroSection() {
         </div>
       </div>
       
+      <Gifting />
       
       
       {/* Featured Products Section */}

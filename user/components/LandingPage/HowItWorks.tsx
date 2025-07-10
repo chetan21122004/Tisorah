@@ -92,7 +92,7 @@ const HowItWorks: FC = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
           >
             The <span className="relative inline-block">
-              <span className="relative z-10">Tisorah</span>
+              <span className="relative z-10">TisorahBox</span>
               <span className="absolute bottom-1 left-0 w-full h-3 bg-[#AD9660]/20 -z-10"></span>
             </span> Experience
           </motion.h2>

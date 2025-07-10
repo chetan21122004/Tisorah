@@ -240,7 +240,7 @@ export default function PackagesPage() {
         </div>
       </section>
 
-      {/* Seasonal Offers */}
+        {/* Seasonal Offers */}
       <section className="py-16 bg-[#F4F4F4] relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/geometry_pattern.jpg')] opacity-5"></div>
         <div className="container mx-auto px-4 relative">
@@ -257,7 +257,7 @@ export default function PackagesPage() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {seasonalOffers.map((offer, index) => (
+          {seasonalOffers.map((offer, index) => (
               <div key={index} className="bg-white border border-[#AD9660]/10 p-8 transition-all duration-300 hover:border-[#AD9660]/30 hover:shadow-lg">
                 <div className="flex items-start gap-6">
                   <div className="p-4 bg-[#F4F4F4]">
@@ -273,17 +273,17 @@ export default function PackagesPage() {
                       </div>
                       <div className="text-sm text-gray-600 font-light">
                         Valid until {offer.validUntil}
-                      </div>
+                  </div>
                     </div>
                   </div>
                 </div>
               </div>
-            ))}
+          ))}
           </div>
         </div>
       </section>
 
-      {/* Packages Grid */}
+        {/* Packages Grid */}
       <section className="py-24 bg-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/geometry_pattern.jpg')] opacity-5"></div>
         <div className="container mx-auto px-4 relative">
@@ -304,18 +304,18 @@ export default function PackagesPage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {packages.map((pkg) => (
+          {packages.map((pkg) => (
               <div
-                key={pkg.id}
+              key={pkg.id}
                 className={`group bg-white border border-[#AD9660]/10 transition-all duration-300 hover:border-[#AD9660]/30 hover:shadow-lg relative ${
                   pkg.popular ? "border-[#AD9660]" : ""
-                }`}
-              >
-                {pkg.popular && (
+              }`}
+            >
+              {pkg.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-[#AD9660] text-white px-6 py-1 text-sm font-light">
-                    Most Popular
+                  Most Popular
                   </div>
-                )}
+              )}
 
                 <div className="relative h-64 overflow-hidden">
                   <Image
@@ -325,8 +325,8 @@ export default function PackagesPage() {
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                   <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 flex items-center gap-1">
-                    <Star className="w-4 h-4 text-[#AD9660] fill-current" />
-                    <span className="text-sm font-medium">{pkg.rating}</span>
+                      <Star className="w-4 h-4 text-[#AD9660] fill-current" />
+                      <span className="text-sm font-medium">{pkg.rating}</span>
                     <span className="text-sm text-gray-600 font-light">({pkg.reviews})</span>
                   </div>
                 </div>
@@ -376,9 +376,9 @@ export default function PackagesPage() {
                   <Button className="w-full bg-[#323433] hover:bg-black text-white flex items-center justify-center gap-2 group py-6">
                     <span>Request Quote</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-                  </Button>
+                    </Button>
+                  </div>
                 </div>
-              </div>
             ))}
           </div>
         </div>
@@ -390,7 +390,7 @@ export default function PackagesPage() {
           <div className="absolute top-0 left-0 w-64 h-64 bg-[#AD9660]/5 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#AD9660]/10 rounded-full blur-3xl"></div>
         </div>
-        
+
         <div className="container mx-auto px-4 relative">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl font-serif text-white mb-6">
@@ -399,8 +399,8 @@ export default function PackagesPage() {
             
             <p className="text-xl text-[#E6E2DD]/90 font-light mb-12">
               Let us help you create a personalized gifting solution that perfectly matches your requirements and budget.
-            </p>
-            
+              </p>
+
             <div className="flex flex-wrap justify-center gap-6">
               <Button className="bg-[#AD9660] hover:bg-[#8d7c50] text-white px-8 py-6 rounded-sm shadow-sm flex items-center gap-2 group transition-all duration-300">
                 <span>Get Custom Quote</span>
