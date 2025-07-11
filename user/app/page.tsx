@@ -23,6 +23,7 @@ import {
   PackageCheck,
   Phone,
   Clock,
+  ShoppingBag,
 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -165,11 +166,63 @@ export default async function HomePage() {
       {/* Top Horizontal Banner Section */}
       <HeroBanner />
 
-      {/* Hero Section with SEO-optimized H1 */}
-      <section className="relative">
-        <HeroSection />
-        <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-          <h1 className="sr-only">Premium Corporate Gifts India - Luxury Corporate Gifting Solutions by Tisorah</h1>
+      {/* Hero Section */}
+      <section className="relative min-h-[70vh] flex items-center">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1E2A47] via-[#1E2A47] to-[#2A3B5C]"></div>
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="inline-flex items-center gap-3 bg-[#AD9660]/10 border border-[#AD9660]/20 rounded-full px-6 py-3 mb-8">
+              <Gift className="w-5 h-5 text-[#AD9660]" />
+              <span className="text-[#AD9660] font-medium text-sm">Premium Corporate Gifting Solutions</span>
+            </div>
+            
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-white mb-6 font-['Frank_Ruhl_Libre'] leading-tight">
+              Elevate Your
+              <span className="block text-[#AD9660]">Corporate Relationships</span>
+            </h1>
+            
+            <p className="text-xl text-[#E6E2DD]/90 max-w-3xl mx-auto mb-12 font-light leading-relaxed">
+              Transform business connections with our curated collection of premium corporate gift          From luxury hampers to branded merchandise, we deliver excellence across India.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+              <Button 
+                size="lg" 
+                className="bg-[#AD9660] hover:bg-[#AD9660]/90 text-white px-8 py-4 text-lg font-medium rounded-none border-none transition-all duration-300 hover:shadow-lg"
+              >
+                <ShoppingBag className="w-5 h-5 mr-2" />
+                Explore Collection
+              </Button>
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="border-2 border-white/20 text-white hover:bg-white/10 px-8 py-4 text-lg font-medium rounded-none backdrop-blur-sm transition-all duration-300"
+              >
+                <MessageCircle className="w-5 h-5 mr-2" />
+                Get Quote
+              </Button>
+            </div>
+
+            {/* Trust Indicators */}
+            <div className="flex flex-wrap justify-center items-center gap-8 text-[#E6E2DD]/70">
+              <div className="flex items-center gap-2">
+                <Award className="w-5 h-5 text-[#AD9660]" />
+                <span className="text-sm font-medium">10,000+ Products</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Users className="w-5 h-5 text-[#AD9660]" />
+                <span className="text-sm font-medium">500+ Happy Clients</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Truck className="w-5 h-5 text-[#AD9660]" />
+                <span className="text-sm font-medium">Pan-India Delivery</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="w-5 h-5 text-[#AD9660]" />
+                <span className="text-sm font-medium">24hr Response</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -310,7 +363,7 @@ export default async function HomePage() {
       </section>
 
       {/* Corporate Gifting Solutions Section */}
-      <section className="py-8 bg-white border-t border-gray-100">
+      {/* <section className="py-8 bg-white border-t border-gray-100">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
             <h2 className="text-2xl md:text-3xl font-light text-[#323433] mb-2">
@@ -342,7 +395,7 @@ export default async function HomePage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Quote CTA Section */}
       <QuoteCTA />

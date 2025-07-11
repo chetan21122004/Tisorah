@@ -7,10 +7,16 @@ import type { BlogPost } from '@/types/blog'
 import { EXAMPLE_BLOGS } from '@/utils/blog-constants'
 
 export async function generateStaticParams() {
-  // Get all categories for static generation
-  const categories = await getAllCategories()
+  // Use static list of categories for build time
+  const staticCategories = [
+    { slug: 'corporate-gifting' },
+    { slug: 'employee-recognition' },
+    { slug: 'client-appreciation' },
+    { slug: 'festival-gifts' },
+    { slug: 'executive-gifts' }
+  ]
   
-  return categories.map((category) => ({
+  return staticCategories.map((category) => ({
     slug: category.slug,
   }))
 }

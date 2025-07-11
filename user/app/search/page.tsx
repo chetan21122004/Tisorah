@@ -17,6 +17,9 @@ import Image from "next/image"
 import { searchProducts, type SearchParams } from "../actions"
 import PatternBackground from "@/components/PatternBackground"
 
+// Force dynamic rendering for search page
+export const dynamic = 'force-dynamic'
+
 export default async function SearchPage({
   searchParams,
 }: {
