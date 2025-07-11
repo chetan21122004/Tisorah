@@ -49,7 +49,7 @@ export default function BulkOrdersPage() {
     },
     {
       icon: <Truck className="w-8 h-8 text-[#1E2A47]" />,
-      title: "Free Shipping",
+      title: "Shipping",
       description: "Complimentary delivery on 100+ pieces",
       detail: "Fast and reliable nationwide delivery",
     },

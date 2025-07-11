@@ -52,7 +52,7 @@ export default async function HomePage() {
   const trendingProducts = supabaseProducts
     .map((product: any) => ({
       name: product.name,
-      image: product.images && product.images.length > 0 ? product.images[0] : '/placeholder.svg',
+      image: product.display_image || product.images?.[0] || '/placeholder.svg',
       price: product.price,
       price_min: product.price_min,
       price_max: product.price_max,
@@ -67,7 +67,7 @@ export default async function HomePage() {
   const latestProducts = latestProductsRaw
     .map((product: any) => ({
       name: product.name,
-      image: product.images && product.images.length > 0 ? product.images[0] : '/placeholder.svg',
+      image: product.display_image || product.images?.[0] || '/placeholder.svg',
       price: product.price,
       price_min: product.price_min,
       price_max: product.price_max,
@@ -99,7 +99,7 @@ export default async function HomePage() {
   const mainCategories = await getMainCategories();
 
   // Filter categories for curated section
-  const curatedCategories = categories.filter(cat => 
+  const curatedCategories = categories.filter(cat =>
     ['Journal', 'Drinkware', 'Electronic Gadgets', 'Coffee & Tea Delights', 'Lights & Lamps'].includes(cat.name)
   ).map(cat => ({
     name: cat.name,
@@ -144,10 +144,10 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen">
       <QuotePopup />
-      
+
       {/* Top Horizontal Banner Section */}
       <HeroBanner />
-      
+
 
 
       {/* Hero Section */}
@@ -155,16 +155,16 @@ export default async function HomePage() {
 
 
 
-      
+
       {/* How It Works Section */}
       <HowItWorks />
 
 
-        {/* Hamper Curation Process Section */}
-        <section className="py-6 bg-[#FAFAFA]">
+      {/* Hamper Curation Process Section */}
+      <section className="py-6 bg-[#FAFAFA]">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-3xl mx-auto mb-12">
-           
+
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif text-[#323433] font-light mb-4">
               Premium <span className="text-[#AD9660]">Hamper Curation</span> Process
             </h2>
@@ -172,7 +172,7 @@ export default async function HomePage() {
               From concept to delivery, we ensure every hamper tells a unique story
             </p>
           </div>
-          
+
           {/* Process Steps - Responsive Grid/Timeline */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {/* Step 1 - Ideation */}
@@ -184,19 +184,19 @@ export default async function HomePage() {
                   </div>
                   <h3 className="font-serif text-xl text-[#323433]">Ideation</h3>
                 </div>
-                
+
                 <p className="text-gray-600 text-sm md:text-base mb-4">
                   The process of curating the perfect hamper begins with ideation, where we brainstorm and conceptualize the best gift options for each occasion.
                 </p>
-                
+
                 <div className="hidden md:block absolute -right-4 top-1/2 transform -translate-y-1/2 z-10">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#AD9660]">
-                    <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
               </div>
             </div>
-            
+
             {/* Step 2 - Designing */}
             <div className="group relative">
               <div className="bg-white rounded-md shadow-sm p-6 md:p-8 h-full transition-all duration-300 hover:shadow-md">
@@ -206,19 +206,19 @@ export default async function HomePage() {
                   </div>
                   <h3 className="font-serif text-xl text-[#323433]">Designing</h3>
                 </div>
-                
+
                 <p className="text-gray-600 text-sm md:text-base mb-4">
                   Our team of designers then meticulously crafts the hamper, ensuring that every detail is thoughtfully considered and executed.
                 </p>
-                
+
                 <div className="hidden md:block absolute -right-4 top-1/2 transform -translate-y-1/2 z-10">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#AD9660]">
-                    <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
               </div>
             </div>
-            
+
             {/* Step 3 - Branding */}
             <div className="group relative">
               <div className="bg-white rounded-md shadow-sm p-6 md:p-8 h-full transition-all duration-300 hover:shadow-md">
@@ -228,19 +228,19 @@ export default async function HomePage() {
                   </div>
                   <h3 className="font-serif text-xl text-[#323433]">Branding</h3>
                 </div>
-                
+
                 <p className="text-gray-600 text-sm md:text-base mb-4">
                   We then incorporate the client's branding and personalization to make the hamper truly unique and reflective of their style and preferences.
                 </p>
-                
+
                 <div className="hidden md:block absolute -right-4 top-1/2 transform -translate-y-1/2 z-10">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#AD9660]">
-                    <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
               </div>
             </div>
-            
+
             {/* Step 4 - Shipping */}
             <div className="group">
               <div className="bg-white rounded-md shadow-sm p-6 md:p-8 h-full transition-all duration-300 hover:shadow-md">
@@ -250,14 +250,14 @@ export default async function HomePage() {
                   </div>
                   <h3 className="font-serif text-xl text-[#323433]">Shipping</h3>
                 </div>
-                
+
                 <p className="text-gray-600 text-sm md:text-base mb-4">
                   Finally, we carefully pack and ship the hamper, ensuring that it arrives at its destination in pristine condition, ready to delight the recipient.
                 </p>
               </div>
             </div>
           </div>
-          
+
           {/* CTA Button */}
           <div className="text-center mt-12">
             <Link href="/quote">
@@ -269,16 +269,16 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-      
+
       {/* Services Section */}
       <ServicesSection />
-      
+
       {/* Why Us - Cork Sustainable Gifting Section */}
       <section className="py-6 bg-white relative overflow-hidden">
         {/* Modern abstract background element */}
         <div className="absolute -right-40 -top-40 w-80 h-80 bg-[#F0EBE1] rounded-full opacity-20"></div>
         <div className="absolute -left-20 bottom-0 w-60 h-60 bg-[#AD9660]/10 rounded-full"></div>
-        
+
         <div className="container mx-auto px-4 md:px-6 relative">
           {/* Modern header with accent line */}
           <div className="max-w-xl mb-12 md:mb-16">
@@ -290,14 +290,14 @@ export default async function HomePage() {
               Sustainable Cork-Based <span className="text-[#AD9660]">Corporate Gifting</span>
             </h2>
           </div>
-          
+
           <div className="flex flex-col lg:flex-row gap-0 shadow-lg rounded-sm overflow-hidden">
             {/* Left column - Image with overlay */}
             <div className="lg:w-1/3 relative">
               <div className="h-full min-h-[400px] lg:min-h-0 relative">
-                <Image 
-                  src="https://www.boxupgifting.com/cdn/shop/files/Custom_curated.jpg?v=1685185266&width=1240" 
-                  alt="Premium Cork Products" 
+                <Image
+                  src="https://www.boxupgifting.com/cdn/shop/files/Custom_curated.jpg?v=1685185266&width=1240"
+                  alt="Premium Cork Products"
                   fill
                   className="object-cover"
                   priority
@@ -314,7 +314,7 @@ export default async function HomePage() {
                 </div>
               </div>
             </div>
-            
+
             {/* Middle column - Description */}
             <div className="lg:w-1/3 bg-white p-6 md:p-8 flex flex-col justify-between border-b lg:border-b-0">
               <div>
@@ -333,7 +333,7 @@ export default async function HomePage() {
                   We strive to create an array of customized cork sustainable gifting options. Our team of expert designers continuously work to create alternatives to plastic and other materials with eco-friendly cork.
                 </p>
               </div>
-              
+
               <Link href="/quote" className="mt-6">
                 <Button className="bg-[#323433] hover:bg-black text-white px-6 py-2 flex items-center gap-2 group transition-all duration-300 shadow-sm">
                   <span>Explore Cork Options</span>
@@ -341,7 +341,7 @@ export default async function HomePage() {
                 </Button>
               </Link>
             </div>
-            
+
             {/* Right column - Benefits */}
             <div className="lg:w-1/3 bg-[#FAFAFA] p-6 md:p-8 border-l border-gray-100">
               <h3 className="text-lg font-medium text-[#323433] mb-4 flex items-center gap-2">
@@ -382,7 +382,7 @@ export default async function HomePage() {
                   <span className="text-sm text-gray-600">Durable and resistant to wear and moisture</span>
                 </li>
               </ul>
-              
+
               <div className="mt-6 pt-6 border-t border-gray-200">
                 <h4 className="text-sm font-medium text-[#323433] mb-3">Gifting Categories</h4>
                 <div className="grid grid-cols-3 gap-2">
@@ -410,22 +410,22 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-      
-    
-      
+
+
+
       {/* Quote CTA Section */}
       <QuoteCTA />
-      
+
       {/* Trending Products Section */}
       <div className="px-4 md:px-0">
         <ProductGrid title="Trending Today" products={trendingProducts} />
       </div>
-      
+
       {/* Our Clients Section */}
       {/* <div className="bg-white">
         <OurClient />
       </div> */}
-      
+
       {/* Features Section */}
       <section className="py-10 md:py-12 bg-gradient-to-b from-white to-[#F4F4F4]/30">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-10">
@@ -438,7 +438,7 @@ export default async function HomePage() {
             <h2 className="text-4xl md:text-5xl font-serif mb-6 text-[#323433] font-light">
               Elevate Your Corporate Gifting Experience
             </h2>
-           
+
           </div>
 
           <FeatureSection
@@ -477,14 +477,14 @@ export default async function HomePage() {
           />
         </div>
       </section>
-      
+
       {/* Gifting Section */}
 
-    
-      
+
+
       {/* Blog Section */}
       <BlogCarousel posts={latestBlogPosts} />
-      
+
       {/* Contact Form Section */}
       <ContactForm />
     </div>

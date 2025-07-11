@@ -188,9 +188,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products, isM
   const [hovered, setHovered] = useState(false);
   
   // Use display_image as primary, fallback to image prop, then first additional image
-  const displayImage = product.display_image || product.image || product.images?.[0];
+  const displayImage = product.display_image || product.image || product.images?.[0] || '/placeholder.svg';
   // Use hover_image as hover, fallback to display_image
-  const hoverImage = product.hover_image || product.display_image || product.image;
+  const hoverImage = product.hover_image || product.display_image || product.image || product.images?.[0] || '/placeholder.svg';
   
   // Format price display based on whether it's a range or single price
   const formatPrice = () => {
@@ -216,25 +216,25 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products, isM
       onMouseLeave={() => setHovered(false)}
     >
       <div className={`relative ${isMobile ? 'h-32 sm:h-36' : 'h-40 sm:h-48 md:h-64'} mb-3 md:mb-4 bg-white`}>
-        {displayImage ? (
-          <>
-            <img
-              src={displayImage}
-              alt={product.name}
-              className={`w-full h-full object-contain p-2 transition-opacity duration-500 ${hovered ? 'opacity-0' : 'opacity-100'}`}
-            />
-            {hoverImage && hoverImage !== displayImage && (
-              <img
-                src={hoverImage}
-                alt={product.name + ' hover'}
-                className={`absolute inset-0 w-full h-full object-contain p-2 transition-opacity duration-500 ${hovered ? 'opacity-100' : 'opacity-0'}`}
-              />
-            )}
-          </>
-        ) : (
-          <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-            <span className="text-gray-400 text-xs">No image</span>
-          </div>
+        <img
+          src={displayImage}
+          alt={product.name}
+          className={`w-full h-full object-contain p-2 transition-opacity duration-500 ${hovered && hoverImage !== displayImage ? 'opacity-0' : 'opacity-100'}`}
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = '/placeholder.svg';
+          }}
+        />
+        {hoverImage && hoverImage !== displayImage && (
+          <img
+            src={hoverImage}
+            alt={product.name + ' hover'}
+            className={`absolute inset-0 w-full h-full object-contain p-2 transition-opacity duration-500 ${hovered ? 'opacity-100' : 'opacity-0'}`}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = '/placeholder.svg';
+            }}
+          />
         )}
         {/* Elegant badge design */}
         <div className="absolute top-2 md:top-4 left-0">

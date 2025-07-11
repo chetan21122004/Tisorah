@@ -343,15 +343,21 @@ export default function ProductPage({ params }: ProductPageProps) {
 
   // Reusable card for related/similar products
   function RelatedProductCard({ item }: { item: any }) {
+    const relatedDisplayImage = item.display_image || item.image || item.images?.[0] || '/placeholder.svg';
+    
     return (
       <div className="group overflow-hidden">
         <Link href={`/products/${item.id}`} className="block">
           <div className="relative aspect-square mb-3 overflow-hidden">
             <Image
-              src={item.image}
+              src={relatedDisplayImage}
               alt={item.name}
               fill
               className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = '/placeholder.svg';
+              }}
             />
             {item.discount && (
               <div className="absolute top-3 left-3 bg-[#323433] text-white text-xs px-2 py-1">
@@ -462,13 +468,17 @@ export default function ProductPage({ params }: ProductPageProps) {
                         ? product.display_image
                         : selectedImage > 0 && product?.images?.[selectedImage - 1]
                         ? product.images[selectedImage - 1]
-                        : product?.display_image || "/placeholder.jpg"
+                        : product?.display_image || product?.images?.[0] || "/placeholder.svg"
                     }
                     alt={product?.name}
                     fill
                     className="object-contain"
                     sizes="(max-width: 768px) 100vw, 50vw"
                     priority
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = '/placeholder.svg';
+                    }}
                   />
                 </div>
               </div>
@@ -727,9 +737,9 @@ export default function ProductPage({ params }: ProductPageProps) {
               <div className="flex items-start gap-3">
                 <Truck className="w-5 h-5 text-[#AD9660] mt-0.5" />
                 <div>
-                  <p className="text-gray-800 font-medium">Free Shipping</p>
+                  <p className="text-gray-800 font-medium"> Shipping</p>
                   <p className="text-gray-600 text-sm">
-                    On bulk orders over ₹5,000. Standard delivery in {product.delivery || "5-7 business days"}.
+                    Standard delivery in {product.delivery || "7-15 business days"}.
                   </p>
                 </div>
               </div>

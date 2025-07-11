@@ -80,6 +80,29 @@ ALTER TABLE products ADD COLUMN IF NOT EXISTS price_min NUMERIC;
 ALTER TABLE products ADD COLUMN IF NOT EXISTS price_max NUMERIC;
 ALTER TABLE products ADD COLUMN IF NOT EXISTS has_price_range BOOLEAN DEFAULT false;
 
+-- Add image columns for proper image handling
+ALTER TABLE products ADD COLUMN IF NOT EXISTS display_image TEXT;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS hover_image TEXT;
+
+-- Ensure images column is properly typed as text array
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                 WHERE table_name = 'products' AND column_name = 'images' AND data_type = 'ARRAY') THEN
+    -- If images column doesn't exist as array, add it
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name = 'products' AND column_name = 'images') THEN
+      ALTER TABLE products ADD COLUMN images TEXT[];
+    ELSE
+      -- If it exists but wrong type, change it
+      ALTER TABLE products ALTER COLUMN images TYPE TEXT[] USING CASE 
+        WHEN images IS NULL THEN NULL 
+        ELSE ARRAY[images::TEXT] 
+      END;
+    END IF;
+  END IF;
+END $$;
+
 -- Convert existing moq from string to numeric
 ALTER TABLE products 
   ALTER COLUMN moq TYPE NUMERIC USING (moq::numeric);

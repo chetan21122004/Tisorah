@@ -15,7 +15,7 @@ export async function getFeaturedProducts() {
     
     const { data: products, error } = await supabase
       .from('products')
-      .select()
+      .select('*, display_image, hover_image, images')
       .eq('featured', true)
       .order('created_at', { ascending: false })
       .limit(10)
@@ -38,7 +38,7 @@ export async function getProducts() {
     
     const { data: products, error } = await supabase
       .from('products')
-      .select()
+      .select('*, display_image, hover_image, images')
       .order('created_at', { ascending: false })
 
     if (error) {
@@ -68,7 +68,7 @@ export async function searchProducts(params: SearchParams) {
     // Start building the query
     let query = supabase
       .from('products')
-      .select('*', { count: 'exact' })
+      .select('*, display_image, hover_image, images', { count: 'exact' })
     
     // Add search term filter if provided
     if (params.q) {
@@ -146,7 +146,7 @@ export async function getLatestProducts() {
   const supabase = await createServerSupabaseClient();
   const { data: products, error } = await supabase
     .from('products')
-    .select('*')
+    .select('*, display_image, hover_image, images')
     .order('updated_at', { ascending: false })
     .limit(8);
 
@@ -221,7 +221,7 @@ export async function getRelatedProducts(productId: string, category: string | n
     
     let query = supabase
       .from("products")
-      .select("*")
+      .select("*, display_image, hover_image, images")
       .neq("id", productId) // Exclude the current product
       .limit(8);
       
@@ -241,7 +241,7 @@ export async function getRelatedProducts(productId: string, category: string | n
     if (products.length < 4) {
       const { data: featuredProducts, error: featuredError } = await supabase
         .from("products")
-        .select("*")
+        .select("*, display_image, hover_image, images")
         .neq("id", productId)
         .eq("featured", true)
         .limit(8 - products.length);
