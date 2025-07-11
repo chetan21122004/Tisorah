@@ -68,37 +68,7 @@ interface Product {
   reviews?: number;
 }
 
-// Category cards data
-const categories = [
-  {
-    img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62",
-    alt: "Executive Gifts",
-    title: "Executive Gifts",
-    price: "Starting ₹2,999",
-    link: "/categories/executive"
-  },
-  {
-    img: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0",
-    alt: "Festival Gifts",
-    title: "Festival Gifts",
-    price: "Starting ₹1,999",
-    link: "/categories/festival"
-  },
-  {
-    img: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44",
-    alt: "Awards & Recognition",
-    title: "Awards",
-    price: "Starting ₹4,999",
-    link: "/categories/awards"
-  },
-  {
-    img: "https://images.unsplash.com/photo-1511578314322-379afb476865",
-    alt: "Corporate Events",
-    title: "Event Gifts",
-    price: "Starting ₹2,499",
-    link: "/categories/events"
-  }
-]
+
 
 export default function HeroSection() {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
@@ -349,7 +319,7 @@ export default function HeroSection() {
                                 <h3 className="font-light text-xs text-[#323433] leading-snug line-clamp-2 mb-1 group-hover:text-[#AD9660] transition-colors duration-300">
                                   {product.name}
                                 </h3>
-                                <span className="text-[8px] text-gray-500 font-light tracking-wide uppercase">corporate gift</span>
+
                                 <div className="mt-2 flex items-center justify-between">
                                   <span className="text-sm font-light text-[#AD9660]">{formatPrice(product)}</span>
                                   <div className="w-4 h-[1px] bg-[#AD9660]/20"></div>
@@ -422,7 +392,7 @@ export default function HeroSection() {
                               <h3 className="font-light text-sm md:text-base text-[#323433] leading-snug line-clamp-2 mb-1 md:mb-2 group-hover:text-[#AD9660] transition-colors duration-300">
                                 {product.name}
                               </h3>
-                              <span className="text-[10px] md:text-xs text-gray-500 font-light tracking-wide uppercase">corporate gift</span>
+
                               <div className="mt-2 md:mt-3 flex items-center justify-between">
                                 <span className="text-sm md:text-lg font-light text-[#AD9660]">{formatPrice(product)}</span>
                                 <div className="w-4 md:w-6 h-[1px] bg-[#AD9660]/20"></div>

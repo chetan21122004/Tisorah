@@ -51,8 +51,12 @@ export default async function HomePage() {
   const supabaseProducts = await getFeaturedProducts();
   const trendingProducts = supabaseProducts
     .map((product: any) => ({
+      id: product.id,
       name: product.name,
       image: product.display_image || product.images?.[0] || '/placeholder.svg',
+      display_image: product.display_image,
+      hover_image: product.hover_image,
+      images: product.images,
       price: product.price,
       price_min: product.price_min,
       price_max: product.price_max,
@@ -66,8 +70,12 @@ export default async function HomePage() {
   const latestProductsRaw = await getLatestProducts();
   const latestProducts = latestProductsRaw
     .map((product: any) => ({
+      id: product.id,
       name: product.name,
       image: product.display_image || product.images?.[0] || '/placeholder.svg',
+      display_image: product.display_image,
+      hover_image: product.hover_image,
+      images: product.images,
       price: product.price,
       price_min: product.price_min,
       price_max: product.price_max,

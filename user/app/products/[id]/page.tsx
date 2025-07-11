@@ -295,51 +295,69 @@ export default function ProductPage({ params }: ProductPageProps) {
     )
   }
 
-  // Reusable card for related/similar products
+    // Reusable card for related/similar products
   function RelatedProductCard({ item }: { item: any }) {
     const relatedDisplayImage = item.display_image || item.image || item.images?.[0] || '/placeholder.svg';
     
     return (
-      <Card className="group overflow-hidden border-0 shadow-sm hover:shadow-md transition-all duration-300">
-        <Link href={`/products/${item.id}`} className="block">
-          <div className="relative aspect-square overflow-hidden">
+      <Link href={`/products/${item.id}`}>
+        <div className="group relative overflow-hidden flex flex-col transition-transform duration-500 hover:scale-[1.02]" style={{ height: '100%' }}>
+                    <div className="relative h-40 md:h-48 mb-3 md:mb-4 bg-white">
             <Image
               src={relatedDisplayImage}
               alt={item.name}
               fill
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              className="w-full h-full object-contain p-2 transition-opacity duration-500 group-hover:opacity-0"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.src = '/placeholder.svg';
               }}
             />
-            {item.discount && (
-              <div className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
-                {item.discount}
+            {item.hover_image && item.hover_image !== relatedDisplayImage && (
+              <Image
+                src={item.hover_image}
+                alt={item.name + ' hover'}
+                fill
+                className="absolute inset-0 w-full h-full object-contain p-2 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = '/placeholder.svg';
+                }}
+              />
+            )}
+            
+            {/* Elegant badge design */}
+            <div className="absolute top-2 md:top-4 left-0">
+              <div className="bg-white/90 backdrop-blur-sm border-l-2 border-[#AD9660] text-[#323433] font-light text-[10px] md:text-xs px-2 md:px-4 py-1 md:py-2">
+                Best Seller
+              </div>
+            </div>
+          </div>
+
+          {/* Product details with refined typography */}
+          <div className="px-1 md:px-2 flex flex-col flex-1">
+            <h3 className="font-light text-sm md:text-base text-[#323433] leading-snug line-clamp-2 mb-1 md:mb-2 group-hover:text-[#AD9660] transition-colors duration-300">
+              {item.name}
+            </h3>
+
+            <div className="mt-2 md:mt-3 flex items-center justify-between">
+              <span className="text-sm md:text-lg font-light text-[#AD9660]">{item.price}</span>
+              <div className="w-4 md:w-6 h-[1px] bg-[#AD9660]/20"></div>
+            </div>
+            
+            {/* MOQ Information if available */}
+            {item.moq && (
+              <div className="mt-1 md:mt-2 flex items-center text-[10px] md:text-xs text-gray-500">
+                <Package className="w-2 h-2 md:w-3 md:h-3 mr-1" />
+                <span>MOQ: {item.moq} {item.moq === 1 ? 'piece' : 'pieces'}</span>
               </div>
             )}
           </div>
-          <CardContent className="p-4">
-            <h3 className="text-sm font-medium text-[#323433] line-clamp-2 mb-2 group-hover:text-[#AD9660] transition-colors">
-              {item.name}
-            </h3>
-            <div className="flex items-center gap-1 mb-2">
-              <div className="flex items-center">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className={`w-3 h-3 ${i < Math.floor(item.rating) ? 'text-[#AD9660] fill-current' : 'text-gray-300'}`} />
-                ))}
-              </div>
-              <span className="text-xs text-gray-600 ml-1">{item.rating}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-semibold text-[#323433]">{item.price}</span>
-              {item.originalPrice && (
-                <span className="text-xs text-gray-500 line-through">{item.originalPrice}</span>
-              )}
-            </div>
-          </CardContent>
-        </Link>
-      </Card>
+
+          {/* Geometric decorative element on hover */}
+          <div className="absolute -bottom-full right-0 w-8 md:w-12 h-8 md:h-12 border border-[#AD9660]/20 rotate-45 group-hover:-translate-y-8 md:group-hover:-translate-y-12 transition-transform duration-500"></div>
+        </div>
+      </Link>
     )
   }
 

@@ -117,8 +117,6 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, index, products }) => {
-  const [hovered, setHovered] = useState(false);
-  
   // Use display_image as primary, fallback to image prop, then first additional image
   const displayImage = product.display_image || product.image || product.images?.[0] || '/placeholder.svg';
   // Use hover_image as hover, fallback to display_image or image prop
@@ -166,13 +164,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products }) =
   const formatPrice = () => {
     if (product.has_price_range && product.price_min && product.price_max) {
       return (
-        <span className="text-sm font-light text-[#AD9660]">
+        <span className="text-sm md:text-lg font-light text-[#AD9660]">
           ₹{product.price_min.toLocaleString()} - ₹{product.price_max.toLocaleString()}
         </span>
       );
     } else {
       return (
-        <span className="text-sm font-light text-[#AD9660]">
+        <span className="text-sm md:text-lg font-light text-[#AD9660]">
           ₹{product.price.toLocaleString()}
         </span>
       );
@@ -180,99 +178,81 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products }) =
   };
 
   return (
-    <div
-      className="group relative overflow-hidden flex flex-col transition-all duration-300 hover:scale-[1.02] h-full border border-gray-100 shadow-sm hover:shadow-md"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <Link href={`/products/${product.id}`} className="relative block">
-        <div className="relative h-48 md:h-52 bg-white overflow-hidden">
-          <img
+    <Link href={`/products/${product.id}`}>
+      <div
+        className="group relative overflow-hidden flex flex-col transition-transform duration-500 hover:scale-[1.02]"
+        style={{ height: '100%' }}
+      >
+        <div className="relative h-40 md:h-64 mb-3 md:mb-4 bg-white">
+          <Image 
             src={displayImage}
             alt={product.name}
-            className={`w-full h-full object-contain p-3 transition-opacity duration-500 ${hovered && hoverImage !== displayImage ? 'opacity-0' : 'opacity-100'}`}
+            fill
+            className="w-full h-full object-contain p-2 transition-opacity duration-500 group-hover:opacity-0"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               target.src = '/placeholder.svg';
             }}
           />
           {hoverImage && hoverImage !== displayImage && (
-            <img
+            <Image
               src={hoverImage}
               alt={product.name + ' hover'}
-              className={`absolute inset-0 w-full h-full object-contain p-3 transition-opacity duration-500 ${hovered ? 'opacity-100' : 'opacity-0'}`}
+              fill
+              className="absolute inset-0 w-full h-full object-contain p-2 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.src = '/placeholder.svg';
               }}
             />
           )}
+
           
           {/* Elegant badge design */}
-          <div className="absolute top-2 left-0">
-            <div className="bg-white/90 backdrop-blur-sm border-l-2 border-[#AD9660] text-[#323433] font-light text-[10px] px-2 py-0.5">
+          <div className="absolute top-2 md:top-4 left-0">
+            <div className="bg-white/90 backdrop-blur-sm border-l-2 border-[#AD9660] text-[#323433] font-light text-[10px] md:text-xs px-2 md:px-4 py-1 md:py-2">
               Best Seller
             </div>
           </div>
           
-          {/* Quick action buttons on hover */}
-          <div className={`absolute bottom-2 left-0 right-0 flex justify-center transition-opacity duration-300 ${hovered ? 'opacity-100' : 'opacity-0'}`}>
-            <div className="flex gap-2">
-              <button 
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleShortlistClick(e);
-                }}
-                className={`bg-white/90 backdrop-blur-sm w-7 h-7 rounded-full shadow-sm flex items-center justify-center transition-all duration-300 ${isInShortlistState ? 'text-[#AD9660]' : 'text-gray-500'}`}
-              >
-                <Heart className={`w-3 h-3 ${isInShortlistState ? 'fill-[#AD9660]' : ''}`} />
-              </button>
-              <div className="bg-white/90 backdrop-blur-sm w-7 h-7 rounded-full shadow-sm flex items-center justify-center">
-                <Eye className="w-3 h-3 text-gray-500" />
-              </div>
-            </div>
+          {/* Heart button on hover */}
+          <button 
+            onClick={handleShortlistClick}
+            className={`absolute top-3 right-3 w-9 h-9 rounded-full backdrop-blur-sm flex items-center justify-center transition-all duration-300 shadow-sm ${
+              isInShortlistState
+                ? "bg-[#AD9660] text-white hover:bg-[#8A784F]"
+                : "bg-white/90 text-[#323433] hover:bg-white opacity-0 group-hover:opacity-100"
+            }`}
+            aria-label={isInShortlistState ? "Remove from shortlist" : "Add to shortlist"}
+          >
+            <Heart className={`w-4 h-4 ${isInShortlistState ? "fill-current" : ""}`} />
+          </button>
+        </div>
+
+        {/* Product details with refined typography */}
+        <div className="px-1 md:px-2 flex flex-col flex-1">
+          <h3 className="font-light text-sm md:text-base text-[#323433] leading-snug line-clamp-2 mb-1 md:mb-2 group-hover:text-[#AD9660] transition-colors duration-300">
+            {product.name}
+          </h3>
+
+          <div className="mt-2 md:mt-3 flex items-center justify-between">
+            {formatPrice()}
+            <div className="w-4 md:w-6 h-[1px] bg-[#AD9660]/20"></div>
           </div>
-        </div>
-      </Link>
-      
-      <div className="p-3 flex flex-col flex-1">
-        {/* Category label */}
-        <span className="text-[10px] text-gray-500 font-light tracking-wide uppercase mb-1">
-          corporate gift
-        </span>
-        
-        {/* Product name */}
-        <h3 className="font-light text-xs md:text-sm text-[#323433] leading-snug line-clamp-2 mb-1 group-hover:text-[#AD9660] transition-colors duration-300">
-          {product.name}
-        </h3>
-        
-        {/* Price and decorative line */}
-        <div className="mt-1 flex items-center justify-between">
-          {formatPrice()}
-          <div className="w-4 h-[1px] bg-[#AD9660]/20"></div>
-        </div>
-        
-        {/* Bottom info row */}
-        <div className="flex items-center justify-between mt-2">
+          
           {/* MOQ Information */}
           {product.moq && (
-            <div className="flex items-center text-[10px] text-gray-500">
-              <Package className="w-2.5 h-2.5 mr-1" />
-              <span>MOQ: {product.moq}</span>
+            <div className="mt-1 md:mt-2 flex items-center text-[10px] md:text-xs text-gray-500">
+              <Package className="w-2 h-2 md:w-3 md:h-3 mr-1" />
+              <span>MOQ: {product.moq} {product.moq === 1 ? 'piece' : 'pieces'}</span>
             </div>
           )}
-          
-          {/* Rating */}
-          <div className="flex items-center">
-            <Star className="w-2.5 h-2.5 text-[#AD9660] fill-[#AD9660] mr-0.5" />
-            <span className="text-[10px] text-gray-600">{product.rating} ({product.reviews})</span>
-          </div>
         </div>
+
+        {/* Geometric decorative element on hover */}
+        <div className="absolute -bottom-full right-0 w-8 md:w-12 h-8 md:h-12 border border-[#AD9660]/20 rotate-45 group-hover:-translate-y-8 md:group-hover:-translate-y-12 transition-transform duration-500"></div>
       </div>
-      
-      {/* Geometric decorative element on hover */}
-      <div className="absolute -bottom-full right-0 w-8 h-8 border border-[#AD9660]/20 rotate-45 group-hover:-translate-y-8 transition-transform duration-500"></div>
-    </div>
+    </Link>
   );
 };
 
@@ -797,6 +777,9 @@ export default function ProductsPage() {
                           id: product.id,
                           name: product.name,
                           image: productImage,
+                          display_image: product.display_image,
+                          hover_image: product.hover_image,
+                          images: product.images,
                           price: product.price,
                           price_min: product.price_min,
                           price_max: product.price_max,
@@ -812,6 +795,9 @@ export default function ProductsPage() {
                           id: p.id,
                           name: p.name,
                           image: p.images && p.images.length > 0 ? p.images[0] : '/placeholder.svg',
+                          display_image: p.display_image,
+                          hover_image: p.hover_image,
+                          images: p.images,
                           price: p.price,
                           price_min: p.price_min,
                           price_max: p.price_max,

@@ -5,8 +5,10 @@ import { Star, Package, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { preserveScroll } from '@/lib/utils';
+import Link from 'next/link';
 
 interface Product {
+  id?: string;
   name: string;
   image: string;
   display_image?: string | null;
@@ -167,10 +169,10 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
 
         {/* Elegant CTA button */}
         <div className="flex justify-center mt-8 md:mt-12">
-          <button className="group relative bg-white hover:bg-[#AD9660] text-[#323433] hover:text-white border border-[#323433] px-8 md:px-12 py-3 md:py-4 rounded-none transition-all duration-300">
+          <a href="/products" className="group relative bg-white hover:bg-[#AD9660] text-[#323433] hover:text-white border border-[#323433] px-8 md:px-12 py-3 md:py-4 rounded-none transition-all duration-300 inline-block">
             <span className="relative z-10 font-light tracking-wider text-xs md:text-sm uppercase">View All..!</span>
             <div className="absolute inset-0 border border-[#AD9660] -translate-x-1 -translate-y-1 group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-300"></div>
-          </button>
+          </a>
         </div>
       </div>
     </section>
@@ -185,12 +187,12 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, index, products, isMobile }) => {
-  const [hovered, setHovered] = useState(false);
-  
   // Use display_image as primary, fallback to image prop, then first additional image
   const displayImage = product.display_image || product.image || product.images?.[0] || '/placeholder.svg';
   // Use hover_image as hover, fallback to display_image
   const hoverImage = product.hover_image || product.display_image || product.image || product.images?.[0] || '/placeholder.svg';
+  
+
   
   // Format price display based on whether it's a range or single price
   const formatPrice = () => {
@@ -210,16 +212,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products, isM
   };
   
   return (
-    <div
-      className="group relative overflow-hidden flex flex-col transition-transform duration-500 hover:scale-[1.02] h-full"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
+    <Link href={`/products/${product.id || '#'}`}>
+      <div
+        className="group relative overflow-hidden flex flex-col transition-transform duration-500 hover:scale-[1.02] h-full"
+      >
       <div className={`relative ${isMobile ? 'h-32 sm:h-36' : 'h-40 sm:h-48 md:h-64'} mb-3 md:mb-4 bg-white`}>
         <img
           src={displayImage}
           alt={product.name}
-          className={`w-full h-full object-contain p-2 transition-opacity duration-500 ${hovered && hoverImage !== displayImage ? 'opacity-0' : 'opacity-100'}`}
+          className="w-full h-full object-contain p-2 transition-opacity duration-500 group-hover:opacity-0"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
             target.src = '/placeholder.svg';
@@ -229,13 +230,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products, isM
           <img
             src={hoverImage}
             alt={product.name + ' hover'}
-            className={`absolute inset-0 w-full h-full object-contain p-2 transition-opacity duration-500 ${hovered ? 'opacity-100' : 'opacity-0'}`}
+            className="absolute inset-0 w-full h-full object-contain p-2 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               target.src = '/placeholder.svg';
             }}
           />
         )}
+
         {/* Elegant badge design */}
         <div className="absolute top-2 md:top-4 left-0">
           <div className="bg-white/90 backdrop-blur-sm border-l-2 border-[#AD9660] text-[#323433] font-light text-[10px] md:text-xs px-2 md:px-4 py-1 md:py-2">
@@ -249,9 +251,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products, isM
         <h3 className={`font-light ${isMobile ? 'text-xs' : 'text-sm md:text-base'} text-[#323433] leading-snug line-clamp-2 mb-1 md:mb-2 group-hover:text-[#AD9660] transition-colors duration-300`}>
           {product.name}
         </h3>
-        <span className={`${isMobile ? 'text-[8px]' : 'text-[10px] md:text-xs'} text-gray-500 font-light tracking-wide uppercase`}>
-          corporate gift
-        </span>
+
         <div className="mt-2 md:mt-3 flex items-center justify-between">
           {formatPrice()}
           <div className="w-4 md:w-6 h-[1px] bg-[#AD9660]/20"></div>
@@ -269,6 +269,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products, isM
       {/* Geometric decorative element on hover */}
       <div className="absolute -bottom-full right-0 w-8 md:w-12 h-8 md:h-12 border border-[#AD9660]/20 rotate-45 group-hover:-translate-y-8 md:group-hover:-translate-y-12 transition-transform duration-500"></div>
     </div>
+    </Link>
   );
 };
 
