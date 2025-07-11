@@ -404,7 +404,7 @@ const Navbar = () => {
                   
                   <div className="flex items-center gap-2">
                     <Mail className="h-4 w-4 text-[#AD9660]" />
-                    <a href="mailto:info@tisorah.com" className="text-sm">info@tisorah.com</a>
+                    <a href="mailto:info@tisorahbox.com" className="text-sm">info@tisorahbox.com</a>
                   </div>
                 </div>
                 

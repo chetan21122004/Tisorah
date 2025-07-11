@@ -295,7 +295,7 @@ export default function ProductPage({ params }: ProductPageProps) {
     )
   }
 
-    // Reusable card for related/similar products
+  // Reusable card for related/similar products
   function RelatedProductCard({ item }: { item: any }) {
     const relatedDisplayImage = item.display_image || item.image || item.images?.[0] || '/placeholder.svg';
     
@@ -330,15 +330,15 @@ export default function ProductPage({ params }: ProductPageProps) {
             <div className="absolute top-2 md:top-4 left-0">
               <div className="bg-white/90 backdrop-blur-sm border-l-2 border-[#AD9660] text-[#323433] font-light text-[10px] md:text-xs px-2 md:px-4 py-1 md:py-2">
                 Best Seller
-              </div>
+          </div>
             </div>
           </div>
 
           {/* Product details with refined typography */}
           <div className="px-1 md:px-2 flex flex-col flex-1">
             <h3 className="font-light text-sm md:text-base text-[#323433] leading-snug line-clamp-2 mb-1 md:mb-2 group-hover:text-[#AD9660] transition-colors duration-300">
-              {item.name}
-            </h3>
+            {item.name}
+          </h3>
 
             <div className="mt-2 md:mt-3 flex items-center justify-between">
               <span className="text-sm md:text-lg font-light text-[#AD9660]">{item.price}</span>
@@ -350,13 +350,13 @@ export default function ProductPage({ params }: ProductPageProps) {
               <div className="mt-1 md:mt-2 flex items-center text-[10px] md:text-xs text-gray-500">
                 <Package className="w-2 h-2 md:w-3 md:h-3 mr-1" />
                 <span>MOQ: {item.moq} {item.moq === 1 ? 'piece' : 'pieces'}</span>
-              </div>
+          </div>
             )}
           </div>
 
           {/* Geometric decorative element on hover */}
           <div className="absolute -bottom-full right-0 w-8 md:w-12 h-8 md:h-12 border border-[#AD9660]/20 rotate-45 group-hover:-translate-y-8 md:group-hover:-translate-y-12 transition-transform duration-500"></div>
-        </div>
+      </div>
       </Link>
     )
   }
@@ -374,13 +374,13 @@ export default function ProductPage({ params }: ProductPageProps) {
           <MessageCircle className="w-5 h-5" />
         </Button>
         <Link href="/shortlist">
-          <Button
+        <Button
             size="icon"
             className="bg-[#AD9660] hover:bg-[#8A784F] text-white rounded-full w-12 h-12 shadow-lg"
-            title="View Shortlist"
-          >
+          title="View Shortlist"
+        >
             <Heart className="w-5 h-5" />
-          </Button>
+        </Button>
         </Link>
       </div>
 
@@ -416,126 +416,126 @@ export default function ProductPage({ params }: ProductPageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Product Images - Smaller and more compact */}
           <div className="lg:col-span-5">
-            <div className="space-y-4">
-              {/* Main Image */}
-              <motion.div 
-                initial={{ opacity: 0 }} 
-                animate={{ opacity: 1 }} 
-                transition={{ duration: 0.5 }}
+          <div className="space-y-4">
+            {/* Main Image */}
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              transition={{ duration: 0.5 }}
                 className="relative bg-gray-50 rounded-lg overflow-hidden"
+            >
+              <div
+                ref={imageRef}
+                  className="relative cursor-zoom-in"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onMouseMove={handleMouseMove}
               >
                 <div
-                  ref={imageRef}
-                  className="relative cursor-zoom-in"
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                  onMouseMove={handleMouseMove}
-                >
-                  <div
                     className="relative w-full aspect-[4/3]"
-                    style={{
-                      transform: isZoomed ? `scale(1.5)` : "scale(1)",
-                      transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`,
+                  style={{
+                    transform: isZoomed ? `scale(1.5)` : "scale(1)",
+                    transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`,
                       transition: isZoomed ? "none" : "transform 0.3s ease",
-                    }}
-                  >
-                    <Image
-                      src={
-                        selectedImage === 0 && product?.display_image
-                          ? product.display_image
-                          : selectedImage > 0 && product?.images?.[selectedImage - 1]
-                          ? product.images[selectedImage - 1]
-                          : product?.display_image || product?.images?.[0] || "/placeholder.svg"
-                      }
-                      alt={product?.name}
-                      fill
-                      className="object-contain"
-                      sizes="(max-width: 768px) 100vw, 40vw"
-                      priority
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = '/placeholder.svg';
-                      }}
-                    />
-                  </div>
-                </div>
-                
-                <div className="absolute top-3 right-3 flex gap-2">
-                  <button
-                    className="w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:bg-white transition-colors shadow-sm"
-                    aria-label="Share product"
-                  >
-                    <Share2 className="w-4 h-4 text-[#323433]" />
-                  </button>
-                  <button
-                    className={`w-9 h-9 rounded-full backdrop-blur-sm flex items-center justify-center transition-colors shadow-sm ${
-                      isInShortlistState
-                        ? "bg-[#AD9660] text-white hover:bg-[#8A784F]"
-                        : "bg-white/90 text-[#323433] hover:bg-white"
-                    }`}
-                    onClick={handleAddToShortlist}
-                    disabled={isAddingToShortlist}
-                    aria-label={isInShortlistState ? "Remove from shortlist" : "Add to shortlist"}
-                  >
-                    <Heart className={`w-4 h-4 ${isInShortlistState ? "fill-current" : ""}`} />
-                  </button>
-                </div>
-              </motion.div>
-
-              {/* Thumbnail Images */}
-              {((product?.display_image || product?.images?.length) && 
-                ((product?.display_image ? 1 : 0) + (product?.images?.length || 0)) > 1) && (
-                <div 
-                  ref={thumbnailsRef}
-                  className="grid grid-cols-4 gap-2"
+                  }}
                 >
-                  {/* Display image as first thumbnail */}
-                  {product?.display_image && (
-                    <motion.button
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: 0 }}
-                      key="display-image"
-                      onClick={() => setSelectedImage(0)}
-                      className={`relative aspect-square overflow-hidden rounded-md border-2 ${
-                        selectedImage === 0
-                          ? "border-[#AD9660]"
-                          : "border-gray-200 hover:border-gray-300"
-                      }`}
-                    >
-                      <Image 
-                        src={product.display_image} 
-                        alt={`${product.name} main`} 
-                        fill 
-                        className="object-cover" 
-                      />
-                    </motion.button>
-                  )}
-                  
-                  {/* Additional images */}
-                  {product?.images?.slice(0, 3).map((image: string, index: number) => (
-                    <motion.button
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: (index + 1) * 0.1 }}
-                      key={`additional-${index}`}
-                      onClick={() => setSelectedImage(index + 1)}
-                      className={`relative aspect-square overflow-hidden rounded-md border-2 ${
-                        selectedImage === index + 1
-                          ? "border-[#AD9660]"
-                          : "border-gray-200 hover:border-gray-300"
-                      }`}
-                    >
-                      <Image 
-                        src={image} 
-                        alt={`${product.name} ${index + 2}`} 
-                        fill 
-                        className="object-cover" 
-                      />
-                    </motion.button>
-                  ))}
+                  <Image
+                    src={
+                      selectedImage === 0 && product?.display_image
+                        ? product.display_image
+                        : selectedImage > 0 && product?.images?.[selectedImage - 1]
+                        ? product.images[selectedImage - 1]
+                        : product?.display_image || product?.images?.[0] || "/placeholder.svg"
+                    }
+                    alt={product?.name}
+                    fill
+                    className="object-contain"
+                      sizes="(max-width: 768px) 100vw, 40vw"
+                    priority
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = '/placeholder.svg';
+                    }}
+                  />
                 </div>
-              )}
+              </div>
+              
+                <div className="absolute top-3 right-3 flex gap-2">
+                <button
+                    className="w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:bg-white transition-colors shadow-sm"
+                  aria-label="Share product"
+                >
+                  <Share2 className="w-4 h-4 text-[#323433]" />
+                </button>
+                <button
+                    className={`w-9 h-9 rounded-full backdrop-blur-sm flex items-center justify-center transition-colors shadow-sm ${
+                    isInShortlistState
+                      ? "bg-[#AD9660] text-white hover:bg-[#8A784F]"
+                        : "bg-white/90 text-[#323433] hover:bg-white"
+                  }`}
+                  onClick={handleAddToShortlist}
+                  disabled={isAddingToShortlist}
+                  aria-label={isInShortlistState ? "Remove from shortlist" : "Add to shortlist"}
+                >
+                  <Heart className={`w-4 h-4 ${isInShortlistState ? "fill-current" : ""}`} />
+                </button>
+              </div>
+            </motion.div>
+
+            {/* Thumbnail Images */}
+            {((product?.display_image || product?.images?.length) && 
+              ((product?.display_image ? 1 : 0) + (product?.images?.length || 0)) > 1) && (
+              <div 
+                ref={thumbnailsRef}
+                  className="grid grid-cols-4 gap-2"
+              >
+                {/* Display image as first thumbnail */}
+                {product?.display_image && (
+                  <motion.button
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0 }}
+                    key="display-image"
+                    onClick={() => setSelectedImage(0)}
+                      className={`relative aspect-square overflow-hidden rounded-md border-2 ${
+                      selectedImage === 0
+                        ? "border-[#AD9660]"
+                          : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
+                    <Image 
+                      src={product.display_image} 
+                      alt={`${product.name} main`} 
+                      fill 
+                      className="object-cover" 
+                    />
+                  </motion.button>
+                )}
+                
+                {/* Additional images */}
+                  {product?.images?.slice(0, 3).map((image: string, index: number) => (
+                  <motion.button
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: (index + 1) * 0.1 }}
+                    key={`additional-${index}`}
+                    onClick={() => setSelectedImage(index + 1)}
+                      className={`relative aspect-square overflow-hidden rounded-md border-2 ${
+                      selectedImage === index + 1
+                        ? "border-[#AD9660]"
+                          : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
+                    <Image 
+                      src={image} 
+                      alt={`${product.name} ${index + 2}`} 
+                      fill 
+                      className="object-cover" 
+                    />
+                  </motion.button>
+                ))}
+              </div>
+            )}
             </div>
           </div>
 
@@ -545,8 +545,8 @@ export default function ProductPage({ params }: ProductPageProps) {
             <div>
               {product?.category && (
                 <Badge variant="secondary" className="mb-3 bg-gray-100 text-gray-700 hover:bg-gray-100">
-                  {product.category}
-                </Badge>
+                    {product.category}
+                  </Badge>
               )}
 
               <h1 className="text-2xl md:text-3xl font-semibold text-[#323433] mb-3">
@@ -581,19 +581,19 @@ export default function ProductPage({ params }: ProductPageProps) {
                 </p>
               )}
             </div>
-
+                
             {/* MOQ and Volume Pricing */}
             <div className="space-y-4">
-              {product.moq && (
+                {product.moq && (
                 <div className="flex items-center p-3 bg-amber-50 rounded-lg border border-amber-100">
                   <Package className="w-5 h-5 text-amber-600 mr-3" />
                   <span className="text-sm">
                     <span className="font-medium">Minimum Order:</span> {product.moq} {product.moq === 1 ? 'piece' : 'pieces'}
                   </span>
-                </div>
-              )}
-              
-              {product?.has_price_range && product?.price_min && product?.price_max && (
+                  </div>
+                )}
+                
+                {product?.has_price_range && product?.price_min && product?.price_max && (
                 <Card className="border-gray-200">
                   <CardContent className="p-4">
                     <h3 className="font-medium mb-3 text-[#323433]">Volume Pricing</h3>
@@ -620,81 +620,81 @@ export default function ProductPage({ params }: ProductPageProps) {
                     </p>
                   </CardContent>
                 </Card>
-              )}
-            </div>
+                )}
+              </div>
 
-            {/* Quantity Selector */}
+              {/* Quantity Selector */}
             <div>
-              <Label htmlFor="quantity" className="block text-sm font-medium text-gray-700 mb-2">
-                Quantity
-              </Label>
+                <Label htmlFor="quantity" className="block text-sm font-medium text-gray-700 mb-2">
+                  Quantity
+                </Label>
               <div className="flex items-center w-fit">
-                <Button
-                  variant="outline"
-                  size="icon"
+                  <Button
+                    variant="outline"
+                    size="icon"
                   className="h-10 w-10 rounded-l-md border-r-0"
-                  onClick={() => setQuantity(Math.max((product.moq || 1), quantity - 1))}
-                  disabled={quantity <= (product.moq || 1)}
-                >
-                  <Minus className="h-4 w-4" />
-                </Button>
-                <Input
-                  type="number"
-                  id="quantity"
-                  value={quantity}
-                  onChange={(e) => {
-                    const val = parseInt(e.target.value);
-                    if (!isNaN(val) && val >= (product.moq || 1)) {
-                      setQuantity(val);
-                    }
-                  }}
+                    onClick={() => setQuantity(Math.max((product.moq || 1), quantity - 1))}
+                    disabled={quantity <= (product.moq || 1)}
+                  >
+                    <Minus className="h-4 w-4" />
+                  </Button>
+                  <Input
+                    type="number"
+                    id="quantity"
+                    value={quantity}
+                    onChange={(e) => {
+                      const val = parseInt(e.target.value);
+                      if (!isNaN(val) && val >= (product.moq || 1)) {
+                        setQuantity(val);
+                      }
+                    }}
                   className="w-20 h-10 rounded-none text-center border-x-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                  min={product.moq || 1}
-                />
+                    min={product.moq || 1}
+                  />
                 <Button 
                   variant="outline" 
                   size="icon" 
                   className="h-10 w-10 rounded-r-md border-l-0" 
                   onClick={() => setQuantity(quantity + 1)}
                 >
-                  <Plus className="h-4 w-4" />
-                </Button>
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
-            </div>
 
-            {/* Action Buttons */}
+              {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3">
-              <Button
+                <Button
                 className="h-11 bg-[#323433] hover:bg-black text-white flex-1"
-                onClick={handleAddToShortlist}
-                disabled={isAddingToShortlist}
-              >
-                {isAddingToShortlist ? (
-                  "Processing..."
-                ) : (
-                  <>
+                  onClick={handleAddToShortlist}
+                  disabled={isAddingToShortlist}
+                >
+                    {isAddingToShortlist ? (
+                      "Processing..."
+                    ) : (
+                      <>
                     <ShoppingBag className="w-4 h-4 mr-2" />
-                    {isInShortlistState ? "Added to Shortlist" : "Add to Shortlist"}
-                  </>
-                )}
-              </Button>
-              <Button
+                        {isInShortlistState ? "Added to Shortlist" : "Add to Shortlist"}
+                      </>
+                    )}
+                </Button>
+                <Button
                 className="h-11 bg-[#AD9660] hover:bg-[#8A784F] text-white flex-1"
-                onClick={handleRequestQuote}
-              >
-                <Mail className="w-4 h-4 mr-2" />
-                Request Quote
-              </Button>
+                  onClick={handleRequestQuote}
+                >
+                  <Mail className="w-4 h-4 mr-2" />
+                  Request Quote
+                </Button>
             </div>
 
             {/* Shipping Info */}
             <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
               <Truck className="w-5 h-5 text-[#AD9660]" />
-              <div>
+                <div>
                 <p className="text-sm font-medium text-gray-800">Free Shipping</p>
                 <p className="text-xs text-gray-600">
                   Standard delivery in {product.delivery || "7-15 business days"}
-                </p>
+                  </p>
               </div>
             </div>
           </div>
@@ -715,7 +715,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                     <li key={index} className="flex items-start gap-2 text-sm text-gray-600">
                       <Check className="w-4 h-4 text-[#AD9660] mt-0.5 flex-shrink-0" />
                       <span>{feature}</span>
-                    </li>
+                            </li>
                   ))
                 ) : (
                   <>
@@ -744,31 +744,31 @@ export default function ProductPage({ params }: ProductPageProps) {
                 <Settings className="w-5 h-5 text-[#AD9660] mr-2" />
                 <h3 className="text-lg font-semibold text-[#323433]">Specifications</h3>
               </div>
-              {product.specifications && Object.keys(product.specifications).length > 0 ? (
+                  {product.specifications && Object.keys(product.specifications).length > 0 ? (
                 <div className="space-y-3">
                   {Object.entries(product.specifications).map(([key, value]) => (
                     <div key={key} className="flex justify-between text-sm">
                       <span className="text-gray-600">{key}:</span>
                       <span className="text-gray-800 font-medium">{value}</span>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              ) : (
+                  ) : (
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Material:</span>
                     <span className="text-gray-800 font-medium">Premium Quality</span>
-                  </div>
+                      </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Weight:</span>
                     <span className="text-gray-800 font-medium">Varies</span>
-                  </div>
+                      </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Packaging:</span>
                     <span className="text-gray-800 font-medium">Premium Box</span>
-                  </div>
-                </div>
-              )}
+                      </div>
+                    </div>
+                  )}
             </CardContent>
           </Card>
 
@@ -778,73 +778,73 @@ export default function ProductPage({ params }: ProductPageProps) {
               <div className="flex items-center mb-4">
                 <Palette className="w-5 h-5 text-[#AD9660] mr-2" />
                 <h3 className="text-lg font-semibold text-[#323433]">Customization</h3>
-              </div>
+                      </div>
               <div className="space-y-3 text-sm">
                 <div className="flex items-start gap-2">
                   <Award className="w-4 h-4 text-[#AD9660] mt-0.5 flex-shrink-0" />
                   <span className="text-gray-600">Logo branding available</span>
-                </div>
+                      </div>
                 <div className="flex items-start gap-2">
                   <Palette className="w-4 h-4 text-[#AD9660] mt-0.5 flex-shrink-0" />
                   <span className="text-gray-600">Custom color options</span>
-                </div>
+                    </div>
                 <div className="flex items-start gap-2">
                   <MessageSquare className="w-4 h-4 text-[#AD9660] mt-0.5 flex-shrink-0" />
                   <span className="text-gray-600">Personalized messaging</span>
-                </div>
+                      </div>
                 <div className="flex items-start gap-2">
                   <Package className="w-4 h-4 text-[#AD9660] mt-0.5 flex-shrink-0" />
                   <span className="text-gray-600">Premium packaging</span>
-                </div>
-              </div>
+                      </div>
+                    </div>
               <Button variant="outline" className="w-full mt-4 border-[#AD9660] text-[#AD9660] hover:bg-[#AD9660] hover:text-white">
                 Request Custom Quote
-              </Button>
+                    </Button>
             </CardContent>
           </Card>
-        </div>
+                  </div>
         
         {/* Related Products Section */}
         <div className="mt-16">
-          <div className="mb-8 flex items-center justify-between">
+            <div className="mb-8 flex items-center justify-between">
             <h2 className="text-2xl font-semibold text-[#323433]">You Might Also Like</h2>
             <Link href="/products" className="text-[#AD9660] font-medium flex items-center hover:underline">
-              View All <ChevronRight className="w-4 h-4 ml-1" />
-            </Link>
-          </div>
-          
-          {loadingRelated ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {[...Array(4)].map((_, index) => (
-                <div key={index} className="space-y-4 animate-pulse">
+                View All <ChevronRight className="w-4 h-4 ml-1" />
+              </Link>
+            </div>
+            
+            {loadingRelated ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {[...Array(4)].map((_, index) => (
+                  <div key={index} className="space-y-4 animate-pulse">
                   <div className="aspect-square bg-gray-200 rounded-lg"></div>
-                  <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-                  <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-                </div>
-              ))}
-            </div>
-          ) : relatedProducts.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {relatedProducts.map((item) => (
-                <RelatedProductCard 
-                  key={item.id} 
-                  item={{
-                    id: item.id,
-                    name: item.name,
-                    price: formatPrice(item.price),
-                    originalPrice: item.original_price ? formatPrice(item.original_price) : undefined,
-                    image: item.display_image || (item.images && item.images.length > 0 ? item.images[0] : '/placeholder.jpg'),
-                    rating: item.rating || 4.5,
-                    discount: item.discount || (item.original_price ? `${Math.round(((item.original_price - item.price) / item.original_price) * 100)}% OFF` : undefined),
-                  }}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-gray-500">No related products found</p>
-            </div>
-          )}
+                    <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                    <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                  </div>
+                ))}
+              </div>
+            ) : relatedProducts.length > 0 ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {relatedProducts.map((item) => (
+                  <RelatedProductCard 
+                    key={item.id} 
+                    item={{
+                      id: item.id,
+                      name: item.name,
+                      price: formatPrice(item.price),
+                      originalPrice: item.original_price ? formatPrice(item.original_price) : undefined,
+                      image: item.display_image || (item.images && item.images.length > 0 ? item.images[0] : '/placeholder.jpg'),
+                      rating: item.rating || 4.5,
+                      discount: item.discount || (item.original_price ? `${Math.round(((item.original_price - item.price) / item.original_price) * 100)}% OFF` : undefined),
+                    }}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-gray-500">No related products found</p>
+              </div>
+            )}
         </div>
         
         {/* Corporate Gifting CTA */}

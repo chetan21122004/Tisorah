@@ -1,3 +1,18 @@
+// import { Metadata } from "next"
+
+// export const metadata: Metadata = {
+//   title: 'Corporate Gift Categories | Diwali, Events, Recognition & Festival Gifts',
+//   description: 'Explore corporate gift categories for all occasions - Diwali gifts, employee recognition, events, festivals & onboarding. Premium curated collections for Indian businesses.',
+//   keywords: 'corporate gift categories, diwali corporate gifts, employee recognition gifts, festival corporate gifts, event gifts, onboarding gifts',
+//   alternates: {
+//     canonical: 'https://tisorah.com/categories',
+//   }
+// }
+
+// export default function CategoriesPage() {
+//   return <CategoriesPageClient />
+// }
+
 "use client"
 
 import { useState, useEffect } from "react"
@@ -13,7 +28,7 @@ import Image from "next/image"
 import { getGiftCategories, getProducts } from "@/lib/supabase"
 import type { GiftCategory, Product } from "@/types/database"
 
-export default function CategoriesPage() {
+function CategoriesPageClient() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")

@@ -268,8 +268,8 @@ PHOTOGRAPHY REFERENCES
 WEB REFERENCES
  Clean & Minimal, Geometric Structures, 3 or 4 Column Grid Layout, Product Focused, Color Blocking
 BRAND STATIONERY-1
- info@tisorah.com
- www.tisorah.com
+ info@tisorahbox.com
+ www.tisorahbox.com
  12/14, Laxmi Narayan Nagar, Erandwane,
  Pune - 411004, Maharashtra, India.
  Abhijit Atre
@@ -278,30 +278,30 @@ BRAND STATIONERY-1
  E: atreabhijit@gmail.com
  12/14, Laxmi Narayan Nagar,
  Erandwane, Pune - 411004, MH
- www.tisorah.com
+ www.tisorahbox.com
  Abhijit Atre
  FOUNDER
  M: +91 98600 02313
  E: atreabhijit@gmail.com
  12/14, Laxmi Narayan Nagar,
  Erandwane, Pune - 411004, MH
- www.tisorah.com
- info@tisorah.com        |        12/14, Laxmi Narayan Nagar, Erandwane, Pune - 411004, Maharashtra, India        |        
-www.tisorah.com
+ www.tisorahbox.com
+ info@tisorahbox.com        |        12/14, Laxmi Narayan Nagar, Erandwane, Pune - 411004, Maharashtra, India        |        
+www.tisorahbox.com
 BRAND STATIONERY-2
  Abhijit Atre
  FOUNDER
  +91 98600 02313
- abhijitatre@tisorah.com
- www.tisorah.com
+ abhijitatre@tisorahbox.com
+ www.tisorahbox.com
  12/14, Laxmi Narayan Nagar, Erandwane,
  Pune - 411004, Maharashtra, India.
- info@tisorah.com
- www.tisorah.com
+ info@tisorahbox.com
+ www.tisorahbox.com
  12/14, Laxmi Narayan Nagar, Erandwane,
  Pune - 411004, Maharashtra, India.
- info@tisorah.com
- www.tisorah.com
+ info@tisorahbox.com
+ www.tisorahbox.com
  12/14, Laxmi Narayan Nagar, Erandwane,
  Pune - 411004, Maharashtra, India.
 THANK YOU!

@@ -1,0 +1,27 @@
+{
+  "name": "Tisorah - Premium Corporate Gifts India",
+  "short_name": "Tisorah",
+  "description": "India's trusted premium corporate gifting company offering luxury gifts, customized hampers, and branded merchandise for businesses.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#AD9660",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "shopping"],
+  "lang": "en-IN",
+  "dir": "ltr"
+} 

@@ -1,8 +1,18 @@
+import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { format } from 'date-fns'
 import type { BlogPost } from '@/types/blog'
 import { EXAMPLE_BLOGS } from '@/utils/blog-constants'
+
+export const metadata: Metadata = {
+  title: 'Corporate Gifting Blog | Tips, Trends & Ideas - Tisorah',
+  description: 'Expert insights on corporate gifting strategies, trends, and ideas. Learn about employee gifting, client appreciation, sustainable gifts, and luxury corporate gift solutions.',
+  keywords: 'corporate gifting blog, corporate gift ideas, employee gifting tips, client gift trends, business gifting strategies',
+  alternates: {
+    canonical: 'https://tisorahbox.com/blog',
+  }
+}
 
 export default function BlogPage() {
   const blogs = EXAMPLE_BLOGS;
@@ -13,8 +23,8 @@ export default function BlogPage() {
       <section className="pt-24 pb-16 bg-white border-b border-neutral-200">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-[#1E2A47] mb-4">Tisorah Insights</h1>
-            <p className="text-lg text-neutral-600 mb-8">Expert perspectives on corporate gifting strategies and industry trends.</p>
+            <h1 className="text-4xl md:text-5xl font-bold text-[#1E2A47] mb-4">Corporate Gifting Blog & Insights</h1>
+            <p className="text-lg text-neutral-600 mb-8">Expert tips, trends, and strategies for premium corporate gifting in India. Learn how to strengthen business relationships through thoughtful gift curation.</p>
           </div>
         </div>
       </section>
