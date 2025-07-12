@@ -53,10 +53,10 @@ export default function Footer() {
             transition={{ staggerChildren: 0.1 }}
           >
             <motion.div className="md:w-2/3 text-center md:text-left" variants={fadeInUp}>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-['Frank_Ruhl_Libre'] font-light text-[#323433] mb-3">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif font-light text-[#323433] mb-3">
                 Ready to <span className="text-[#AD9660]">Elevate</span> Your Corporate Gifting?
               </h2>
-              <p className="text-sm md:text-base text-[#323433]/70">
+              <p className="text-sm md:text-base text-[#323433]/70 font-light">
                 Get a personalized quote tailored to your specific requirements and budget.
               </p>
             </motion.div>
@@ -83,7 +83,7 @@ export default function Footer() {
                 <span className="font-light">BOX</span>
               </div>
             </div>
-            <p className="text-gray-300 leading-relaxed text-sm md:text-base">
+            <p className="text-gray-300 leading-relaxed text-sm md:text-base font-light">
               Crafting extraordinary corporate relationships through sophisticated, premium gifting solutions that
               embody elegance and distinction.
             </p>

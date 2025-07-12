@@ -45,7 +45,7 @@ export default function BlogCarousel({ posts }: BlogCarouselProps) {
               <div className="w-12 h-[1px] bg-[#AD9660]"></div>
               <span className="ml-4 text-sm uppercase tracking-wider text-[#AD9660] font-light">Our Blog</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-serif mb-4 text-[#323433] font-light">
+            <h2 className="text-4xl md:text-5xl font-serif font-light mb-4 text-[#323433]">
               Tisorah Insights
             </h2>
             <p className="text-[#323433]/70 max-w-xl text-lg font-light">

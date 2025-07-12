@@ -145,7 +145,7 @@ const ContactForm = () => {
           </motion.div>
 
           <motion.h1 
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-[#323433] mb-4 md:mb-6 font-['Frank_Ruhl_Libre']"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-[#323433] mb-4 md:mb-6"
             variants={fadeInUp}
           >
             Ready to <span className="text-[#AD9660]">Transform</span> Your Corporate Gifting?
@@ -177,7 +177,7 @@ const ContactForm = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-            <h3 className="text-xl md:text-2xl font-['Frank_Ruhl_Libre'] font-light mb-6 text-[#323433]">Request Your Free Quote</h3>
+            <h3 className="text-xl md:text-2xl font-serif font-light mb-6 text-[#323433]">Request Your Free Quote</h3>
             
             <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
             <motion.div 

@@ -86,7 +86,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
           {/* Decorative line above title */}
           <div className="w-12 md:w-16 h-[1px] bg-[#AD9660] mb-6 md:mb-8"></div>
           
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-light text-[#323433] mb-3 md:mb-4 font-['Frank_Ruhl_Libre'] text-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-light text-[#323433] mb-3 md:mb-4 text-center">
             Corporate Gifts – India's Most Trusted Gifting Brand
           </h2>
           

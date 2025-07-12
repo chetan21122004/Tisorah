@@ -263,7 +263,7 @@ const Gifting = () => {
           </motion.div>
 
           <motion.h2
-            className="text-2xl sm:text-3xl md:text-4xl font-light text-[#323433] mb-3 md:mb-4 font-['Frank_Ruhl_Libre'] text-center"
+            className="text-2xl sm:text-3xl md:text-4xl font-serif font-light text-[#323433] mb-3 md:mb-4 text-center"
             variants={fadeInUp}
           >
             The Art of Corporate Gifting

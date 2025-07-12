@@ -42,7 +42,7 @@ const QuoteCTA: FC = () => {
               <Package className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2" /> Premium Corporate Gifting Solutions
             </div>
             
-            <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-['Frank_Ruhl_Libre'] font-light text-[#323433] leading-tight">
+            <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-serif font-light text-[#323433] leading-tight">
               Transform Your Corporate <span className="text-[#AD9660]">Gifting Experience</span> Today
             </h2>
             

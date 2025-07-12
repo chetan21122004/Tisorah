@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Poppins, Frank_Ruhl_Libre } from "next/font/google"
 import "./globals.css"
 import "@/styles/patterns.css"
 import { Toaster } from "@/components/ui/toaster"
@@ -11,7 +11,18 @@ import { ShortlistProvider } from "@/lib/ShortlistContext"
 import { WhatsAppButton } from "@/components/ui/whatsapp-button"
 import StarFollower from "@/components/LandingPage/StarFollower"
 
-const inter = Inter({ subsets: ["latin"] })
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
+  variable: "--font-poppins",
+  display: "swap",
+})
+
+const frankRuhlLibre = Frank_Ruhl_Libre({
+  subsets: ["latin"],
+  variable: "--font-frank-ruhl",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   title: {
@@ -78,7 +89,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className={`scroll-smooth ${poppins.variable} ${frankRuhlLibre.variable}`}>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -123,7 +134,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className}>
+      <body className={poppins.className}>
         <ShortlistProvider>
           <Navbar></Navbar>
           <main>{children}</main>

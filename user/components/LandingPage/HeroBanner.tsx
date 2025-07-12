@@ -81,7 +81,7 @@ export default function HeroBanner() {
               <Gift className="w-5 h-5 text-[#AD9660]" />
             </div>
             <div className="ml-4">
-              <h2 className="text-xl md:text-2xl font-['Frank_Ruhl_Libre'] font-light leading-tight">
+              <h2 className="text-xl md:text-2xl font-serif font-light leading-tight">
                 Premium Corporate Gifting <span className="text-[#AD9660]">Solutions</span>
               </h2>
               <div className="flex items-center mt-1">
