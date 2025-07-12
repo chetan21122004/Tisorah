@@ -691,7 +691,7 @@ export default function ProductPage({ params }: ProductPageProps) {
             <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
               <Truck className="w-5 h-5 text-[#AD9660]" />
                 <div>
-                <p className="text-sm font-medium text-gray-800">Free Shipping</p>
+                <p className="text-sm font-medium text-gray-800"> Shipping</p>
                 <p className="text-xs text-gray-600">
                   Standard delivery in {product.delivery || "7-15 business days"}
                   </p>
