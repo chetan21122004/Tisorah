@@ -252,7 +252,7 @@ const Navbar = () => {
             {/* Logo at left */}
             <div className="flex items-center flex-col justify-center flex-shrink-0 gap-0">
               <Link href="/" className='flex items-center justify-center flex-col'>
-                <div className="font-serif text-3xl tracking-wide text-[#323433]">
+                <div className="font-['Frank_Ruhl_Libre']  text-3xl tracking-wide text-[#323433]">
                   <span className="font-light ">Tisorah</span>
                   <span className="text-[#AD9660] font-medium">Box</span>
                 </div>

@@ -310,7 +310,7 @@ export default async function HomePage() {
       </section>
 
       {/* Corporate Gifting Solutions Section */}
-      <section className="py-12 bg-[#F8F8F8]">
+      {/* <section className="py-12 bg-[#F8F8F8]">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-light text-center text-[#323433] mb-4">
             Corporate Gifting Solutions for Every Occasion
@@ -341,7 +341,7 @@ export default async function HomePage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Quote CTA Section */}
       <QuoteCTA />
