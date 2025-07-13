@@ -209,11 +209,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products }) =
 
           
           {/* Elegant badge design */}
-          <div className="absolute top-2 md:top-4 left-0">
+          {/* <div className="absolute top-2 md:top-4 left-0">
             <div className="bg-white/90 backdrop-blur-sm border-l-2 border-[#AD9660] text-[#323433] font-light text-[10px] md:text-xs px-2 md:px-4 py-1 md:py-2">
               Best Seller
             </div>
-          </div>
+          </div> */}
           
           {/* Heart button on hover */}
           <button 

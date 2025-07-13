@@ -79,23 +79,16 @@ export default function AboutPage() {
 
   const team = [
     {
-      name: "Abhijit Atre",
-      position: "Founder & CEO",
+      name: "Trupti Khanna",
+      position: "Founder",
       image: "/placeholder.svg",
-      bio: "Visionary leader with a passion for excellence in corporate gifting solutions.",
-      contact: { email: "atreabhijit@gmail.com", phone: "+91 98600 02313" }
+      bio: "Pioneering visionary bringing innovation and creativity to corporate gifting solutions.",
     },
     {
-      name: "Priya Sharma",
-      position: "Chief Marketing Officer",
+      name: "Abhijit Goray",
+      position: "Co-Founder",
       image: "/placeholder.svg",
-      bio: "Expert in brand strategy and customer engagement with over a decade of experience.",
-    },
-    {
-      name: "Raj Patel",
-      position: "Head of Product Development",
-      image: "/placeholder.svg",
-      bio: "Innovator in creating unique and sophisticated gifting solutions for corporate clients.",
+      bio: "Strategic innovator driving growth and operational excellence in corporate gifting.",
     },
   ]
 
@@ -267,7 +260,7 @@ export default function AboutPage() {
       </section>
 
       {/* Timeline Section */}
-      <section className="py-24 bg-[#F4F4F4] relative overflow-hidden">
+      {/* <section className="py-24 bg-[#F4F4F4] relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/geometry_pattern.jpg')] opacity-5"></div>
         <div className="container mx-auto px-4 relative">
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -302,7 +295,7 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Team Section */}
       <section className="py-24 bg-white relative overflow-hidden">
@@ -324,40 +317,41 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {team.map((member, index) => (
-              <div key={index} className="group">
-                <div className="bg-white border border-[#AD9660]/10 overflow-hidden transition-all duration-300 hover:border-[#AD9660]/30 hover:shadow-lg">
-                  <div className="relative h-80">
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      fill
-                      className="object-cover"
-                    />
+          <div className="py-24 sm:py-32">
+            <div className="mx-auto max-w-7xl px-6 lg:px-8">
+              <div className="mx-auto max-w-2xl lg:max-w-4xl">
+                <div className="text-center mb-16">
+                  <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-[#F0EBE1] text-[#AD9660] text-sm mb-6">
+                    <Users className="w-4 h-4 mr-2" /> Our Leadership
                   </div>
-                  
-                  <div className="p-8">
-                    <h3 className="text-xl font-serif text-[#323433] mb-1">{member.name}</h3>
-                    <div className="text-[#AD9660] font-light mb-4">{member.position}</div>
-                    <p className="text-gray-600 font-light mb-6">{member.bio}</p>
-                    
-                    {member.contact && (
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2 text-gray-600">
-                          <Mail className="w-4 h-4" />
-                          <span className="font-light">{member.contact.email}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-gray-600">
-                          <Phone className="w-4 h-4" />
-                          <span className="font-light">{member.contact.phone}</span>
-                        </div>
+                  <h2 className="text-3xl font-serif font-light text-[#323433] sm:text-4xl mb-4">
+                    Meet the Visionaries Behind <span className="text-[#AD9660]">TisorahBox</span>
+                  </h2>
+                  <p className="text-lg leading-8 text-gray-600 font-light">
+                    Dedicated to transforming corporate gifting through innovation and excellence.
+                  </p>
+                </div>
+
+                <div className="flex justify-center items-start gap-12 md:gap-16">
+                  {team.map((member, index) => (
+                    <div key={index} className="group max-w-sm">
+                      <div className="aspect-[3/4] overflow-hidden rounded-2xl bg-gray-50">
+                        <img
+                          className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                          src={member.image}
+                          alt={member.name}
+                        />
                       </div>
-                    )}
-                  </div>
+                      <div className="mt-6 text-center">
+                        <h3 className="text-2xl font-serif font-light text-[#323433]">{member.name}</h3>
+                        <p className="text-base font-medium text-[#AD9660] mt-1">{member.position}</p>
+                        <p className="text-base text-gray-600 font-light mt-3">{member.bio}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
