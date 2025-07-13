@@ -177,7 +177,7 @@ export default function AboutPage() {
                   reflects heritage, sophistication, and enduring value.
                 </p>
                 <p>
-                  Founded in 2015 by Abhijit Atre, our company embarked on a journey to assist businesses in forging
+                  Founded in 2021 by Trupti Khanna and Abhijit Goray, our company embarked on a journey to assist businesses in forging
                   stronger bonds with their employees, clients, and partners through meticulously curated gifts that
                   embody their brand's values and appreciation.
                 </p>
@@ -357,7 +357,7 @@ export default function AboutPage() {
       </section>
 
       {/* Contact CTA Section */}
-      <section className="py-24 bg-[#1E2A47] relative overflow-hidden">
+      {/* <section className="py-24 bg-[#1E2A47] relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute top-0 left-0 w-64 h-64 bg-[#AD9660]/5 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#AD9660]/10 rounded-full blur-3xl"></div>
@@ -385,7 +385,7 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   )
 }
