@@ -1,71 +1,3 @@
-export interface Product {
-  id: string
-  name: string
-  description?: string | null
-  price: number
-  original_price?: number
-  price_min?: number | null
-  price_max?: number | null
-  has_price_range?: boolean | null
-  images?: string[] | null
-  display_image?: string | null
-  hover_image?: string | null
-  category?: string
-  main_category?: string
-  sub_category?: string
-  main_category_info?: CategoryInfo
-  sub_category_info?: CategoryInfo
-  rating?: number | null
-  reviews?: number | null
-  discount?: string
-  moq?: number | null
-  features?: string[] | null
-  specifications?: Record<string, string> | null
-  benefits?: string[] | null
-  is_featured?: boolean | null
-  delivery?: string | null
-  customizable?: boolean | null
-  featured?: boolean | null
-  created_at?: string | null
-  updated_at?: string | null
-}
-
-export interface CategoryInfo {
-  id: string
-  name: string
-  slug: string
-}
-
-export interface Testimonial {
-  id: string
-  name: string
-  position: string
-  company: string
-  content: string
-  image: string | null
-  featured: boolean
-  created_at: string | null
-}
-
-export interface GiftCategory {
-  id: string
-  name: string
-  slug: string
-  description: string | null
-  count: number | null
-  image_url: string | null
-  created_at: string | null
-  updated_at: string | null
-}
-
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[]
-
 export interface Database {
   public: {
     Tables: {
@@ -80,6 +12,8 @@ export interface Database {
           created_at: string | null
           updated_at: string | null
           count: number | null
+          type: 'edible' | 'non_edible' | null
+          level: 'main' | 'primary' | 'secondary' | null
         }
         Insert: {
           id?: string
@@ -91,6 +25,8 @@ export interface Database {
           created_at?: string | null
           updated_at?: string | null
           count?: number | null
+          type?: 'edible' | 'non_edible' | null
+          level?: 'main' | 'primary' | 'secondary' | null
         }
         Update: {
           id?: string
@@ -102,6 +38,8 @@ export interface Database {
           created_at?: string | null
           updated_at?: string | null
           count?: number | null
+          type?: 'edible' | 'non_edible' | null
+          level?: 'main' | 'primary' | 'secondary' | null
         }
       }
       products: {
@@ -110,66 +48,125 @@ export interface Database {
           name: string
           description: string | null
           price: number
-          price_min: number | null
-          price_max: number | null
-          has_price_range: boolean | null
-          moq: number | null
           delivery: string | null
           rating: number | null
           featured: boolean | null
           customizable: boolean | null
           images: string[] | null
-          display_image: string | null
-          hover_image: string | null
           created_at: string | null
           updated_at: string | null
           main_category: string | null
-          sub_category: string | null
           reviews: number | null
+          price_min: number | null
+          price_max: number | null
+          has_price_range: boolean | null
+          moq: number | null
+          display_image: string | null
+          hover_image: string | null
+          primary_category: string | null
+          secondary_category: string | null
         }
         Insert: {
           id?: string
           name: string
           description?: string | null
           price: number
-          price_min?: number | null
-          price_max?: number | null
-          has_price_range?: boolean | null
-          moq?: number | null
           delivery?: string | null
           rating?: number | null
           featured?: boolean | null
           customizable?: boolean | null
           images?: string[] | null
-          display_image?: string | null
-          hover_image?: string | null
           created_at?: string | null
           updated_at?: string | null
           main_category?: string | null
-          sub_category?: string | null
           reviews?: number | null
+          price_min?: number | null
+          price_max?: number | null
+          has_price_range?: boolean | null
+          moq?: number | null
+          display_image?: string | null
+          hover_image?: string | null
+          primary_category?: string | null
+          secondary_category?: string | null
         }
         Update: {
           id?: string
           name?: string
           description?: string | null
           price?: number
-          price_min?: number | null
-          price_max?: number | null
-          has_price_range?: boolean | null
-          moq?: number | null
           delivery?: string | null
           rating?: number | null
           featured?: boolean | null
           customizable?: boolean | null
           images?: string[] | null
-          display_image?: string | null
-          hover_image?: string | null
           created_at?: string | null
           updated_at?: string | null
           main_category?: string | null
-          sub_category?: string | null
           reviews?: number | null
+          price_min?: number | null
+          price_max?: number | null
+          has_price_range?: boolean | null
+          moq?: number | null
+          display_image?: string | null
+          hover_image?: string | null
+          primary_category?: string | null
+          secondary_category?: string | null
+        }
+      }
+      quote_requests: {
+        Row: {
+          id: string
+          name: string
+          email: string
+          phone: string | null
+          company: string
+          message: string | null
+          budget: string | null
+          timeline: string | null
+          event_type: string | null
+          customization: boolean | null
+          branding: boolean | null
+          packaging: boolean | null
+          shortlisted_products: any
+          status: string | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          name: string
+          email: string
+          phone?: string | null
+          company: string
+          message?: string | null
+          budget?: string | null
+          timeline?: string | null
+          event_type?: string | null
+          customization?: boolean | null
+          branding?: boolean | null
+          packaging?: boolean | null
+          shortlisted_products: any
+          status?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          name?: string
+          email?: string
+          phone?: string | null
+          company?: string
+          message?: string | null
+          budget?: string | null
+          timeline?: string | null
+          event_type?: string | null
+          customization?: boolean | null
+          branding?: boolean | null
+          packaging?: boolean | null
+          shortlisted_products?: any
+          status?: string | null
+          created_at?: string | null
+          updated_at?: string | null
         }
       }
       testimonials: {
@@ -210,10 +207,78 @@ export interface Database {
           updated_at?: string | null
         }
       }
-      gift_categories: {
-        Row: GiftCategory
-        Insert: Omit<GiftCategory, 'id' | 'created_at' | 'updated_at'>
-        Update: Partial<Omit<GiftCategory, 'id' | 'created_at' | 'updated_at'>>
+      blog_categories: {
+        Row: {
+          id: number
+          name: string
+          slug: string
+          description: string | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: number
+          name: string
+          slug: string
+          description?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: number
+          name?: string
+          slug?: string
+          description?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+      }
+      blog_posts: {
+        Row: {
+          id: number
+          title: string
+          slug: string
+          excerpt: string
+          content: string
+          cover_image: string
+          author: string
+          author_image: string
+          published_at: string | null
+          category_id: number | null
+          reading_time: string
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: number
+          title: string
+          slug: string
+          excerpt: string
+          content: string
+          cover_image: string
+          author: string
+          author_image: string
+          published_at?: string | null
+          category_id?: number | null
+          reading_time: string
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: number
+          title?: string
+          slug?: string
+          excerpt?: string
+          content?: string
+          cover_image?: string
+          author?: string
+          author_image?: string
+          published_at?: string | null
+          category_id?: number | null
+          reading_time?: string
+          created_at?: string | null
+          updated_at?: string | null
+        }
       }
     }
     Views: {
@@ -229,4 +294,51 @@ export interface Database {
       [_ in never]: never
     }
   }
+}
+
+// Main Category Types
+export type MainCategory = 'ready-to-gift' | 'semi-customised' | 'custom-curated'
+
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string;
+  image_url?: string;
+  parent_id?: string;
+  type: 'edible' | 'non_edible';
+  level: 'main' | 'secondary' | 'tertiary' | 'quaternary';
+  count?: number;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface Product {
+  id: string;
+  name: string;
+  description?: string;
+  price: number;
+  price_min?: number;
+  price_max?: number;
+  has_price_range?: boolean;
+  moq?: number;
+  delivery?: string;
+  rating?: number;
+  reviews?: number;
+  featured?: boolean;
+  customizable?: boolean;
+  images?: string[];
+  display_image?: string;
+  hover_image?: string;
+  main_category?: string;
+  primary_category?: string;
+  secondary_category?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface ProductWithCategory extends Product {
+  main_category_info?: Category
+  primary_category_info?: Category
+  secondary_category_info?: Category
 } 

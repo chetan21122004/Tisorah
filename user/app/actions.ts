@@ -183,7 +183,7 @@ export type Category = {
 };
 
 export async function getCategories(): Promise<Category[]> {
-  const supabase = createClient();
+  const supabase = await createClient();
   
   const { data: categories, error } = await supabase
     .from("categories")
@@ -199,7 +199,7 @@ export async function getCategories(): Promise<Category[]> {
 }
 
 export async function getMainCategories(): Promise<Category[]> {
-  const supabase = createClient();
+  const supabase = await createClient();
   
   const { data: categories, error } = await supabase
     .from("categories")
@@ -217,7 +217,7 @@ export async function getMainCategories(): Promise<Category[]> {
 
 export async function getRelatedProducts(productId: string, category: string | null): Promise<any[]> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     
     let query = supabase
       .from("products")
@@ -249,7 +249,7 @@ export async function getRelatedProducts(productId: string, category: string | n
       if (!featuredError && featuredProducts) {
         // Combine and deduplicate
         const combinedProducts = [...products];
-        featuredProducts.forEach(product => {
+        featuredProducts.forEach((product: any) => {
           if (!combinedProducts.some(p => p.id === product.id)) {
             combinedProducts.push(product);
           }
@@ -266,7 +266,7 @@ export async function getRelatedProducts(productId: string, category: string | n
 }
 
 export async function getSubCategories(parentId: string): Promise<Category[]> {
-  const supabase = createClient();
+  const supabase = await createClient();
   
   const { data: categories, error } = await supabase
     .from("categories")

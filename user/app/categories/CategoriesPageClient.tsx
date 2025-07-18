@@ -1,298 +1,247 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Heart, Search, Filter, Grid, List, Star, ArrowRight, Package } from "lucide-react"
-import Link from "next/link"
-import Image from "next/image"
-import { getGiftCategories, getProducts } from "@/lib/supabase"
-import type { GiftCategory, Product } from "@/types/database"
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { Card, CardContent } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
+import { getMainCategories, getCategoriesByParent } from '@/lib/supabase'
+import { Category } from '@/types/database'
+import { Gift, Settings, Palette, Utensils, Package } from 'lucide-react'
+
+const getCategoryIcon = (slug: string) => {
+  switch (slug) {
+    case 'edible':
+      return <Utensils className="w-16 h-16 text-[#AD9660] mb-6" />
+    case 'non-edible':
+      return <Package className="w-16 h-16 text-[#AD9660] mb-6" />
+    case 'ready-to-gift':
+      return <Gift className="w-16 h-16 text-[#AD9660] mb-6" />
+    case 'semi-customised':
+      return <Settings className="w-16 h-16 text-[#AD9660] mb-6" />
+    case 'custom-curated':
+      return <Palette className="w-16 h-16 text-[#AD9660] mb-6" />
+    default:
+      return <Package className="w-16 h-16 text-[#AD9660] mb-6" />
+  }
+}
+
+const getCategoryColor = (slug: string) => {
+  switch (slug) {
+    case 'edible':
+      return 'bg-green-50 border-green-200 hover:border-green-300'
+    case 'non-edible':
+      return 'bg-blue-50 border-blue-200 hover:border-blue-300'
+    case 'ready-to-gift':
+      return 'bg-purple-50 border-purple-200 hover:border-purple-300'
+    case 'semi-customised':
+      return 'bg-orange-50 border-orange-200 hover:border-orange-300'
+    case 'custom-curated':
+      return 'bg-pink-50 border-pink-200 hover:border-pink-300'
+    default:
+      return 'bg-gray-50 border-gray-200 hover:border-gray-300'
+  }
+}
 
 export default function CategoriesPageClient() {
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("all")
-  const [priceRange, setPriceRange] = useState("all")
-  const [deliveryTime, setDeliveryTime] = useState("all")
-  const [categories, setCategories] = useState<any[]>([])
-  const [products, setProducts] = useState<any[]>([])
+  const [mainCategories, setMainCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
+  const [subcategoryCounts, setSubcategoryCounts] = useState<Record<string, number>>({})
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true)
-      
-      // Fetch categories
-      const categoriesData = await getGiftCategories()
-      
-      // Add "All Categories" option
-      setCategories([
-        { id: "all", name: "All Categories", count: categoriesData.reduce((sum, cat) => sum + (cat.count || 0), 0) },
-        ...categoriesData.map((cat: GiftCategory) => ({
-          id: cat.slug,
-          name: cat.name,
-          count: cat.count || 0,
-          description: cat.description,
-          image: cat.image_url
-        }))
-      ])
-      
-      // Fetch products
-      const productsData = await getProducts()
-      
-      setProducts(productsData.map((product: Product) => ({
-        id: product.id,
-        name: product.name,
-        category: product.category,
-        price: `$${product.price}`,
-        moq: product.moq || "25 pieces",
-        rating: product.rating || 4.5,
-        reviews: Math.floor(Math.random() * 150) + 50,
-        image: product.images?.[0] || "/placeholder.svg?height=300&width=300",
-        description: product.description,
-        delivery: product.delivery || "5-7 days",
-        customizable: product.customizable || false,
-        featured: product.featured || false,
-      })))
-      
-      setLoading(false)
+    const loadCategories = async () => {
+      try {
+        const mainCats = await getMainCategories()
+        setMainCategories(mainCats)
+        
+        // Get subcategory counts for each main category
+        const counts: Record<string, number> = {}
+        for (const cat of mainCats) {
+          const subcats = await getCategoriesByParent(cat.id)
+          counts[cat.id] = subcats.length
+        }
+        setSubcategoryCounts(counts)
+      } catch (error) {
+        console.error('Error loading categories:', error)
+      } finally {
+        setLoading(false)
+      }
     }
-    
-    fetchData()
+
+    loadCategories()
   }, [])
 
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCategory = selectedCategory === "all" || product.category === selectedCategory
-    return matchesSearch && matchesCategory
-  })
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white">
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#AD9660] mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading categories...</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4">
+    <div className="min-h-screen bg-white">
+      <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center">
-                  <Package className="w-6 h-6 text-teal-600" />
-                </div>
-                <div>
-                  <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">Gift Categories</h1>
-                  <p className="text-teal-600 font-medium">Premium Corporate Gifting Solutions</p>
-                </div>
+        <div className="text-center mb-16">
+          <h1 className="text-5xl font-serif font-light text-[#323433] mb-6">
+            Gift Categories
+          </h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Explore our carefully curated collection of corporate gifts, organized by type and customization level
+          </p>
+        </div>
+
+        {/* Main Categories Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          {mainCategories.map((category) => (
+            <Link key={category.id} href={`/categories/${category.slug}`}>
+              <Card className={`group hover:shadow-xl transition-all duration-300 h-full ${getCategoryColor(category.slug)}`}>
+                <CardContent className="p-8 text-center h-full flex flex-col justify-between">
+                  <div>
+                    {getCategoryIcon(category.slug)}
+                    <h3 className="text-2xl font-serif font-light text-[#323433] mb-4">
+                      {category.name}
+                    </h3>
+                    <p className="text-gray-600 mb-6 text-base leading-relaxed">
+                      {category.description}
+                    </p>
+                    <div className="flex justify-center gap-3 mb-6">
+                      <Badge variant="secondary" className="text-xs">
+                        {category.type === 'edible' ? 'Edible' : 'Non-edible'}
+                      </Badge>
+                      <Badge variant="outline" className="text-xs">
+                        {subcategoryCounts[category.id] || 0} subcategories
+                      </Badge>
+                    </div>
+                  </div>
+                  <Button className="w-full bg-[#AD9660] hover:bg-[#8B7A4F] text-white group-hover:bg-[#8B7A4F] transition-colors">
+                    Explore {category.name}
+                  </Button>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </div>
+
+        {/* Features Section */}
+        <div className="bg-gray-50 rounded-2xl p-12 mb-16">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-serif font-light text-[#323433] mb-4">
+              Why Choose Our Corporate Gifts?
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              We offer premium quality gifts with flexible customization options to suit every corporate need
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-[#AD9660] rounded-full flex items-center justify-center mx-auto mb-4">
+                <Gift className="w-8 h-8 text-white" />
               </div>
-              <p className="text-lg text-gray-600">
-                Discover the perfect corporate gifts for every occasion and milestone
+              <h3 className="text-xl font-serif font-light text-[#323433] mb-2">Premium Quality</h3>
+              <p className="text-gray-600 text-sm">
+                Carefully selected high-quality products that reflect your brand's excellence
               </p>
             </div>
-            <div className="flex items-center gap-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                <Input
-                  type="search"
-                  placeholder="Search products..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 w-64"
-                />
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-[#AD9660] rounded-full flex items-center justify-center mx-auto mb-4">
+                <Settings className="w-8 h-8 text-white" />
               </div>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant={viewMode === "grid" ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setViewMode("grid")}
-                  className="p-2"
-                >
-                  <Grid className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant={viewMode === "list" ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setViewMode("list")}
-                  className="p-2"
-                >
-                  <List className="h-4 w-4" />
-                </Button>
+              <h3 className="text-xl font-serif font-light text-[#323433] mb-2">Customization Options</h3>
+              <p className="text-gray-600 text-sm">
+                From ready-to-gift to fully customized solutions tailored to your requirements
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-[#AD9660] rounded-full flex items-center justify-center mx-auto mb-4">
+                <Palette className="w-8 h-8 text-white" />
               </div>
+              <h3 className="text-xl font-serif font-light text-[#323433] mb-2">Expert Curation</h3>
+              <p className="text-gray-600 text-sm">
+                Professional team to help you choose the perfect gifts for every occasion
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-4 gap-8">
-          {/* Filters Sidebar */}
-          <div className="lg:col-span-1">
-            <Card className="sticky top-24">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-2 mb-6">
-                  <Filter className="h-5 w-5 text-teal-600" />
-                  <h3 className="text-lg font-semibold text-gray-900">Filters</h3>
-                </div>
-
-                {/* Categories */}
-                <div className="space-y-4 mb-6">
-                  <h4 className="font-medium text-gray-900">Categories</h4>
-                  <div className="space-y-2">
-                    {categories.map((category) => (
-                      <div key={category.id} className="flex items-center justify-between">
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id={category.id}
-                            checked={selectedCategory === category.id}
-                            onCheckedChange={() => setSelectedCategory(category.id)}
-                          />
-                          <label htmlFor={category.id} className="text-sm text-gray-700 cursor-pointer">
-                            {category.name}
-                          </label>
-                        </div>
-                        <span className="text-xs text-gray-500">({category.count})</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Price Range */}
-                <div className="space-y-4 mb-6">
-                  <h4 className="font-medium text-gray-900">Price Range</h4>
-                  <Select value={priceRange} onValueChange={setPriceRange}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select price range" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Prices</SelectItem>
-                      <SelectItem value="under-30">Under $30</SelectItem>
-                      <SelectItem value="30-60">$30 - $60</SelectItem>
-                      <SelectItem value="60-100">$60 - $100</SelectItem>
-                      <SelectItem value="100+">$100+</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Delivery Time */}
-                <div className="space-y-4 mb-6">
-                  <h4 className="font-medium text-gray-900">Delivery Time</h4>
-                  <Select value={deliveryTime} onValueChange={setDeliveryTime}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select delivery time" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">Any Time</SelectItem>
-                      <SelectItem value="1-3">1-3 days</SelectItem>
-                      <SelectItem value="3-7">3-7 days</SelectItem>
-                      <SelectItem value="7-14">1-2 weeks</SelectItem>
-                      <SelectItem value="14+">2+ weeks</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <Button className="w-full">Apply Filters</Button>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Products Grid */}
-          <div className="lg:col-span-3">
-            {loading ? (
-              <div className="text-center py-12">
-                <div className="w-16 h-16 border-4 border-t-teal-600 border-teal-200 rounded-full animate-spin mx-auto mb-4"></div>
-                <p className="text-gray-600">Loading products...</p>
+        {/* Process Section */}
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-serif font-light text-[#323433] mb-12">
+            How It Works
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="w-12 h-12 bg-[#AD9660] rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold">
+                1
               </div>
-            ) : (
-              <>
-                {/* Results Summary */}
-                <div className="flex items-center justify-between mb-6">
-                  <p className="text-gray-600">
-                    Showing {filteredProducts.length} of {products.length} products
-                  </p>
-                  <Select defaultValue="newest">
-                    <SelectTrigger className="w-48">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="newest">Newest First</SelectItem>
-                      <SelectItem value="price-low">Price: Low to High</SelectItem>
-                      <SelectItem value="price-high">Price: High to Low</SelectItem>
-                      <SelectItem value="popular">Most Popular</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+              <h3 className="text-lg font-serif font-light text-[#323433] mb-2">Browse Categories</h3>
+              <p className="text-gray-600 text-sm">
+                Explore our 5 main categories to find the perfect gifts
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-12 h-12 bg-[#AD9660] rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold">
+                2
+              </div>
+              <h3 className="text-lg font-serif font-light text-[#323433] mb-2">Select Products</h3>
+              <p className="text-gray-600 text-sm">
+                Choose from our curated selection of premium gifts
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-12 h-12 bg-[#AD9660] rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold">
+                3
+              </div>
+              <h3 className="text-lg font-serif font-light text-[#323433] mb-2">Customize</h3>
+              <p className="text-gray-600 text-sm">
+                Add your branding or personalization as needed
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-12 h-12 bg-[#AD9660] rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold">
+                4
+              </div>
+              <h3 className="text-lg font-serif font-light text-[#323433] mb-2">Deliver</h3>
+              <p className="text-gray-600 text-sm">
+                Receive your beautifully packaged gifts on time
+              </p>
+            </div>
+          </div>
+        </div>
 
-                {/* Products */}
-                <div className={`grid gap-6 ${viewMode === "grid" ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"}`}>
-                  {filteredProducts.map((product) => (
-                    <Card key={product.id} className="group hover:shadow-lg transition-shadow overflow-hidden">
-                      <div className="relative">
-                        <Image
-                          src={product.image}
-                          alt={product.name}
-                          width={300}
-                          height={200}
-                          className="w-full h-48 object-cover"
-                        />
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="absolute top-3 right-3 bg-white/90 hover:bg-white"
-                        >
-                          <Heart className="h-4 w-4" />
-                        </Button>
-                        {product.featured && (
-                          <Badge className="absolute top-3 left-3 bg-teal-600">Featured</Badge>
-                        )}
-                      </div>
-                      <CardContent className="p-4">
-                        <div className="space-y-2">
-                          <div className="flex items-start justify-between">
-                            <h3 className="font-semibold text-gray-900 group-hover:text-teal-600 transition-colors">
-                              {product.name}
-                            </h3>
-                            <Badge variant="outline" className="text-xs">
-                              {product.category}
-                            </Badge>
-                          </div>
-                          <p className="text-sm text-gray-600 line-clamp-2">{product.description}</p>
-                          <div className="flex items-center gap-2">
-                            <div className="flex items-center">
-                              {[...Array(5)].map((_, i) => (
-                                <Star
-                                  key={i}
-                                  className={`h-3 w-3 ${i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"}`}
-                                />
-                              ))}
-                            </div>
-                            <span className="text-xs text-gray-500">({product.reviews})</span>
-                          </div>
-                          <div className="flex items-center justify-between pt-2">
-                            <div>
-                              <p className="text-lg font-bold text-gray-900">{product.price}</p>
-                              <p className="text-xs text-gray-500">MOQ: {product.moq}</p>
-                            </div>
-                            <Button size="sm" className="bg-teal-600 hover:bg-teal-700">
-                              View Details
-                              <ArrowRight className="h-3 w-3 ml-1" />
-                            </Button>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-
-                {filteredProducts.length === 0 && (
-                  <div className="text-center py-12">
-                    <Package className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">No products found</h3>
-                    <p className="text-gray-600">Try adjusting your filters or search terms.</p>
-                  </div>
-                )}
-              </>
-            )}
+        {/* Call to Action */}
+        <div className="text-center bg-[#323433] text-white rounded-2xl p-12">
+          <h2 className="text-3xl font-serif font-light mb-4">
+            Need Help Choosing?
+          </h2>
+          <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
+            Our expert team is here to help you find the perfect corporate gifts for your specific needs and budget
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/contact">
+              <Button className="bg-[#AD9660] hover:bg-[#8B7A4F] text-white px-8 py-3">
+                Get Expert Advice
+              </Button>
+            </Link>
+            <Link href="/quote">
+              <Button variant="outline" className="border-white text-white hover:bg-white hover:text-[#323433] px-8 py-3">
+                Request Quote
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

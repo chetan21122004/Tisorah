@@ -1,102 +1,165 @@
-import { createClient as createClientBrowser } from '@supabase/supabase-js'
-import { createClient as createServerClient } from '@/utils/supabase/server'
-import type { Database } from '@/types/supabase'
-import type { Product, GiftCategory } from '@/types/database'
+import { createClient } from '@supabase/supabase-js'
+import { Category, Product } from '@/types/database'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
-// Create default client instance
-const supabase = createClientBrowser<Database>(supabaseUrl, supabaseKey)
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-// Export default client
-export default supabase
-
-// Client-side Supabase instance
-export const createBrowserClient = () => {
-  return createClientBrowser<Database>(supabaseUrl, supabaseKey)
-}
-
-// Server-side Supabase instance
-export const createServerSupabaseClient = () => {
-  return createServerClient()
-}
-
-// Gift category related functions
-export async function getGiftCategories(): Promise<GiftCategory[]> {
-  const supabase = createBrowserClient()
+// Get main categories (Edible and Non-edible)
+export async function getMainCategories(): Promise<Category[]> {
   const { data, error } = await supabase
-    .from('gift_categories')
+    .from('categories')
     .select('*')
+    .eq('level', 'main')
     .order('name')
 
   if (error) {
-    console.error('Error fetching gift categories:', error)
+    console.error('Error fetching main categories:', error)
     return []
   }
 
-  return data
+  return data || []
 }
 
-export async function getGiftCategoryBySlug(slug: string): Promise<GiftCategory | null> {
-  const supabase = createBrowserClient()
+// Get secondary categories (Ready to Gift, Semi-Customised, Custom Curated)
+export async function getSecondaryCategories(): Promise<Category[]> {
   const { data, error } = await supabase
-    .from('gift_categories')
+    .from('categories')
+    .select('*')
+    .eq('level', 'secondary')
+    .order('name')
+
+  if (error) {
+    console.error('Error fetching secondary categories:', error)
+    return []
+  }
+
+  return data || []
+}
+
+// Get categories by parent ID
+export async function getCategoriesByParent(parentId: string): Promise<Category[]> {
+  const { data, error } = await supabase
+    .from('categories')
+    .select('*')
+    .eq('parent_id', parentId)
+    .order('name')
+
+  if (error) {
+    console.error('Error fetching categories by parent:', error)
+    return []
+  }
+
+  return data || []
+}
+
+// Get category by slug
+export async function getCategoryBySlug(slug: string): Promise<Category | null> {
+  const { data, error } = await supabase
+    .from('categories')
     .select('*')
     .eq('slug', slug)
     .single()
 
   if (error) {
-    console.error('Error fetching gift category:', error)
+    console.error('Error fetching category by slug:', error)
     return null
   }
 
   return data
 }
 
-// Product related functions
-export async function getProducts(): Promise<Product[]> {
-  const supabase = createBrowserClient()
-  try {
-    // Get all products
-  const { data, error } = await supabase
-    .from('products')
-      .select('*')
-    .order('created_at', { ascending: false })
-
-  if (error) {
-    console.error('Error fetching products:', error)
-    return []
-  }
-
-    return data as Product[]
-  } catch (error) {
-    console.error('Error fetching products:', error)
-    return []
-  }
-}
-
-export async function getProductsByCategory(category: string): Promise<Product[]> {
-  const supabase = createBrowserClient()
+// Get products by category
+export async function getProductsByCategory(categoryId: string): Promise<Product[]> {
   const { data, error } = await supabase
     .from('products')
     .select('*')
-    .eq('category', category)
-  
+    .or(`main_category.eq.${categoryId},primary_category.eq.${categoryId},secondary_category.eq.${categoryId}`)
+    .order('name')
+
   if (error) {
     console.error('Error fetching products by category:', error)
     return []
   }
-  
-  return data
+
+  return data || []
 }
 
-export async function getProductById(id: string): Promise<Product | null> {
-  const supabase = createBrowserClient()
-  try {
+// Get all products with search and filters
+export async function getProducts(options: {
+  search?: string
+  categoryId?: string
+  minPrice?: number
+  maxPrice?: number
+  featured?: boolean
+  limit?: number
+  offset?: number
+} = {}): Promise<Product[]> {
+  let query = supabase
+    .from('products')
+    .select('*')
+
+  if (options.search) {
+    query = query.or(`name.ilike.%${options.search}%,description.ilike.%${options.search}%`)
+  }
+
+  if (options.categoryId) {
+    query = query.or(`main_category.eq.${options.categoryId},primary_category.eq.${options.categoryId},secondary_category.eq.${options.categoryId}`)
+  }
+
+  if (options.minPrice) {
+    query = query.gte('price', options.minPrice)
+  }
+
+  if (options.maxPrice) {
+    query = query.lte('price', options.maxPrice)
+  }
+
+  if (options.featured) {
+    query = query.eq('featured', true)
+  }
+
+  if (options.limit) {
+    query = query.limit(options.limit)
+  }
+
+  if (options.offset) {
+    query = query.range(options.offset, options.offset + (options.limit || 20) - 1)
+  }
+
+  const { data, error } = await query.order('name')
+
+  if (error) {
+    console.error('Error fetching products:', error)
+    return []
+  }
+
+  return data || []
+}
+
+// Get featured products
+export async function getFeaturedProducts(): Promise<Product[]> {
   const { data, error } = await supabase
     .from('products')
-      .select('*')
+    .select('*')
+    .eq('featured', true)
+    .order('name')
+    .limit(12)
+
+  if (error) {
+    console.error('Error fetching featured products:', error)
+    return []
+  }
+
+  return data || []
+}
+
+// Get product by ID
+export async function getProductById(id: string): Promise<Product | null> {
+  const { data, error } = await supabase
+    .from('products')
+    .select('*')
     .eq('id', id)
     .single()
 
@@ -105,52 +168,5 @@ export async function getProductById(id: string): Promise<Product | null> {
     return null
   }
 
-    return data as Product
-  } catch (error) {
-    console.error('Error fetching product:', error)
-    return null
-  }
-}
-
-// Quote request functions
-export async function submitQuoteRequestToSupabase(quoteData: {
-  name: string
-  email: string
-  phone: string
-  company: string
-  message: string
-  budget?: string
-  timeline?: string
-  event_type?: string
-  customization: boolean
-  branding: boolean
-  packaging: boolean
-  shortlisted_products: any[]
-}) {
-  const supabase = createBrowserClient()
-  
-  // Ensure shortlisted_products is a valid JSON structure
-  const formattedData = {
-    ...quoteData,
-    // If shortlisted_products is empty, set it to an empty array to maintain JSONB structure
-    shortlisted_products: Array.isArray(quoteData.shortlisted_products) && quoteData.shortlisted_products.length > 0 
-      ? quoteData.shortlisted_products 
-      : []
-  }
-  
-  const { data, error } = await supabase
-    .from('quote_requests')
-    .insert([formattedData])
-    .select()
-  
-  if (error) {
-    console.error('Error submitting quote request:', error)
-    return { success: false, message: error.message }
-  }
-  
-  return { 
-    success: true, 
-    message: 'Quote request submitted successfully! We\'ll get back to you within 24 hours.',
-    data
-  }
+  return data
 } 
