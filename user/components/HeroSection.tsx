@@ -16,7 +16,7 @@ import Gifting from "./LandingPage/Gifting"
 const bannerSlides = [
   {
     desktopImage: "./banners/banner_01.png",
-    mobileImage: "./banners_phn/banner_2.jpg",
+    mobileImage: "./banners_phn/banner_1.png",
     title: "Premium Corporate Gifts",
     description: "Elevate your brand with customized corporate gifts that leave a lasting impression",
     buttonText: "Get Free Quote",
@@ -34,7 +34,7 @@ const bannerSlides = [
   },
   {
     desktopImage: "./banners/banner_03.png",
-    mobileImage: "./banners_phn/banner_2.jpg",
+    mobileImage: "./banners_phn/banner_3.png",
     title: "Bulk Corporate Gifting",
     description: "Save up to 30% on bulk orders with our volume discount pricing",
     buttonText: "Get Volume Pricing",
@@ -43,7 +43,7 @@ const bannerSlides = [
   },
   {
     desktopImage: "./banners/banner_04.png",
-    mobileImage: "./banners_phn/banner_2.jpg",
+    mobileImage: "./banners_phn/banner_4.png",
     title: "Custom Branded Merchandise",
     description: "Transform ordinary products into powerful brand ambassadors",
     buttonText: "Start Your Project",
