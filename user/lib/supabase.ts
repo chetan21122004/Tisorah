@@ -98,7 +98,12 @@ export async function getProducts(options: {
 } = {}): Promise<Product[]> {
   let query = supabase
     .from('products')
-    .select('*')
+    .select(`
+      *,
+      main_category_info:categories!products_main_category_fkey(*),
+      primary_category_info:categories!products_primary_category_fkey(*),
+      secondary_category_info:categories!products_secondary_category_fkey(*)
+    `)
 
   if (options.search) {
     query = query.or(`name.ilike.%${options.search}%,description.ilike.%${options.search}%`)

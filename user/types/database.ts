@@ -335,6 +335,10 @@ export interface Product {
   secondary_category?: string;
   created_at?: string;
   updated_at?: string;
+  // Category information from joins
+  main_category_info?: Category;
+  primary_category_info?: Category;
+  secondary_category_info?: Category;
 }
 
 export interface ProductWithCategory extends Product {

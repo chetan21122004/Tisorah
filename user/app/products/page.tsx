@@ -111,6 +111,9 @@ interface ProductCardProps {
     reviews: number;
     category?: string;
     moq?: number | null;
+    main_category_info?: any;
+    primary_category_info?: any;
+    secondary_category_info?: any;
   };
   index: number;
   products: any[];
@@ -292,14 +295,22 @@ export default function ProductsPage() {
       
     let matchesCategory = true;
     if (selectedCategory === "edibles") {
-      matchesCategory = product.main_category_info?.slug === "edible-items";
+      matchesCategory = product.main_category_info?.slug === "edible";
     } else if (selectedCategory === "non-edibles") {
-      matchesCategory = product.main_category_info?.slug === "non-edible-items";
+      matchesCategory = product.main_category_info?.slug === "non-edible";
     }
     
     let matchesSubcategory = true;
     if (selectedSubcategories.length > 0) {
-      matchesSubcategory = selectedSubcategories.includes(product.sub_category || '');
+      // Check if product's primary_category or secondary_category matches any selected subcategory
+      const productSubcategoryIds = [
+        product.primary_category_info?.id,
+        product.secondary_category_info?.id
+      ].filter(Boolean);
+      
+      matchesSubcategory = selectedSubcategories.some(subcatId => 
+        productSubcategoryIds.includes(subcatId)
+      );
     }
     
     let matchesPrice = true;
@@ -404,18 +415,26 @@ export default function ProductsPage() {
     if (selectedCategory === "edibles") {
       // Group products by subcategory and count them
       const subcategoryCounts = products
-        .filter(p => p.main_category_info?.slug === "edible-items")
+        .filter(p => p.main_category_info?.slug === "edible")
         .reduce((acc, product) => {
-          if (product.sub_category_info) {
-            const id = product.sub_category_info.id;
-            acc[id] = acc[id] || {
-              id: id,
-              name: product.sub_category_info.name,
-              slug: product.sub_category_info.slug,
-              count: 0
-            };
-            acc[id].count++;
-          }
+          // Check both primary and secondary categories
+          const subcategories = [
+            product.primary_category_info,
+            product.secondary_category_info
+          ].filter(Boolean);
+          
+          subcategories.forEach(subcat => {
+            if (subcat) {
+              const id = subcat.id;
+              acc[id] = acc[id] || {
+                id: id,
+                name: subcat.name,
+                slug: subcat.slug,
+                count: 0
+              };
+              acc[id].count++;
+            }
+          });
           return acc;
         }, {} as Record<string, Subcategory>);
       
@@ -423,18 +442,26 @@ export default function ProductsPage() {
     } else if (selectedCategory === "non-edibles") {
       // Group products by subcategory and count them
       const subcategoryCounts = products
-        .filter(p => p.main_category_info?.slug === "non-edible-items")
+        .filter(p => p.main_category_info?.slug === "non-edible")
         .reduce((acc, product) => {
-          if (product.sub_category_info) {
-            const id = product.sub_category_info.id;
-            acc[id] = acc[id] || {
-              id: id,
-              name: product.sub_category_info.name,
-              slug: product.sub_category_info.slug,
-              count: 0
-            };
-            acc[id].count++;
-          }
+          // Check both primary and secondary categories
+          const subcategories = [
+            product.primary_category_info,
+            product.secondary_category_info
+          ].filter(Boolean);
+          
+          subcategories.forEach(subcat => {
+            if (subcat) {
+              const id = subcat.id;
+              acc[id] = acc[id] || {
+                id: id,
+                name: subcat.name,
+                slug: subcat.slug,
+                count: 0
+              };
+              acc[id].count++;
+            }
+          });
           return acc;
         }, {} as Record<string, Subcategory>);
       
@@ -446,11 +473,11 @@ export default function ProductsPage() {
 
   // Count products in each category
   const ediblesCount = products.filter(p => 
-    p.main_category_info?.slug === "edible-items"
+    p.main_category_info?.slug === "edible"
   ).length;
   
   const nonEdiblesCount = products.filter(p => 
-    p.main_category_info?.slug === "non-edible-items"
+    p.main_category_info?.slug === "non-edible"
   ).length;
 
   // Toggle a subcategory selection
@@ -698,8 +725,8 @@ export default function ProductsPage() {
                   type="text" 
                   placeholder="Search products..." 
                   className="pl-10 pr-4 py-2 w-full"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  value={searchInputValue}
+                  onChange={(e) => setSearchInputValue(e.target.value)}
                 />
                 <Search className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
               </form>
@@ -714,10 +741,11 @@ export default function ProductsPage() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Prices</SelectItem>
-                    <SelectItem value="0-500">₹0 - ₹500</SelectItem>
+                    <SelectItem value="under-500">Under ₹500</SelectItem>
                     <SelectItem value="500-1000">₹500 - ₹1000</SelectItem>
                     <SelectItem value="1000-2000">₹1000 - ₹2000</SelectItem>
-                    <SelectItem value="2000+">₹2000+</SelectItem>
+                    <SelectItem value="2000-5000">₹2000 - ₹5000</SelectItem>
+                    <SelectItem value="5000+">₹5000+</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -787,7 +815,7 @@ export default function ProductsPage() {
                           discount: undefined,
                           rating: product.rating || 0,
                           reviews: product.reviews || 0,
-                          category: product.category,
+                          category: product.main_category_info?.name || '',
                           moq: product.moq,
                         }}
                         index={index}
@@ -805,7 +833,7 @@ export default function ProductsPage() {
                           discount: undefined,
                           rating: p.rating || 0,
                           reviews: p.reviews || 0,
-                          category: p.category,
+                          category: p.main_category_info?.name || '',
                           moq: p.moq,
                         }))}
                       />
