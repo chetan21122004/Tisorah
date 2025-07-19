@@ -262,7 +262,7 @@ const ContactForm = () => {
             transition={{ duration: 0.7, delay: 0.3 }}
           >
             <div className="bg-[#F0EBE1] rounded-xl md:rounded-2xl p-6 md:p-8 shadow-lg">
-              <h3 className="text-lg md:text-xl font-['Frank_Ruhl_Libre'] font-light mb-4 md:mb-6 text-[#323433]">Why Choose Tisorah?</h3>
+              <h3 className="text-lg md:text-xl font-['Frank_Ruhl_Libre'] font-light mb-4 md:mb-6 text-[#323433]">Why Choose TisorahBox?</h3>
               
               <div className="space-y-3 md:space-y-5">
                 <BenefitItem 

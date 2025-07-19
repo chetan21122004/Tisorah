@@ -173,7 +173,7 @@ export default function AboutPage() {
               
               <div className="space-y-6 text-gray-600 leading-relaxed font-light">
                 <p>
-                  Tisorah emerged from a vision to redefine corporate gifting, transforming it into an art form that
+                  TisorahBox emerged from a vision to redefine corporate gifting, transforming it into an art form that
                   reflects heritage, sophistication, and enduring value.
                 </p>
                 <p>

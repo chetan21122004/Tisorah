@@ -253,7 +253,7 @@ const Navbar = () => {
             <div className="flex items-center flex-col justify-center flex-shrink-0 gap-0">
               <Link href="/" className='flex items-center justify-center flex-col'>
                 <div className="font-serif text-3xl tracking-wide text-[#323433]">
-                  <span className="font-light">Tisorah</span>
+                  <span className="font-light">TisorahBox</span>
                   <span className="text-[#AD9660] font-medium">Box</span>
                 </div>
                 <div className="text-xs uppercase tracking-widest text-gray-500 font-light">Premium Corporate Gifts</div>
@@ -314,7 +314,7 @@ const Navbar = () => {
           
           <Link href="/" className="flex items-center justify-center">
             <div className="font-serif text-2xl tracking-wide text-[#323433]">
-              <span className="font-light">Tisorah</span>
+              <span className="font-light">TisorahBox</span>
               <span className="text-[#AD9660] font-medium">Box</span>
             </div>
           </Link>
@@ -340,7 +340,7 @@ const Navbar = () => {
             <div className="p-4 flex justify-between items-center border-b">
               <Link href="/" className="flex items-center" onClick={() => setMobileMenuOpen(false)}>
                 <div className="font-serif text-2xl tracking-wide text-[#323433]">
-                  <span className="font-light">Tisorah</span>
+                  <span className="font-light">TisorahBox</span>
                   <span className="text-[#AD9660] font-medium">box</span>
                 </div>
               </Link>

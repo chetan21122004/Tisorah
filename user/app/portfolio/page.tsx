@@ -107,7 +107,7 @@ export default function PortfolioPage() {
       company: "TechCorp Solutions",
       image: "/placeholder.svg?height=120&width=120",
       content:
-        "Tisorah has truly elevated our employee onboarding experience. The impeccable quality and meticulous attention to detail evident in each package have left a lasting impression. Our new hires consistently express their delight with the exquisite welcome kits.",
+        "TisorahBox has truly elevated our employee onboarding experience. The impeccable quality and meticulous attention to detail evident in each package have left a lasting impression. Our new hires consistently express their delight with the exquisite welcome kits.",
       rating: 5,
       project: "Onboarding Kit Program",
     },
@@ -127,7 +127,7 @@ export default function PortfolioPage() {
       company: "InnovateCo",
       image: "/placeholder.svg?height=80&width=80",
       content:
-        "The recognition awards Tisorah crafted for our annual ceremony were nothing short of breathtaking. The custom engraving was executed flawlessly, and the presentation boxes added an exquisite touch of elegance. Our employees were deeply honored to receive such prestigious accolades.",
+        "The recognition awards TisorahBox crafted for our annual ceremony were nothing short of breathtaking. The custom engraving was executed flawlessly, and the presentation boxes added an exquisite touch of elegance. Our employees were deeply honored to receive such prestigious accolades.",
       rating: 5,
       project: "Executive Recognition Program",
     },
@@ -137,7 +137,7 @@ export default function PortfolioPage() {
       company: "StartupXYZ",
       image: "/placeholder.svg?height=80&width=80",
       content:
-        "The conference welcome bags were an undeniable success with our attendees. Tisorah's commitment to eco-friendly practices resonated perfectly with our values, and the superior quality of the items within was truly impressive. A remarkable partnership for our annual conference.",
+        "The conference welcome bags were an undeniable success with our attendees. TisorahBox commitment to eco-friendly practices resonated perfectly with our values, and the superior quality of the items within was truly impressive. A remarkable partnership for our annual conference.",
       rating: 4,
       project: "Annual Conference 2024",
     },

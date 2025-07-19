@@ -13,17 +13,17 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   
   if (!category) {
     return {
-      title: 'Category Not Found - Tisorah',
+      title: 'Category Not Found - TisorahBox',
       description: 'The category you are looking for does not exist.'
     }
   }
 
   return {
-    title: `${category.name} - Corporate Gifts | Tisorah`,
+    title: `${category.name} - Corporate Gifts | TisorahBox`,
     description: category.description || `Explore our ${category.name.toLowerCase()} collection of premium corporate gifts`,
     keywords: `corporate gifts, ${category.name.toLowerCase()}, business gifts, custom gifts, premium gifts`,
     openGraph: {
-      title: `${category.name} - Corporate Gifts | Tisorah`,
+      title: `${category.name} - Corporate Gifts | TisorahBox`,
       description: category.description || `Explore our ${category.name.toLowerCase()} collection of premium corporate gifts`,
       type: 'website',
       images: category.image_url ? [{ url: category.image_url }] : []

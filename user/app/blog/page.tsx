@@ -6,7 +6,7 @@ import type { BlogPost } from '@/types/blog'
 import { EXAMPLE_BLOGS } from '@/utils/blog-constants'
 
 export const metadata: Metadata = {
-  title: 'Corporate Gifting Blog | Tips, Trends & Ideas - Tisorah',
+  title: 'Corporate Gifting Blog | Tips, Trends & Ideas - TisorahBox',
   description: 'Expert insights on corporate gifting strategies, trends, and ideas. Learn about employee gifting, client appreciation, sustainable gifts, and luxury corporate gift solutions.',
   keywords: 'corporate gifting blog, corporate gift ideas, employee gifting tips, client gift trends, business gifting strategies',
   alternates: {

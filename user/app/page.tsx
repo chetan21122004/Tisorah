@@ -169,7 +169,7 @@ export default async function HomePage() {
       <section className="relative">
         <HeroSection />
         <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-          <h1 className="sr-only">Premium Corporate Gifts India - Luxury Corporate Gifting Solutions by Tisorah</h1>
+          <h1 className="sr-only">Premium Corporate Gifts India - Luxury Corporate Gifting Solutions by TisorahBox</h1>
         </div>
       </section>
 
@@ -181,7 +181,7 @@ export default async function HomePage() {
               India's Most Trusted Premium Corporate Gifting Company
             </h2>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-              Welcome to Tisorah - your partner in premium corporate gifting solutions. With over 10,000+ luxury corporate gifts, 
+              Welcome to TisorahBox - your partner in premium corporate gifting solutions. With over 10,000+ luxury corporate gifts, 
               we specialize in creating memorable gifting experiences for employees, clients, and business partners. From customized 
               gift hampers to branded merchandise, we offer comprehensive bulk gifting solutions with 1-2 week delivery across major Indian cities.
             </p>

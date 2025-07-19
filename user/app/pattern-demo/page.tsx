@@ -24,7 +24,7 @@ export default function PatternDemoPage() {
             </h1>
             <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed mb-12">
               A sophisticated design system that integrates rotated geometric patterns to create 
-              an elegant and premium brand experience for Tisorah's corporate gifting solutions.
+              an elegant and premium brand experience for TisorahBox corporate gifting solutions.
             </p>
             
             <div className="animate-bounce mt-12 text-[#AD9660]">

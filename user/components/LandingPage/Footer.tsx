@@ -220,7 +220,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            © {new Date().getFullYear()} Tisorah. All rights reserved. Crafted with excellence.
+            © {new Date().getFullYear()} TisorahBox. All rights reserved. Crafted with excellence.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link href="/privacy" className="text-gray-400 hover:text-white text-sm transition-colors">

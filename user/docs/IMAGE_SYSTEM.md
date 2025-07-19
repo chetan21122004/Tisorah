@@ -1,7 +1,7 @@
 # Product Image System Documentation
 
 ## Overview
-The Tisorah product system supports three types of images for enhanced user experience:
+The TisorahBox product system supports three types of images for enhanced user experience:
 
 1. **Display Image** (`display_image`) - Primary product image shown in cards and detail pages
 2. **Hover Image** (`hover_image`) - Alternative image shown on hover for interactive effects

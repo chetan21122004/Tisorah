@@ -26,14 +26,14 @@ const frankRuhlLibre = Frank_Ruhl_Libre({
 
 export const metadata: Metadata = {
   title: {
-    default: "Premium Corporate Gifts India | Luxury Corporate Gifting Solutions - Tisorah",
-    template: "%s | Tisorah Corporate Gifts"
+    default: "Premium Corporate Gifts India | Luxury Corporate Gifting Solutions - TisorahBox",
+    template: "%s | TisorahBox Corporate Gifts"
   },
   description: "India's trusted premium corporate gifting company. Explore 10,000+ luxury corporate gifts, customized gift hampers, branded merchandise, and bulk gifting solutions for employees, clients & business partners. Same-day delivery in major cities.",
   keywords: "corporate gifts india, premium corporate gifts, luxury corporate gifting, corporate gift hampers, branded corporate gifts, bulk corporate gifts, employee gifting solutions, client appreciation gifts, diwali corporate gifts, new year corporate gifts, customized corporate gifts, corporate gift manufacturers india, corporate gifting companies, business gifts india, promotional gifts, executive gifts, sustainable corporate gifts, eco-friendly corporate gifts, corporate gift ideas, corporate gift suppliers india",
-  authors: [{ name: "Tisorah Corporate Gifts" }],
-  creator: "Tisorah",
-  publisher: "Tisorah Corporate Gifts India",
+  authors: [{ name: "TisorahBox Corporate Gifts" }],
+  creator: "TisorahBox",
+  publisher: "TisorahBox Corporate Gifts India",
   formatDetection: {
     email: false,
     address: false,
@@ -44,16 +44,16 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: "Premium Corporate Gifts India | Luxury Corporate Gifting - Tisorah",
+    title: "Premium Corporate Gifts India | Luxury Corporate Gifting - TisorahBox",
     description: "India's trusted premium corporate gifting company. 10,000+ luxury gifts, customized hampers & branded merchandise for employees & clients.",
     url: 'https://tisorahbox.com',
-    siteName: 'Tisorah Corporate Gifts',
+    siteName: 'TisorahBox Corporate Gifts',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Tisorah - Premium Corporate Gifts India',
+        alt: 'TisorahBox - Premium Corporate Gifts India',
       }
     ],
     locale: 'en_IN',
@@ -61,10 +61,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Premium Corporate Gifts India | Tisorah",
+    title: "Premium Corporate Gifts India | TisorahBox",
     description: "India's trusted premium corporate gifting company. 10,000+ luxury gifts & customized solutions.",
     images: ['/twitter-image.jpg'],
-    creator: '@tisorah',
+    creator: '@tisorahbox',
   },
   robots: {
     index: true,
@@ -100,8 +100,8 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              "name": "Tisorah Corporate Gifts",
-              "alternateName": "Tisorah",
+              "name": "TisorahBox Corporate Gifts",
+              "alternateName": "TisorahBox",
               "url": "https://tisorahbox.com",
               "logo": "https://tisorahbox.com/logo.png",
               "description": "India's trusted premium corporate gifting company offering luxury gifts, customized hampers, and branded merchandise for businesses.",
@@ -118,10 +118,10 @@ export default function RootLayout({
                 "availableLanguage": ["en", "hi"]
               },
               "sameAs": [
-                "https://www.facebook.com/tisorah",
-                "https://www.instagram.com/tisorah",
-                "https://www.linkedin.com/company/tisorah",
-                "https://twitter.com/tisorah"
+                "https://www.facebook.com/tisorahbox",
+                "https://www.instagram.com/tisorahbox",
+                "https://www.linkedin.com/company/tisorahbox",
+                "https://twitter.com/tisorahbox"
               ],
               "offers": {
                 "@type": "AggregateOffer",
