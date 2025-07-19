@@ -16,7 +16,7 @@ import Gifting from "./LandingPage/Gifting"
 const bannerSlides = [
   {
     desktopImage: "./banners/banner_01.png",
-    mobileImage: "./banners_phn/banner_1.jpg",
+    mobileImage: "./banners_phn/banner_3.jpg",
     title: "Premium Corporate Gifts",
     description: "Elevate your brand with customized corporate gifts that leave a lasting impression",
     buttonText: "Get Free Quote",
