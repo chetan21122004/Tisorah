@@ -113,7 +113,7 @@ export default function PremiumPreloader({ isLoading, onLoadingComplete }: Premi
               } : {}}
               className="relative"
             >
-              <div className="relative w-32 h-32 md:w-40 md:h-40">
+              <div className="relative w-40 h-40 md:w-52 md:h-52">
                 {/* Decorative Ring */}
                 <motion.div
                   animate={{ rotate: 360 }}
@@ -126,12 +126,12 @@ export default function PremiumPreloader({ isLoading, onLoadingComplete }: Premi
                 />
                 
                 {/* Logo */}
-                <div className="absolute inset-3 bg-white rounded-full shadow-2xl flex items-center justify-center border border-[#AD9660]/30">
+                <div className="absolute inset-4 bg-white rounded-full shadow-2xl flex items-center justify-center border border-[#AD9660]/30">
                   <Image
                     src="/logo.png"
                     alt="TisorahBox"
-                    width={80}
-                    height={80}
+                    width={160}
+                    height={160}
                     className="object-contain"
                     priority
                   />
@@ -150,7 +150,7 @@ export default function PremiumPreloader({ isLoading, onLoadingComplete }: Premi
               className="text-center"
             >
               <p className="text-sm md:text-base font-sans text-[#AD9660] font-light tracking-[0.2em] mt-1">
-                LUXURY CORPORATE GIFTS
+              PREMIUM CORPORATE GIFTS
               </p>
             </motion.div>
 
