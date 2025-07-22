@@ -10,6 +10,8 @@ import { Toaster as SonnerToaster } from "sonner"
 import { ShortlistProvider } from "@/lib/ShortlistContext"
 import { WhatsAppButton } from "@/components/ui/whatsapp-button"
 import StarFollower from "@/components/LandingPage/StarFollower"
+import ClientLayout from "@/components/LandingPage/ClientLayout"
+import SmoothScrollProvider from "@/components/LandingPage/SmoothScrollProvider"
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -135,15 +137,15 @@ export default function RootLayout({
         />
       </head>
       <body className={poppins.className}>
-        <ShortlistProvider>
-          <Navbar></Navbar>
-          <main>{children}</main>
-          <Footer />
-          <WhatsAppButton />
-          <StarFollower />
-          <Toaster />
-          <SonnerToaster />
-        </ShortlistProvider>
+        <SmoothScrollProvider>
+          <ShortlistProvider>
+            <ClientLayout>
+              {children}
+            </ClientLayout>
+            <Toaster />
+            <SonnerToaster />
+          </ShortlistProvider>
+        </SmoothScrollProvider>
       </body>
     </html>
   )
