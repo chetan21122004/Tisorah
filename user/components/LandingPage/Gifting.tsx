@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { motion, useAnimation } from 'framer-motion'
 import { IconGift, IconArrowRight, IconPackage, IconPalette, IconChevronRight, IconChevronLeft } from '@tabler/icons-react'
 import { useIsMobile } from '@/hooks/use-mobile'
+import Link from 'next/link'
 
 interface GiftCard {
   title: string
@@ -36,9 +37,9 @@ const giftingCards: GiftCard[] = [
     icon: IconPalette,
   },
   {
-    title: 'Hamper Curation',
+    title: 'Custom Curated',
     image: 'https://www.boxupgifting.com/cdn/shop/files/Custom_curated.jpg?v=1685185266&width=1240',
-    alt: 'Hamper curation services',
+    alt: 'Custom curated gifts',
     text: 'Our Products stylist will help you curate truly one-of-a-kind hampers for the most important people in your life - be it family, friends, clients, or your employees, we\'re here to curate a hamper that fits your style, personality, and budget.',
     buttonText: 'Start Creating',
     icon: IconGift,
@@ -119,25 +120,27 @@ const GiftCard = ({ title, image, alt, text, buttonText, icon: Icon, index }: Gi
             {text}
           </motion.p>
 
-          <motion.button 
-            className="w-full bg-transparent border border-[#AD9660] text-[#323433] px-6 md:px-8 py-2.5 md:py-3 rounded-full hover:bg-[#AD9660] hover:text-white transition-all duration-300 flex items-center justify-center group relative overflow-hidden"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <motion.div
-              className="absolute inset-0 bg-[#AD9660]"
-              initial={{ x: "-100%" }}
-              whileHover={{ x: 0 }}
-              transition={{ duration: 0.3 }}
-              style={{ opacity: 0.1 }}
-            />
-            <span className="mr-2 text-xs md:text-sm tracking-wide font-light relative z-10">{buttonText}</span>
-            <motion.div
-              className="w-3 md:w-4 h-[1px] bg-current relative z-10"
-              whileHover={{ width: "20px" }}
-              transition={{ duration: 0.2 }}
-            />
-          </motion.button>
+          <Link href={title === 'Custom Curated' ? '/custom-curated' : '/quote'}>
+            <motion.button 
+              className="w-full bg-transparent border border-[#AD9660] text-[#323433] px-6 md:px-8 py-2.5 md:py-3 rounded-full hover:bg-[#AD9660] hover:text-white transition-all duration-300 flex items-center justify-center group relative overflow-hidden"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <motion.div
+                className="absolute inset-0 bg-[#AD9660]"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: 0 }}
+                transition={{ duration: 0.3 }}
+                style={{ opacity: 0.1 }}
+              />
+              <span className="mr-2 text-xs md:text-sm tracking-wide font-light relative z-10">{buttonText}</span>
+              <motion.div
+                className="w-3 md:w-4 h-[1px] bg-current relative z-10"
+                whileHover={{ width: "20px" }}
+                transition={{ duration: 0.2 }}
+              />
+            </motion.button>
+          </Link>
         </div>
       </div>
     </motion.div>

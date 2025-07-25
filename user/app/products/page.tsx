@@ -122,8 +122,8 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product, index, products }) => {
   // Use display_image as primary, fallback to image prop, then first additional image
   const displayImage = product.display_image || product.image || product.images?.[0] || '/placeholder.svg';
-  // Use hover_image as hover, fallback to display_image or image prop
-  const hoverImage = product.hover_image || product.display_image || product.image || product.images?.[0] || '/placeholder.svg';
+  // Use hover_image as hover, fallback to display_image only if hover_image exists
+  const hoverImage = product.hover_image || null;
   const { addToShortlist, removeFromShortlist, isInShortlist } = useShortlist();
   const [isInShortlistState, setIsInShortlistState] = useState(false);
   const [isAddingToShortlist, setIsAddingToShortlist] = useState(false);
@@ -143,7 +143,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products }) =
           ? `₹${product.price_min?.toLocaleString()} - ₹${product.price_max?.toLocaleString()}`
           : `₹${product.price.toLocaleString()}`,
         originalPrice: `₹${product.price.toLocaleString()}`,
-        image: displayImage, // Use the computed display image
+        image: displayImage,
         rating: product.rating,
         reviews: product.reviews,
         quantity: 1,
@@ -191,13 +191,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products }) =
             src={displayImage}
             alt={product.name}
             fill
-            className="w-full h-full object-contain p-2 transition-opacity duration-500 group-hover:opacity-0"
+            className={`w-full h-full object-contain p-2 transition-opacity duration-500 ${hoverImage ? 'group-hover:opacity-0' : ''}`}
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               target.src = '/placeholder.svg';
             }}
           />
-          {hoverImage && hoverImage !== displayImage && (
+          {hoverImage && (
             <Image
               src={hoverImage}
               alt={product.name + ' hover'}

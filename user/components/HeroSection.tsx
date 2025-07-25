@@ -274,8 +274,8 @@ export default function HeroSection() {
                       .map((product, index) => {
                         // Use display_image as primary, fallback to first image, then placeholder
                         const displayImage = product.display_image || product.images?.[0];
-                        // Use hover_image as hover, fallback to display_image
-                        const hoverImage = product.hover_image || product.display_image;
+                        // Use hover_image as hover, only if it exists
+                        const hoverImage = product.hover_image || null;
                         
                         return (
                           <Link href={`/products/${product.id}`} key={`mobile-${product.id}`}>
@@ -290,7 +290,11 @@ export default function HeroSection() {
                                       src={displayImage}
                                       alt={product.name}
                                       fill
-                                      className="w-full h-full object-contain p-2 transition-opacity duration-500 group-hover:opacity-0"
+                                      className={`w-full h-full object-contain p-2 transition-opacity duration-500 ${hoverImage && hoverImage !== displayImage ? 'group-hover:opacity-0' : ''}`}
+                                      onError={(e) => {
+                                        const target = e.target as HTMLImageElement;
+                                        target.src = '/placeholder.svg';
+                                      }}
                                     />
                                     {hoverImage && hoverImage !== displayImage && (
                                       <Image
@@ -298,6 +302,10 @@ export default function HeroSection() {
                                         alt={product.name + ' hover'}
                                         fill
                                         className="absolute inset-0 w-full h-full object-contain p-2 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
+                                        onError={(e) => {
+                                          const target = e.target as HTMLImageElement;
+                                          target.src = '/placeholder.svg';
+                                        }}
                                       />
                                     )}
                                   </>
@@ -347,8 +355,8 @@ export default function HeroSection() {
                     {featuredProducts.map((product, index) => {
                       // Use display_image as primary, fallback to first image, then placeholder
                       const displayImage = product.display_image || product.images?.[0];
-                      // Use hover_image as hover, fallback to display_image
-                      const hoverImage = product.hover_image || product.display_image;
+                      // Use hover_image as hover, only if it exists
+                      const hoverImage = product.hover_image || null;
                       
                       return (
                         <Link href={`/products/${product.id}`} key={product.id}>
@@ -363,14 +371,22 @@ export default function HeroSection() {
                                     src={displayImage}
                                     alt={product.name}
                                     fill
-                                    className={`w-full h-full object-contain p-2 transition-opacity duration-500 group-hover:opacity-0`}
+                                    className={`w-full h-full object-contain p-2 transition-opacity duration-500 ${hoverImage && hoverImage !== displayImage ? 'group-hover:opacity-0' : ''}`}
+                                    onError={(e) => {
+                                      const target = e.target as HTMLImageElement;
+                                      target.src = '/placeholder.svg';
+                                    }}
                                   />
                                   {hoverImage && hoverImage !== displayImage && (
                                     <Image
                                       src={hoverImage}
                                       alt={product.name + ' hover'}
                                       fill
-                                      className={`absolute inset-0 w-full h-full object-contain p-2 transition-opacity duration-500 opacity-0 group-hover:opacity-100`}
+                                      className="absolute inset-0 w-full h-full object-contain p-2 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
+                                      onError={(e) => {
+                                        const target = e.target as HTMLImageElement;
+                                        target.src = '/placeholder.svg';
+                                      }}
                                     />
                                   )}
                                 </>

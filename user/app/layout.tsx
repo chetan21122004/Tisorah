@@ -138,13 +138,13 @@ export default function RootLayout({
       </head>
       <body className={poppins.className}>
         <SmoothScrollProvider>
-          <ShortlistProvider>
+        <ShortlistProvider>
             <ClientLayout>
               {children}
             </ClientLayout>
-            <Toaster />
-            <SonnerToaster />
-          </ShortlistProvider>
+          <Toaster />
+          <SonnerToaster />
+        </ShortlistProvider>
         </SmoothScrollProvider>
       </body>
     </html>

@@ -298,6 +298,7 @@ export default function ProductPage({ params }: ProductPageProps) {
   // Reusable card for related/similar products
   function RelatedProductCard({ item }: { item: any }) {
     const relatedDisplayImage = item.display_image || item.image || item.images?.[0] || '/placeholder.svg';
+    const relatedHoverImage = item.hover_image || null;
     
     return (
       <Link href={`/products/${item.id}`}>
@@ -307,15 +308,15 @@ export default function ProductPage({ params }: ProductPageProps) {
               src={relatedDisplayImage}
               alt={item.name}
               fill
-              className="w-full h-full object-contain p-2 transition-opacity duration-500 group-hover:opacity-0"
+              className={`w-full h-full object-contain p-2 transition-opacity duration-500 ${relatedHoverImage ? 'group-hover:opacity-0' : ''}`}
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.src = '/placeholder.svg';
               }}
             />
-            {item.hover_image && item.hover_image !== relatedDisplayImage && (
+            {relatedHoverImage && (
               <Image
-                src={item.hover_image}
+                src={relatedHoverImage}
                 alt={item.name + ' hover'}
                 fill
                 className="absolute inset-0 w-full h-full object-contain p-2 transition-opacity duration-500 opacity-0 group-hover:opacity-100"

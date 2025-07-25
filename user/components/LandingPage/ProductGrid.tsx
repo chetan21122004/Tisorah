@@ -189,11 +189,9 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product, index, products, isMobile }) => {
   // Use display_image as primary, fallback to image prop, then first additional image
   const displayImage = product.display_image || product.image || product.images?.[0] || '/placeholder.svg';
-  // Use hover_image as hover, fallback to display_image
-  const hoverImage = product.hover_image || product.display_image || product.image || product.images?.[0] || '/placeholder.svg';
-  
+  // Use hover_image as hover, fallback to display_image only if hover_image exists
+  const hoverImage = product.hover_image || null;
 
-  
   // Format price display based on whether it's a range or single price
   const formatPrice = () => {
     if (product.has_price_range && product.price_min && product.price_max) {
@@ -220,13 +218,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products, isM
         <img
           src={displayImage}
           alt={product.name}
-          className="w-full h-full object-contain p-2 transition-opacity duration-500 group-hover:opacity-0"
+          className={`w-full h-full object-contain p-2 transition-opacity duration-500 ${hoverImage ? 'group-hover:opacity-0' : ''}`}
           onError={(e) => {
             const target = e.target as HTMLImageElement;
             target.src = '/placeholder.svg';
           }}
         />
-        {hoverImage && hoverImage !== displayImage && (
+        {hoverImage && (
           <img
             src={hoverImage}
             alt={product.name + ' hover'}
