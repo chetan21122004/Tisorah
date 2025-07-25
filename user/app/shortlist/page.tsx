@@ -11,20 +11,60 @@ import { Heart, Mail, Trash2, Plus, Minus, Gift, ShoppingBag } from "lucide-reac
 import { useToast } from "@/hooks/use-toast"
 import { useShortlist } from "@/lib/ShortlistContext"
 
+interface PriceRange {
+  min: number;
+  max: number;
+  isRange: boolean;
+}
+
 export default function ShortlistPage() {
   const { shortlist, removeFromShortlist, clearShortlist, updateQuantity } = useShortlist()
   const { toast } = useToast()
   const [totalQuantity, setTotalQuantity] = useState(0)
-  const [totalAmount, setTotalAmount] = useState(0)
+  const [totalAmountRange, setTotalAmountRange] = useState<PriceRange>({ min: 0, max: 0, isRange: false })
+
+  // Helper function to parse price from string (handles both single prices and ranges)
+  const parsePrice = (priceString: string): PriceRange => {
+    // Remove currency symbols and spaces
+    const cleanPrice = priceString.replace(/[₹,\s]/g, "")
+    
+    // Check if it's a price range (contains "-")
+    if (cleanPrice.includes("-")) {
+      const [minStr, maxStr] = cleanPrice.split("-").map(p => p.trim())
+      const min = parseFloat(minStr)
+      const max = parseFloat(maxStr)
+      return {
+        min: isNaN(min) ? 0 : min,
+        max: isNaN(max) ? 0 : max,
+        isRange: true
+      }
+    }
+    
+    // Single price
+    const price = parseFloat(cleanPrice)
+    const value = isNaN(price) ? 0 : price
+    return {
+      min: value,
+      max: value,
+      isRange: false
+    }
+  }
 
   useEffect(() => {
     const newTotalQuantity = shortlist.reduce((sum, item) => sum + item.quantity, 0)
-    const newTotalAmount = shortlist.reduce((total, item) => {
-      const price = parseFloat(item.price.replace(/[^\d.]/g, ""))
-      return total + (isNaN(price) ? 0 : price * item.quantity)
-    }, 0)
+    
+    // Calculate total amount range
+    const newTotalAmountRange = shortlist.reduce((total, item) => {
+      const priceRange = parsePrice(item.price)
+      return {
+        min: total.min + (priceRange.min * item.quantity),
+        max: total.max + (priceRange.max * item.quantity),
+        isRange: total.isRange || priceRange.isRange
+      }
+    }, { min: 0, max: 0, isRange: false })
+
     setTotalQuantity(newTotalQuantity)
-    setTotalAmount(newTotalAmount)
+    setTotalAmountRange(newTotalAmountRange)
   }, [shortlist])
 
   const handleRemoveItem = (id: string) => {
@@ -36,21 +76,26 @@ export default function ShortlistPage() {
   }
 
   const handleIncrement = (id: string, currentQuantity: number) => {
-    if (currentQuantity < 99) {
+    if (currentQuantity < 999) { // Increased limit for bulk orders
       updateQuantity(id, currentQuantity + 1)
     }
   }
 
-  const handleDecrement = (id: string, currentQuantity: number) => {
-    if (currentQuantity > 1) {
+  const handleDecrement = (id: string, currentQuantity: number, moq: number) => {
+    if (currentQuantity > moq) {
       updateQuantity(id, currentQuantity - 1)
     }
   }
 
-  const formatPrice = (price: string | number) => {
-    const num = typeof price === 'number' ? price : parseFloat(price.replace(/[^\d.]/g, ""))
-    if (isNaN(num)) return '0.00'
-    return num.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  const formatPrice = (price: number): string => {
+    return `₹${price.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+  }
+
+  const formatPriceRange = (range: PriceRange): string => {
+    if (!range.isRange || range.min === range.max) {
+      return formatPrice(range.min)
+    }
+    return `${formatPrice(range.min)} - ${formatPrice(range.max)}`
   }
 
   if (shortlist.length === 0) {
@@ -100,8 +145,12 @@ export default function ShortlistPage() {
           <div className="col-span-12 lg:col-span-8">
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {shortlist.map((item) => {
-                const priceNum = parseFloat(item.price.replace(/[^\d.]/g, ""))
-                const subtotal = (isNaN(priceNum) ? 0 : priceNum * item.quantity)
+                const priceRange = parsePrice(item.price)
+                const subtotalRange = {
+                  min: priceRange.min * item.quantity,
+                  max: priceRange.max * item.quantity,
+                  isRange: priceRange.isRange
+                }
                 return (
                   <Card key={item.id} className="overflow-hidden border-[#E6E2DD] hover:shadow-md transition-shadow">
                     <CardContent className="p-3">
@@ -129,17 +178,17 @@ export default function ShortlistPage() {
                           <p className="text-sm text-[#1E2A47]/60 font-['Poppins'] mb-2">
                             {item.category}
                           </p>
-                          <div className="flex items-center justify-between">
+                          <div className="flex items-center justify-between mb-2">
                             <span className="text-sm font-medium text-[#AD9660]">
-                              {formatPrice(item.price)}
+                              {item.price}
                             </span>
                             <div className="flex items-center bg-[#F8F8F8] rounded-lg border border-[#E6E2DD]">
                               <Button
                                 variant="ghost"
                                 size="sm"
                                 className="h-7 w-7 p-0 rounded-l-lg hover:bg-[#E6E2DD]"
-                                onClick={() => handleDecrement(item.id, item.quantity)}
-                                disabled={item.quantity <= 1}
+                                onClick={() => handleDecrement(item.id, item.quantity, item.moq)}
+                                disabled={item.quantity <= item.moq}
                               >
                                 <Minus className="w-3 h-3" />
                               </Button>
@@ -151,14 +200,19 @@ export default function ShortlistPage() {
                                 size="sm"
                                 className="h-7 w-7 p-0 rounded-r-lg hover:bg-[#E6E2DD]"
                                 onClick={() => handleIncrement(item.id, item.quantity)}
-                                disabled={item.quantity >= 99}
+                                disabled={item.quantity >= 999}
                               >
                                 <Plus className="w-3 h-3" />
                               </Button>
                             </div>
                           </div>
-                          <div className="text-xs text-[#1E2A47]/60 mt-1 font-semibold">
-                            Subtotal: <span className="text-[#323433]">{formatPrice(subtotal)}</span>
+                          {item.moq > 1 && (
+                            <div className="text-xs text-orange-600 mb-1">
+                              MOQ: {item.moq} pieces
+                            </div>
+                          )}
+                          <div className="text-xs text-[#1E2A47]/60 font-semibold">
+                            Subtotal: <span className="text-[#323433]">{formatPriceRange(subtotalRange)}</span>
                           </div>
                         </div>
                       </div>
@@ -191,13 +245,16 @@ export default function ShortlistPage() {
                   <div className="flex justify-between text-sm font-['Poppins']">
                     <span className="text-[#1E2A47]/60">Average per Item</span>
                     <span className="font-medium text-[#323433]">
-                      {(totalQuantity / shortlist.length).toFixed(1)}
+                      {shortlist.length > 0 ? (totalQuantity / shortlist.length).toFixed(1) : '0'}
                     </span>
                   </div>
                   <Separator className="my-4" />
                   <div className="flex justify-between text-lg font-semibold font-['Frank_Ruhl_Libre']">
-                    <span>Total</span>
-                    <span className="text-[#AD9660] text-xl">{formatPrice(totalAmount)}</span>
+                    <span>Estimated Total</span>
+                    <span className="text-[#AD9660] text-xl">{formatPriceRange(totalAmountRange)}</span>
+                  </div>
+                  <div className="text-xs text-gray-500 text-center mt-2">
+                    *Final pricing may vary based on customization and quantity
                   </div>
                 </div>
                 <div className="mt-6 space-y-3">
