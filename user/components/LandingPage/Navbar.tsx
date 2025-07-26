@@ -287,9 +287,8 @@ const Navbar = () => {
                   <span className="text-xs tracking-tight font-light text-gray-500">Call us for bulk orders</span>
                 </div>
               </div>
-              <Link href="/account">
-                <User className="h-7 w-7 hover:opacity-60 transition-all duration-300 text-gray-700" />
-              </Link>
+           
+           
               <Link href="/shortlist" className="relative">
                 <ShoppingBag className="h-7 w-7 hover:opacity-60 transition-all duration-300 text-gray-700" />
                 {shortlist.length > 0 && (
