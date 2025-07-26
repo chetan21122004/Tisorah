@@ -376,7 +376,7 @@ export default async function HomePage() {
               </div>
               <h3 className="text-xl font-medium text-[#323433] mb-2">Premium Quality</h3>
               <p className="text-gray-600">
-                Curated selection of luxury corporate gifts from trusted brands and artisans across India.
+                Handpicked luxury gifts curated by experts, ensuring exceptional quality and elegance.
               </p>
             </div>
             
@@ -384,19 +384,19 @@ export default async function HomePage() {
               <div className="w-16 h-16 bg-[#AD9660]/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Palette className="w-8 h-8 text-[#AD9660]" />
               </div>
-              <h3 className="text-xl font-medium text-[#323433] mb-2">100% Customization</h3>
+              <h3 className="text-xl font-medium text-[#323433] mb-2">Bespoke Solutions</h3>
               <p className="text-gray-600">
-                Complete branding solutions with logo printing, custom packaging, and personalized messages.
+                Tailored gifting experiences with custom branding, packaging and personalized messaging.
               </p>
             </div>
             
             <div className="text-center">
               <div className="w-16 h-16 bg-[#AD9660]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Truck className="w-8 h-8 text-[#AD9660]" />
+                <ClipboardCheck className="w-8 h-8 text-[#AD9660]" />
               </div>
-              <h3 className="text-xl font-medium text-[#323433] mb-2">Pan-India Delivery</h3>
+              <h3 className="text-xl font-medium text-[#323433] mb-2">Creative Strategy</h3>
               <p className="text-gray-600">
-                Reliable bulk shipping across India with same-day delivery in Delhi, Mumbai, Bangalore & more.
+                Strategic gifting solutions aligned with your brand values, identity and culture.
               </p>
             </div>
           </div>

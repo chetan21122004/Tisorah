@@ -73,10 +73,10 @@ export default function ContactPageClient() {
     },
     {
       icon: <MapPin className="w-7 h-7 text-[#AD9660]" />,
-      title: "Private Showroom",
+      title: "Warehouse",
       details: ["Pancard Club Road, Baner", "Pune - 411045, Maharashtra"],
       description: "Exclusive appointments for discerning clients",
-      premium: "By Invitation Only"
+      premium: " "
     },
   ]
 
