@@ -397,14 +397,14 @@ const Navbar = () => {
                   <div className="flex items-center gap-2 mb-4">
                     <PhoneCall className="h-4 w-4 text-[#AD9660]" />
                     <div>
-                      <a href="tel:+9194016464" className="text-sm font-medium">+91 94016464</a>
+                      <a href="tel:+9194016464" className="text-sm font-medium">+91 93701 72365</a>
                       <p className="text-xs text-gray-500">Call us for bulk orders</p>
                     </div>
                   </div>
                   
                   <div className="flex items-center gap-2">
                     <Mail className="h-4 w-4 text-[#AD9660]" />
-                    <a href="mailto:info@tisorahbox.com" className="text-sm">info@tisorahbox.com</a>
+                    <a href="mailto:info@tisorahbox.com" className="text-sm">hello@tisorahbox.com</a>
                   </div>
                 </div>
                 
