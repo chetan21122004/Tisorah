@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { format } from 'date-fns'
 import type { BlogPost } from '@/types/blog'
 import { EXAMPLE_BLOGS } from '@/utils/blog-constants'
+import { getAllBlogPosts } from '@/lib/blog-service'
 
 export const metadata: Metadata = {
   title: 'Corporate Gifting Blog | Tips, Trends & Ideas - TisorahBox',
@@ -14,8 +15,17 @@ export const metadata: Metadata = {
   }
 }
 
-export default function BlogPage() {
-  const blogs = EXAMPLE_BLOGS;
+export default async function BlogPage() {
+  // Fetch blog posts from Supabase, fallback to example blogs
+  let blogs: BlogPost[] = [];
+  
+  try {
+    const fetchedBlogs = await getAllBlogPosts();
+    blogs = fetchedBlogs.length > 0 ? fetchedBlogs : EXAMPLE_BLOGS;
+  } catch (error) {
+    console.error('Error fetching blogs:', error);
+    blogs = EXAMPLE_BLOGS;
+  }
 
   return (
     <div className="bg-neutral-50">

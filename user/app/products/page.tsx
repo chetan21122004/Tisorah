@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -20,11 +20,13 @@ import {
   X,
   ChevronDown,
   SlidersHorizontal,
-  Eye
+  Eye,
+  Sparkles
 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { getProducts } from "@/lib/supabase"
+import Fuse from 'fuse.js'
 import {
   Sheet,
   SheetContent,
@@ -43,10 +45,41 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import ProductGrid from '@/components/LandingPage/ProductGrid'
 import { useShortlist } from "@/lib/ShortlistContext"
 import { Product } from "@/types/database"
 import { useSearchParams, useRouter } from "next/navigation"
+
+// Custom CSS for scrollbar
+const customScrollbarStyles = `
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 2px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #AD9660;
+    border-radius: 2px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #8B7A4F;
+  }
+`;
 
 // Define the category structure
 const categoryStructure = {
@@ -127,6 +160,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products }) =
   const { addToShortlist, removeFromShortlist, isInShortlist } = useShortlist();
   const [isInShortlistState, setIsInShortlistState] = useState(false);
   const [isAddingToShortlist, setIsAddingToShortlist] = useState(false);
+  
+  // Get search term from URL for highlighting
+  const searchParams = useSearchParams();
+  const searchTerm = searchParams.get('search') || '';
 
   useEffect(() => {
     setIsInShortlistState(isInShortlist(product.id));
@@ -235,7 +272,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products }) =
         {/* Product details with refined typography */}
         <div className="px-1 md:px-2 flex flex-col flex-1">
           <h3 className="font-light text-sm md:text-base text-[#323433] leading-snug line-clamp-2 mb-1 md:mb-2 group-hover:text-[#AD9660] transition-colors duration-300">
-            {product.name}
+            {searchTerm ? highlightMatch(product.name, searchTerm) : product.name}
           </h3>
 
           <div className="mt-2 md:mt-3 flex items-center justify-between">
@@ -259,6 +296,70 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index, products }) =
   );
 };
 
+// Enhanced search configuration for Fuse.js
+const fuseOptions = {
+  keys: [
+    { name: 'name', weight: 0.7 },
+    { name: 'description', weight: 0.3 },
+    { name: 'keywords', weight: 0.5 },
+    { name: 'main_category_info.name', weight: 0.4 },
+    { name: 'primary_category_info.name', weight: 0.4 },
+    { name: 'secondary_category_info.name', weight: 0.3 },
+  ],
+  threshold: 0.4, // Lower = more strict matching
+  distance: 100,
+  minMatchCharLength: 2,
+  shouldSort: true,
+  includeScore: true,
+  includeMatches: true,
+  ignoreLocation: true,
+  findAllMatches: true,
+}
+
+// Search suggestions based on popular searches and categories
+const getSearchSuggestions = (products: Product[], searchTerm: string) => {
+  if (!searchTerm || searchTerm.length < 2) return []
+  
+  const suggestions = new Set<string>()
+  const lowerSearch = searchTerm.toLowerCase()
+  
+  // Add product names that partially match
+  products.forEach(product => {
+    if (product.name?.toLowerCase().includes(lowerSearch)) {
+      suggestions.add(product.name)
+    }
+    
+    // Add category suggestions
+    if (product.main_category_info?.name?.toLowerCase().includes(lowerSearch)) {
+      suggestions.add(product.main_category_info.name)
+    }
+    if (product.primary_category_info?.name?.toLowerCase().includes(lowerSearch)) {
+      suggestions.add(product.primary_category_info.name)
+    }
+    if (product.secondary_category_info?.name?.toLowerCase().includes(lowerSearch)) {
+      suggestions.add(product.secondary_category_info.name)
+    }
+  })
+  
+  return Array.from(suggestions).slice(0, 8)
+}
+
+// Highlight matching text in search results
+const highlightMatch = (text: string, searchTerm: string) => {
+  if (!searchTerm || searchTerm.length < 2) return text
+  
+  const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi')
+  const parts = text.split(regex)
+  
+  return parts.map((part, index) => 
+    regex.test(part) ? (
+      <mark key={index} className="bg-yellow-200 text-yellow-900 px-1 rounded">
+        {part}
+      </mark>
+    ) : part
+  )
+}
+
 export default function ProductsPage() {
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -278,6 +379,37 @@ export default function ProductsPage() {
   const [visibleSubcategories, setVisibleSubcategories] = useState(5)
   const [searchInputValue, setSearchInputValue] = useState("")
   const [loadingMore, setLoadingMore] = useState(false)
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const [searchSuggestions, setSearchSuggestions] = useState<string[]>([])
+  const [isSearching, setIsSearching] = useState(false)
+
+  // Initialize Fuse.js instance
+  const fuse = useMemo(() => {
+    if (products.length === 0) return null
+    
+    // Enhance products with searchable keywords
+    const enhancedProducts = products.map(product => ({
+      ...product,
+      keywords: [
+        product.name,
+        product.description,
+        product.main_category_info?.name,
+        product.primary_category_info?.name,
+        product.secondary_category_info?.name,
+        // Add common search terms and synonyms
+        ...(product.name?.toLowerCase().includes('chocolate') ? ['sweet', 'dessert', 'cocoa'] : []),
+        ...(product.name?.toLowerCase().includes('coffee') ? ['beverage', 'drink', 'caffeine'] : []),
+        ...(product.name?.toLowerCase().includes('tea') ? ['beverage', 'drink', 'herbal'] : []),
+        ...(product.name?.toLowerCase().includes('mug') ? ['cup', 'drinkware', 'ceramic'] : []),
+        ...(product.name?.toLowerCase().includes('bottle') ? ['drinkware', 'hydration', 'water'] : []),
+        ...(product.name?.toLowerCase().includes('bag') ? ['tote', 'carry', 'storage'] : []),
+        ...(product.name?.toLowerCase().includes('candle') ? ['fragrance', 'aromatherapy', 'wax'] : []),
+        ...(product.name?.toLowerCase().includes('plant') ? ['green', 'nature', 'succulent'] : []),
+      ].filter(Boolean).join(' ')
+    }))
+    
+    return new Fuse(enhancedProducts, fuseOptions)
+  }, [products])
 
   // Get search query from URL
   useEffect(() => {
@@ -288,86 +420,96 @@ export default function ProductsPage() {
     }
   }, [searchParams])
 
-  // Filter products based on selected categories and search term
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch = product.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.description?.toLowerCase().includes(searchTerm.toLowerCase());
-      
-    let matchesCategory = true;
+  // Update search suggestions when search input changes
+  useEffect(() => {
+    const suggestions = getSearchSuggestions(products, searchInputValue)
+    setSearchSuggestions(suggestions)
+  }, [searchInputValue, products])
+
+  // Enhanced filtering with fuzzy search
+  const filteredProducts = useMemo(() => {
+    let results = products
+
+    // Apply fuzzy search if search term exists
+    if (searchTerm && searchTerm.length >= 2 && fuse) {
+      setIsSearching(true)
+      const searchResults = fuse.search(searchTerm)
+      results = searchResults.map(result => result.item)
+      setIsSearching(false)
+    }
+
+    // Apply category filters
     if (selectedCategory === "edibles") {
-      matchesCategory = product.main_category_info?.slug === "edible";
+      results = results.filter(product => product.main_category_info?.slug === "edible")
     } else if (selectedCategory === "non-edibles") {
-      matchesCategory = product.main_category_info?.slug === "non-edible";
+      results = results.filter(product => product.main_category_info?.slug === "non-edible")
     }
     
-    let matchesSubcategory = true;
+    // Apply subcategory filters
     if (selectedSubcategories.length > 0) {
-      // Check if product's primary_category or secondary_category matches any selected subcategory
+      results = results.filter(product => {
       const productSubcategoryIds = [
         product.primary_category_info?.id,
         product.secondary_category_info?.id
-      ].filter(Boolean);
+        ].filter(Boolean)
       
-      matchesSubcategory = selectedSubcategories.some(subcatId => 
+        return selectedSubcategories.some(subcatId => 
         productSubcategoryIds.includes(subcatId)
-      );
+        )
+      })
     }
-    
-    let matchesPrice = true;
-    if (priceRange === "under-500") {
-      if (product.has_price_range && product.price_min) {
-        matchesPrice = product.price_min < 500;
-      } else {
-        matchesPrice = product.price < 500;
-      }
-    } else if (priceRange === "500-1000") {
-      if (product.has_price_range && product.price_min && product.price_max) {
-        matchesPrice = (product.price_min >= 500 && product.price_min <= 1000) || 
-                      (product.price_max >= 500 && product.price_max <= 1000);
-      } else {
-        matchesPrice = product.price >= 500 && product.price <= 1000;
-      }
-    } else if (priceRange === "1000-2000") {
-      if (product.has_price_range && product.price_min && product.price_max) {
-        matchesPrice = (product.price_min > 1000 && product.price_min <= 2000) || 
-                      (product.price_max > 1000 && product.price_max <= 2000);
-      } else {
-        matchesPrice = product.price > 1000 && product.price <= 2000;
-      }
-    } else if (priceRange === "2000-5000") {
-      if (product.has_price_range && product.price_min && product.price_max) {
-        matchesPrice = (product.price_min > 2000 && product.price_min <= 5000) || 
-                      (product.price_max > 2000 && product.price_max <= 5000);
-      } else {
-        matchesPrice = product.price > 2000 && product.price <= 5000;
-      }
-    } else if (priceRange === "5000+") {
-      if (product.has_price_range && product.price_min) {
-        matchesPrice = product.price_min > 5000 || (product.price_max || 0) > 5000;
-      } else {
-        matchesPrice = product.price > 5000;
-      }
-    }
-    
-    return matchesSearch && matchesCategory && matchesSubcategory && matchesPrice;
-  });
 
-  // Sorting logic
-  if (sortBy === "price-low") {
-    filteredProducts.sort((a, b) => a.price - b.price)
-  } else if (sortBy === "price-high") {
-    filteredProducts.sort((a, b) => b.price - a.price)
-  } else if (sortBy === "rating") {
-    filteredProducts.sort((a, b) => (b.rating || 0) - (a.rating || 0))
-  } else if (sortBy === "newest") {
-    filteredProducts.sort((a, b) => {
+    // Apply price filters
+    if (priceRange !== "all") {
+      results = results.filter(product => {
+        const price = product.has_price_range ? product.price_min || product.price : product.price
+        const maxPrice = product.has_price_range ? product.price_max || product.price : product.price
+
+        switch (priceRange) {
+          case "under-500": return price < 500
+          case "500-1000": return (price >= 500 && price <= 1000) || (maxPrice >= 500 && maxPrice <= 1000)
+          case "1000-2000": return (price > 1000 && price <= 2000) || (maxPrice > 1000 && maxPrice <= 2000)
+          case "2000-5000": return (price > 2000 && price <= 5000) || (maxPrice > 2000 && maxPrice <= 5000)
+          case "5000+": return price > 5000 || maxPrice > 5000
+          default: return true
+        }
+      })
+    }
+
+    return results
+  }, [products, searchTerm, selectedCategory, selectedSubcategories, priceRange, fuse])
+
+  // Apply sorting to filtered products
+  const sortedProducts = useMemo(() => {
+    const sorted = [...filteredProducts];
+    
+    switch (sortBy) {
+      case "price-low":
+        return sorted.sort((a, b) => {
+          const priceA = a.has_price_range ? a.price_min || a.price : a.price;
+          const priceB = b.has_price_range ? b.price_min || b.price : b.price;
+          return priceA - priceB;
+        });
+      case "price-high":
+        return sorted.sort((a, b) => {
+          const priceA = a.has_price_range ? a.price_max || a.price : a.price;
+          const priceB = b.has_price_range ? b.price_max || b.price : b.price;
+          return priceB - priceA;
+        });
+      case "rating":
+        return sorted.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+      case "newest":
+        return sorted.sort((a, b) => {
       const dateA = a.created_at ? new Date(a.created_at).getTime() : 0;
       const dateB = b.created_at ? new Date(b.created_at).getTime() : 0;
       return dateB - dateA;
     });
-  } else if (sortBy === "featured") {
-    filteredProducts.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0))
-  }
+      case "featured":
+        return sorted.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+      default:
+        return sorted;
+    }
+  }, [filteredProducts, sortBy]);
 
   // Add scroll event listener for infinite scrolling
   useEffect(() => {
@@ -380,7 +522,7 @@ export default function ProductsPage() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [loadingMore, filteredProducts]);
+  }, [loadingMore, sortedProducts]);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -510,7 +652,7 @@ export default function ProductsPage() {
   }
 
   const loadMore = async () => {
-    if (visibleProducts >= filteredProducts.length || loadingMore) return;
+    if (visibleProducts >= sortedProducts.length || loadingMore) return;
     
     setLoadingMore(true);
     // Simulate loading delay
@@ -663,10 +805,33 @@ export default function ProductsPage() {
     </>
   )
 
+  // Handle search with debouncing
+  const handleSearchChange = useCallback((value: string) => {
+    setSearchInputValue(value)
+    setShowSuggestions(value.length >= 2)
+    
+    // Debounce search
+    const timeoutId = setTimeout(() => {
+      setSearchTerm(value)
+      
+      // Update URL
+      const params = new URLSearchParams(searchParams.toString())
+      if (value) {
+        params.set('search', value)
+      } else {
+        params.delete('search')
+      }
+      router.replace(`/products?${params.toString()}`, { scroll: false })
+    }, 300)
+
+    return () => clearTimeout(timeoutId)
+  }, [searchParams, router])
+
   // Handle search form submission
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
     setSearchTerm(searchInputValue)
+    setShowSuggestions(false)
     
     // Update URL with search parameter
     const params = new URLSearchParams(searchParams.toString())
@@ -680,8 +845,32 @@ export default function ProductsPage() {
     router.replace(`/products?${params.toString()}`, { scroll: false })
   }
 
+  // Handle suggestion selection
+  const handleSuggestionSelect = (suggestion: string) => {
+    setSearchInputValue(suggestion)
+    setSearchTerm(suggestion)
+    setShowSuggestions(false)
+    
+    // Update URL
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('search', suggestion)
+    router.replace(`/products?${params.toString()}`, { scroll: false })
+  }
+
+  // Clear search
+  const clearSearch = () => {
+    setSearchInputValue("")
+    setSearchTerm("")
+    setShowSuggestions(false)
+    
+    const params = new URLSearchParams(searchParams.toString())
+    params.delete('search')
+    router.replace(`/products?${params.toString()}`, { scroll: false })
+  }
+
   return (
     <div className="bg-white min-h-screen">
+      <style>{customScrollbarStyles}</style>
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row gap-6">
           {/* Mobile Filter Button */}
@@ -718,45 +907,105 @@ export default function ProductsPage() {
           
           {/* Main Content */}
           <div className="flex-1">
-            {/* Search and Sort Bar */}
+            {/* Enhanced Search and Sort Bar */}
             <div className="mb-6 flex flex-col sm:flex-row gap-4">
-              <form onSubmit={handleSearch} className="relative flex-1">
+              <div className="relative flex-1">
+                <form onSubmit={handleSearch} className="relative">
                 <Input 
                   type="text" 
-                  placeholder="Search products..." 
-                  className="pl-10 pr-4 py-2 w-full"
+                    placeholder="Search products, categories, or keywords..." 
+                    className="pl-10 pr-12 py-3 w-full text-base border-2 border-gray-200 focus:border-[#AD9660] transition-colors"
                   value={searchInputValue}
-                  onChange={(e) => setSearchInputValue(e.target.value)}
+                    onChange={(e) => handleSearchChange(e.target.value)}
+                    onFocus={() => setShowSuggestions(searchInputValue.length >= 2)}
+                    onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                 />
                 <Search className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+                  
+                  {/* Clear search button */}
+                  {searchInputValue && (
+                    <button
+                      type="button"
+                      onClick={clearSearch}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                  
+                  {/* Search loading indicator */}
+                  {isSearching && (
+                    <div className="absolute right-10 top-1/2 transform -translate-y-1/2">
+                      <Loader2 className="w-4 h-4 animate-spin text-[#AD9660]" />
+                    </div>
+                  )}
               </form>
               
+                {/* Search Suggestions Dropdown */}
+                {showSuggestions && searchSuggestions.length > 0 && (
+                  <div className="absolute top-full left-0 right-0 z-50 bg-white border border-gray-200 rounded-md shadow-lg mt-1 max-h-60 overflow-y-auto">
+                    <div className="p-2">
+                      <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
+                        <Sparkles className="w-3 h-3" />
+                        <span>Suggestions</span>
+                      </div>
+                      {searchSuggestions.map((suggestion, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handleSuggestionSelect(suggestion)}
+                          className="w-full text-left px-3 py-2 hover:bg-gray-50 rounded text-sm transition-colors duration-150 flex items-center gap-2"
+                        >
+                          <Search className="w-3 h-3 text-gray-400" />
+                          <span>{highlightMatch(suggestion, searchInputValue)}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+              
               <div className="flex gap-2 items-center">
-                <Select 
-                  value={priceRange} 
-                  onValueChange={(value) => setPriceRange(value)}
-                >
+                <Select value={sortBy} onValueChange={setSortBy}>
                   <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Price Range" />
+                    <SelectValue placeholder="Sort by" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Prices</SelectItem>
-                    <SelectItem value="under-500">Under ₹500</SelectItem>
-                    <SelectItem value="500-1000">₹500 - ₹1000</SelectItem>
-                    <SelectItem value="1000-2000">₹1000 - ₹2000</SelectItem>
-                    <SelectItem value="2000-5000">₹2000 - ₹5000</SelectItem>
-                    <SelectItem value="5000+">₹5000+</SelectItem>
+                    <SelectItem value="featured">Featured</SelectItem>
+                    <SelectItem value="newest">Newest First</SelectItem>
+                    <SelectItem value="price-low">Price: Low to High</SelectItem>
+                    <SelectItem value="price-high">Price: High to Low</SelectItem>
+                    <SelectItem value="rating">Highest Rated</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
+
+            {/* Search Results Summary */}
+            {searchTerm && (
+              <div className="mb-4 p-3 bg-[#F7F6F4] rounded-md border-l-4 border-[#AD9660]">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Search className="w-4 h-4 text-[#AD9660]" />
+                                         <span className="text-sm text-gray-700">
+                       Showing {sortedProducts.length} results for "{searchTerm}"
+                     </span>
+                  </div>
+                  <button
+                    onClick={clearSearch}
+                    className="text-xs text-[#AD9660] hover:text-[#8B7A4F] transition-colors"
+                  >
+                    Clear search
+                  </button>
+                </div>
+              </div>
+            )}
             
             {/* Products Display */}
             {loading ? (
               <div className="flex items-center justify-center h-64">
                 <Loader2 className="w-8 h-8 animate-spin text-[#AD9660]" />
               </div>
-            ) : filteredProducts.length === 0 ? (
+            ) : sortedProducts.length === 0 ? (
               <div className="text-center py-12">
                 <div className="mb-4 flex justify-center">
                   <Package className="w-12 h-12 text-gray-300" />
@@ -796,7 +1045,7 @@ export default function ProductsPage() {
                 
                 {/* Grid View */}
                 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-                  {filteredProducts.slice(0, visibleProducts).map((product, index) => {
+                  {sortedProducts.slice(0, visibleProducts).map((product, index) => {
                     const productImage = product.images && product.images.length > 0 ? product.images[0] : '/placeholder.svg';
                     return (
                       <ProductCard 
@@ -819,7 +1068,7 @@ export default function ProductsPage() {
                           moq: product.moq,
                         }}
                         index={index}
-                        products={filteredProducts.slice(0, visibleProducts).map(p => ({
+                        products={sortedProducts.slice(0, visibleProducts).map(p => ({
                           id: p.id,
                           name: p.name,
                           image: p.images && p.images.length > 0 ? p.images[0] : '/placeholder.svg',
@@ -850,7 +1099,7 @@ export default function ProductsPage() {
                 )}
                 
                 {/* End of results message */}
-                {visibleProducts >= filteredProducts.length && filteredProducts.length > 0 && (
+                {visibleProducts >= sortedProducts.length && sortedProducts.length > 0 && (
                   <div className="text-center py-8 text-sm text-gray-500">
                     You've reached the end of the results
                   </div>

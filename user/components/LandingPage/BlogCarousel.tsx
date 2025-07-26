@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useRef } from 'react'
 import {
   Carousel,
   CarouselContent,
@@ -12,27 +12,14 @@ import { format } from 'date-fns'
 import Link from 'next/link'
 import Autoplay from 'embla-carousel-autoplay'
 import { ArrowRight } from 'lucide-react'
-
-interface BlogPost {
-  id: number
-  slug: string
-  title: string
-  excerpt: string
-  content: string
-  cover_image: string
-  category: any
-  reading_time: string
-  author: string
-  author_image: string
-  published_at: Date
-}
+import type { BlogPost } from '@/types/blog'
 
 interface BlogCarouselProps {
   posts: BlogPost[]
 }
 
 export default function BlogCarousel({ posts }: BlogCarouselProps) {
-  const plugin = React.useRef(
+  const plugin = useRef(
     Autoplay({ delay: 4000, stopOnInteraction: true })
   )
 
