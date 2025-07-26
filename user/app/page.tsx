@@ -28,7 +28,7 @@ import Link from "next/link"
 import Image from "next/image"
 import HeroSection from "../components/HeroSection"
 import { getFeaturedProducts, getLatestProducts, getTestimonials, getCategories, getMainCategories } from "./actions"
-import { getAllBlogPosts } from "@/lib/blog-service"
+import { EXAMPLE_BLOGS } from "@/utils/blog-constants"
 import { format } from 'date-fns'
 
 // Import modular components
@@ -109,8 +109,8 @@ export default async function HomePage() {
     created_at: t.created_at,
   }));
 
-  // Fetch latest blog posts
-  const latestBlogPosts = await getAllBlogPosts({ limit: 9 });
+  // Use the same blogs as the main blog page
+  const latestBlogPosts = EXAMPLE_BLOGS.slice(0, 9);
 
   const categories = await getCategories();
   const mainCategories = await getMainCategories();

@@ -1,4 +1,3 @@
-import { getAllBlogPosts, getAllCategories } from '@/lib/blog-service'
 import Image from 'next/image'
 import Link from 'next/link'
 import { format } from 'date-fns'
@@ -6,38 +5,36 @@ import { notFound } from 'next/navigation'
 import type { BlogPost } from '@/types/blog'
 import { EXAMPLE_BLOGS } from '@/utils/blog-constants'
 
+// Static category mapping based on EXAMPLE_BLOGS categories
+const BLOG_CATEGORIES = [
+  { slug: 'corporate-gifting', name: 'Corporate Gifting', description: 'Expert insights on corporate gifting strategies and best practices.' },
+  { slug: 'food-culture', name: 'Food & Culture', description: 'Exploring the cultural significance of food in corporate gifting.' },
+  { slug: 'business-gifts', name: 'Business Gifts', description: 'Practical business gift solutions that make lasting impressions.' },
+  { slug: 'luxury-gifting', name: 'Luxury Gifting', description: 'Premium luxury gifts for high-value business relationships.' },
+  { slug: 'budget-planning', name: 'Budget Planning', description: 'Smart strategies for effective corporate gifting on any budget.' },
+  { slug: 'festival-gifting', name: 'Festival Gifting', description: 'Celebrating Indian festivals through thoughtful corporate gifts.' }
+]
+
 export async function generateStaticParams() {
-  // Use static list of categories for build time
-  const staticCategories = [
-    { slug: 'corporate-gifting' },
-    { slug: 'employee-recognition' },
-    { slug: 'client-appreciation' },
-    { slug: 'festival-gifts' },
-    { slug: 'executive-gifts' }
-  ]
-  
-  return staticCategories.map((category) => ({
+  return BLOG_CATEGORIES.map((category) => ({
     slug: category.slug,
   }))
 }
 
-export default async function CategoryPage({ params }: { params: { slug: string } }) {
-  // Get the category from Supabase
-  const categories = await getAllCategories()
-  const category = categories.find(cat => cat.slug === params.slug)
+export default function CategoryPage({ params }: { params: { slug: string } }) {
+  // Find the category from our static list
+  const category = BLOG_CATEGORIES.find(cat => cat.slug === params.slug)
   
   if (!category) {
     // If category doesn't exist, show 404
     notFound()
   }
   
-  // Get all posts for this category
-  const categoryPosts = await getAllBlogPosts({ categoryId: category.id })
-  
-  // Use example blogs as fallback if no posts found
-  const blogs = categoryPosts.length > 0 
-    ? categoryPosts 
-    : EXAMPLE_BLOGS.filter((blog: BlogPost) => blog.category.toLowerCase() === category.name.toLowerCase())
+  // Filter blogs by category name
+  const blogs = EXAMPLE_BLOGS.filter((blog: BlogPost) => 
+    blog.category.toLowerCase().replace(/\s+/g, '-').replace(/&/g, '') === params.slug ||
+    blog.category.toLowerCase() === category.name.toLowerCase()
+  )
 
   return (
     <div className="bg-neutral-50">
