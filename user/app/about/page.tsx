@@ -28,68 +28,44 @@ import { QuotePopup } from "@/components/quote-popup"
 
 export default function AboutPage() {
   const stats = [
-    { number: "8+", label: "Years of Excellence" },
-    { number: "5000+", label: "Curated Gift Sets" },
-    { number: "200+", label: "Corporate Clients" },
-    { number: "98%", label: "Client Satisfaction" },
+    { number: "3+", label: "Years Excellence" },
+    { number: "40K+", label: "Luxury Boxes" },
+    { number: "30+", label: "Elite Clients" },
   ]
 
   const values = [
     {
       icon: <Heart className="w-8 h-8 text-[#AD9660]" />,
-      title: "Thoughtful Curation",
-      description: "Every gift is carefully selected to create meaningful connections and lasting impressions.",
+      title: "Customer Focused",
+
+      
+      description: "We put our client's interest ahead of our own, ensuring every gift reflects their unique needs.",
     },
     {
       icon: <Award className="w-8 h-8 text-[#AD9660]" />,
-      title: "Premium Quality",
-      description: "We partner with trusted suppliers to ensure every product meets our high standards of excellence.",
+      title: "Integrity",
+      description: "We do what we say and create trust by acting ethically in every interaction.",
     },
     {
-      icon: <Users className="w-8 h-8 text-[#AD9660]" />,
-      title: "Client-Centric Approach",
-      description: "Your success is our priority. We work closely with you to understand and exceed your expectations.",
-    },
-    {
-      icon: <Globe className="w-8 h-8 text-[#AD9660]" />,
-      title: "Nationwide Reach",
-      description: "Serving clients across the country with reliable delivery and consistent service quality.",
-    },
-  ]
-
-  const milestones = [
-    { year: "2015", event: "Foundation", description: "Established with a vision of sophisticated corporate gifting" },
-    {
-      year: "2017",
-      event: "Initial Partnerships",
-      description: "Forged alliances with premium brands to elevate offerings",
-    },
-    { year: "2020", event: "Expanded Reach", description: "Extended services to major metropolitan areas" },
-    {
-      year: "2022",
-      event: "Exceeded Expectations",
-      description: "Surpassed delivery of 5,000 curated gift sets",
-    },
-    {
-      year: "2024",
-      event: "Exclusive Collections",
-      description: "Introduced bespoke collections for discerning clientele",
+      icon: <Check className="w-8 h-8 text-[#AD9660]" />,
+      title: "Commitment",
+      description: "We guarantee our work and stand behind every curated gift box we deliver.",
     },
   ]
 
   const team = [
     {
-      name: "Trupti Khanna",
+      name: "Abhijit Atre",
       position: "Founder",
       image: "/placeholder.svg",
-      bio: "Pioneering visionary bringing innovation and creativity to corporate gifting solutions.",
+      bio: "Visionary leader dedicated to redefining corporate gifting through bespoke curation and exceptional service."
     },
     {
-      name: "Abhijit Goray",
+      name: "Trupti Khanna",
       position: "Co-Founder",
       image: "/placeholder.svg",
-      bio: "Strategic innovator driving growth and operational excellence in corporate gifting.",
-    },
+      bio: "Creative innovator bringing fresh perspectives and elegant solutions to corporate gifting experiences."
+    }
   ]
 
   return (
@@ -111,17 +87,17 @@ export default function AboutPage() {
             <div className="inline-block mb-6">
               <div className="flex items-center gap-3 bg-white/5 backdrop-blur-sm px-6 py-3 border border-[#AD9660]/20">
                 <Award className="w-5 h-5 text-[#AD9660]" />
-                <span className="text-[#E6E2DD] font-light tracking-wide">PREMIUM CORPORATE GIFTING SOLUTIONS</span>
+                <span className="text-[#E6E2DD] font-light tracking-wide">INDIA'S PREMIER BESPOKE GIFTING COMPANY</span>
               </div>
             </div>
             
             <h1 className="text-5xl lg:text-7xl font-serif text-white leading-tight mb-8">
-              Crafting Memorable <br />
-              <span className="text-[#AD9660]">Corporate Experiences</span>
+              Redefining <br />
+              <span className="text-[#AD9660]">Corporate Gifting</span>
             </h1>
             
             <p className="text-xl text-[#E6E2DD]/90 leading-relaxed font-light max-w-2xl mb-12">
-              Since 2015, we've been dedicated to elevating corporate relationships through thoughtfully curated gifts that reflect sophistication, quality, and meaningful connections.
+              We believe gifting is not just a gesture — it's an experience. Each Tisorah Box is a celebration of thoughtfulness, creativity, and elegance.
             </p>
             
             <div className="flex flex-wrap gap-6">
@@ -129,9 +105,7 @@ export default function AboutPage() {
                 <span>Request a Quote</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
               </Button>
-              <Button variant="outline" className="border-[#AD9660] text-[#2c2b29] hover:bg-[#AD9660]/10 px-8 py-6 rounded-sm">
-                Explore Our Portfolio
-              </Button>
+            
             </div>
           </div>
         </div>
@@ -141,7 +115,7 @@ export default function AboutPage() {
       <section className="py-16 bg-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/geometry_pattern.jpg')] opacity-5"></div>
         <div className="container mx-auto px-4 relative">
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="group">
                 <div className="bg-white border border-[#AD9660]/10 p-8 transition-all duration-300 hover:border-[#AD9660]/30 hover:shadow-lg">
@@ -168,33 +142,30 @@ export default function AboutPage() {
               </div>
               
               <h2 className="text-4xl lg:text-5xl font-serif text-[#323433] leading-tight mb-8">
-                A Legacy of Excellence in <span className="text-[#AD9660]">Corporate Gifting</span>
+                Born from the Idea of Creating <span className="text-[#AD9660]">Unforgettable Experiences</span>
               </h2>
               
               <div className="space-y-6 text-gray-600 leading-relaxed font-light">
                 <p>
-                  TisorahBox emerged from a vision to redefine corporate gifting, transforming it into an art form that
-                  reflects heritage, sophistication, and enduring value.
+                  Tisorah Box is India's premier bespoke gifting company, redefining how individuals and businesses express emotions through curated luxury gift boxes. We believe gifting is not just a gesture — it's an experience.
                 </p>
                 <p>
-                  Founded in 2021 by Trupti Khanna and Abhijit Goray, our company embarked on a journey to assist businesses in forging
-                  stronger bonds with their employees, clients, and partners through meticulously curated gifts that
-                  embody their brand's values and appreciation.
+                  Each Tisorah Box is a celebration of thoughtfulness, creativity, and elegance, blending handpicked premium products, sustainable packaging, and a personal touch to ensure every gift tells a story — your story.
                 </p>
               </div>
 
               <div className="mt-12 grid grid-cols-3 gap-8">
                 <div>
-                  <div className="text-3xl font-serif text-[#AD9660] mb-2">200+</div>
-                  <div className="text-gray-600 font-light">Premium Partners</div>
+                  <div className="text-3xl font-serif text-[#AD9660] mb-2">40K+</div>
+                  <div className="text-gray-600 font-light">Luxury Boxes</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-serif text-[#AD9660] mb-2">15+</div>
-                  <div className="text-gray-600 font-light">Cities Served</div>
+                  <div className="text-3xl font-serif text-[#AD9660] mb-2">30+</div>
+                  <div className="text-gray-600 font-light">Elite Clients</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-serif text-[#AD9660] mb-2">50K+</div>
-                  <div className="text-gray-600 font-light">Happy Recipients</div>
+                  <div className="text-3xl font-serif text-[#AD9660] mb-2">3+</div>
+                  <div className="text-gray-600 font-light">Years Excellence</div>
                 </div>
               </div>
             </div>
@@ -214,8 +185,8 @@ export default function AboutPage() {
                       <Award className="w-8 h-8 text-[#AD9660]" />
                     </div>
                     <div>
-                      <div className="font-serif text-xl mb-1 text-[#323433]">Excellence Award 2023</div>
-                      <div className="text-gray-600 font-light">Best Corporate Gifting Solutions</div>
+                      <div className="font-serif text-xl mb-1 text-[#323433]">Bespoke Curation</div>
+                      <div className="text-gray-600 font-light">Premium Corporate Gifting Solutions</div>
                     </div>
                   </div>
                 </div>
@@ -245,7 +216,7 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
             {values.map((value, index) => (
               <div key={index} className="group">
                 <div className="bg-white border border-[#AD9660]/10 p-8 transition-all duration-300 hover:border-[#AD9660]/30 hover:shadow-lg">
@@ -259,133 +230,50 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Timeline Section */}
-      {/* <section className="py-24 bg-[#F4F4F4] relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/geometry_pattern.jpg')] opacity-5"></div>
-        <div className="container mx-auto px-4 relative">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <div className="w-12 h-[2px] bg-[#AD9660]"></div>
-              <span className="text-sm uppercase tracking-wider text-[#AD9660] font-light">Our Journey</span>
-              <div className="w-12 h-[2px] bg-[#AD9660]"></div>
-            </div>
-            
-            <h2 className="text-4xl font-serif text-[#323433] mb-6">
-              Milestones That <span className="text-[#AD9660]">Define Us</span>
-            </h2>
-          </div>
-
-          <div className="relative">
-            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-px bg-[#AD9660]/20"></div>
-            
-            <div className="space-y-12">
-              {milestones.map((milestone, index) => (
-                <div key={index} className={`relative flex items-center gap-8 ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}>
-                  <div className="flex-1 bg-white p-8 border border-[#AD9660]/10 shadow-sm">
-                    <div className="text-2xl font-serif text-[#AD9660] mb-2">{milestone.year}</div>
-                    <h3 className="text-xl text-[#323433] mb-2">{milestone.event}</h3>
-                    <p className="text-gray-600 font-light">{milestone.description}</p>
-                  </div>
-                  
-                  <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-[#AD9660] rounded-full">
-                    <div className="absolute inset-0 bg-[#AD9660] rounded-full animate-ping"></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section> */}
-
       {/* Team Section */}
-      <section className="py-24 bg-white relative overflow-hidden">
+      <section className="py-24 bg-[#F4F4F4] relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/geometry_pattern.jpg')] opacity-5"></div>
         <div className="container mx-auto px-4 relative">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <div className="flex items-center justify-center gap-3 mb-6">
               <div className="w-12 h-[2px] bg-[#AD9660]"></div>
-              <span className="text-sm uppercase tracking-wider text-[#AD9660] font-light">Our Team</span>
+              <span className="text-sm uppercase tracking-wider text-[#AD9660] font-light">Our Leadership</span>
               <div className="w-12 h-[2px] bg-[#AD9660]"></div>
             </div>
             
             <h2 className="text-4xl font-serif text-[#323433] mb-6">
-              Meet the <span className="text-[#AD9660]">Visionaries</span>
+              Meet Our <span className="text-[#AD9660]">Visionaries</span>
             </h2>
             
             <p className="text-gray-600 font-light">
-              Our leadership team brings together decades of experience in corporate gifting and brand engagement.
+              Our leadership team brings together expertise in luxury gifting, design, and brand engagement.
             </p>
           </div>
 
-          <div className="py-24 sm:py-32">
-            <div className="mx-auto max-w-7xl px-6 lg:px-8">
-              <div className="mx-auto max-w-2xl lg:max-w-4xl">
-                <div className="text-center mb-16">
-                  <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-[#F0EBE1] text-[#AD9660] text-sm mb-6">
-                    <Users className="w-4 h-4 mr-2" /> Our Leadership
+          <div className="flex flex-col md:flex-row justify-center items-center gap-16 max-w-5xl mx-auto">
+            {team.map((member, index) => (
+              <div key={index} className="group text-center">
+                <div className="relative mb-6">
+                  <div className="w-64 h-64 rounded-full overflow-hidden bg-white shadow-md">
+                    <img
+                      className="w-full h-full object-cover transition duration-300 group-hover:scale-105"
+                      src={member.image}
+                      alt={member.name}
+                    />
                   </div>
-                  <h2 className="text-3xl font-serif font-light text-[#323433] sm:text-4xl mb-4">
-                    Meet the Visionaries Behind <span className="text-[#AD9660]">TisorahBox</span>
-                  </h2>
-                  <p className="text-lg leading-8 text-gray-600 font-light">
-                    Dedicated to transforming corporate gifting through innovation and excellence.
-                  </p>
-                </div>
-
-                <div className="flex justify-center items-start gap-12 md:gap-16">
-                  {team.map((member, index) => (
-                    <div key={index} className="group max-w-sm">
-                      <div className="aspect-[3/4] overflow-hidden rounded-2xl bg-gray-50">
-                        <img
-                          className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
-                          src={member.image}
-                          alt={member.name}
-                        />
-                      </div>
-                      <div className="mt-6 text-center">
-                        <h3 className="text-2xl font-serif font-light text-[#323433]">{member.name}</h3>
-                        <p className="text-base font-medium text-[#AD9660] mt-1">{member.position}</p>
-                        <p className="text-base text-gray-600 font-light mt-3">{member.bio}</p>
-                      </div>
+                  <div className="absolute -bottom-3 left-1/2 -translate-x-1/2">
+                    <div className="bg-[#AD9660] text-white px-6 py-1 rounded-full text-sm font-light">
+                      {member.position}
                     </div>
-                  ))}
+                  </div>
                 </div>
+                <h3 className="text-2xl font-serif text-[#323433] mb-3">{member.name}</h3>
+                <p className="text-gray-600 font-light max-w-sm">{member.bio}</p>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
-
-      {/* Contact CTA Section */}
-      {/* <section className="py-24 bg-[#1E2A47] relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-64 h-64 bg-[#AD9660]/5 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#AD9660]/10 rounded-full blur-3xl"></div>
-        </div>
-        
-        <div className="container mx-auto px-4 relative">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl font-serif text-white mb-6">
-              Ready to Elevate Your <span className="text-[#AD9660]">Corporate Gifting</span>?
-            </h2>
-            
-            <p className="text-xl text-[#E6E2DD]/90 font-light mb-12">
-              Let's create meaningful connections through thoughtfully curated gifts that reflect your brand's values.
-            </p>
-            
-            <div className="flex flex-wrap justify-center gap-6">
-              <Button className="bg-[#AD9660] hover:bg-[#8d7c50] text-white px-8 py-6 rounded-sm shadow-sm flex items-center gap-2 group transition-all duration-300">
-                <span>Start Your Journey</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-              </Button>
-              
-              <Button variant="outline" className="border-[#AD9660] text-[#E6E2DD] hover:bg-[#AD9660]/10 px-8 py-6 rounded-sm">
-                View Our Portfolio
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section> */}
     </div>
   )
 }

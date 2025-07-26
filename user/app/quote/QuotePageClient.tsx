@@ -448,8 +448,8 @@ export default function QuotePageClient() {
 
                     <Button
                       type="button"
-                      variant="outline"
-                      className="flex-1 border-[#AD9660] text-[#AD9660] hover:bg-[#AD9660]/5 h-12 text-base font-['Poppins'] font-light transition-all"
+                      className="flex-1 border-[#AD9660] text-white h-12 text-base font-['Poppins'] font-light transition-all"
+                      onClick={() => window.open('https://wa.me/919370172365', '_blank')}
                     >
                       <MessageCircle className="w-5 h-5 mr-2" />
                       WhatsApp Inquiry
@@ -562,10 +562,12 @@ export default function QuotePageClient() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#323433]/90 to-transparent p-6 flex flex-col justify-end">
                     <h3 className="text-xl text-white font-light font-['Frank_Ruhl_Libre']">Need Expert Advice?</h3>
                     <p className="text-white/70 text-sm mb-4">Our gifting consultants are here to help you find the perfect solution</p>
-                    <Button variant="outline" className="bg-white text-[#323433] hover:bg-white/90 w-full">
-                      <Phone className="w-4 h-4 mr-2" />
-                      Schedule a Call
-                    </Button>
+                    <a href="https://calendly.com/piyushanand6789/30min?month=2025-07" target="_blank" rel="noopener noreferrer">
+                      <Button className="bg-white text-[#323433] hover:bg-white/90 w-full">
+                        <Phone className="w-4 h-4 mr-2" />
+                        Schedule a Call
+                      </Button>
+                    </a>
                   </div>
                 </div>
               </Card>

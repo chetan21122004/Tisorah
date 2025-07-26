@@ -117,16 +117,8 @@ export default function BlogPage() {
                         {blog.excerpt}
                       </p>
                       <div className="flex items-center pt-3 border-t border-neutral-100">
-                        <div className="relative h-8 w-8 rounded-full overflow-hidden mr-3">
-                          <Image 
-                            src={blog.author_image} 
-                            alt={blog.author} 
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
+                   
                         <div className="flex-1">
-                          <p className="text-sm font-medium text-[#1E2A47]">{blog.author}</p>
                           <p className="text-xs text-neutral-500">
                             {format(blog.published_at, 'MMM d, yyyy')}
                           </p>

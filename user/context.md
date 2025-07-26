@@ -1,101 +1,104 @@
-Corporate Gifting Website Plan
-its TisorahBox
-1. Website Objectives
 
-Showcase a curated range of gifts for employees, such as:
+Here's what we offer:
 
-Festive gifts
+◆ Bespoke Curation
+Our gifting experts work closely with you to curate the perfect gift set aligned with your brand ethos, budget, and occasion.
 
-Onboarding gifts
+◆ Premium Product Selection
+Wellness, gourmet, home and office utility gifts — all handpicked for quality and aesthetics.
 
-Recognition gifts
+◆ Customisation Excellence
+Branding on products, packaging, and message inserts to reflect your company's identity with Art Deco elegance.
 
-Allow HRs, managers, and businesses to:
+View Diwali Catalogue Explore Collection
+We proudly serve clients from Manufacturing, BFSI, IT, Real Estate, and other sectors — offering both festive gifting and year-round solutions for new joiners, client appreciation, employee milestones, and more.
 
-Browse, shortlist, and request quotes
+Explore our work at: www.tisorahbox.com
 
-Place bulk orders conveniently
+Share Your Requirements
+Help us understand your gifting needs better by filling out our quick requirement form.
 
-Highlight corporate customization options for branding.
+Fill Requirement Form
+Would love to schedule a quick call or presentation based on your upcoming gifting needs for Siemens- Balewadi.
 
-Build trust and establish brand authority through:
+Schedule a Call
+3+
+Years Excellence
+40K+
+Luxury Boxes
+30+
+Elite Clients
 
-Testimonials
 
-Portfolio of past work
 
-Comprehensive FAQs
-
-2. Target Audience
-
-HR managers and procurement heads looking for corporate gifting solutions.
-
-Startups and corporate clients aiming for employee engagement through gifting.
-
-Event planners and team leads managing bulk or personalized gift requirements.
-
-3. Core Website Sections / Pages
-
-Section
-
-Details
-
-Home Page
-
-Hero image, value proposition, top categories, testimonials, and a call-to-action (CTA).
+Tisorah Box – Company Profile
+Website: www.tisorahbox.com
 
 About Us
+Tisorah Box is India’s premier bespoke gifting company, redefining how individuals and businesses express emotions through curated luxury gift boxes. We believe gifting is not just a gesture — it’s an experience. Each Tisorah Box is a celebration of thoughtfulness, creativity, and elegance.
 
-Details about the brand’s mission, leadership, values, and story.
+Born from the idea of creating unforgettable unboxing experiences, Tisorah Box blends handpicked premium products, sustainable packaging, and a personal touch to ensure every gift tells a story — your story.
 
-Gift Categories
+Our Offerings
+🎁 Curated Gifting Solutions
+Personal Gifting: Birthdays, anniversaries, weddings, baby showers, housewarmings
 
-Categorized listings of gifts for occasions like onboarding, festivals, birthdays, and more.
+Festive Gifting: Diwali, Raksha Bandhan, Christmas, Eid, and other Indian/global festivals
 
-Product Pages
+Corporate Gifting: Employee appreciation, onboarding kits, client relationship building, brand promotions
 
-Each product includes an image, description, price range, minimum order details, and branding options.
+✨ Customization Services
+Logo branding & personalization
 
-Corporate Packages
+Theme-based curation (luxury, wellness, gourmet, eco-friendly, etc.)
 
-Pre-designed gift bundles, seasonal hampers, and bulk customization options.
+Occasion-specific messaging and packaging
 
-Request a Quote
+Handwritten notes and QR-code embedded video messages
 
-A form for inquiries requiring details like name, company, quantity, delivery date, and city.
+Why Choose Tisorah Box?
+✅ Bespoke & Thoughtful
+We design each box around the person or the purpose — blending utility, emotion, and aesthetics.
 
-Customization Options
+🌱 Sustainable Packaging
+Eco-conscious designs using biodegradable, recyclable, and reusable materials.
 
-Branding details including logos, messages, packaging options, and mockup visuals.
+🧠 Creative Strategy Meets Gifting
+We collaborate closely with brands and individuals to align the gift with values, identity, and culture.
 
-Portfolio/Past Work
+🏆 Trusted by Corporates & Celebrities
+Our clientele includes leading startups, corporates, and social media influencers who trust Tisorah for unique impressions.
 
-Showcase of past gift box designs, branding examples, and client testimonials.
+Industries We Serve
+Corporate / IT / Startups – Employee gifting, milestone celebrations
 
-FAQ
+Pharma / Healthcare – Doctor engagement kits, conference giveaways
 
-Answers to common queries on shipping, delivery timelines, minimum order quantity (MOQ), and returns.
+Wedding Planners – Welcome hampers, return gifts, bridesmaid boxes
 
-Blog
+Real Estate / Auto – Client onboarding gifts, project launch souvenirs
 
-Tips on employee engagement, gifting trends, and other related topics.
+Event Management – Delegation kits, speaker boxes, sponsor gifts
 
-Contact Us
+Our Process
+Brief & Discovery – Understanding client needs, audience, and objectives
 
-Contact details including phone, email, address, embedded map, and social media links.
+Concept & Design – Mood boards, theme alignment, product selection
 
-4. Must-Have Features
+Production & Packaging – Curated boxes, branding, hand-assembly
 
-Product Filtering: Enable filtering by categories, price range, and delivery timelines.
+Delivery & Impact – Nationwide and international shipping with quality assurance
 
-Search Bar: Allow users to search for specific products or categories directly.
+Featured Collections
+Wellness & Self-care Boxes
 
-Wishlist / Shortlist Feature: Users can save products for later review.
+Gourmet & Artisanal Treats
 
-Request Quote / Enquiry Buttons: Visible call-to-action for immediate inquiries.
+Luxury Stationery & Accessories
 
-Live Chat Integration: Tools like WhatsApp or Tawk.to for instant communication.
+Baby & Bridal Boxes
 
+Eco-luxe Celebrations
 Mobile-Responsive Design: Ensures seamless browsing on smartphones and tablets.
 
 SEO-Optimized Pages: Drive organic traffic by adhering to search engine guidelines.
