@@ -130,33 +130,19 @@ export default function Footer() {
           {/* Quick Links */}
           <div className="space-y-6">
             <h3 className="text-lg font-['Frank_Ruhl_Libre'] relative inline-block after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-8 after:h-0.5 after:bg-[#AD9660]">
-              Collections
+              Quick Links
             </h3>
             <div className="space-y-3">
-              <FooterLink href="/about" text="Our Heritage" />
-              <FooterLink href="/categories" text="Gift Collections" />
-              <FooterLink href="/packages" text="Executive Packages" />
-              <FooterLink href="/customization" text="Bespoke Solutions" />
-              <FooterLink href="/portfolio" text="Portfolio" />
-            </div>
-          </div>
-
-          {/* Services */}
-          <div className="space-y-6">
-            <h3 className="text-lg font-['Frank_Ruhl_Libre'] relative inline-block after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-8 after:h-0.5 after:bg-[#AD9660]">
-              Services
-            </h3>
-            <div className="space-y-3">
-              <FooterLink href="/quote" text="Consultation Services" />
-              <FooterLink href="/bulk-orders" text="Volume Solutions" />
-              <FooterLink href="/faq" text="Frequently Asked Questions" />
-              <FooterLink href="/blog" text="Insights & Inspiration" />
-              <FooterLink href="/contact" text="Contact Support" />
+              <FooterLink href="/" text="Home" />
+              <FooterLink href="/products" text="Products" />
+              <FooterLink href="/about" text="About Us" />
+              <FooterLink href="/blog" text="Blog" />
+              <FooterLink href="/contact" text="Contact" />
             </div>
           </div>
 
           {/* Contact & Newsletter */}
-          <div className="space-y-6">
+          <div className="space-y-6 lg:col-span-2">
             <h3 className="text-lg font-['Frank_Ruhl_Libre'] relative inline-block after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-8 after:h-0.5 after:bg-[#AD9660]">
               Connect With Us
             </h3>
@@ -220,7 +206,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            © {new Date().getFullYear()} TisorahBox. All rights reserved. Crafted with excellence.
+            © {new Date().getFullYear()} TisorahBox. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link href="/privacy" className="text-gray-400 hover:text-white text-sm transition-colors">
@@ -228,9 +214,6 @@ export default function Footer() {
             </Link>
             <Link href="/terms" className="text-gray-400 hover:text-white text-sm transition-colors">
               Terms of Service
-            </Link>
-            <Link href="/sitemap" className="text-gray-400 hover:text-white text-sm transition-colors">
-              Sitemap
             </Link>
           </div>
         </div>
