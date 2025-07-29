@@ -5,14 +5,16 @@ import { motion, useAnimation } from 'framer-motion'
 import { IconGift, IconArrowRight, IconPackage, IconPalette, IconChevronRight, IconChevronLeft } from '@tabler/icons-react'
 import { useIsMobile } from '@/hooks/use-mobile'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 interface GiftCard {
   title: string
   image: string
   alt: string
   text: string
-  buttonText: string
+  buttonText?: string // Made optional
   icon: React.ElementType
+  type: 'ready' | 'semi' | 'custom' // Added type for different behaviors
 }
 
 interface GiftCardProps extends GiftCard {
@@ -27,14 +29,15 @@ const giftingCards: GiftCard[] = [
     text: 'We have a range of ready-to-ship, pre-curated hampers that have been thoughtfully assembled for every occasion imaginable, keeping in mind different clients. Perfectly suitable for a quick purchase or a tight schedule.',
     buttonText: 'Explore Options',
     icon: IconPackage,
+    type: 'ready'
   },
   {
     title: 'Semi-Customized',
     image: 'https://www.boxupgifting.com/cdn/shop/files/Semi-Customized.jpg?v=1685185187&width=1240',
     alt: 'Semi customized gifts',
     text: 'Do you see a hamper that you like? We can have your branding on the products you see in a hamper and make it feel like your very own. Adding branding on the products is a small detail that will go a long way.',
-    buttonText: 'Customize Now',
     icon: IconPalette,
+    type: 'semi'
   },
   {
     title: 'Custom Curated',
@@ -43,6 +46,7 @@ const giftingCards: GiftCard[] = [
     text: 'Our Products stylist will help you curate truly one-of-a-kind hampers for the most important people in your life - be it family, friends, clients, or your employees, we\'re here to curate a hamper that fits your style, personality, and budget.',
     buttonText: 'Start Creating',
     icon: IconGift,
+    type: 'custom'
   },
 ]
 
@@ -52,100 +56,122 @@ const fadeInUp = {
   transition: { duration: 0.5, ease: "easeOut" }
 }
 
-const GiftCard = ({ title, image, alt, text, buttonText, icon: Icon, index }: GiftCardProps) => (
-  <motion.div
-    className="group relative"
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-100px" }}
-    transition={{ duration: 0.5, delay: index * 0.2 }}
-  >
-    <motion.div 
-      className="bg-white rounded-xl overflow-hidden"
-      whileHover={{ y: -5 }}
-      transition={{ duration: 0.3 }}
+const GiftCard = ({ title, image, alt, text, buttonText, icon: Icon, index, type }: GiftCardProps) => {
+  const router = useRouter()
+
+  const handleCardClick = () => {
+    switch(type) {
+      case 'ready':
+        router.push('/products?search=ready+to+gift')
+        break
+      case 'custom':
+        router.push('/custom-curated')
+        break
+      // No action for semi-customized
+    }
+  }
+
+  return (
+    <motion.div
+      className={`group relative ${type !== 'semi' ? 'cursor-pointer' : ''}`}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.5, delay: index * 0.2 }}
+      onClick={handleCardClick}
     >
-      <div className="relative">
-        {/* Decorative border */}
-        <motion.div
-          className="absolute inset-0 border-2 rounded-xl z-10"
-          initial={{ borderColor: "rgba(173, 150, 96, 0)" }}
-          whileHover={{ borderColor: "rgba(173, 150, 96, 0.2)" }}
-          transition={{ duration: 0.3 }}
-        />
-        
-        {/* Image container */}
-        <div className="relative h-48 sm:h-56 md:h-72 overflow-hidden">
-          <motion.img 
-            src={image} 
-            alt={alt} 
-            className="w-full h-full object-cover"
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.7 }}
-          />
-          <motion.div 
-            className="absolute inset-0 bg-gradient-to-t from-[#323433]/70 via-[#323433]/20 to-transparent"
-            initial={{ opacity: 0 }}
-            whileHover={{ opacity: 1 }}
+      <motion.div 
+        className="bg-white rounded-xl overflow-hidden"
+        whileHover={{ y: -5 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className="relative">
+          {/* Decorative border */}
+          <motion.div
+            className="absolute inset-0 border-2 rounded-xl z-10"
+            initial={{ borderColor: "rgba(173, 150, 96, 0)" }}
+            whileHover={{ borderColor: "rgba(173, 150, 96, 0.2)" }}
             transition={{ duration: 0.3 }}
           />
-        </div>
-
-        {/* Content */}
-        <div className="p-5 md:p-8">
-          {/* Icon and Title */}
-          <motion.div 
-            className="flex items-center gap-3 md:gap-4 mb-4 md:mb-6"
-            initial={{ x: -20, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 + index * 0.2 }}
-          >
-            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#AD9660]/10 flex items-center justify-center">
-              <Icon size={16} className="text-[#AD9660] md:text-lg" />
-            </div>
-            <div>
-              <div className="w-6 md:w-8 h-[1px] bg-[#AD9660]/30 mb-1 md:mb-2"></div>
-              <h3 className="text-lg md:text-xl font-light text-[#323433] font-['Frank_Ruhl_Libre']">{title}</h3>
-            </div>
-          </motion.div>
           
-          <motion.p 
-            className="text-xs md:text-sm text-gray-600 mb-5 md:mb-8 font-light leading-relaxed"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 + index * 0.2 }}
-          >
-            {text}
-          </motion.p>
+          {/* Image container */}
+          <div className="relative h-48 sm:h-56 md:h-72 overflow-hidden">
+            <motion.img 
+              src={image} 
+              alt={alt} 
+              className="w-full h-full object-cover"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.7 }}
+            />
+            <motion.div 
+              className="absolute inset-0 bg-gradient-to-t from-[#323433]/70 via-[#323433]/20 to-transparent"
+              initial={{ opacity: 0 }}
+              whileHover={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            />
+          </div>
 
-          <Link href={title === 'Custom Curated' ? '/custom-curated' : '/quote'}>
-            <motion.button 
-              className="w-full bg-transparent border border-[#AD9660] text-[#323433] px-6 md:px-8 py-2.5 md:py-3 rounded-full hover:bg-[#AD9660] hover:text-white transition-all duration-300 flex items-center justify-center group relative overflow-hidden"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+          {/* Content */}
+          <div className="p-5 md:p-8">
+            {/* Icon and Title */}
+            <motion.div 
+              className="flex items-center gap-3 md:gap-4 mb-4 md:mb-6"
+              initial={{ x: -20, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 + index * 0.2 }}
             >
-              <motion.div
-                className="absolute inset-0 bg-[#AD9660]"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: 0 }}
-                transition={{ duration: 0.3 }}
-                style={{ opacity: 0.1 }}
-              />
-              <span className="mr-2 text-xs md:text-sm tracking-wide font-light relative z-10">{buttonText}</span>
-              <motion.div
-                className="w-3 md:w-4 h-[1px] bg-current relative z-10"
-                whileHover={{ width: "20px" }}
-                transition={{ duration: 0.2 }}
-              />
-            </motion.button>
-          </Link>
+              <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#AD9660]/10 flex items-center justify-center">
+                <Icon size={16} className="text-[#AD9660] md:text-lg" />
+              </div>
+              <div>
+                <div className="w-6 md:w-8 h-[1px] bg-[#AD9660]/30 mb-1 md:mb-2"></div>
+                <h3 className="text-lg md:text-xl font-light text-[#323433] font-['Frank_Ruhl_Libre']">{title}</h3>
+              </div>
+            </motion.div>
+            
+            <motion.p 
+              className="text-xs md:text-sm text-gray-600 mb-5 md:mb-8 font-light leading-relaxed"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 + index * 0.2 }}
+            >
+              {text}
+            </motion.p>
+
+            {/* Only show button for Ready to Gift and Custom Curated */}
+            {buttonText && type !== 'semi' && (
+              <motion.button 
+                className="w-full bg-transparent border border-[#AD9660] text-[#323433] px-6 md:px-8 py-2.5 md:py-3 rounded-full hover:bg-[#AD9660] hover:text-white transition-all duration-300 flex items-center justify-center group relative overflow-hidden"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={(e) => {
+                  e.stopPropagation() // Prevent card click when clicking button
+                  handleCardClick()
+                }}
+              >
+                <motion.div
+                  className="absolute inset-0 bg-[#AD9660]"
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: 0 }}
+                  transition={{ duration: 0.3 }}
+                  style={{ opacity: 0.1 }}
+                />
+                <span className="mr-2 text-xs md:text-sm tracking-wide font-light relative z-10">{buttonText}</span>
+                <motion.div
+                  className="w-3 md:w-4 h-[1px] bg-current relative z-10"
+                  whileHover={{ width: "20px" }}
+                  transition={{ duration: 0.2 }}
+                />
+              </motion.button>
+            )}
+          </div>
         </div>
-      </div>
+      </motion.div>
     </motion.div>
-  </motion.div>
-)
+  )
+}
 
 const Gifting = () => {
   const isMobile = useIsMobile();
@@ -168,26 +194,10 @@ const Gifting = () => {
     }
   };
   
-  // Auto slide for mobile with improved performance
   useEffect(() => {
-    // Disable auto-sliding completely on mobile to prevent scroll issues
     return;
-    
-    /* Original auto-sliding code commented out
-    if (isMobile) {
-      const autoSlideTimer = setTimeout(() => {
-        // Use requestAnimationFrame for better performance
-        window.requestAnimationFrame(() => {
-          nextSlide();
-        });
-      }, 7000); // Increased from 5000ms to 7000ms for better performance
-      
-      return () => clearTimeout(autoSlideTimer);
-    }
-    */
   }, [currentIndex, isMobile]);
   
-  // Update animation when current index changes
   useEffect(() => {
     if (isMobile) {
       controls.start({ x: `${-currentIndex * 100}%` });
@@ -322,10 +332,10 @@ const Gifting = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-          {giftingCards.map((card, idx) => (
-            <GiftCard key={idx} {...card} index={idx} />
-          ))}
-        </div>
+            {giftingCards.map((card, idx) => (
+              <GiftCard key={idx} {...card} index={idx} />
+            ))}
+          </div>
         )}
       </div>
     </section>
