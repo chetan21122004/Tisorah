@@ -386,48 +386,7 @@ export default function CustomCuratedPageClient() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-[#323433]">
-        <div className="container mx-auto px-4">
-          <motion.div
-            className="text-center max-w-4xl mx-auto"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-          >
-            <h2 className="text-3xl md:text-4xl font-['Frank_Ruhl_Libre'] font-light text-white mb-6">
-              Ready to Create Something Extraordinary?
-            </h2>
-            <p className="text-lg text-gray-300 font-light mb-8">
-              Let our product stylists help you curate the perfect gift experience 
-              that reflects your brand and delights your recipients.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                asChild
-                className="bg-[#AD9660] hover:bg-[#AB8E76] text-white px-8 py-6 rounded-md transition-all duration-300 group"
-              >
-                <Link href="/quote">
-                  <span>Start Your Custom Project</span>
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </Button>
-              
-              <Button 
-                asChild
-                variant="outline"
-                className="border-white text-white hover:bg-white hover:text-[#323433] px-8 py-6 rounded-md transition-all duration-300"
-              >
-                <Link href="/contact">
-                  <span>Schedule Consultation</span>
-                </Link>
-              </Button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+    
     </div>
   )
 }

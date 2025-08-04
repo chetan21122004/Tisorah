@@ -56,13 +56,13 @@ export default function AboutPage() {
   const team = [
     {
       name: "Abhijit Atre",
-      position: "Founder",
+      position: "Co-Founder",
       image: "/placeholder.svg",
       bio: "Visionary leader dedicated to redefining corporate gifting through bespoke curation and exceptional service."
     },
     {
       name: "Trupti Khanna",
-      position: "Co-Founder",
+      position: "Founder",
       image: "/placeholder.svg",
       bio: "Creative innovator bringing fresh perspectives and elegant solutions to corporate gifting experiences."
     }
