@@ -55,7 +55,7 @@ export default function AboutPage() {
 
   const team = [
     {
-      name: "Abhijit Atre",
+      name: "Abhijit Goray",
       position: "Co-Founder",
       image: "/placeholder.svg",
       bio: "Visionary leader dedicated to redefining corporate gifting through bespoke curation and exceptional service."
