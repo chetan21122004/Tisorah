@@ -63,7 +63,7 @@ export default function AboutPage() {
     {
       name: "Trupti Khanna",
       position: "Founder",
-      image: "/placeholder.svg",
+      image: "/members/truptiKhanna.png",
       bio: "Creative innovator bringing fresh perspectives and elegant solutions to corporate gifting experiences."
     }
   ]
