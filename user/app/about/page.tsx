@@ -57,7 +57,7 @@ export default function AboutPage() {
     {
       name: "Abhijit Goray",
       position: "Co-Founder",
-      image: "/placeholder.svg",
+      image: "/members/abhijitGoray.png",
       bio: "Visionary leader dedicated to redefining corporate gifting through bespoke curation and exceptional service."
     },
     {
